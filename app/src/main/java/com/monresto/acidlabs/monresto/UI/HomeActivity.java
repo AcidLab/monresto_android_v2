@@ -1,10 +1,9 @@
-package com.monresto.acidlabs.monresto;
+package com.monresto.acidlabs.monresto.UI;
 
 import android.annotation.SuppressLint;
 import android.location.Location;
-import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
-import android.widget.TextView;
+import android.support.v7.app.AppCompatActivity;
 
 import com.google.android.gms.location.FusedLocationProviderClient;
 import com.google.android.gms.location.LocationServices;
@@ -15,11 +14,7 @@ import com.monresto.acidlabs.monresto.Service.Restaurant.RestaurantService;
 
 import java.util.ArrayList;
 
-
-//Testing fetch information from api
-
-public class MainActivity extends AppCompatActivity implements RestaurantAsyncResponse {
-    TextView text;
+public class HomeActivity extends AppCompatActivity implements RestaurantAsyncResponse {
     private FusedLocationProviderClient mFusedLocationClient;
 
     @SuppressLint("MissingPermission")
@@ -27,20 +22,28 @@ public class MainActivity extends AppCompatActivity implements RestaurantAsyncRe
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         //setContentView(R.layout.activity_main);
-        text = new TextView(this);
-        text.setText("Hello world!");
-        setContentView(text);
 
         final RestaurantService service = new RestaurantService(this);
-        service.getDetails(246);
+
+        mFusedLocationClient = LocationServices.getFusedLocationProviderClient(this);
+        mFusedLocationClient.getLastLocation()
+                .addOnSuccessListener(this, new OnSuccessListener<Location>() {
+                    @Override
+                    public void onSuccess(Location location) {
+                        if (location != null) {
+                            service.getAll(location.getLatitude(), location.getLongitude());
+                        }
+                    }
+                });
     }
 
     @Override
     public void onListReceived(ArrayList<Restaurant> restaurantList) {
+
     }
 
     @Override
     public void onDetailsReceived(Restaurant restaurant) {
-        text.setText(restaurant.toString());
+
     }
 }

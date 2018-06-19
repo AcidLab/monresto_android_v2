@@ -69,21 +69,29 @@ public class Restaurant {
         this.paymentModes = paymentModes;
     }
 
-    public static Restaurant createFromJson(JSONObject obj){
+    public static Restaurant createFromJson(JSONObject obj) {
         ArrayList<Speciality> S = new ArrayList<>();
         ArrayList<PaymentMode> P = new ArrayList<>();
         try {
             JSONArray specs = obj.getJSONArray("Specialities");
             JSONArray payms = obj.getJSONArray("PaymentModes");
-            for(int i=0; i<specs.length(); i++){
+            for (int i = 0; i < specs.length(); i++) {
                 JSONObject spec = specs.getJSONObject(i);
-                S.add(new Speciality(Integer.valueOf(spec.getString("specialityID")), spec.getString("specialityTitle")));
+                S.add(new Speciality(Integer.valueOf(spec.optString("specialityID")), spec.optString("specialityTitle")));
             }
-            for(int i=0; i<payms.length(); i++){
+            for (int i = 0; i < payms.length(); i++) {
                 JSONObject paym = payms.getJSONObject(i);
-                P.add(new PaymentMode(Integer.valueOf(paym.getString("paymentModeID")), paym.getString("paymentModeTitle"), paym.getString("image")));
+                P.add(new PaymentMode(Integer.valueOf(paym.optString("paymentModeID")), paym.optString("paymentModeTitle"), paym.optString("image")));
             }
-            return new Restaurant(Integer.valueOf(obj.getString("restoID")), Double.valueOf(obj.getString("latitude")), Double.valueOf(obj.getString("longitude")), Double.valueOf(obj.getString("distance")), obj.getBoolean("isNewResto"), obj.getString("name"), obj.getString("description"), obj.getInt("estimation"), obj.getString("imagePath"), obj.getString("imagePath2"), Double.valueOf(obj.getString("minimalPrice")), Double.valueOf(obj.getString("deliveryPrice")), obj.getString("mobile"), Double.valueOf(obj.getString("rate")),obj.getString("state"), obj.getInt("withPromotion"), obj.getString("openTime"), obj.getString("openDay"), null, null, null, null, Integer.valueOf(obj.getString("reviewsNumber")), S, P);
+            return new Restaurant(obj.optInt("restoID"), obj.optDouble("latitude"),
+                    obj.optDouble("longitude"), obj.optDouble("distance"),
+                    obj.optBoolean("isNewResto"), obj.optString("name"), obj.optString("description"),
+                    obj.optInt("estimation"), obj.optString("imagePath"), obj.optString("imagePath2"),
+                    obj.optDouble("minimalPrice"), obj.optDouble("deliveryPrice", obj.optDouble("deliveryCost")),
+                    obj.optString("mobile"), obj.optDouble("rate"), obj.optString("state"),
+                    obj.optInt("withPromotion"), obj.optString("openTime"), obj.optString("openDay"),
+                    null, null, null, null,
+                    obj.optInt("reviewsNumber"), S, P);
         } catch (Exception e) {
             e.printStackTrace();
         }
@@ -192,7 +200,7 @@ public class Restaurant {
     }
 
     @Override
-    public String toString(){
-        return "ID: "+id+" - Name: "+name+" - Estimation: "+estimatedTime;
+    public String toString() {
+        return "ID: " + id + " - Name: " + name + " - Estimation: " + estimatedTime;
     }
 }

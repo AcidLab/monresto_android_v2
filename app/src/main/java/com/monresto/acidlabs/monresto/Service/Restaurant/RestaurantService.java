@@ -35,12 +35,15 @@ public class RestaurantService {
         RestaurantList = new ArrayList<>();
     }
 
-    public void getAll() {
+    public void getAll(final double _lat, final double _lon) {
+        //TODO: remove after tests
+        final double lat = 10.1935078;
+        final double lon = 36.8563153;
+
         RequestQueue queue = Volley.newRequestQueue(context);
         String url = Config.server + "Restaurant/findRestoGeo.php";
         StringRequest postRequest = new StringRequest(Request.Method.POST, url,
-                new Response.Listener<String>()
-                {
+                new Response.Listener<String>() {
                     @Override
                     public void onResponse(String response) {
                         try {
@@ -48,18 +51,16 @@ public class RestaurantService {
                             JSONArray resto = jsonResponse.getJSONArray("Resto");
                             JSONObject obj;
                             for (int i = 0; i < resto.length(); i++) {
-                                Log.i("RESPONSE", "onResponse: Create obj");
                                 obj = resto.getJSONObject(i);
                                 RestaurantList.add(Restaurant.createFromJson(obj));
                             }
-                            ((RestaurantAsyncResponse) context).processFinish(RestaurantList);
+                            ((RestaurantAsyncResponse) context).onListReceived(RestaurantList);
                         } catch (JSONException e) {
                             e.printStackTrace();
                         }
                     }
                 },
-                new Response.ErrorListener()
-                {
+                new Response.ErrorListener() {
                     @Override
                     public void onErrorResponse(VolleyError error) {
                         // error
@@ -67,16 +68,51 @@ public class RestaurantService {
                 }
         ) {
             @Override
-            protected Map<String, String> getParams()
-            {
-                Map<String, String>  params = new HashMap<>();
-                double latitude = 36.8563153;
-                double longitude = 10.1935078;
+            protected Map<String, String> getParams() {
+                Map<String, String> params = new HashMap<>();
                 int type = 0;
-                String signature = Utilities.md5("" + longitude + latitude + type + Config.sharedKey);
-                params.put("longitude", String.valueOf(longitude));
-                params.put("latitude", String.valueOf(latitude));
+                String signature = Utilities.md5("" + lon + lat + type + Config.sharedKey);
+                params.put("longitude", String.valueOf(lon));
+                params.put("latitude", String.valueOf(lat));
                 params.put("type", String.valueOf(type));
+                params.put("signature", signature);
+
+                return params;
+            }
+        };
+        queue.add(postRequest);
+
+    }
+
+    public void getDetails(final int id) {
+        RequestQueue queue = Volley.newRequestQueue(context);
+        String url = Config.server + "Restaurant/restoDetails.php";
+        StringRequest postRequest = new StringRequest(Request.Method.POST, url,
+                new Response.Listener<String>() {
+                    @Override
+                    public void onResponse(String response) {
+                        try {
+                            JSONObject jsonResponse = new JSONObject(response);
+                            JSONObject resto = jsonResponse.getJSONObject("Resto");
+                            Restaurant restaurant = Restaurant.createFromJson(resto);
+                            ((RestaurantAsyncResponse) context).onDetailsReceived(restaurant);
+                        } catch (JSONException e) {
+                            e.printStackTrace();
+                        }
+                    }
+                },
+                new Response.ErrorListener() {
+                    @Override
+                    public void onErrorResponse(VolleyError error) {
+                        // error
+                    }
+                }
+        ) {
+            @Override
+            protected Map<String, String> getParams() {
+                Map<String, String> params = new HashMap<>();
+                String signature = Utilities.md5("" + id + Config.sharedKey);
+                params.put("restoID", String.valueOf(id));
                 params.put("signature", signature);
 
                 return params;
