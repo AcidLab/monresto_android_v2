@@ -9,6 +9,8 @@ import android.widget.TextView;
 import com.google.android.gms.location.FusedLocationProviderClient;
 import com.google.android.gms.location.LocationServices;
 import com.google.android.gms.tasks.OnSuccessListener;
+import com.monresto.acidlabs.monresto.Model.Dish;
+import com.monresto.acidlabs.monresto.Model.Menu;
 import com.monresto.acidlabs.monresto.Model.Restaurant;
 import com.monresto.acidlabs.monresto.Service.Restaurant.RestaurantAsyncResponse;
 import com.monresto.acidlabs.monresto.Service.Restaurant.RestaurantService;
@@ -42,5 +44,15 @@ public class MainActivity extends AppCompatActivity implements RestaurantAsyncRe
     @Override
     public void onDetailsReceived(Restaurant restaurant) {
         text.setText(restaurant.toString());
+    }
+
+    @Override
+    public void onMenusReceived(ArrayList<Menu> menus) {
+
+    }
+
+    @Override
+    public void onDishesReceived(ArrayList<Dish> dishes) {
+
     }
 }
