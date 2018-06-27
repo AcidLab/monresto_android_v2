@@ -31,7 +31,7 @@ public class Review {
 
             for(int i=0; i<orderedDishes.length(); i++){
                 JSONObject dish = orderedDishes.getJSONObject(i);
-                dishes.add(new Dish(Integer.valueOf(dish.getString("orderID")), dish.getString("name")));
+                dishes.add(Dish.createFromJson(dish));
             }
             return new Review(Integer.valueOf(obj.getString("orderID")), obj.getString("firstname")+" "+obj.getString("lastname"), obj.getString("verbatim"), obj.getString("reviewDate"), obj.getString("orderDate"), obj.getInt("globalNote"), dishes);
         } catch (Exception e) {
