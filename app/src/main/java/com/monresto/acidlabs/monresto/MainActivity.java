@@ -5,7 +5,10 @@ import android.location.Location;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.support.v7.widget.Toolbar;
+import android.view.View;
+import android.widget.ImageView;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import com.google.android.gms.location.FusedLocationProviderClient;
 import com.google.android.gms.location.LocationServices;
@@ -33,6 +36,33 @@ public class MainActivity extends AppCompatActivity implements RestaurantAsyncRe
         setContentView(R.layout.activity_main);
 
         test = (TextView)findViewById(R.id.textView);
+        final ImageView Stores = (ImageView) findViewById(R.id.stores);
+        final ImageView Cart = (ImageView) findViewById(R.id.cart);
+        final ImageView Profile = (ImageView) findViewById(R.id.profile);
+        Stores.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                Stores.setImageResource(R.drawable.store_light);
+                Cart.setImageResource(R.drawable.cart_light_disabled);
+                Profile.setImageResource(R.drawable.user_light_disabled);
+            }
+        });
+        Cart.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                Stores.setImageResource(R.drawable.store_light_disabled);
+                Cart.setImageResource(R.drawable.cart_light);
+                Profile.setImageResource(R.drawable.user_light_disabled);
+            }
+        });
+        Profile.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                Stores.setImageResource(R.drawable.store_light_disabled);
+                Cart.setImageResource(R.drawable.cart_light_disabled);
+                Profile.setImageResource(R.drawable.user_light);
+            }
+        });
 
         final RestaurantService service = new RestaurantService(this);
         service.getDetails(245);
