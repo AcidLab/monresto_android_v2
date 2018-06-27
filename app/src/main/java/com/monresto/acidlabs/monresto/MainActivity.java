@@ -4,6 +4,7 @@ import android.annotation.SuppressLint;
 import android.location.Location;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
+import android.support.v7.widget.Toolbar;
 import android.widget.TextView;
 
 import com.google.android.gms.location.FusedLocationProviderClient;
@@ -21,20 +22,21 @@ import java.util.ArrayList;
 //Testing fetch information from api
 
 public class MainActivity extends AppCompatActivity implements RestaurantAsyncResponse {
-    TextView text;
+    TextView test;
+
     private FusedLocationProviderClient mFusedLocationClient;
 
     @SuppressLint("MissingPermission")
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        //setContentView(R.layout.activity_main);
-        text = new TextView(this);
-        text.setText("Hello world!");
-        setContentView(text);
+        setContentView(R.layout.activity_main);
+
+        test = (TextView)findViewById(R.id.textView);
 
         final RestaurantService service = new RestaurantService(this);
-        service.getDetails(246);
+        service.getDetails(245);
+
     }
 
     @Override
@@ -43,7 +45,7 @@ public class MainActivity extends AppCompatActivity implements RestaurantAsyncRe
 
     @Override
     public void onDetailsReceived(Restaurant restaurant) {
-        text.setText(restaurant.toString());
+        test.setText(restaurant.toString());
     }
 
     @Override
