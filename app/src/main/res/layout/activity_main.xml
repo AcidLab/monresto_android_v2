@@ -66,55 +66,35 @@
 
             </android.support.constraint.ConstraintLayout>
 
-            <android.support.constraint.ConstraintLayout
+            <LinearLayout
                 android:layout_width="match_parent"
-                android:layout_height="match_parent">
+                android:layout_height="match_parent"
+                android:gravity="center_horizontal"
+                android:orientation="horizontal"
+                android:paddingBottom="10dp"
+                android:paddingTop="10dp"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintStart_toStartOf="parent">
 
                 <ImageView
                     android:id="@+id/stores"
-                    android:layout_width="116dp"
-                    android:layout_height="37dp"
-                    android:layout_marginBottom="6dp"
-                    android:layout_marginEnd="8dp"
-                    android:layout_marginTop="4dp"
-                    app:layout_constraintBottom_toBottomOf="parent"
-                    app:layout_constraintEnd_toEndOf="parent"
-                    app:layout_constraintHorizontal_bias="0.0"
-                    app:layout_constraintStart_toStartOf="parent"
-                    app:layout_constraintTop_toTopOf="parent"
-                    app:layout_constraintVertical_bias="0.6"
+                    android:layout_width="wrap_content"
+                    android:layout_height="match_parent"
                     app:srcCompat="@drawable/store_light_disabled" />
 
                 <ImageView
                     android:id="@+id/cart"
-                    android:layout_width="129dp"
-                    android:layout_height="34dp"
-                    android:layout_marginBottom="6dp"
-                    android:layout_marginEnd="8dp"
-                    android:layout_marginStart="116dp"
-                    android:layout_marginTop="8dp"
-                    app:layout_constraintBottom_toBottomOf="parent"
-                    app:layout_constraintEnd_toEndOf="@+id/profile"
-                    app:layout_constraintEnd_toStartOf="@+id/profile"
-                    app:layout_constraintHorizontal_bias="0.5"
-                    app:layout_constraintStart_toEndOf="@+id/stores"
-                    app:layout_constraintStart_toStartOf="@+id/stores"
-                    app:layout_constraintTop_toTopOf="parent"
-                    app:layout_constraintVertical_bias="0.333"
+                    android:layout_width="wrap_content"
+                    android:layout_height="match_parent"
                     app:srcCompat="@drawable/cart_light" />
 
                 <ImageView
                     android:id="@+id/profile"
-                    android:layout_width="116dp"
-                    android:layout_height="35dp"
-                    android:layout_marginStart="8dp"
-                    app:layout_constraintBottom_toBottomOf="parent"
-                    app:layout_constraintEnd_toEndOf="parent"
-                    app:layout_constraintHorizontal_bias="1.0"
-                    app:layout_constraintStart_toStartOf="@+id/stores"
-                    app:layout_constraintTop_toTopOf="parent"
+                    android:layout_width="wrap_content"
+                    android:layout_height="match_parent"
                     app:srcCompat="@drawable/user_light_disabled" />
-            </android.support.constraint.ConstraintLayout>
+
+            </LinearLayout>
 
         </LinearLayout>
 
