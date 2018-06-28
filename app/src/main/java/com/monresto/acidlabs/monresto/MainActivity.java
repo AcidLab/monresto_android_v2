@@ -1,11 +1,17 @@
 package com.monresto.acidlabs.monresto;
 
 import android.annotation.SuppressLint;
+import android.graphics.drawable.Drawable;
 import android.location.Location;
+import android.support.design.widget.TabLayout;
+import android.support.v4.view.ViewPager;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.support.v7.widget.Toolbar;
+import android.transition.AutoTransition;
+import android.transition.TransitionManager;
 import android.view.View;
+import android.view.ViewGroup;
 import android.widget.ImageView;
 import android.widget.TextView;
 import android.widget.Toast;
@@ -26,6 +32,9 @@ import java.util.ArrayList;
 
 public class MainActivity extends AppCompatActivity implements RestaurantAsyncResponse {
     TextView test;
+    private TabLayout tabLayout;
+    private ViewPager viewPager;
+    private ViewPagerAdapter adapter;
 
     private FusedLocationProviderClient mFusedLocationClient;
 
@@ -36,33 +45,24 @@ public class MainActivity extends AppCompatActivity implements RestaurantAsyncRe
         setContentView(R.layout.activity_main);
 
         test = (TextView)findViewById(R.id.textView);
-        final ImageView Stores = (ImageView) findViewById(R.id.stores);
-        final ImageView Cart = (ImageView) findViewById(R.id.cart);
-        final ImageView Profile = (ImageView) findViewById(R.id.profile);
-        Stores.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                Stores.setImageResource(R.drawable.store_light);
-                Cart.setImageResource(R.drawable.cart_light_disabled);
-                Profile.setImageResource(R.drawable.user_light_disabled);
-            }
-        });
-        Cart.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                Stores.setImageResource(R.drawable.store_light_disabled);
-                Cart.setImageResource(R.drawable.cart_light);
-                Profile.setImageResource(R.drawable.user_light_disabled);
-            }
-        });
-        Profile.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                Stores.setImageResource(R.drawable.store_light_disabled);
-                Cart.setImageResource(R.drawable.cart_light_disabled);
-                Profile.setImageResource(R.drawable.user_light);
-            }
-        });
+
+
+
+        tabLayout = (TabLayout) findViewById(R.id.tabLayout_id);
+        viewPager = (ViewPager) findViewById(R.id.viewPager_id);
+        adapter = new ViewPagerAdapter(getSupportFragmentManager());
+
+        adapter.AddFragment(new FragmentStores(), "Restaurants");
+        adapter.AddFragment(new FragmentCart(), "Panier");
+        adapter.AddFragment(new FragmentProfile(), "Profil");
+
+        viewPager.setAdapter(adapter);
+        tabLayout.setupWithViewPager(viewPager);
+
+        tabLayout.getTabAt(0).setIcon(R.drawable.store_light);
+        tabLayout.getTabAt(1).setIcon(R.drawable.cart_light);
+        tabLayout.getTabAt(2).setIcon(R.drawable.user_light);
+
 
         final RestaurantService service = new RestaurantService(this);
         service.getDetails(245);

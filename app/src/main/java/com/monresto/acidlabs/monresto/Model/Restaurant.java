@@ -69,6 +69,12 @@ public class Restaurant {
         this.paymentModes = paymentModes;
     }
 
+    public Restaurant(int id, String name, String background) {
+        this.id = id;
+        this.name = name;
+        this.background = background;
+    }
+
     public static Restaurant createFromJson(JSONObject obj) {
         ArrayList<Speciality> S = new ArrayList<>();
         ArrayList<PaymentMode> P = new ArrayList<>();
