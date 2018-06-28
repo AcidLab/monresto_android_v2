@@ -37,8 +37,8 @@ public class RestaurantService {
 
     public void getAll(final double _lat, final double _lon) {
         //TODO: remove after tests
-        final double lat = 10.1935078;
-        final double lon = 36.8563153;
+        final double lat = 36.8633466;
+        final double lon = 10.1935078;
 
         final ArrayList<Restaurant> RestaurantList = new ArrayList<>();
 
