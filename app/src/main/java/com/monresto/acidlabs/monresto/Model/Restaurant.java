@@ -26,7 +26,7 @@ public class Restaurant {
     private String phone;
 
     private double rate;
-    private String etat;
+    private String state;
     private int withPromotion;
 
     private String openTime;
@@ -41,7 +41,7 @@ public class Restaurant {
     private ArrayList<PaymentMode> paymentModes;
 
 
-    public Restaurant(int id, double latitude, double longitude, double distance, Boolean isNew, String name, String description, int estimatedTime, String image, String background, double minimalPrice, double deliveryCost, String phone, double rate, String etat, int withPromotion, String openTime, String openDay, String beginMorning, String endMorning, String beginNight, String endNight, int nbrAvis, ArrayList<Speciality> specialities, ArrayList<PaymentMode> paymentModes) {
+    public Restaurant(int id, double latitude, double longitude, double distance, Boolean isNew, String name, String description, int estimatedTime, String image, String background, double minimalPrice, double deliveryCost, String phone, double rate, String state, int withPromotion, String openTime, String openDay, String beginMorning, String endMorning, String beginNight, String endNight, int nbrAvis, ArrayList<Speciality> specialities, ArrayList<PaymentMode> paymentModes) {
         this.id = id;
         this.latitude = latitude;
         this.longitude = longitude;
@@ -56,7 +56,7 @@ public class Restaurant {
         this.deliveryCost = deliveryCost;
         this.phone = phone;
         this.rate = rate;
-        this.etat = etat;
+        this.state = state;
         this.withPromotion = withPromotion;
         this.openTime = openTime;
         this.openDay = openDay;
@@ -161,8 +161,8 @@ public class Restaurant {
         return rate;
     }
 
-    public String getEtat() {
-        return etat;
+    public String getState() {
+        return state;
     }
 
     public int getWithPromotion() {
