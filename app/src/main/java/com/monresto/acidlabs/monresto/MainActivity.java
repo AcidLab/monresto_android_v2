@@ -26,6 +26,7 @@ import com.monresto.acidlabs.monresto.Service.Restaurant.RestaurantAsyncResponse
 import com.monresto.acidlabs.monresto.Service.Restaurant.RestaurantService;
 
 import java.util.ArrayList;
+import java.util.List;
 
 
 //Testing fetch information from api
@@ -35,6 +36,8 @@ public class MainActivity extends AppCompatActivity implements RestaurantAsyncRe
     private TabLayout tabLayout;
     private ViewPager viewPager;
     private ViewPagerAdapter adapter;
+    private List<Restaurant> restaurants;
+    private FragmentStores fragmentStores;
 
     private FusedLocationProviderClient mFusedLocationClient;
 
@@ -47,12 +50,18 @@ public class MainActivity extends AppCompatActivity implements RestaurantAsyncRe
         test = (TextView)findViewById(R.id.textView);
 
 
-
         tabLayout = (TabLayout) findViewById(R.id.tabLayout_id);
         viewPager = (ViewPager) findViewById(R.id.viewPager_id);
         adapter = new ViewPagerAdapter(getSupportFragmentManager());
 
-        adapter.AddFragment(new FragmentStores(), "Restaurants");
+        RestaurantService service = new RestaurantService(this);
+        service.getAll(0,0);
+
+        restaurants = new ArrayList<>();
+
+        fragmentStores = new FragmentStores(restaurants);
+
+        adapter.AddFragment(fragmentStores, "Restaurants");
         adapter.AddFragment(new FragmentCart(), "Panier");
         adapter.AddFragment(new FragmentProfile(), "Profil");
 
@@ -64,18 +73,18 @@ public class MainActivity extends AppCompatActivity implements RestaurantAsyncRe
         tabLayout.getTabAt(2).setIcon(R.drawable.user_light);
 
 
-        final RestaurantService service = new RestaurantService(this);
-        service.getDetails(245);
+        //service.getDetails(245);
 
     }
 
     @Override
     public void onListReceived(ArrayList<Restaurant> restaurantList) {
+        fragmentStores.updateList(restaurantList);
     }
 
     @Override
     public void onDetailsReceived(Restaurant restaurant) {
-        test.setText(restaurant.toString());
+
     }
 
     @Override

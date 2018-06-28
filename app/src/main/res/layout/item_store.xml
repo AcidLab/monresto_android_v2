@@ -1,20 +1,58 @@
 <?xml version="1.0" encoding="utf-8"?>
-<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+<android.support.constraint.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:id="@+id/linearLayout3"
     android:layout_width="match_parent"
     android:layout_height="wrap_content"
-    android:orientation="vertical">
+    android:layout_marginBottom="10dp"
+    android:layout_marginLeft="10dp"
+    android:layout_marginRight="10dp"
+    android:layout_marginTop="10dp"
+    android:background="@drawable/shadow_card">
 
     <ImageView
         android:id="@+id/storeBg"
-        android:layout_width="match_parent"
-        android:layout_height="279dp"
-        app:srcCompat="@drawable/toremove_resto1" />
+        android:layout_width="0dp"
+        android:layout_height="192dp"
+        android:backgroundTint="#6a000000"
+        android:backgroundTintMode="src_over"
+        android:foregroundTint="#6a000000"
+        android:foregroundTintMode="src_over"
+        android:scaleType="centerCrop"
+        android:tint="#6a000000"
+        android:tintMode="src_over"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent" />
+
+    <TextView
+        android:id="@+id/storeState"
+        android:layout_width="100dp"
+        android:layout_height="25dp"
+        android:layout_marginStart="20dp"
+        android:layout_marginTop="16dp"
+        android:fontFamily="@font/roboto"
+        android:text="État"
+        android:textAllCaps="true"
+        android:textColor="@color/button_text_color"
+        android:textSize="14sp"
+        android:textStyle="normal"
+        app:layout_constraintStart_toStartOf="@+id/storeBg"
+        app:layout_constraintTop_toTopOf="@+id/storeBg" />
 
     <TextView
         android:id="@+id/storeName"
-        android:layout_width="match_parent"
-        android:layout_height="34dp"
-        android:text="TextView" />
+        android:layout_width="277dp"
+        android:layout_height="37dp"
+        android:layout_marginStart="20dp"
+        android:layout_marginTop="32dp"
+        android:fontFamily="@font/roboto"
+        android:text="Nom"
+        android:textColor="@color/button_text_color"
+        android:textSize="24sp"
+        android:textStyle="bold"
+        app:layout_constraintStart_toStartOf="@+id/storeBg"
+        app:layout_constraintTop_toTopOf="@+id/storeBg" />
 
-</LinearLayout>
+</android.support.constraint.ConstraintLayout>

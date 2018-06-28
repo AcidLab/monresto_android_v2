@@ -17,7 +17,7 @@
         <android.support.constraint.ConstraintLayout
             android:id="@+id/constraintLayout"
             android:layout_width="match_parent"
-            android:layout_height="98dp"
+            android:layout_height="71dp"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintHorizontal_bias="0.0"
             app:layout_constraintStart_toStartOf="parent"
@@ -26,15 +26,15 @@
             <android.support.design.widget.TabLayout
                 android:id="@+id/tabLayout_id"
                 android:layout_width="match_parent"
-                android:layout_height="match_parent"
-                android:background="@drawable/shadow_bottom"
+                android:layout_height="64dp"
                 app:layout_constraintBottom_toBottomOf="parent"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintStart_toStartOf="parent"
                 app:tabGravity="fill"
                 app:tabIndicatorColor="@color/text_color"
                 app:tabMode="fixed"
                 app:tabSelectedTextColor="@color/material_blue_grey_90"
-                app:tabTextColor="@color/gray_btn_bg_pressed_color"
-                tools:layout_editor_absoluteX="0dp"></android.support.design.widget.TabLayout>
+                app:tabTextColor="@color/gray_btn_bg_pressed_color"></android.support.design.widget.TabLayout>
 
 
         </android.support.constraint.ConstraintLayout>
@@ -127,8 +127,10 @@
             android:layout_height="0dp"
             app:layout_constraintBottom_toBottomOf="parent"
             app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintHorizontal_bias="0.0"
             app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toBottomOf="@+id/constraintLayout" />
+            app:layout_constraintTop_toBottomOf="@+id/constraintLayout"
+            app:layout_constraintVertical_bias="0.557" />
 
     </android.support.constraint.ConstraintLayout>
 

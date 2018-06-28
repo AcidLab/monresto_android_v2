@@ -6,9 +6,13 @@ import android.support.v7.widget.RecyclerView;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.ImageView;
 import android.widget.TextView;
 
+import com.makeramen.roundedimageview.RoundedTransformationBuilder;
 import com.monresto.acidlabs.monresto.Model.Restaurant;
+import com.squareup.picasso.Picasso;
+import com.squareup.picasso.Transformation;
 
 import java.util.List;
 
@@ -37,6 +41,8 @@ public class RecyclerViewAdapter extends RecyclerView.Adapter<RecyclerViewAdapte
     public void onBindViewHolder(@NonNull ViewHolder viewHolder, int i) {
 
         viewHolder.storeName.setText(restaurants.get(i).getName());
+        viewHolder.storeState.setText(restaurants.get(i).getState());
+        Picasso.get().load(restaurants.get(i).getBackground()).into(viewHolder.storeBg);
     }
 
     @Override
@@ -47,11 +53,19 @@ public class RecyclerViewAdapter extends RecyclerView.Adapter<RecyclerViewAdapte
     public static class ViewHolder extends RecyclerView.ViewHolder {
 
         private TextView storeName;
+        private TextView storeState;
+        private ImageView storeBg;
 
         public ViewHolder(@NonNull View itemView) {
             super(itemView);
 
             storeName = (TextView) itemView.findViewById(R.id.storeName);
+            storeState = (TextView) itemView.findViewById(R.id.storeState);
+            storeBg = (ImageView) itemView.findViewById(R.id.storeBg);
         }
+    }
+
+    public void setRestaurants(List<Restaurant> restaurants) {
+        this.restaurants = restaurants;
     }
 }
