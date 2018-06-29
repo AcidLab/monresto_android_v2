@@ -9,14 +9,31 @@ import java.util.ArrayList;
 public class User {
     private static User instance;
 
+    private int id;
+    private String login;
+    private String password;
+    private String password_confirm;
     private String email;
     private String fname;
     private String lname;
+    private String civility;
+    private String phone;
+    private String mobile;
+    private String comment;
+    private ArrayList<Address> addresses;
 
-    public User(String email, String fname, String lname) {
+    public User(String login, String password, String password_confirm, String email, String fname, String lname, String civility, String phone, String mobile, String comment, ArrayList<Address> addresses) {
+        this.login = login;
+        this.password = password;
+        this.password_confirm = password_confirm;
         this.email = email;
         this.fname = fname;
         this.lname = lname;
+        this.civility = civility;
+        this.phone = phone;
+        this.mobile = mobile;
+        this.comment = comment;
+        this.addresses = addresses;
     }
 
     public static User setInstance(User user) {
@@ -55,6 +72,26 @@ public class User {
         return obj;
     }
 
+    public int getId() {
+        return id;
+    }
+
+    public void setId(int id) {
+        this.id = id;
+    }
+
+    public String getLogin() {
+        return login;
+    }
+
+    public String getPassword() {
+        return password;
+    }
+
+    public String getPassword_confirm() {
+        return password_confirm;
+    }
+
     public String getEmail() {
         return email;
     }
@@ -65,5 +102,25 @@ public class User {
 
     public String getLname() {
         return lname;
+    }
+
+    public String getCivility() {
+        return civility;
+    }
+
+    public String getPhone() {
+        return phone;
+    }
+
+    public String getMobile() {
+        return mobile;
+    }
+
+    public String getComment() {
+        return comment;
+    }
+
+    public ArrayList<Address> getAddresses() {
+        return addresses;
     }
 }

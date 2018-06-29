@@ -24,6 +24,10 @@
         </activity>
         <activity android:name=".UI.HomeActivity" />
         <activity android:name=".RestaurantDetails"></activity>
+        <activity android:name=".UI.FacebookActivity" />
+
+        <meta-data android:name="com.facebook.sdk.ApplicationId"
+            android:value="@string/facebook_app_id"/>
     </application>
 
 </manifest>

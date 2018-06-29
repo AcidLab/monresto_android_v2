@@ -37,8 +37,8 @@ public class UserService {
         }
 
         RequestQueue queue = Volley.newRequestQueue(context);
-        //String url = Config.server + "User/Register.php";
-        final String url = "http://41.231.54.20/jibly/api/User/register.php";
+        String url = Config.server + "User/Register.php";
+        //String url = "http://41.231.54.20/jibly/api/User/register.php";
         StringRequest postRequest = new StringRequest(Request.Method.POST, url,
                 new Response.Listener<String>() {
                     @Override
@@ -60,7 +60,7 @@ public class UserService {
                 String token = FirebaseInstanceId.getInstance().getToken();
                 String signature = Utilities.md5(userObject.toString() + token + "android" + "vZ!m@73@tH*c2jPV4Z2");
 
-                params.put("userPost", userObject.toString());
+                params.put("user", userObject.toString());
                 params.put("signature", signature);
 
                 return params;
@@ -97,6 +97,39 @@ public class UserService {
                 params.put("password", password);
                 params.put("token", password);
                 params.put("device", "android");
+                params.put("signature", signature);
+
+                return params;
+            }
+        };
+        queue.add(postRequest);
+    }
+
+    public void addAddress(final Address address){
+        RequestQueue queue = Volley.newRequestQueue(context);
+        String url = Config.server + "Address/addAddress.php";
+        final int userID = User.getInstance().getId();
+        StringRequest postRequest = new StringRequest(Request.Method.POST, url,
+                new Response.Listener<String>() {
+                    @Override
+                    public void onResponse(String response) {
+
+                    }
+                },
+                new Response.ErrorListener() {
+                    @Override
+                    public void onErrorResponse(VolleyError error) {
+                        // error
+                    }
+                }
+        ) {
+            @Override
+            protected Map<String, String> getParams() {
+                Map<String, String> params = new HashMap<>();
+                String signature = Utilities.md5(address.toJson().toString() + userID + Config.sharedKey);
+
+                params.put("address", address.toJson().toString());
+                params.put("userID", String.valueOf(userID));
                 params.put("signature", signature);
 
                 return params;
