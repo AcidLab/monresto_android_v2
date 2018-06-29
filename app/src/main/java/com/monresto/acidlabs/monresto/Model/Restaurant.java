@@ -75,6 +75,15 @@ public class Restaurant {
         this.background = background;
     }
 
+    // This constructor is for testing purposes, will be using first constructor instead.
+    public Restaurant(int id, String name, String background, String state, int nbrAvis) {
+        this.id = id;
+        this.name = name;
+        this.background = background;
+        this.state = state;
+        this.nbrAvis = nbrAvis;
+    }
+
     public static Restaurant createFromJson(JSONObject obj) {
         ArrayList<Speciality> S = new ArrayList<>();
         ArrayList<PaymentMode> P = new ArrayList<>();

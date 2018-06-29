@@ -66,6 +66,7 @@ public class MainActivity extends AppCompatActivity implements RestaurantAsyncRe
         adapter.AddFragment(new FragmentProfile(), "Profil");
 
         viewPager.setAdapter(adapter);
+        viewPager.setOffscreenPageLimit(3);
         tabLayout.setupWithViewPager(viewPager);
 
         tabLayout.getTabAt(0).setIcon(R.drawable.store_light);

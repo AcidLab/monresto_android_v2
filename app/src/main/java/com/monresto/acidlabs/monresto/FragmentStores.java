@@ -45,9 +45,6 @@ public class FragmentStores extends Fragment {
     public void onCreate(@Nullable Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setRetainInstance(true);
-
-
-        // n3abiw liste
     }
 
     public void updateList(List<Restaurant> restaurants) {
