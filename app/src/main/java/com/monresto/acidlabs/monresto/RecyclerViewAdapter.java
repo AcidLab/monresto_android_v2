@@ -3,6 +3,7 @@ package com.monresto.acidlabs.monresto;
 import android.app.Activity;
 import android.content.Context;
 import android.content.Intent;
+import android.os.Parcelable;
 import android.support.annotation.NonNull;
 import android.support.constraint.ConstraintLayout;
 import android.support.v4.app.ActivityOptionsCompat;
@@ -47,11 +48,7 @@ public class RecyclerViewAdapter extends RecyclerView.Adapter<RecyclerViewAdapte
                 Toast.makeText(context,"Restaurant number: "+viewHolder.getAdapterPosition(),Toast.LENGTH_SHORT).show();
                 Intent intent = new Intent(context, RestaurantDetails.class);
                 // Pass data object in the bundle and populate details activity.
-                intent.putExtra("Id", restaurants.get(viewHolder.getAdapterPosition()).getId());
-                intent.putExtra("Name", restaurants.get(viewHolder.getAdapterPosition()).getName());
-                intent.putExtra("State", restaurants.get(viewHolder.getAdapterPosition()).getState());
-                intent.putExtra("Background", restaurants.get(viewHolder.getAdapterPosition()).getBackground());
-                intent.putExtra("Opinion", restaurants.get(viewHolder.getAdapterPosition()).getNbrAvis());
+                intent.putExtra("restaurant",restaurants.get(viewHolder.getAdapterPosition()));
 
                 Pair<View, String> p1 = Pair.create((View)viewHolder.storeName, "storeName");
                 Pair<View, String> p2 = Pair.create((View)viewHolder.storeBg, "storeBg");

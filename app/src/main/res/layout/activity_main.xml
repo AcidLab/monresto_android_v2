@@ -31,7 +31,7 @@
                 app:layout_constraintEnd_toEndOf="parent"
                 app:layout_constraintStart_toStartOf="parent"
                 app:tabGravity="fill"
-                app:tabIndicatorColor="@color/text_color"
+                app:tabIndicatorColor="@color/material_deep_teal_50"
                 app:tabMode="fixed"
                 app:tabSelectedTextColor="@color/material_blue_grey_90"
                 app:tabTextColor="@color/gray_btn_bg_pressed_color"></android.support.design.widget.TabLayout>

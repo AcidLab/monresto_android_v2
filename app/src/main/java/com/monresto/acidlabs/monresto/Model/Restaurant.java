@@ -1,15 +1,18 @@
 package com.monresto.acidlabs.monresto.Model;
 
+import android.os.Parcel;
+import android.os.Parcelable;
 import android.util.Log;
 
 import org.json.JSONArray;
 import org.json.JSONException;
 import org.json.JSONObject;
 
+import java.io.Serializable;
 import java.util.ArrayList;
 
 //TODO: test if getInt() automatically converts from string
-public class Restaurant {
+public class Restaurant implements Parcelable {
     private int id;
     private double latitude;
     private double longitude;
@@ -82,6 +85,10 @@ public class Restaurant {
         this.background = background;
         this.state = state;
         this.nbrAvis = nbrAvis;
+    }
+
+    public Restaurant() {
+
     }
 
     public static Restaurant createFromJson(JSONObject obj) {
@@ -217,5 +224,80 @@ public class Restaurant {
     @Override
     public String toString() {
         return "ID: " + id + " - Name: " + name + " - Estimation: " + estimatedTime;
+    }
+
+    @Override
+    public int describeContents() {
+        return 0;
+    }
+
+    // Creates a parcel to be passed through Intents
+    @Override
+    public void writeToParcel(Parcel parcel, int i) {
+        parcel.writeInt(id);
+        parcel.writeDouble(latitude);
+        parcel.writeDouble(longitude);
+        parcel.writeDouble(distance);
+        parcel.writeByte((byte) (isNew ? 1 : 0));
+        parcel.writeString(name);
+        parcel.writeString(description);
+        parcel.writeInt(estimatedTime);
+        parcel.writeString(image);
+        parcel.writeString(background);
+        parcel.writeDouble(minimalPrice);
+        parcel.writeDouble(deliveryCost);
+        parcel.writeString(phone);
+        parcel.writeDouble(rate);
+        parcel.writeString(state);
+        parcel.writeInt(withPromotion);
+        parcel.writeString(openTime);
+        parcel.writeString(openDay);
+        parcel.writeString(beginMorning);
+        parcel.writeString(endMorning);
+        parcel.writeString(beginNight);
+        parcel.writeString(endNight);
+        parcel.writeInt(nbrAvis);
+        parcel.writeList(specialities);
+        parcel.writeList(paymentModes);
+    }
+
+    // This is used to regenerate the object. All Parcelables must have a CREATOR that implements these two methods
+    public static final Parcelable.Creator<Restaurant> CREATOR = new Parcelable.Creator<Restaurant>() {
+        public Restaurant createFromParcel(Parcel in) {
+            return new Restaurant(in);
+        }
+
+        public Restaurant[] newArray(int size) {
+            return new Restaurant[size];
+        }
+    };
+
+    // Constructor that takes a Parcel and gives you an object populated with it's values
+    private Restaurant(Parcel in) {
+        id = in.readInt();
+        latitude = in.readDouble();
+        longitude = in.readDouble();
+        distance = in.readDouble();
+        isNew = in.readByte() != 0;
+        name = in.readString();
+        description = in.readString();
+        estimatedTime = in.readInt();
+        image = in.readString();
+        background = in.readString();
+        minimalPrice = in.readDouble();
+        deliveryCost = in.readDouble();
+        phone = in.readString();
+        rate = in.readDouble();
+        state = in.readString();
+        withPromotion = in.readInt();
+        openTime = in.readString();
+        openDay = in.readString();
+        beginMorning = in.readString();
+        endMorning = in.readString();
+        beginNight = in.readString();
+        endNight = in.readString();
+        nbrAvis = in.readInt();
+        specialities = in.readArrayList(Speciality.class.getClassLoader());
+        paymentModes = in.readArrayList(PaymentMode.class.getClassLoader());
     }
 }

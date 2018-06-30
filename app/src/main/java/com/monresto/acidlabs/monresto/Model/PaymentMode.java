@@ -1,6 +1,8 @@
 package com.monresto.acidlabs.monresto.Model;
 
-public class PaymentMode {
+import java.io.Serializable;
+
+public class PaymentMode implements Serializable {
     private int id;
     private String title;
     private String image;

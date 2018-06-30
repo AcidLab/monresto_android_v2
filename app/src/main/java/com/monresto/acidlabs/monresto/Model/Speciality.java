@@ -1,6 +1,8 @@
 package com.monresto.acidlabs.monresto.Model;
 
-public class Speciality {
+import java.io.Serializable;
+
+public class Speciality implements Serializable {
     private int id;
     private String title;
 

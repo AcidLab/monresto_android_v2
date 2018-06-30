@@ -58,4 +58,9 @@ public class HomeActivity extends AppCompatActivity implements RestaurantAsyncRe
     public void onDishesReceived(ArrayList<Dish> dishes) {
 
     }
+
+    @Override
+    public void onDishesReceived(ArrayList<Dish> dishes, Menu menu) {
+
+    }
 }
