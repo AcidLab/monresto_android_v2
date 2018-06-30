@@ -166,10 +166,10 @@ public class RestaurantService {
         queue.add(postRequest);
     }
 
-    public void getDishes(final int restoID, final int menuID){
+    public void getDishes(final int restoID, final Menu menu){
         final ArrayList<Dish> dishesList = new ArrayList<>();
         RequestQueue queue = Volley.newRequestQueue(context);
-        String url = Config.server + "Restaurant/subMenu.php";
+        String url = Config.server + "Retaurant/subMenu.php";
         StringRequest postRequest = new StringRequest(Request.Method.POST, url,
                 new Response.Listener<String>() {
                     @Override
@@ -182,7 +182,7 @@ public class RestaurantService {
                                 obj = jsonMenus.getJSONObject(i);
                                 dishesList.add(Dish.createFromJson(obj));
                             }
-                            ((RestaurantAsyncResponse) context).onDishesReceived(dishesList);
+                            ((RestaurantAsyncResponse) context).onDishesReceived(dishesList, menu);
                         } catch (JSONException e) {
                             e.printStackTrace();
                         }
@@ -201,10 +201,10 @@ public class RestaurantService {
                 int userID = 0;
 
                 Map<String, String> params = new HashMap<>();
-                String signature = Utilities.md5("" + userID + restoID + menuID + Config.sharedKey);
+                String signature = Utilities.md5("" + userID + restoID + menu.getId() + Config.sharedKey);
                 params.put("userID", String.valueOf(userID));
                 params.put("restoID", String.valueOf(restoID));
-                params.put("menuID", String.valueOf(menuID));
+                params.put("menuID", String.valueOf(menu.getId()));
                 params.put("signature", signature);
 
                 return params;

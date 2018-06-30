@@ -50,7 +50,7 @@ public class ReviewService {
                                 obj = resto.getJSONObject(i);
                                 ReviewList.add(Review.createFromJson(obj));
                             }
-                            ((ReviewAsyncResponse) context).processFinish(ReviewList);
+                            ((ReviewAsyncResponse) context).onReviewsReceived(ReviewList);
                         } catch (JSONException e) {
                             e.printStackTrace();
                         }
