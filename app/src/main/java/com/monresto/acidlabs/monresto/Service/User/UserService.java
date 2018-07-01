@@ -44,7 +44,18 @@ public class UserService {
                 new Response.Listener<String>() {
                     @Override
                     public void onResponse(String response) {
-                        Log.d("---- REGISTED ----", "onResponse: " + response);
+                        try {
+                            JSONObject jsonResponse = new JSONObject(response);
+                            JSONObject clientObject = jsonResponse.getJSONObject("Client");
+                            int status = clientObject.getInt("Status");
+                            if (status != 0) {
+                                int id = clientObject.optInt("userID");
+                                User user = new User(id, login, email, fname, lname, civility, phone, mobile, comment, addresses);
+                                ((UserAsyncResponse) context).onUserLogin(user);
+                            }
+                        } catch (JSONException e) {
+                            e.printStackTrace();
+                        }
                     }
                 },
                 new Response.ErrorListener() {
@@ -58,8 +69,8 @@ public class UserService {
             protected Map<String, String> getParams() {
                 Map<String, String> params = new HashMap<>();
                 JSONObject userObject = User.registerJson(login, password, password_confirm, fname, lname, civility, email, phone, mobile, comment, addresses);
-                String token = FirebaseInstanceId.getInstance().getToken();
-                String signature = Utilities.md5(userObject.toString() + token + "android" + "vZ!m@73@tH*c2jPV4Z2");
+                String token = "kento";//FirebaseInstanceId.getInstance().getToken();
+                String signature = Utilities.md5(userObject.toString() + token + "android" + Config.sharedKey);
 
                 params.put("user", userObject.toString());
                 params.put("signature", signature);
@@ -70,14 +81,25 @@ public class UserService {
         queue.add(postRequest);
     }
 
-    public void login(final String email, final String password) {
+    public void login(final String login, final String password) {
         RequestQueue queue = Volley.newRequestQueue(context);
         String url = Config.server + "User/Login.php";
         StringRequest postRequest = new StringRequest(Request.Method.POST, url,
                 new Response.Listener<String>() {
                     @Override
                     public void onResponse(String response) {
-                        //TODO: set user instance
+                        try {
+                            JSONObject jsonResponse = new JSONObject(response);
+                            JSONObject clientObject = jsonResponse.getJSONObject("Client");
+                            int status = clientObject.getInt("Status");
+                            if (status != 0) {
+                                int id = clientObject.optInt("userID");
+                                //User user = new User(id, login, email, fname, lname, civility, phone, mobile, comment, addresses);
+                                //((UserAsyncResponse) context).onUserLogin(user);
+                            }
+                        } catch (JSONException e) {
+                            e.printStackTrace();
+                        }
                     }
                 },
                 new Response.ErrorListener() {
@@ -91,10 +113,10 @@ public class UserService {
             protected Map<String, String> getParams() {
                 //TODO: password encryption ?
                 Map<String, String> params = new HashMap<>();
-                String token = FirebaseInstanceId.getInstance().getToken();
+                String token = "kento";//FirebaseInstanceId.getInstance().getToken();
 
-                String signature = Utilities.md5(email + password + token + "android" + Config.sharedKey);
-                params.put("email", email);
+                String signature = Utilities.md5(login + password + token + "android" + Config.sharedKey);
+                params.put("login", login);
                 params.put("password", password);
                 params.put("token", password);
                 params.put("device", "android");
@@ -124,7 +146,7 @@ public class UserService {
                             if (status != 0) {
                                 int id = clientObject.optInt("userID");
                                 User user = new User(id, email, fname, lname);
-                                ((UserAsyncResponse) context).onSocialConnect(user);
+                                ((UserAsyncResponse) context).onUserLogin(user);
                             }
                         } catch (JSONException e) {
                             e.printStackTrace();

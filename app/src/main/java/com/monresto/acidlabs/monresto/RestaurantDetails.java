@@ -130,11 +130,6 @@ public class RestaurantDetails extends AppCompatActivity implements RestaurantAs
     }
 
     @Override
-    public void onDetailsReceived(Restaurant restaurant) {
-
-    }
-
-    @Override
     public void onMenusReceived(ArrayList<Menu> menus) {
         for(int j=0; j < menus.size(); j++){
             dishes.put(menus.get(j),null);
@@ -146,10 +141,6 @@ public class RestaurantDetails extends AppCompatActivity implements RestaurantAs
         }
 
         // Can't put them both in the same loop sorry :(
-    }
-
-    @Override
-    public void onDishesReceived(ArrayList<Dish> dishes) {
     }
 
     @Override

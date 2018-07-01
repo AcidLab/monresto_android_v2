@@ -86,44 +86,6 @@ public class RestaurantService {
 
     }
 
-    public void getDetails(final int id) {
-        RequestQueue queue = Volley.newRequestQueue(context);
-        String url = Config.server + "Restaurant/restoDetails.php";
-        StringRequest postRequest = new StringRequest(Request.Method.POST, url,
-                new Response.Listener<String>() {
-                    @Override
-                    public void onResponse(String response) {
-                        try {
-                            JSONObject jsonResponse = new JSONObject(response);
-                            JSONObject resto = jsonResponse.getJSONObject("Resto");
-                            Restaurant restaurant = Restaurant.createFromJson(resto);
-                            ((RestaurantAsyncResponse) context).onDetailsReceived(restaurant);
-                        } catch (JSONException e) {
-                            e.printStackTrace();
-                        }
-                    }
-                },
-                new Response.ErrorListener() {
-                    @Override
-                    public void onErrorResponse(VolleyError error) {
-                        // error
-                    }
-                }
-        ) {
-            @Override
-            protected Map<String, String> getParams() {
-                Map<String, String> params = new HashMap<>();
-                String signature = Utilities.md5("" + id + Config.sharedKey);
-                params.put("restoID", String.valueOf(id));
-                params.put("signature", signature);
-
-                return params;
-            }
-        };
-        queue.add(postRequest);
-
-    }
-
     public void getMenus(final int id){
         final ArrayList<Menu> menusList = new ArrayList<>();
         RequestQueue queue = Volley.newRequestQueue(context);

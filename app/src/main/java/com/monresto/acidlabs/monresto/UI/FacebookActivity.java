@@ -92,7 +92,7 @@ public class FacebookActivity extends AppCompatActivity implements UserAsyncResp
     }
 
     @Override
-    public void onSocialConnect(User user) {
+    public void onUserLogin(User user) {
         User.setInstance(user);
     }
 
