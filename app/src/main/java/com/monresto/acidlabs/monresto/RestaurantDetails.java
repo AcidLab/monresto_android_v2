@@ -136,16 +136,21 @@ public class RestaurantDetails extends AppCompatActivity implements RestaurantAs
 
     @Override
     public void onMenusReceived(ArrayList<Menu> menus) {
+        MenusList = new ArrayList<String>();
+        MenusList.add("Informations");
+
         for(int j=0; j < menus.size(); j++){
             dishes.put(menus.get(j),null);
+
+            MenusList.add(menus.get(j).getTitle());
+
             System.out.println("Just added to the menus: " + menus.get(j).getTitle());
-        }
-        for(int j=0; j < menus.size(); j++){
+
             // Generate dishes according to menu
             service.getDishes(restaurant.getId(), menus.get(j));
         }
 
-        // Can't put them both in the same loop sorry :(
+        Titles = MenusList.toArray(new CharSequence[MenusList.size()]);
     }
 
     @Override
@@ -156,18 +161,6 @@ public class RestaurantDetails extends AppCompatActivity implements RestaurantAs
     public void onDishesReceived(ArrayList<Dish> dishes, Menu menu) {
         this.dishes.put(menu, dishes);
 
-        MenusList = new ArrayList<String>();
-        MenusList.add("Informations");
-
-        for(Map.Entry<Menu, ArrayList<Dish>> entry : this.dishes.entrySet()) {
-            Menu key = entry.getKey();
-
-            MenusList.add(key.getTitle());
-            System.out.println("Just added to the tabs: " + key.getTitle());
-
-        }
-
-        Titles = MenusList.toArray(new CharSequence[MenusList.size()]);
 
         if(this.dishes.size() == MenusList.size()-1)
             setUpTabs();
