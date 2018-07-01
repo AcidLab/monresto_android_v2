@@ -1,5 +1,6 @@
 package com.monresto.acidlabs.monresto;
 
+import java.io.UnsupportedEncodingException;
 import java.math.BigInteger;
 import java.security.MessageDigest;
 import java.security.NoSuchAlgorithmException;
@@ -20,5 +21,15 @@ public class Utilities {
             e1.printStackTrace();
         }
         return password;
+    }
+
+    public static String decodeUTF(String encoded) {
+        String decoded = encoded;
+        try {
+            decoded = new String(encoded.getBytes("ISO-8859-1"));
+        } catch (UnsupportedEncodingException e) {
+            return encoded;
+        }
+        return decoded;
     }
 }

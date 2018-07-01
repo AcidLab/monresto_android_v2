@@ -95,17 +95,6 @@
 
         </RelativeLayout>
 
-        <fragment
-            android:id="@+id/fragment3"
-            android:name="com.monresto.acidlabs.monresto.TestFrag"
-            android:layout_width="107dp"
-            android:layout_height="38dp"
-            android:layout_marginStart="80dp"
-            android:layout_marginTop="16dp"
-            app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toBottomOf="@+id/textView"
-            tools:layout="@layout/test_fragment" />
-
         <TextView
             android:id="@+id/textView"
             android:layout_width="wrap_content"

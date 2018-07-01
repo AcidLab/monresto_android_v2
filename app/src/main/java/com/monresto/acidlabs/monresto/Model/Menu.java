@@ -44,4 +44,12 @@ public class Menu {
     public String getImage() {
         return image;
     }
+
+    public void setTitle(String title) {
+        this.title = title;
+    }
+
+    public void setDescription(String description) {
+        this.description = description;
+    }
 }

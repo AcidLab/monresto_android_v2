@@ -4,11 +4,9 @@ import android.content.Intent;
 import android.support.design.widget.FloatingActionButton;
 import android.support.design.widget.Snackbar;
 import android.support.design.widget.TabLayout;
-import android.support.v4.view.ViewPager;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.support.v7.widget.Toolbar;
-import android.util.Log;
 import android.view.MenuItem;
 import android.view.View;
 import android.widget.ImageView;
@@ -22,16 +20,14 @@ import com.monresto.acidlabs.monresto.Model.Restaurant;
 import com.monresto.acidlabs.monresto.Model.Review;
 import com.monresto.acidlabs.monresto.Service.Restaurant.RestaurantAsyncResponse;
 import com.monresto.acidlabs.monresto.Service.Restaurant.RestaurantService;
-import com.monresto.acidlabs.monresto.Service.Review.ReviewService;
 import com.squareup.picasso.Picasso;
 
-import java.io.Serializable;
+
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
-import java.util.Map;
 
-public class RestaurantDetails extends AppCompatActivity implements RestaurantAsyncResponse {
+public class RestaurantDetailsActivity extends AppCompatActivity implements RestaurantAsyncResponse {
 
     @BindView(R.id.toolbar)
     Toolbar toolbar;
@@ -137,7 +133,7 @@ public class RestaurantDetails extends AppCompatActivity implements RestaurantAs
         for(int j=0; j < menus.size(); j++){
             dishes.put(menus.get(j),null);
 
-            MenusList.add(menus.get(j).getTitle());
+            MenusList.add(Utilities.decodeUTF(menus.get(j).getTitle()));
 
             System.out.println("Just added to the menus: " + menus.get(j).getTitle());
 
@@ -150,7 +146,12 @@ public class RestaurantDetails extends AppCompatActivity implements RestaurantAs
 
     @Override
     public void onDishesReceived(ArrayList<Dish> dishes, Menu menu) {
-        this.dishes.put(menu, dishes);
+        // Fixing special characters for MENUS
+        Menu fixedMenu = menu;
+        fixedMenu.setTitle(Utilities.decodeUTF(menu.getTitle()));
+        fixedMenu.setDescription(Utilities.decodeUTF(menu.getDescription()));
+
+        this.dishes.put(fixedMenu, dishes);
 
 
         if(this.dishes.size() == MenusList.size()-1)

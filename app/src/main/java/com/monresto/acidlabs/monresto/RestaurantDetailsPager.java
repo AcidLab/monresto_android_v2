@@ -39,7 +39,7 @@ public class RestaurantDetailsPager extends FragmentStatePagerAdapter {
             return firstTab;
         } else              // Tabs reserved for dishes
         {
-            DishFragment otherTab = null;
+            FragmentDish otherTab = null;
 
             for(Map.Entry<Menu, ArrayList<Dish>> entry : dishes.entrySet()) {
                 Menu key = entry.getKey();
@@ -48,7 +48,7 @@ public class RestaurantDetailsPager extends FragmentStatePagerAdapter {
                     value = new ArrayList<>();
 
                 if (Titles[position].equals(key.getTitle()))
-                    otherTab = new DishFragment(value);
+                    otherTab = new FragmentDish(value);
             }
             return otherTab;
         }

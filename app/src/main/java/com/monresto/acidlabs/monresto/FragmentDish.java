@@ -24,12 +24,12 @@ import butterknife.ButterKnife;
 
 
 @SuppressLint("ValidFragment")
-public class DishFragment extends Fragment {
+public class FragmentDish extends Fragment {
 
     @BindView(R.id.recyclerView) RecyclerView recyclerView;
     ArrayList<Dish> dishes;
 
-    public DishFragment(ArrayList<Dish> dishes) {
+    public FragmentDish(ArrayList<Dish> dishes) {
         this.dishes = dishes;
     }
 

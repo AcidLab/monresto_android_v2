@@ -33,7 +33,7 @@ public class FragmentRestaurantDetails extends Fragment {
     @Nullable
     @Override
     public View onCreateView(@NonNull LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
-        View v = inflater.inflate(R.layout.restaurant_details_fragment, container,false);
+        View v = inflater.inflate(R.layout.fragment_restaurant_details, container,false);
 
         // Binding views
         dish_bg = (ImageView) v.findViewById(R.id.dish_bg_id);

@@ -83,20 +83,12 @@ public class MainActivity extends AppCompatActivity implements RestaurantAsyncRe
         fragmentStores.updateList(restaurantList);
     }
 
-    @Override
-    public void onDetailsReceived(Restaurant restaurant) {
-
-    }
 
     @Override
     public void onMenusReceived(ArrayList<Menu> menus) {
 
     }
 
-    @Override
-    public void onDishesReceived(ArrayList<Dish> dishes) {
-
-    }
 
     @Override
     public void onDishesReceived(ArrayList<Dish> dishes, Menu menu) {

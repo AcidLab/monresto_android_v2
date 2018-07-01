@@ -32,7 +32,7 @@ public class FragmentStores extends Fragment {
     @Nullable
     @Override
     public View onCreateView(@NonNull LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
-        v = inflater.inflate(R.layout.stores_fragment, container,false);
+        v = inflater.inflate(R.layout.fragment_stores, container,false);
         recyclerViewAdapter = new RecyclerViewAdapter(getContext(), restaurants);
         recyclerView = (RecyclerView) v.findViewById(R.id.stores_recylcerview);
         recyclerView.setLayoutManager(new LinearLayoutManager(getActivity()));
