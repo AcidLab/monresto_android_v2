@@ -22,6 +22,13 @@ public class User {
     private String comment;
     private ArrayList<Address> addresses;
 
+    public User(int id, String email, String fname, String lname) {
+        this.id = id;
+        this.email = email;
+        this.fname = fname;
+        this.lname = lname;
+    }
+
     public User(String login, String password, String password_confirm, String email, String fname, String lname, String civility, String phone, String mobile, String comment, ArrayList<Address> addresses) {
         this.login = login;
         this.password = password;

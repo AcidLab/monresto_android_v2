@@ -16,6 +16,7 @@ import com.monresto.acidlabs.monresto.Model.User;
 import com.monresto.acidlabs.monresto.Utilities;
 
 import org.json.JSONArray;
+import org.json.JSONException;
 import org.json.JSONObject;
 
 import java.util.ArrayList;
@@ -32,7 +33,7 @@ public class UserService {
     public void register(final String login, final String password, final String password_confirm, final String email, final String fname, final String lname,
                          final String civility, final String phone, final String mobile, final String comment, final ArrayList<Address> addresses) {
         final JSONArray addressesArray = new JSONArray();
-        for(Address A : addresses){
+        for (Address A : addresses) {
             addressesArray.put(A.toJson());
         }
 
@@ -43,13 +44,13 @@ public class UserService {
                 new Response.Listener<String>() {
                     @Override
                     public void onResponse(String response) {
-                        Log.d("---- REGISTED ----", "onResponse: "+response);
+                        Log.d("---- REGISTED ----", "onResponse: " + response);
                     }
                 },
                 new Response.ErrorListener() {
                     @Override
                     public void onErrorResponse(VolleyError error) {
-                        Log.d("ERROR", "onErrorResponse: "+error.getMessage());
+                        Log.d("ERROR", "onErrorResponse: " + error.getMessage());
                     }
                 }
         ) {
@@ -105,7 +106,61 @@ public class UserService {
         queue.add(postRequest);
     }
 
-    public void addAddress(final Address address){
+    public void facebookLogin(final String socialID, final String email, final String fname, final String lname) {
+        final int socialNetworkID = 1;
+        final int deviceID = 1;
+
+        RequestQueue queue = Volley.newRequestQueue(context);
+        String url = Config.server + "User/socialConnect.php"; //doesn't work
+        url = "http://41.231.54.20/jibly/api/User/socialConnect.php";
+        StringRequest postRequest = new StringRequest(Request.Method.POST, url,
+                new Response.Listener<String>() {
+                    @Override
+                    public void onResponse(String response) {
+                        try {
+                            JSONObject jsonResponse = new JSONObject(response);
+                            JSONObject clientObject = jsonResponse.getJSONObject("Client");
+                            int status = clientObject.getInt("Status");
+                            if (status != 0) {
+                                int id = clientObject.optInt("userID");
+                                User user = new User(id, email, fname, lname);
+                                ((UserAsyncResponse) context).onSocialConnect(user);
+                            }
+                        } catch (JSONException e) {
+                            e.printStackTrace();
+                        }
+                    }
+                },
+                new Response.ErrorListener() {
+                    @Override
+                    public void onErrorResponse(VolleyError error) {
+                        // error
+                    }
+                }
+        ) {
+            @Override
+            protected Map<String, String> getParams() {
+                Map<String, String> params = new HashMap<>();
+                String token = "azerty77";//FirebaseInstanceId.getInstance().getToken();
+
+                String signature = Utilities.md5(socialID + email + fname + lname + socialNetworkID + token + deviceID + "vZ!m@73@tH*c2jPV4Z2");
+                params.put("socialID", socialID);
+                params.put("email", email);
+                params.put("firstName", fname);
+                params.put("lastName", lname);
+                params.put("socialNetworkID", String.valueOf(socialNetworkID));
+                params.put("token", token);
+                params.put("deviceID", String.valueOf(deviceID));
+                params.put("signature", signature);
+
+                return params;
+            }
+        };
+        queue.add(postRequest);
+
+    }
+
+    public void addAddress(final Address address) {
         RequestQueue queue = Volley.newRequestQueue(context);
         String url = Config.server + "Address/addAddress.php";
         final int userID = User.getInstance().getId();
