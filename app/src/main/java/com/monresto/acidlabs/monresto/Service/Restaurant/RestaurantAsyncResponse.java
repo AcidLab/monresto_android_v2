@@ -8,8 +8,6 @@ import java.util.ArrayList;
 
 public interface RestaurantAsyncResponse {
     void onListReceived(ArrayList<Restaurant> restaurantList);
-    void onDetailsReceived(Restaurant restaurant);
     void onMenusReceived(ArrayList<Menu> menus);
-    void onDishesReceived(ArrayList<Dish> dishes);
     void onDishesReceived(ArrayList<Dish> dishes, Menu menu);
 }

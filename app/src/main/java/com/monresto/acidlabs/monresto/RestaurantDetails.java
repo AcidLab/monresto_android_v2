@@ -130,11 +130,6 @@ public class RestaurantDetails extends AppCompatActivity implements RestaurantAs
     }
 
     @Override
-    public void onDetailsReceived(Restaurant restaurant) {
-
-    }
-
-    @Override
     public void onMenusReceived(ArrayList<Menu> menus) {
         MenusList = new ArrayList<String>();
         MenusList.add("Informations");
@@ -151,10 +146,6 @@ public class RestaurantDetails extends AppCompatActivity implements RestaurantAs
         }
 
         Titles = MenusList.toArray(new CharSequence[MenusList.size()]);
-    }
-
-    @Override
-    public void onDishesReceived(ArrayList<Dish> dishes) {
     }
 
     @Override

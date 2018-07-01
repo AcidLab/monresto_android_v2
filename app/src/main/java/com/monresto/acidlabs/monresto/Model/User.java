@@ -22,10 +22,16 @@ public class User {
     private String comment;
     private ArrayList<Address> addresses;
 
-    public User(String login, String password, String password_confirm, String email, String fname, String lname, String civility, String phone, String mobile, String comment, ArrayList<Address> addresses) {
+    public User(int id, String email, String fname, String lname) {
+        this.id = id;
+        this.email = email;
+        this.fname = fname;
+        this.lname = lname;
+    }
+
+    public User(int id, String login, String email, String fname, String lname, String civility, String phone, String mobile, String comment, ArrayList<Address> addresses) {
+        this.id = id;
         this.login = login;
-        this.password = password;
-        this.password_confirm = password_confirm;
         this.email = email;
         this.fname = fname;
         this.lname = lname;
@@ -61,7 +67,7 @@ public class User {
             obj.put("firstName", fname);
             obj.put("lastName", lname);
             obj.put("civility", String.valueOf(civility));
-            obj.put("email", phone);
+            obj.put("email", email);
             obj.put("phone",phone );
             obj.put("mobile", mobile);
             obj.put("commentaire", comment);
