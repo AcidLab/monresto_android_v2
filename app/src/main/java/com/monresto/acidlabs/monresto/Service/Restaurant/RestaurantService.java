@@ -17,6 +17,7 @@ import com.monresto.acidlabs.monresto.Model.Dish;
 import com.monresto.acidlabs.monresto.Model.FAQ;
 import com.monresto.acidlabs.monresto.Model.Menu;
 import com.monresto.acidlabs.monresto.Model.Restaurant;
+import com.monresto.acidlabs.monresto.Model.User;
 import com.monresto.acidlabs.monresto.Service.FAQ.FAQAsyncResponse;
 import com.monresto.acidlabs.monresto.Utilities;
 
@@ -37,8 +38,8 @@ public class RestaurantService {
 
     public void getAll(final double _lat, final double _lon) {
         //TODO: remove after tests
-        final double lat = 36.8633466;
-        final double lon = 10.1935078;
+        final double lat = 36.849109;
+        final double lon = 10.166124;
 
         final ArrayList<Restaurant> RestaurantList = new ArrayList<>();
 
@@ -86,7 +87,7 @@ public class RestaurantService {
 
     }
 
-    public void getMenus(final int id){
+    public void getMenus(final int id) {
         final ArrayList<Menu> menusList = new ArrayList<>();
         RequestQueue queue = Volley.newRequestQueue(context);
         String url = Config.server + "Restaurant/menu.php";
@@ -128,7 +129,7 @@ public class RestaurantService {
         queue.add(postRequest);
     }
 
-    public void getDishes(final int restoID, final Menu menu){
+    public void getDishes(final int restoID, final Menu menu) {
         final ArrayList<Dish> dishesList = new ArrayList<>();
         RequestQueue queue = Volley.newRequestQueue(context);
         String url = Config.server + "Restaurant/subMenu.php";
@@ -159,9 +160,7 @@ public class RestaurantService {
         ) {
             @Override
             protected Map<String, String> getParams() {
-                //TODO: change after implementing user
-                int userID = 0;
-
+                int userID = User.getInstance().getId();
                 Map<String, String> params = new HashMap<>();
                 String signature = Utilities.md5("" + userID + restoID + menu.getId() + Config.sharedKey);
                 params.put("userID", String.valueOf(userID));
@@ -175,4 +174,85 @@ public class RestaurantService {
         queue.add(postRequest);
     }
 
+    public void getComposedDish(final Dish dish){
+        final int dishID = dish.getId();
+        RequestQueue queue = Volley.newRequestQueue(context);
+        String url = Config.server + "Restaurant/composedDish.php";
+        StringRequest postRequest = new StringRequest(Request.Method.POST, url,
+                new Response.Listener<String>() {
+                    @Override
+                    public void onResponse(String response) {
+                        try {
+                            JSONObject jsonResponse = new JSONObject(response);
+                            JSONObject jsonComposed = jsonResponse.getJSONObject("Composed");
+                            JSONArray jsonDimensions = jsonComposed.getJSONArray("Dimensions");
+                            JSONArray jsonComponents = jsonComposed.getJSONArray("Components");
+
+                            for (int i = 0; i < jsonDimensions.length(); i++) {
+                                JSONObject dimensionObject = jsonDimensions.getJSONObject(i);
+                                dish.addDimension(dimensionObject.optInt("dimensionID"), dimensionObject.optString("title"), dimensionObject.optDouble("price"));
+                            }
+                            for (int i = 0; i < jsonComponents.length(); i++) {
+                                JSONObject componentObject = jsonDimensions.getJSONObject(i);
+                                dish.addComponent(componentObject.optInt("componentID"), componentObject.optString("componentName"), componentObject.optInt("numberChoice"), componentObject.optInt("numberChoiceMax"));
+                            }
+                            ((RestaurantAsyncResponse) context).onComposedDishReceived(dish);
+                        } catch (JSONException e) {
+                            e.printStackTrace();
+                        }
+                    }
+                },
+                new Response.ErrorListener() {
+                    @Override
+                    public void onErrorResponse(VolleyError error) {
+                        // error
+                    }
+                }
+        ) {
+            @Override
+            protected Map<String, String> getParams() {
+                Map<String, String> params = new HashMap<>();
+                String signature = Utilities.md5("" + dishID + Config.sharedKey);
+                params.put("dishID", String.valueOf(dishID));
+                params.put("signature", signature);
+
+                return params;
+            }
+        };
+        queue.add(postRequest);
+    }
+
+    public void addToFavorites(final int dishID, final boolean favorite) {
+        //userID , dishID , isFavorite, signature
+        final int userID = User.getInstance().getId();
+        RequestQueue queue = Volley.newRequestQueue(context);
+        String url = Config.server + "Restaurant/addFavoriteDish.php";
+        StringRequest postRequest = new StringRequest(Request.Method.POST, url,
+                new Response.Listener<String>() {
+                    @Override
+                    public void onResponse(String response) {
+
+                    }
+                },
+                new Response.ErrorListener() {
+                    @Override
+                    public void onErrorResponse(VolleyError error) {
+
+                    }
+                }
+        ) {
+            @Override
+            protected Map<String, String> getParams() {
+                Map<String, String> params = new HashMap<>();
+                String signature = Utilities.md5("" + userID + dishID + (favorite ? 1 : 0) + Config.sharedKey);
+                params.put("userID", String.valueOf(userID));
+                params.put("dishID", String.valueOf(dishID));
+                params.put("isFavorite", String.valueOf((favorite ? 1 : 0)));
+                params.put("signature", signature);
+
+                return params;
+            }
+        };
+        queue.add(postRequest);
+    }
 }

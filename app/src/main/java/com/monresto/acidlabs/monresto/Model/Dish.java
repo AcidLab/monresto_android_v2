@@ -1,7 +1,11 @@
 package com.monresto.acidlabs.monresto.Model;
 
+import android.util.Log;
+
 import org.json.JSONArray;
 import org.json.JSONObject;
+
+import java.util.ArrayList;
 
 public class Dish {
     private int id;
@@ -23,6 +27,35 @@ public class Dish {
     private JSONArray paymentmethode;
     private int quantity;
 
+    private class Dimension {
+        int dimensionID;
+        String title;
+        double price;
+
+        public Dimension(int dimensionID, String title, double price) {
+            this.dimensionID = dimensionID;
+            this.title = title;
+            this.price = price;
+        }
+    }
+
+    private class Component {
+        int componentID;
+        String name;
+        int numberChoice;
+        int numberChoiceMax;
+
+        public Component(int componentID, String name, int numberChoice, int numberChoiceMax) {
+            this.componentID = componentID;
+            this.name = name;
+            this.numberChoice = numberChoice;
+            this.numberChoiceMax = numberChoiceMax;
+        }
+    }
+
+    ArrayList<Dimension> dimensions;
+    ArrayList<Component> components;
+
     private Dish(int id, String title, String description, double price, String promotion, String tva, boolean isOrdered, boolean isFavorite, boolean isComposed, String imagePath) {
         this.id = id;
         this.title = title;
@@ -34,9 +67,17 @@ public class Dish {
         this.isFavorite = isFavorite;
         this.isComposed = isComposed;
         this.imagePath = imagePath;
+
+        if (isComposed) {
+            dimensions = new ArrayList<>();
+            components = new ArrayList<>();
+        }
     }
 
-    public static Dish createFromJson(JSONObject obj){
+    public static Dish createFromJson(JSONObject obj) {
+        if (obj.optInt("isComposed") != 0) {
+            Log.d("DISH", "createFromJson: " + obj.optInt("dishID"));
+        }
         return new Dish(obj.optInt("dishID"), obj.optString("title"), obj.optString("description"),
                 obj.optDouble("price"), obj.optString("promotion"), obj.optString("tva"),
                 obj.optInt("isOrdered") != 0, obj.optInt("isFavorite") != 0, obj.optInt("isComposed") != 0,
@@ -81,5 +122,21 @@ public class Dish {
 
     public String getImagePath() {
         return imagePath;
+    }
+
+    public void addDimension(int id, String title, double price) {
+        dimensions.add(new Dimension(id, title, price));
+    }
+
+    public void addComponent(int componentID, String name, int numberChoice, int numberChoiceMax) {
+        components.add(new Component(componentID, name, numberChoice, numberChoiceMax));
+    }
+
+    public ArrayList<Dimension> getDimensions() {
+        return dimensions;
+    }
+
+    public ArrayList<Component> getComponents() {
+        return components;
     }
 }

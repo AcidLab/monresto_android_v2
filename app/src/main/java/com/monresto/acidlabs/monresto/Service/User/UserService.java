@@ -111,7 +111,6 @@ public class UserService {
         ) {
             @Override
             protected Map<String, String> getParams() {
-                //TODO: password encryption ?
                 Map<String, String> params = new HashMap<>();
                 String token = "kento";//FirebaseInstanceId.getInstance().getToken();
 
@@ -180,6 +179,48 @@ public class UserService {
         };
         queue.add(postRequest);
 
+    }
+
+    public void getDetails(final int id) {
+        RequestQueue queue = Volley.newRequestQueue(context);
+        String url = Config.server + "User/userDetails.php";
+        StringRequest postRequest = new StringRequest(Request.Method.POST, url,
+                new Response.Listener<String>() {
+                    @Override
+                    public void onResponse(String response) {
+                        try {
+                            JSONObject jsonResponse = new JSONObject(response);
+                            int status = jsonResponse.getInt("Status");
+                            if (status != 0) {
+                                JSONObject clientObject = jsonResponse.optJSONObject("User");
+                                User user = new User(id, clientObject.optString("login"), clientObject.optString("email"), clientObject.optString("firstName"), clientObject.optString("lastName"), clientObject.optString("civility"), clientObject.optString("phone"), clientObject.optString("mobile"), "", null);
+                                //((UserAsyncResponse) context).onUserLogin(user);
+                            }
+                        } catch (JSONException e) {
+                            e.printStackTrace();
+                        }
+                    }
+                },
+                new Response.ErrorListener() {
+                    @Override
+                    public void onErrorResponse(VolleyError error) {
+                        // error
+                    }
+                }
+        ) {
+            @Override
+            protected Map<String, String> getParams() {
+                Map<String, String> params = new HashMap<>();
+                String token = "kento";//FirebaseInstanceId.getInstance().getToken();
+
+                String signature = Utilities.md5(id + Config.sharedKey);
+                params.put("userID", String.valueOf(id));
+                params.put("signature", signature);
+
+                return params;
+            }
+        };
+        queue.add(postRequest);
     }
 
     public void addAddress(final Address address) {

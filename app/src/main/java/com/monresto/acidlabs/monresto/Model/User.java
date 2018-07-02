@@ -48,6 +48,9 @@ public class User {
     }
 
     public static User getInstance() {
+        if(instance==null){
+            instance = new User(0, "user@u.co", "John", "Doe");
+        }
         return instance;
     }
 
