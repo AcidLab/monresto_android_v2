@@ -29,10 +29,10 @@ import java.security.MessageDigest;
 import java.security.NoSuchAlgorithmException;
 import java.util.Arrays;
 
+//Fb login test
 public class FacebookActivity extends AppCompatActivity implements UserAsyncResponse {
     CallbackManager callbackManager;
     UserService userService;
-
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
