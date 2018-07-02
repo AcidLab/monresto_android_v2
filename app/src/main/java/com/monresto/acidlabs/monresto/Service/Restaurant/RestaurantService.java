@@ -175,6 +175,8 @@ public class RestaurantService {
     }
 
     public void getComposedDish(final Dish dish){
+        if(!dish.isComposed())
+            return;
         final int dishID = dish.getId();
         RequestQueue queue = Volley.newRequestQueue(context);
         String url = Config.server + "Restaurant/composedDish.php";
@@ -194,7 +196,13 @@ public class RestaurantService {
                             }
                             for (int i = 0; i < jsonComponents.length(); i++) {
                                 JSONObject componentObject = jsonDimensions.getJSONObject(i);
-                                dish.addComponent(componentObject.optInt("componentID"), componentObject.optString("componentName"), componentObject.optInt("numberChoice"), componentObject.optInt("numberChoiceMax"));
+                                JSONArray jsonOptions = componentObject.getJSONArray("Options");
+                                ArrayList<Dish.Component.Option> options = new ArrayList<>();
+                                for(int j=0; j<jsonOptions.length(); j++){
+                                    JSONObject optionObject = jsonDimensions.getJSONObject(j);
+                                    options.add(new Dish.Component.Option(optionObject.optInt("optionID"), optionObject.optString("optionTitle"), optionObject.optDouble("optionPrice")));
+                                }
+                                dish.addComponent(componentObject.optInt("componentID"), componentObject.optString("componentName"), componentObject.optInt("numberChoice"), componentObject.optInt("numberChoiceMax"), options);
                             }
                             ((RestaurantAsyncResponse) context).onComposedDishReceived(dish);
                         } catch (JSONException e) {

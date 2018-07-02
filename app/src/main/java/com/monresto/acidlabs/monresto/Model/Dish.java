@@ -28,28 +28,67 @@ public class Dish {
     private int quantity;
 
     private class Dimension {
-        int dimensionID;
+        int id;
         String title;
         double price;
 
-        public Dimension(int dimensionID, String title, double price) {
-            this.dimensionID = dimensionID;
+        Dimension(int dimensionID, String title, double price) {
+            this.id = dimensionID;
             this.title = title;
             this.price = price;
         }
+
+        public int getId() {
+            return id;
+        }
+
+        public String getTitle() {
+            return title;
+        }
+
+        public double getPrice() {
+            return price;
+        }
     }
 
-    private class Component {
-        int componentID;
+    public static class Component {
+        int id;
         String name;
         int numberChoice;
         int numberChoiceMax;
 
-        public Component(int componentID, String name, int numberChoice, int numberChoiceMax) {
-            this.componentID = componentID;
+        public static class Option{
+            int id;
+            String title;
+            double price;
+
+            public Option(int id, String title, double price) {
+                this.id = id;
+                this.title = title;
+                this.price = price;
+            }
+
+            public int getId() {
+                return id;
+            }
+
+            public String getTitle() {
+                return title;
+            }
+
+            public double getPrice() {
+                return price;
+            }
+        }
+
+        ArrayList<Option> options;
+
+        public Component(int id, String name, int numberChoice, int numberChoiceMax, ArrayList<Option> options) {
+            this.id = id;
             this.name = name;
             this.numberChoice = numberChoice;
             this.numberChoiceMax = numberChoiceMax;
+            this.options = options;
         }
     }
 
@@ -128,8 +167,8 @@ public class Dish {
         dimensions.add(new Dimension(id, title, price));
     }
 
-    public void addComponent(int componentID, String name, int numberChoice, int numberChoiceMax) {
-        components.add(new Component(componentID, name, numberChoice, numberChoiceMax));
+    public void addComponent(int componentID, String name, int numberChoice, int numberChoiceMax, ArrayList<Component.Option> options) {
+        components.add(new Component(componentID, name, numberChoice, numberChoiceMax, options));
     }
 
     public ArrayList<Dimension> getDimensions() {
@@ -139,4 +178,5 @@ public class Dish {
     public ArrayList<Component> getComponents() {
         return components;
     }
+
 }
