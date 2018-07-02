@@ -7,6 +7,7 @@ import android.support.v4.app.FragmentStatePagerAdapter;
 import com.monresto.acidlabs.monresto.Model.Dish;
 import com.monresto.acidlabs.monresto.Model.Menu;
 import com.monresto.acidlabs.monresto.Model.Restaurant;
+import com.monresto.acidlabs.monresto.Model.Review;
 
 import java.util.ArrayList;
 import java.util.HashMap;
@@ -19,14 +20,16 @@ public class RestaurantDetailsPager extends FragmentStatePagerAdapter {
     int NumbOfTabs; // Store the number of tabs, this will also be passed when the ViewPagerAdapter is created
     Restaurant restaurant;
     HashMap<Menu, ArrayList<Dish>> dishes = new HashMap<Menu, ArrayList<Dish>>();
+    ArrayList<Review> reviews;
 
     // Build a Constructor and assign the passed Values to appropriate values in the class
-    public RestaurantDetailsPager(FragmentManager fm, CharSequence mTitles[], int mNumbOfTabsumb, Restaurant restaurant, HashMap<Menu, ArrayList<Dish>> dishes) {
+    public RestaurantDetailsPager(FragmentManager fm, CharSequence mTitles[], int mNumbOfTabsumb, Restaurant restaurant, HashMap<Menu, ArrayList<Dish>> dishes, ArrayList<Review> reviews) {
         super(fm);
         this.restaurant = restaurant;
         this.Titles = mTitles;
         this.NumbOfTabs = mNumbOfTabsumb;
         this.dishes = dishes;
+        this.reviews = reviews;
     }
 
     //This method return the fragment for the every position in the View Pager
@@ -35,7 +38,7 @@ public class RestaurantDetailsPager extends FragmentStatePagerAdapter {
 
         if (position == 0) // if the position is 0 we are returning the First tab
         {
-            FragmentRestaurantDetails firstTab = new FragmentRestaurantDetails(restaurant);
+            FragmentRestaurantDetails firstTab = new FragmentRestaurantDetails(restaurant, reviews);
             return firstTab;
         } else              // Tabs reserved for dishes
         {

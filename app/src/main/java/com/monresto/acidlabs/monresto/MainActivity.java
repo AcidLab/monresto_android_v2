@@ -94,4 +94,9 @@ public class MainActivity extends AppCompatActivity implements RestaurantAsyncRe
     public void onDishesReceived(ArrayList<Dish> dishes, Menu menu) {
 
     }
+
+    @Override
+    public void onComposedDishReceived(Dish dish) {
+
+    }
 }

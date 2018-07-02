@@ -12,8 +12,13 @@ import android.widget.ImageView;
 import android.widget.TextView;
 
 import com.monresto.acidlabs.monresto.Model.Restaurant;
+import com.monresto.acidlabs.monresto.Model.Review;
+import com.monresto.acidlabs.monresto.Service.Restaurant.RestaurantAsyncResponse;
+import com.monresto.acidlabs.monresto.Service.Review.ReviewAsyncResponse;
 import com.monresto.acidlabs.monresto.Service.Review.ReviewService;
 import com.squareup.picasso.Picasso;
+
+import java.util.ArrayList;
 
 import butterknife.BindView;
 
@@ -25,9 +30,11 @@ public class FragmentRestaurantDetails extends Fragment {
     TextView rating;
     TextView price;
     TextView delivery_price;
+    ArrayList<Review> reviews;
 
-    public FragmentRestaurantDetails(Restaurant restaurant) {
+    public FragmentRestaurantDetails(Restaurant restaurant, ArrayList<Review> reviews) {
         this.restaurant = restaurant;
+        this.reviews = reviews;
     }
 
     @Nullable
@@ -38,15 +45,24 @@ public class FragmentRestaurantDetails extends Fragment {
         // Binding views
         dish_bg = (ImageView) v.findViewById(R.id.dish_bg_id);
         rating = (TextView) v.findViewById(R.id.rating_id);
-        price = (TextView) v.findViewById(R.id.price_id);
         delivery_price = (TextView) v.findViewById(R.id.delivery_id);
 
         // Assigning values
         Picasso.get().load(restaurant.getImage()).into(dish_bg);
-        rating.setText(restaurant.getRate() + " ★ (" + restaurant.getNbrAvis() + " avis)");
-        price.setText(Double.toString(restaurant.getMinimalPrice()) + " DT");
-        delivery_price.setText(restaurant.getEstimatedTime() + " minutes à " + Double.toString(restaurant.getDeliveryCost()) + " DT");
 
+
+        for(int i=0; i<Math.round(restaurant.getRate()); i++) {
+            int resID = v.getResources().getIdentifier("avis_id_"+i, "id", v.getContext().getPackageName());
+            Picasso.get().load(R.drawable.star_filled).into((ImageView) v.findViewById(resID));
+        }
+            rating.setText("(" + restaurant.getNbrAvis() + " avis)");
+        delivery_price.setText(restaurant.getEstimatedTime() + " minutes | " + Double.toString(restaurant.getDeliveryCost()) + " DT");
+
+        System.out.println("Restaurant open time: " + restaurant.getBeginMorning());
+        System.out.println("Restaurant open day: " + restaurant.getOpenDay());
+
+        for (int i = 0; i< reviews.size(); i++)
+            System.out.println("REVIWEEEEEEEEEEEEEE: " + reviews.get(i).getClientname());
         return v;
     }
 
@@ -54,4 +70,5 @@ public class FragmentRestaurantDetails extends Fragment {
     public void onCreate(@Nullable Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
     }
+
 }

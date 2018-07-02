@@ -11,6 +11,7 @@ import android.view.MenuItem;
 import android.view.View;
 import android.widget.ImageView;
 import android.widget.TextView;
+
 import butterknife.BindView;
 import butterknife.ButterKnife;
 
@@ -20,6 +21,8 @@ import com.monresto.acidlabs.monresto.Model.Restaurant;
 import com.monresto.acidlabs.monresto.Model.Review;
 import com.monresto.acidlabs.monresto.Service.Restaurant.RestaurantAsyncResponse;
 import com.monresto.acidlabs.monresto.Service.Restaurant.RestaurantService;
+import com.monresto.acidlabs.monresto.Service.Review.ReviewAsyncResponse;
+import com.monresto.acidlabs.monresto.Service.Review.ReviewService;
 import com.squareup.picasso.Picasso;
 
 
@@ -27,7 +30,7 @@ import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 
-public class RestaurantDetailsActivity extends AppCompatActivity implements RestaurantAsyncResponse {
+public class RestaurantDetailsActivity extends AppCompatActivity implements RestaurantAsyncResponse, ReviewAsyncResponse {
 
     @BindView(R.id.toolbar)
     Toolbar toolbar;
@@ -49,9 +52,11 @@ public class RestaurantDetailsActivity extends AppCompatActivity implements Rest
     RestaurantDetailsPager adapter;
     List<String> MenusList;
     CharSequence Titles[];
-    RestaurantService service;
 
-    HashMap<Menu, ArrayList<Dish>> dishes = new HashMap<Menu,ArrayList<Dish>>();
+    RestaurantService service;
+    ReviewService reviewService;
+
+    HashMap<Menu, ArrayList<Dish>> dishes = new HashMap<Menu, ArrayList<Dish>>();
 
     Restaurant restaurant;
     ArrayList<Review> reviews;
@@ -82,7 +87,7 @@ public class RestaurantDetailsActivity extends AppCompatActivity implements Rest
         // TODO: 30-Jun-18  GET REVIEWS AND PASS THEM TO PAGER
     }
 
-    void setUpClick(){
+    void setUpClick() {
         fab.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
@@ -91,8 +96,8 @@ public class RestaurantDetailsActivity extends AppCompatActivity implements Rest
         });
     }
 
-    void setUpTabs(){
-        adapter =  new RestaurantDetailsPager(this.getSupportFragmentManager(),Titles,Titles.length, restaurant, dishes);
+    void setUpTabs() {
+        adapter = new RestaurantDetailsPager(this.getSupportFragmentManager(), Titles, Titles.length, restaurant, dishes, reviews);
         pager.setAdapter(adapter);
         tabs.setupWithViewPager(pager);
     }
@@ -130,8 +135,8 @@ public class RestaurantDetailsActivity extends AppCompatActivity implements Rest
         MenusList = new ArrayList<String>();
         MenusList.add("Informations");
 
-        for(int j=0; j < menus.size(); j++){
-            dishes.put(menus.get(j),null);
+        for (int j = 0; j < menus.size(); j++) {
+            dishes.put(menus.get(j), null);
 
             MenusList.add(Utilities.decodeUTF(menus.get(j).getTitle()));
 
@@ -154,7 +159,20 @@ public class RestaurantDetailsActivity extends AppCompatActivity implements Rest
         this.dishes.put(fixedMenu, dishes);
 
 
-        if(this.dishes.size() == MenusList.size()-1)
-            setUpTabs();
+        if (this.dishes.size() == MenusList.size() - 1) {
+            reviewService = new ReviewService(this);
+            reviewService.getAll(restaurant.getId());
+        }
+    }
+
+    @Override
+    public void onComposedDishReceived(Dish dish) {
+
+    }
+
+    @Override
+    public void onReviewsReceived(ArrayList<Review> ReviewList) {
+        reviews = ReviewList;
+        setUpTabs();
     }
 }

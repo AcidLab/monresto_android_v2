@@ -45,7 +45,6 @@ public class RecyclerViewAdapter extends RecyclerView.Adapter<RecyclerViewAdapte
         viewHolder.restaurantItem.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                Toast.makeText(context,"Restaurant number: "+viewHolder.getAdapterPosition(),Toast.LENGTH_SHORT).show();
                 Intent intent = new Intent(context, RestaurantDetailsActivity.class);
                 // Pass data object in the bundle and populate details activity.
                 intent.putExtra("restaurant",restaurants.get(viewHolder.getAdapterPosition()));
@@ -67,6 +66,8 @@ public class RecyclerViewAdapter extends RecyclerView.Adapter<RecyclerViewAdapte
     @Override
     public void onBindViewHolder(@NonNull ViewHolder viewHolder, int i) {
         final Restaurant restaurantItem = restaurants.get(i);
+
+        System.out.println("STORE: " + restaurants.get(i).getName());
 
         viewHolder.storeName.setText(restaurants.get(i).getName());
         viewHolder.storeState.setText(restaurants.get(i).getState());
