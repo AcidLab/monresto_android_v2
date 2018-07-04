@@ -1,6 +1,7 @@
 package com.monresto.acidlabs.monresto.Service.User;
 
 import android.content.Context;
+import android.content.SharedPreferences;
 import android.util.Log;
 
 import com.android.volley.Request;
@@ -134,6 +135,13 @@ public class UserService {
             }
         };
         queue.add(postRequest);
+    }
+
+    public void login(final String login, final String password, SharedPreferences sharedPref) {
+        SharedPreferences.Editor editor = sharedPref.edit();
+        editor.putString("login", login);
+        editor.putString("password", password);
+        editor.apply();
     }
 
     public void facebookLogin(final String socialID, final String email, final String fname, final String lname) {
