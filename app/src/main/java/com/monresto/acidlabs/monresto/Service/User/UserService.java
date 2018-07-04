@@ -12,6 +12,7 @@ import com.android.volley.toolbox.Volley;
 import com.google.firebase.iid.FirebaseInstanceId;
 import com.monresto.acidlabs.monresto.Config;
 import com.monresto.acidlabs.monresto.Model.Address;
+import com.monresto.acidlabs.monresto.Model.ShoppingCart;
 import com.monresto.acidlabs.monresto.Model.User;
 import com.monresto.acidlabs.monresto.Utilities;
 
@@ -269,5 +270,59 @@ public class UserService {
             }
         };
         queue.add(postRequest);
+    }
+
+    //Not finished
+    public void submitOrders(final int userID, final int addressID, final int partnerID){
+        //TODO: return if user is null
+        //TODO: correct missing assignments (?type, ?numtransm, ?optionOrderID, time, date, promo)
+        final JSONArray orders = ShoppingCart.getInstance().getOrdersJson();
+        final int paymentID = 1; //Only payment accepted for now
+        final int type = 0;
+        final JSONArray voucher = new JSONArray();
+        final int numtrans = 0;
+        final int optionOrderID = 1;
+        final String time = "";
+        final String date = "";
+        final int promo = 0;
+        final String signature = Utilities.md5("" + userID + addressID + partnerID + paymentID + type + numtrans + optionOrderID + time + date + promo + Config.sharedKey);
+
+        RequestQueue queue = Volley.newRequestQueue(context);
+        String url = Config.server + "User/purchaseOrder.php";
+        StringRequest postRequest = new StringRequest(Request.Method.POST, url,
+                new Response.Listener<String>() {
+                    @Override
+                    public void onResponse(String response) {
+
+                    }
+                },
+                new Response.ErrorListener() {
+                    @Override
+                    public void onErrorResponse(VolleyError error) {
+                        // error
+                    }
+                }
+        ) {
+            @Override
+            protected Map<String, String> getParams() {
+                Map<String, String> params = new HashMap<>();
+
+                params.put("userID", String.valueOf(userID));
+                params.put("addressID", String.valueOf(addressID));
+                params.put("partnerID", String.valueOf(partnerID));
+                params.put("paymentID", String.valueOf(paymentID));
+                params.put("type", String.valueOf(type));
+                params.put("numtrans", String.valueOf(numtrans));
+                params.put("optionOrderID", String.valueOf(optionOrderID));
+                params.put("time", String.valueOf(time));
+                params.put("date", String.valueOf(date));
+                params.put("promo", String.valueOf(promo));
+                params.put("signature", signature);
+
+                return params;
+            }
+        };
+        queue.add(postRequest);
+
     }
 }

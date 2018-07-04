@@ -19,18 +19,19 @@ public class Dish {
     private boolean isComposed;
     private String imagePath;
 
+    private int restoID;
+
     private boolean isBay;
     private String ingredient;
-    private int restoID;
     private String restoname;
     private String restoimage;
     private JSONArray paymentmethode;
     private int quantity;
 
-    private class Dimension {
-        int id;
-        String title;
-        double price;
+    public class Dimension {
+        private int id;
+        private String title;
+        private double price;
 
         Dimension(int dimensionID, String title, double price) {
             this.id = dimensionID;
@@ -52,15 +53,15 @@ public class Dish {
     }
 
     public static class Component {
-        int id;
-        String name;
-        int numberChoice;
-        int numberChoiceMax;
+        private int id;
+        private String name;
+        private int numberChoice;
+        private int numberChoiceMax;
 
-        public static class Option{
-            int id;
-            String title;
-            double price;
+        public static class Option {
+            private int id;
+            private String title;
+            private double price;
 
             public Option(int id, String title, double price) {
                 this.id = id;
@@ -81,7 +82,7 @@ public class Dish {
             }
         }
 
-        ArrayList<Option> options;
+        private ArrayList<Option> options;
 
         public Component(int id, String name, int numberChoice, int numberChoiceMax, ArrayList<Option> options) {
             this.id = id;
@@ -90,13 +91,34 @@ public class Dish {
             this.numberChoiceMax = numberChoiceMax;
             this.options = options;
         }
+
+        public int getId() {
+            return id;
+        }
+
+        public String getName() {
+            return name;
+        }
+
+        public int getNumberChoice() {
+            return numberChoice;
+        }
+
+        public int getNumberChoiceMax() {
+            return numberChoiceMax;
+        }
+
+        public ArrayList<Option> getOptions() {
+            return options;
+        }
     }
 
     ArrayList<Dimension> dimensions;
     ArrayList<Component> components;
 
-    private Dish(int id, String title, String description, double price, String promotion, String tva, boolean isOrdered, boolean isFavorite, boolean isComposed, String imagePath) {
+    private Dish(int id, int restoID, String title, String description, double price, String promotion, String tva, boolean isOrdered, boolean isFavorite, boolean isComposed, String imagePath) {
         this.id = id;
+        this.restoID = restoID;
         this.title = title;
         this.description = description;
         this.price = price;
@@ -117,7 +139,7 @@ public class Dish {
         if (obj.optInt("isComposed") != 0) {
             Log.d("DISH", "createFromJson: " + obj.optInt("dishID"));
         }
-        return new Dish(obj.optInt("dishID"), obj.optString("title"), obj.optString("description"),
+        return new Dish(obj.optInt("dishID"), obj.optInt("restoID"), obj.optString("title"), obj.optString("description"),
                 obj.optDouble("price"), obj.optString("promotion"), obj.optString("tva"),
                 obj.optInt("isOrdered") != 0, obj.optInt("isFavorite") != 0, obj.optInt("isComposed") != 0,
                 obj.optString("imagePath"));
@@ -125,6 +147,10 @@ public class Dish {
 
     public int getId() {
         return id;
+    }
+
+    public int getRestoID() {
+        return restoID;
     }
 
     public String getTitle() {
