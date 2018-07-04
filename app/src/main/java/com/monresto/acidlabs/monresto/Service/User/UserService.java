@@ -23,6 +23,8 @@ import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.Map;
 
+//TODO: get Firebase token
+
 public class UserService {
     private Context context;
 
@@ -39,7 +41,6 @@ public class UserService {
 
         RequestQueue queue = Volley.newRequestQueue(context);
         String url = Config.server + "User/Register.php";
-        //String url = "http://41.231.54.20/jibly/api/User/register.php";
         StringRequest postRequest = new StringRequest(Request.Method.POST, url,
                 new Response.Listener<String>() {
                     @Override
@@ -81,6 +82,13 @@ public class UserService {
         queue.add(postRequest);
     }
 
+    /**
+     *
+     * @param login user login
+     * @param password user password
+     *
+     * onUserLogin should call for getDetails with login parameter true
+     */
     public void login(final String login, final String password) {
         RequestQueue queue = Volley.newRequestQueue(context);
         String url = Config.server + "User/Login.php";
@@ -94,8 +102,8 @@ public class UserService {
                             int status = clientObject.getInt("Status");
                             if (status != 0) {
                                 int id = clientObject.optInt("userID");
-                                //User user = new User(id, login, email, fname, lname, civility, phone, mobile, comment, addresses);
-                                //((UserAsyncResponse) context).onUserLogin(user);
+                                User user = new User(id, login, "", "", "", "", "", "", "", null);
+                                ((UserAsyncResponse) context).onUserLogin(user);
                             }
                         } catch (JSONException e) {
                             e.printStackTrace();
@@ -181,7 +189,12 @@ public class UserService {
 
     }
 
-    public void getDetails(final int id) {
+    /**
+     *
+     * @param id user's id
+     * @param login is true when user details are requested after login
+     */
+    public void getDetails(final int id, final boolean login) {
         RequestQueue queue = Volley.newRequestQueue(context);
         String url = Config.server + "User/userDetails.php";
         StringRequest postRequest = new StringRequest(Request.Method.POST, url,
@@ -194,7 +207,9 @@ public class UserService {
                             if (status != 0) {
                                 JSONObject clientObject = jsonResponse.optJSONObject("User");
                                 User user = new User(id, clientObject.optString("login"), clientObject.optString("email"), clientObject.optString("firstName"), clientObject.optString("lastName"), clientObject.optString("civility"), clientObject.optString("phone"), clientObject.optString("mobile"), "", null);
-                                //((UserAsyncResponse) context).onUserLogin(user);
+                                if(login)
+                                    User.setInstance(user);
+                                ((UserAsyncResponse) context).onUserDetailsReceived(user);
                             }
                         } catch (JSONException e) {
                             e.printStackTrace();
