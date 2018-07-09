@@ -17,6 +17,7 @@ import com.monresto.acidlabs.monresto.Model.Dish;
 import com.monresto.acidlabs.monresto.Model.FAQ;
 import com.monresto.acidlabs.monresto.Model.Menu;
 import com.monresto.acidlabs.monresto.Model.Restaurant;
+import com.monresto.acidlabs.monresto.Model.Speciality;
 import com.monresto.acidlabs.monresto.Model.User;
 import com.monresto.acidlabs.monresto.Service.FAQ.FAQAsyncResponse;
 import com.monresto.acidlabs.monresto.Utilities;
@@ -230,11 +231,11 @@ public class RestaurantService {
         queue.add(postRequest);
     }
 
-    public void addToFavorites(final int dishID, final boolean favorite) {
+    public void setFavorite(final int dishID, final boolean favorite) {
         //userID , dishID , isFavorite, signature
         final int userID = User.getInstance().getId();
         RequestQueue queue = Volley.newRequestQueue(context);
-        String url = Config.server + "Restaurant/addFavoriteDish.php";
+        String url = Config.server + "User/addFavoriteDish.php";
         StringRequest postRequest = new StringRequest(Request.Method.POST, url,
                 new Response.Listener<String>() {
                     @Override
@@ -262,5 +263,36 @@ public class RestaurantService {
             }
         };
         queue.add(postRequest);
+    }
+
+    public void getSpecialities(){
+        final int userID = User.getInstance().getId();
+        RequestQueue queue = Volley.newRequestQueue(context);
+        String url = Config.server + "Speciality/speciality.php";
+
+        JsonObjectRequest request = new JsonObjectRequest
+                (Request.Method.GET, url, null, new Response.Listener<JSONObject>() {
+                    @Override
+                    public void onResponse(JSONObject response) {
+                        try {
+                            ArrayList<Speciality> specialities = new ArrayList<>();
+                            JSONArray specialitiesJson = response.getJSONArray("Speciality");
+                            for (int i = 0; i < specialitiesJson.length(); i++) {
+                                JSONObject spec = specialitiesJson.getJSONObject(i);
+                                specialities.add(new Speciality(Integer.valueOf(spec.optString("specialityID")), spec.optString("specialityName")));
+                            }
+                            ((RestaurantAsyncResponse)context).onSpecialitiesReceived(specialities);
+                        } catch (JSONException e) {
+                            e.printStackTrace();
+                        }
+                    }
+                }, new Response.ErrorListener() {
+                    @Override
+                    public void onErrorResponse(VolleyError error) {
+                        // TODO: Handle error
+                    }
+                });
+
+        queue.add(request);
     }
 }
