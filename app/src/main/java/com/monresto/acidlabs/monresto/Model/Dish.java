@@ -185,6 +185,8 @@ public class Dish {
         return isComposed;
     }
 
+    public void setFavorite(boolean favorite) { isFavorite = favorite; }
+
     public String getImagePath() {
         return imagePath;
     }

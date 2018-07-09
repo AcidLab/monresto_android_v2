@@ -19,6 +19,7 @@ import com.monresto.acidlabs.monresto.Model.Dish;
 import com.monresto.acidlabs.monresto.Model.Menu;
 import com.monresto.acidlabs.monresto.Model.Restaurant;
 import com.monresto.acidlabs.monresto.Model.Review;
+import com.monresto.acidlabs.monresto.Model.Speciality;
 import com.monresto.acidlabs.monresto.Service.Restaurant.RestaurantAsyncResponse;
 import com.monresto.acidlabs.monresto.Service.Restaurant.RestaurantService;
 import com.monresto.acidlabs.monresto.Service.Review.ReviewAsyncResponse;
@@ -82,6 +83,7 @@ public class RestaurantDetailsActivity extends AppCompatActivity implements Rest
 
         // Get menus
         service = new RestaurantService(this);
+        System.out.println("SPECIAL DEBUG: Getting menus...");
         service.getMenus(restaurant.getId());
 
         // TODO: 30-Jun-18  GET REVIEWS AND PASS THEM TO PAGER
@@ -132,6 +134,8 @@ public class RestaurantDetailsActivity extends AppCompatActivity implements Rest
 
     @Override
     public void onMenusReceived(ArrayList<Menu> menus) {
+        System.out.println("SPECIAL DEBUG: Menus received !");
+
         MenusList = new ArrayList<String>();
         MenusList.add("Informations");
 
@@ -140,9 +144,9 @@ public class RestaurantDetailsActivity extends AppCompatActivity implements Rest
 
             MenusList.add(Utilities.decodeUTF(menus.get(j).getTitle()));
 
-            System.out.println("Just added to the menus: " + menus.get(j).getTitle());
-
             // Generate dishes according to menu
+            System.out.println("SPECIAL DEBUG: Menu added to tab, getting dishes...");
+
             service.getDishes(restaurant.getId(), menus.get(j));
         }
 
@@ -151,6 +155,8 @@ public class RestaurantDetailsActivity extends AppCompatActivity implements Rest
 
     @Override
     public void onDishesReceived(ArrayList<Dish> dishes, Menu menu) {
+        System.out.println("SPECIAL DEBUG: Dishes received !");
+
         // Fixing special characters for MENUS
         Menu fixedMenu = menu;
         fixedMenu.setTitle(Utilities.decodeUTF(menu.getTitle()));
@@ -161,6 +167,11 @@ public class RestaurantDetailsActivity extends AppCompatActivity implements Rest
 
         if (this.dishes.size() == MenusList.size() - 1) {
             reviewService = new ReviewService(this);
+
+            System.out.println("SPECIAL DEBUG: Getting reviews for a dish...");
+
+            setUpTabs();
+
             reviewService.getAll(restaurant.getId());
         }
     }
@@ -171,8 +182,14 @@ public class RestaurantDetailsActivity extends AppCompatActivity implements Rest
     }
 
     @Override
+    public void onSpecialitiesReceived(ArrayList<Speciality> specialities) {
+
+    }
+
+    @Override
     public void onReviewsReceived(ArrayList<Review> ReviewList) {
+        System.out.println("SPECIAL DEBUG: Reviews received, setting tabs...");
         reviews = ReviewList;
-        setUpTabs();
+        adapter.notifyDataSetChanged();
     }
 }

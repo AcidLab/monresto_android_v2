@@ -1,5 +1,6 @@
 package com.monresto.acidlabs.monresto;
 
+import android.content.Context;
 import android.support.design.widget.Snackbar;
 import android.support.v7.widget.RecyclerView;
 import android.view.LayoutInflater;
@@ -9,6 +10,7 @@ import android.widget.ImageView;
 import android.widget.TextView;
 
 import com.monresto.acidlabs.monresto.Model.Dish;
+import com.monresto.acidlabs.monresto.Service.Restaurant.RestaurantService;
 import com.squareup.picasso.Picasso;
 
 import java.io.UnsupportedEncodingException;
@@ -21,9 +23,12 @@ import butterknife.ButterKnife;
 public class RestaurantDetailsAdapter extends RecyclerView.Adapter<RestaurantDetailsAdapter.ViewHolder> {
 
     private ArrayList<Dish> dishes;
+    private RestaurantService service;
+    private Context context;
 
-    public RestaurantDetailsAdapter(ArrayList<Dish> dishes) {
+    public RestaurantDetailsAdapter(ArrayList<Dish> dishes, Context context) {
         this.dishes = dishes;
+        this.context = context;
     }
 
     @Override
@@ -47,20 +52,28 @@ public class RestaurantDetailsAdapter extends RecyclerView.Adapter<RestaurantDet
 
         Picasso.get().load(dishes.get(position).getImagePath()).into(viewHolder.bg_img);
 
+        System.out.println("SPECIAL DEBUG: DISH FAVORITE: " + dishes.get(position).isFavorite());
+
         // Checks if dish is favorite
-        if (dishes.get(position).isFavorite())
+        if (dishes.get(position).isFavorite()) {
             Picasso.get().load(R.drawable.heart_filled).into(viewHolder.favorite_btn);
+            System.out.println("Dish " + dishes.get(position).getId() + " is favorite");
+        }
+
+        service = new RestaurantService(context);
 
         viewHolder.favorite_btn.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
                 if(dishes.get(position).isFavorite()) {
-                    //dishes.get(position).setFavorite(false);
+                    service.setFavorite(dishes.get(position).getId(), false);
+                    dishes.get(position).setFavorite(false);
                     Snackbar.make(view, "Dish ma3adech favorite :(", Snackbar.LENGTH_LONG).setAction("Action", null).show();
                     Picasso.get().load(R.drawable.heart_empty).into(viewHolder.favorite_btn);
                 }
                 else {
-                    //dishes.get(position).setFavorite(true);
+                    dishes.get(position).setFavorite(true);
+                    service.setFavorite(dishes.get(position).getId(), true);
                     Snackbar.make(view, "Dish normalement added to favorite ;D", Snackbar.LENGTH_LONG).setAction("Action", null).show();
                     Picasso.get().load(R.drawable.heart_filled).into(viewHolder.favorite_btn);
                 }

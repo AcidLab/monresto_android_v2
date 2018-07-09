@@ -48,7 +48,7 @@ public class FragmentDish extends Fragment {
 
     void setUPList(){
         recyclerView.setLayoutManager(new LinearLayoutManager(getActivity()));
-        RestaurantDetailsAdapter adapter = new RestaurantDetailsAdapter(createItemList());
+        RestaurantDetailsAdapter adapter = new RestaurantDetailsAdapter(createItemList(), this.getContext());
         recyclerView.setAdapter(adapter);
     }
 

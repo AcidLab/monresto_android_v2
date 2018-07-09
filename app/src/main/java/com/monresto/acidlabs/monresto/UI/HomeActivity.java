@@ -11,6 +11,7 @@ import com.google.android.gms.tasks.OnSuccessListener;
 import com.monresto.acidlabs.monresto.Model.Dish;
 import com.monresto.acidlabs.monresto.Model.Menu;
 import com.monresto.acidlabs.monresto.Model.Restaurant;
+import com.monresto.acidlabs.monresto.Model.Speciality;
 import com.monresto.acidlabs.monresto.Service.Restaurant.RestaurantAsyncResponse;
 import com.monresto.acidlabs.monresto.Service.Restaurant.RestaurantService;
 
@@ -58,6 +59,11 @@ public class HomeActivity extends AppCompatActivity implements RestaurantAsyncRe
 
     @Override
     public void onComposedDishReceived(Dish dish) {
+
+    }
+
+    @Override
+    public void onSpecialitiesReceived(ArrayList<Speciality> specialities) {
 
     }
 }

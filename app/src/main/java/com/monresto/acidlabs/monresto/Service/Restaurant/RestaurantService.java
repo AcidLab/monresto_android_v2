@@ -162,6 +162,8 @@ public class RestaurantService {
             @Override
             protected Map<String, String> getParams() {
                 int userID = User.getInstance().getId();
+                System.out.println("SPECIAL DEBUG: User involved is: " + userID);
+
                 Map<String, String> params = new HashMap<>();
                 String signature = Utilities.md5("" + userID + restoID + menu.getId() + Config.sharedKey);
                 params.put("userID", String.valueOf(userID));
@@ -240,7 +242,7 @@ public class RestaurantService {
                 new Response.Listener<String>() {
                     @Override
                     public void onResponse(String response) {
-
+                        System.out.println(response);
                     }
                 },
                 new Response.ErrorListener() {

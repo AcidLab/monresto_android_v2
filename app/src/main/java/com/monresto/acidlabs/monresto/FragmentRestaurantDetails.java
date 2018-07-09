@@ -58,11 +58,6 @@ public class FragmentRestaurantDetails extends Fragment {
             rating.setText("(" + restaurant.getNbrAvis() + " avis)");
         delivery_price.setText(restaurant.getEstimatedTime() + " minutes | " + Double.toString(restaurant.getDeliveryCost()) + " DT");
 
-        System.out.println("Restaurant open time: " + restaurant.getBeginMorning());
-        System.out.println("Restaurant open day: " + restaurant.getOpenDay());
-
-        for (int i = 0; i< reviews.size(); i++)
-            System.out.println("REVIWEEEEEEEEEEEEEE: " + reviews.get(i).getClientname());
         return v;
     }
 
