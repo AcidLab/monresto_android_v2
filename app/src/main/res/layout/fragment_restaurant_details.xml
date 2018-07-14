@@ -153,10 +153,8 @@
 
     <ListView
         android:id="@+id/listReviews"
-        android:layout_width="371dp"
+        android:layout_width="0dp"
         android:layout_height="186dp"
-        android:layout_marginLeft="20dp"
-        android:layout_marginRight="20dp"
         android:layout_marginTop="12dp"
         android:fadeScrollbars="true"
         android:scrollbars="vertical"
