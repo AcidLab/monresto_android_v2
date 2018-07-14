@@ -65,6 +65,13 @@ public class RestaurantDetailsAdapter extends RecyclerView.Adapter<RestaurantDet
         viewHolder.favorite_btn.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
+                dishes.get(position).setFavorite(true);
+                service.setFavorite(dishes.get(position).getId(), true);
+                Snackbar.make(view, "Ce plat a été ajouté aux favoris.", Snackbar.LENGTH_LONG).setAction("Action", null).show();
+                Picasso.get().load(R.drawable.heart_filled).into(viewHolder.favorite_btn);
+
+                /*
+                ///// To be re-enabled when they add "remove from favorite" to their webservice...
                 if(dishes.get(position).isFavorite()) {
                     service.setFavorite(dishes.get(position).getId(), false);
                     dishes.get(position).setFavorite(false);
@@ -72,11 +79,7 @@ public class RestaurantDetailsAdapter extends RecyclerView.Adapter<RestaurantDet
                     Picasso.get().load(R.drawable.heart_empty).into(viewHolder.favorite_btn);
                 }
                 else {
-                    dishes.get(position).setFavorite(true);
-                    service.setFavorite(dishes.get(position).getId(), true);
-                    Snackbar.make(view, "Dish normalement added to favorite ;D", Snackbar.LENGTH_LONG).setAction("Action", null).show();
-                    Picasso.get().load(R.drawable.heart_filled).into(viewHolder.favorite_btn);
-                }
+                }*/
             }
         });
     }

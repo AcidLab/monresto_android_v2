@@ -20,5 +20,5 @@
     <color name="material_blue_grey_90">#ff263238</color>
     <color name="material_blue_grey_95">#21272b</color>
     <color name="material_deep_teal_20">#ff80cbc4</color>
-    <color name="material_deep_teal_50">#ff009688</color>
+    <color name="material_deep_teal_50">#009688</color>
 </resources>

@@ -10,6 +10,7 @@ import android.support.v7.widget.Toolbar;
 import android.view.MenuItem;
 import android.view.View;
 import android.widget.ImageView;
+import android.widget.ListView;
 import android.widget.TextView;
 
 import butterknife.BindView;
@@ -62,6 +63,8 @@ public class RestaurantDetailsActivity extends AppCompatActivity implements Rest
     Restaurant restaurant;
     ArrayList<Review> reviews;
 
+    int filledDishes; // Used for stability and improvements
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -81,12 +84,12 @@ public class RestaurantDetailsActivity extends AppCompatActivity implements Rest
         storeName.setText(restaurant.getName());
         storeState.setText(restaurant.getState());
 
+        filledDishes = 0;
+
         // Get menus
         service = new RestaurantService(this);
         System.out.println("SPECIAL DEBUG: Getting menus...");
         service.getMenus(restaurant.getId());
-
-        // TODO: 30-Jun-18  GET REVIEWS AND PASS THEM TO PAGER
     }
 
     void setUpClick() {
@@ -155,7 +158,6 @@ public class RestaurantDetailsActivity extends AppCompatActivity implements Rest
 
     @Override
     public void onDishesReceived(ArrayList<Dish> dishes, Menu menu) {
-        System.out.println("SPECIAL DEBUG: Dishes received !");
 
         // Fixing special characters for MENUS
         Menu fixedMenu = menu;
@@ -164,16 +166,17 @@ public class RestaurantDetailsActivity extends AppCompatActivity implements Rest
 
         this.dishes.put(fixedMenu, dishes);
 
+        filledDishes++;
 
-        if (this.dishes.size() == MenusList.size() - 1) {
+        setUpTabs();
+
+        if (filledDishes == MenusList.size()-1)
+        {
+            System.out.println("SPECIAL DEBUG: Getting reviews for the restaurant...");
             reviewService = new ReviewService(this);
-
-            System.out.println("SPECIAL DEBUG: Getting reviews for a dish...");
-
-            setUpTabs();
-
             reviewService.getAll(restaurant.getId());
         }
+
     }
 
     @Override
@@ -189,7 +192,10 @@ public class RestaurantDetailsActivity extends AppCompatActivity implements Rest
     @Override
     public void onReviewsReceived(ArrayList<Review> ReviewList) {
         System.out.println("SPECIAL DEBUG: Reviews received, setting tabs...");
+        ListView reviewsList = (ListView)findViewById(R.id.listReviews);
         reviews = ReviewList;
-        adapter.notifyDataSetChanged();
+
+        ReviewsAdapter reviewsAdapter = new ReviewsAdapter(reviews, this);
+        reviewsList.setAdapter(reviewsAdapter);
     }
 }
