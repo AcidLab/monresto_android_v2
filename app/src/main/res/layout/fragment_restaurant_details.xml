@@ -155,12 +155,14 @@
         android:id="@+id/listReviews"
         android:layout_width="0dp"
         android:layout_height="186dp"
-        android:layout_marginTop="12dp"
+        android:layout_marginLeft="20dp"
+        android:layout_marginRight="20dp"
+        android:layout_marginTop="20dp"
         android:fadeScrollbars="true"
         android:scrollbars="vertical"
         android:verticalScrollbarPosition="right"
         app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintHorizontal_bias="0.0"
+        app:layout_constraintHorizontal_bias="0.615"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/textView6">
 
