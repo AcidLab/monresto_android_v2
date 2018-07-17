@@ -1,5 +1,6 @@
 package com.monresto.acidlabs.monresto;
 
+import android.os.Bundle;
 import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentManager;
 import android.support.v4.app.FragmentStatePagerAdapter;
@@ -38,7 +39,11 @@ public class RestaurantDetailsPager extends FragmentStatePagerAdapter {
 
         if (position == 0) // if the position is 0 we are returning the First tab
         {
-            FragmentRestaurantDetails firstTab = new FragmentRestaurantDetails(restaurant, reviews);
+            FragmentRestaurantDetails firstTab = new FragmentRestaurantDetails();
+            Bundle firstTabBundle = new Bundle();
+            firstTabBundle.putParcelable("restaurant", restaurant);
+            firstTabBundle.putParcelableArrayList("reviews", reviews);
+            firstTab.setArguments(firstTabBundle);
             return firstTab;
         } else              // Tabs reserved for dishes
         {

@@ -139,7 +139,7 @@ public class RestaurantDetailsActivity extends AppCompatActivity implements Rest
     public void onMenusReceived(ArrayList<Menu> menus) {
         System.out.println("SPECIAL DEBUG: Menus received !");
 
-        MenusList = new ArrayList<String>();
+        MenusList = new ArrayList<>();
         MenusList.add("Informations");
 
         for (int j = 0; j < menus.size(); j++) {
@@ -170,8 +170,7 @@ public class RestaurantDetailsActivity extends AppCompatActivity implements Rest
 
         setUpTabs();
 
-        if (filledDishes == MenusList.size()-1)
-        {
+        if (filledDishes == MenusList.size() - 1) {
             System.out.println("SPECIAL DEBUG: Getting reviews for the restaurant...");
             reviewService = new ReviewService(this);
             reviewService.getAll(restaurant.getId());
@@ -192,10 +191,11 @@ public class RestaurantDetailsActivity extends AppCompatActivity implements Rest
     @Override
     public void onReviewsReceived(ArrayList<Review> ReviewList) {
         System.out.println("SPECIAL DEBUG: Reviews received, setting tabs...");
-        ListView reviewsList = (ListView)findViewById(R.id.listReviews);
+        ListView reviewsList = findViewById(R.id.listReviews);
         reviews = ReviewList;
 
         ReviewsAdapter reviewsAdapter = new ReviewsAdapter(reviews, this);
-        reviewsList.setAdapter(reviewsAdapter);
+        if (reviewsList != null)
+            reviewsList.setAdapter(reviewsAdapter);
     }
 }

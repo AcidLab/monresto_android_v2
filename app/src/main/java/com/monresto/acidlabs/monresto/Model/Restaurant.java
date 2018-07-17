@@ -11,7 +11,6 @@ import org.json.JSONObject;
 import java.io.Serializable;
 import java.util.ArrayList;
 
-//TODO: test if getInt() automatically converts from string
 public class Restaurant implements Parcelable {
     private int id;
     private double latitude;

@@ -33,11 +33,10 @@ import java.util.List;
 //Testing fetch information from api
 
 public class MainActivity extends AppCompatActivity implements RestaurantAsyncResponse {
-    TextView test;
     private TabLayout tabLayout;
     private ViewPager viewPager;
     private ViewPagerAdapter adapter;
-    private List<Restaurant> restaurants;
+    private ArrayList<Restaurant> restaurants;
     private FragmentStores fragmentStores;
 
     private FusedLocationProviderClient mFusedLocationClient;
@@ -48,17 +47,14 @@ public class MainActivity extends AppCompatActivity implements RestaurantAsyncRe
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
 
-
-        tabLayout = (TabLayout) findViewById(R.id.tabLayout_id);
-        viewPager = (ViewPager) findViewById(R.id.viewPager_id);
+        tabLayout = findViewById(R.id.tabLayout_id);
+        viewPager = findViewById(R.id.viewPager_id);
         adapter = new ViewPagerAdapter(getSupportFragmentManager());
 
         RestaurantService service = new RestaurantService(this);
-        service.getAll(0,0);
+        service.getAll(0, 0);
 
-        restaurants = new ArrayList<>();
-
-        fragmentStores = new FragmentStores(restaurants);
+        fragmentStores = new FragmentStores();
 
         adapter.AddFragment(fragmentStores, "Restaurants");
         adapter.AddFragment(new FragmentCart(), "Panier");
@@ -71,6 +67,7 @@ public class MainActivity extends AppCompatActivity implements RestaurantAsyncRe
         tabLayout.getTabAt(0).setIcon(R.drawable.store_light);
         tabLayout.getTabAt(1).setIcon(R.drawable.cart_light);
         tabLayout.getTabAt(2).setIcon(R.drawable.user_light);
+
     }
 
     @Override

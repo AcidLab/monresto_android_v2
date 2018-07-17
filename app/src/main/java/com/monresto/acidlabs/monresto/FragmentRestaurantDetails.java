@@ -32,15 +32,15 @@ public class FragmentRestaurantDetails extends Fragment {
     TextView delivery_price;
     ArrayList<Review> reviews;
 
-    public FragmentRestaurantDetails(Restaurant restaurant, ArrayList<Review> reviews) {
-        this.restaurant = restaurant;
-        this.reviews = reviews;
-    }
-
     @Nullable
     @Override
     public View onCreateView(@NonNull LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
         View v = inflater.inflate(R.layout.fragment_restaurant_details, container,false);
+
+        if (getArguments() != null) {
+            restaurant = (Restaurant) getArguments().get("restaurant");
+            reviews = (ArrayList<Review>) getArguments().get("reviews");
+        }
 
         // Binding views
         dish_bg = (ImageView) v.findViewById(R.id.dish_bg_id);

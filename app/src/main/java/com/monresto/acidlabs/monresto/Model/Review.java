@@ -1,11 +1,14 @@
 package com.monresto.acidlabs.monresto.Model;
 
+import android.os.Parcel;
+import android.os.Parcelable;
+
 import org.json.JSONArray;
 import org.json.JSONObject;
 
 import java.util.ArrayList;
 
-public class Review {
+public class Review implements Parcelable {
     private int orderID;
     private String clientname;
     private String review;
@@ -23,6 +26,27 @@ public class Review {
         this.note = note;
         this.dishes = dishes;
     }
+
+    protected Review(Parcel in) {
+        orderID = in.readInt();
+        clientname = in.readString();
+        review = in.readString();
+        reviewdate = in.readString();
+        orderdate = in.readString();
+        note = in.readInt();
+    }
+
+    public static final Creator<Review> CREATOR = new Creator<Review>() {
+        @Override
+        public Review createFromParcel(Parcel in) {
+            return new Review(in);
+        }
+
+        @Override
+        public Review[] newArray(int size) {
+            return new Review[size];
+        }
+    };
 
     public static Review createFromJson(JSONObject obj){
         ArrayList<Dish> dishes = new ArrayList<>();
@@ -66,5 +90,20 @@ public class Review {
 
     public ArrayList<Dish> getDishes() {
         return dishes;
+    }
+
+    @Override
+    public int describeContents() {
+        return 0;
+    }
+
+    @Override
+    public void writeToParcel(Parcel parcel, int i) {
+        parcel.writeInt(orderID);
+        parcel.writeString(clientname);
+        parcel.writeString(review);
+        parcel.writeString(reviewdate);
+        parcel.writeString(orderdate);
+        parcel.writeInt(note);
     }
 }

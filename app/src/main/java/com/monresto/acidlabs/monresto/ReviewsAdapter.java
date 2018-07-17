@@ -17,7 +17,6 @@ import java.util.ArrayList;
 import butterknife.BindView;
 
 public class ReviewsAdapter extends BaseAdapter {
-
     private int nbReviews;
     private int starsFilled;
     private Context context;
@@ -50,7 +49,6 @@ public class ReviewsAdapter extends BaseAdapter {
     @Override
     public View getView(int i, View view, ViewGroup viewGroup) {
         view = LayoutInflater.from(context).inflate(R.layout.item_review, null);
-        System.out.println("SPECIAL DEBUG: CURRENT REVIEW IS MADE BY - " + reviews.get(i).getClientname() + " & " + reviews.get(i).getNote() + " & " + reviews.get(i).getReview());
 
         starsFilled = 0;
         name = (TextView)view.findViewById(R.id.rating_name);
@@ -61,13 +59,11 @@ public class ReviewsAdapter extends BaseAdapter {
         for(int j=0; j<5; j++) {
             if (starsFilled < reviews.get(i).getNote())
             {
-                stars.setText(stars.getText() + "\u272d");
+                stars.setText(String.format("%s✭", stars.getText()));
                 starsFilled++;
             }
-            else stars.setText(stars.getText() + "\u2729");
-
+            else stars.setText(String.format("%s✩", stars.getText()));
         }
-
         return view;
     }
 }
