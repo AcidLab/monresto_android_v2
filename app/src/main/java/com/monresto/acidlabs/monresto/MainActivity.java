@@ -48,8 +48,6 @@ public class MainActivity extends AppCompatActivity implements RestaurantAsyncRe
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
 
-        test = (TextView)findViewById(R.id.textView);
-
 
         tabLayout = (TabLayout) findViewById(R.id.tabLayout_id);
         viewPager = (ViewPager) findViewById(R.id.viewPager_id);

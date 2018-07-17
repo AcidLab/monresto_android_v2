@@ -61,10 +61,10 @@ public class ReviewsAdapter extends BaseAdapter {
         for(int j=0; j<5; j++) {
             if (starsFilled < reviews.get(i).getNote())
             {
-                stars.setText(stars.getText() + "★");
+                stars.setText(stars.getText() + "\u272d");
                 starsFilled++;
             }
-            else stars.setText(stars.getText() + "☆");
+            else stars.setText(stars.getText() + "\u2729");
 
         }
 

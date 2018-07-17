@@ -10,7 +10,6 @@ import com.monresto.acidlabs.monresto.Service.User.UserService;
 
 import java.util.ArrayList;
 
-@SuppressLint("Registered")
 public class RegisterActivity extends AppCompatActivity {
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -23,8 +22,8 @@ public class RegisterActivity extends AppCompatActivity {
         addresses.add(A);
 
         UserService userService = new UserService(this);
-        userService.register("wxcv2","azerty","azerty","wxcv2@az.er","namefirst",
-                "namelast","whatever","11111","22222","no", addresses);
+        userService.register("mrTester","azerty","azerty","tester@az.er","Cool",
+                "Tester","whatever","11111","22222","no", addresses);
 
     }
 
