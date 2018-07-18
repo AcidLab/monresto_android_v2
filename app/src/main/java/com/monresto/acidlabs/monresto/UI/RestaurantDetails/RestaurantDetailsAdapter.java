@@ -1,6 +1,7 @@
-package com.monresto.acidlabs.monresto;
+package com.monresto.acidlabs.monresto.UI.RestaurantDetails;
 
 import android.content.Context;
+import android.support.constraint.ConstraintLayout;
 import android.support.design.widget.Snackbar;
 import android.support.v7.widget.RecyclerView;
 import android.view.LayoutInflater;
@@ -10,12 +11,12 @@ import android.widget.ImageView;
 import android.widget.TextView;
 
 import com.monresto.acidlabs.monresto.Model.Dish;
+import com.monresto.acidlabs.monresto.R;
 import com.monresto.acidlabs.monresto.Service.Restaurant.RestaurantService;
+import com.monresto.acidlabs.monresto.Utilities;
 import com.squareup.picasso.Picasso;
 
-import java.io.UnsupportedEncodingException;
 import java.util.ArrayList;
-import java.util.List;
 
 import butterknife.BindView;
 import butterknife.ButterKnife;
@@ -52,8 +53,6 @@ public class RestaurantDetailsAdapter extends RecyclerView.Adapter<RestaurantDet
 
         Picasso.get().load(dishes.get(position).getImagePath()).into(viewHolder.bg_img);
 
-        System.out.println("SPECIAL DEBUG: DISH FAVORITE: " + dishes.get(position).isFavorite());
-
         // Checks if dish is favorite
         if (dishes.get(position).isFavorite()) {
             Picasso.get().load(R.drawable.heart_filled).into(viewHolder.favorite_btn);
@@ -82,6 +81,11 @@ public class RestaurantDetailsAdapter extends RecyclerView.Adapter<RestaurantDet
                 }*/
             }
         });
+
+        // Re-setting layout width because somehow it changes automatically
+        ConstraintLayout.LayoutParams lp = new ConstraintLayout.LayoutParams(ConstraintLayout.LayoutParams.MATCH_PARENT,
+                ConstraintLayout.LayoutParams.WRAP_CONTENT);
+        viewHolder.constraintLayout.setLayoutParams(lp);
     }
 
     public static class ViewHolder extends RecyclerView.ViewHolder {
@@ -90,6 +94,7 @@ public class RestaurantDetailsAdapter extends RecyclerView.Adapter<RestaurantDet
         @BindView(R.id.dish_price_id) TextView price;
         @BindView(R.id.dish_bg_id) ImageView bg_img;
         @BindView(R.id.favorite_btn) ImageView favorite_btn;
+        @BindView(R.id.constraintLayout) ConstraintLayout constraintLayout;
         public ViewHolder(View itemLayoutView) {
             super(itemLayoutView);
             ButterKnife.bind(this, itemLayoutView);

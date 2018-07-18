@@ -1,4 +1,4 @@
-package com.monresto.acidlabs.monresto;
+package com.monresto.acidlabs.monresto.UI.Restaurants;
 
 import android.support.annotation.Nullable;
 import android.support.v4.app.Fragment;

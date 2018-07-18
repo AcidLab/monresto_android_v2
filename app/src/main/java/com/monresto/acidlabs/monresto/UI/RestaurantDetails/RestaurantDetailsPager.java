@@ -1,4 +1,4 @@
-package com.monresto.acidlabs.monresto;
+package com.monresto.acidlabs.monresto.UI.RestaurantDetails;
 
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
@@ -9,6 +9,7 @@ import com.monresto.acidlabs.monresto.Model.Dish;
 import com.monresto.acidlabs.monresto.Model.Menu;
 import com.monresto.acidlabs.monresto.Model.Restaurant;
 import com.monresto.acidlabs.monresto.Model.Review;
+import com.monresto.acidlabs.monresto.UI.RestaurantDetails.Dishes.FragmentDish;
 
 import java.util.ArrayList;
 import java.util.HashMap;

@@ -1,7 +1,6 @@
-package com.monresto.acidlabs.monresto;
+package com.monresto.acidlabs.monresto.UI.RestaurantDetails.Dishes;
 
 import android.annotation.SuppressLint;
-import android.content.Context;
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
 import android.support.v7.widget.LinearLayoutManager;
@@ -11,13 +10,10 @@ import android.view.View;
 import android.view.ViewGroup;
 
 import com.monresto.acidlabs.monresto.Model.Dish;
-import com.monresto.acidlabs.monresto.Model.Menu;
-import com.monresto.acidlabs.monresto.Model.Restaurant;
-import com.monresto.acidlabs.monresto.Service.Restaurant.RestaurantAsyncResponse;
-import com.monresto.acidlabs.monresto.Service.Restaurant.RestaurantService;
+import com.monresto.acidlabs.monresto.R;
+import com.monresto.acidlabs.monresto.UI.RestaurantDetails.RestaurantDetailsAdapter;
 
 import java.util.ArrayList;
-import java.util.List;
 
 import butterknife.BindView;
 import butterknife.ButterKnife;
@@ -55,9 +51,7 @@ public class FragmentDish extends Fragment {
     private ArrayList<Dish> createItemList() {
         ArrayList<Dish> dishesList = new ArrayList<>();
         if (dishes.size() > 0)
-            for (int i = 0; i < dishes.size(); i++) {
-                dishesList.add(dishes.get(i));
-            }
+            dishesList.addAll(dishes);
         return dishesList;
     }
 

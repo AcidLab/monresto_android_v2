@@ -1,4 +1,4 @@
-package com.monresto.acidlabs.monresto;
+package com.monresto.acidlabs.monresto.UI.RestaurantDetails;
 
 import android.annotation.SuppressLint;
 import android.os.Bundle;
@@ -13,6 +13,7 @@ import android.widget.TextView;
 
 import com.monresto.acidlabs.monresto.Model.Restaurant;
 import com.monresto.acidlabs.monresto.Model.Review;
+import com.monresto.acidlabs.monresto.R;
 import com.monresto.acidlabs.monresto.Service.Restaurant.RestaurantAsyncResponse;
 import com.monresto.acidlabs.monresto.Service.Review.ReviewAsyncResponse;
 import com.monresto.acidlabs.monresto.Service.Review.ReviewService;

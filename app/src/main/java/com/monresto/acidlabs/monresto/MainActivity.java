@@ -1,33 +1,24 @@
 package com.monresto.acidlabs.monresto;
 
 import android.annotation.SuppressLint;
-import android.graphics.drawable.Drawable;
-import android.location.Location;
+import android.os.Bundle;
 import android.support.design.widget.TabLayout;
 import android.support.v4.view.ViewPager;
 import android.support.v7.app.AppCompatActivity;
-import android.os.Bundle;
-import android.support.v7.widget.Toolbar;
-import android.transition.AutoTransition;
-import android.transition.TransitionManager;
-import android.view.View;
-import android.view.ViewGroup;
-import android.widget.ImageView;
-import android.widget.TextView;
-import android.widget.Toast;
 
 import com.google.android.gms.location.FusedLocationProviderClient;
-import com.google.android.gms.location.LocationServices;
-import com.google.android.gms.tasks.OnSuccessListener;
 import com.monresto.acidlabs.monresto.Model.Dish;
 import com.monresto.acidlabs.monresto.Model.Menu;
 import com.monresto.acidlabs.monresto.Model.Restaurant;
 import com.monresto.acidlabs.monresto.Model.Speciality;
 import com.monresto.acidlabs.monresto.Service.Restaurant.RestaurantAsyncResponse;
 import com.monresto.acidlabs.monresto.Service.Restaurant.RestaurantService;
+import com.monresto.acidlabs.monresto.UI.Cart.FragmentCart;
+import com.monresto.acidlabs.monresto.UI.Profile.FragmentProfile;
+import com.monresto.acidlabs.monresto.UI.Restaurants.FragmentRestaurant;
+import com.monresto.acidlabs.monresto.UI.Restaurants.ViewPagerAdapter;
 
 import java.util.ArrayList;
-import java.util.List;
 
 
 //Testing fetch information from api
@@ -37,7 +28,7 @@ public class MainActivity extends AppCompatActivity implements RestaurantAsyncRe
     private ViewPager viewPager;
     private ViewPagerAdapter adapter;
     private ArrayList<Restaurant> restaurants;
-    private FragmentStores fragmentStores;
+    private FragmentRestaurant fragmentRestaurants;
 
     private FusedLocationProviderClient mFusedLocationClient;
 
@@ -54,9 +45,9 @@ public class MainActivity extends AppCompatActivity implements RestaurantAsyncRe
         RestaurantService service = new RestaurantService(this);
         service.getAll(0, 0);
 
-        fragmentStores = new FragmentStores();
+        fragmentRestaurants = new FragmentRestaurant();
 
-        adapter.AddFragment(fragmentStores, "Restaurants");
+        adapter.AddFragment(fragmentRestaurants, "Restaurants");
         adapter.AddFragment(new FragmentCart(), "Panier");
         adapter.AddFragment(new FragmentProfile(), "Profil");
 
@@ -72,7 +63,7 @@ public class MainActivity extends AppCompatActivity implements RestaurantAsyncRe
 
     @Override
     public void onListReceived(ArrayList<Restaurant> restaurantList) {
-        fragmentStores.updateList(restaurantList);
+        fragmentRestaurants.updateList(restaurantList);
     }
 
 

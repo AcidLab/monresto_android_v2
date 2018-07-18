@@ -2,89 +2,63 @@
 <android.support.constraint.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
-    android:id="@+id/linearLayout5"
+    android:id="@+id/constraintLayout"
     android:layout_width="match_parent"
     android:layout_height="wrap_content"
+    android:layout_marginLeft="5dp"
+    android:layout_marginRight="5dp"
+    android:layout_marginTop="5dp"
     android:gravity="center_vertical"
-    android:orientation="horizontal"
-    android:paddingTop="5dp">
+    android:orientation="horizontal">
 
     <ImageView
         android:id="@+id/dish_bg_id"
         android:layout_width="118dp"
-        android:layout_height="109dp"
-        android:layout_marginStart="5dp"
+        android:layout_height="0dp"
         android:scaleType="centerCrop"
+        app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toTopOf="parent" />
+        app:layout_constraintTop_toTopOf="parent"
+        app:layout_constraintVertical_bias="0.0" />
 
 
     <TextView
         android:id="@+id/dish_name_id"
-        android:layout_width="wrap_content"
+        android:layout_width="225dp"
         android:layout_height="wrap_content"
-        android:layout_marginStart="24dp"
+        android:layout_marginStart="12dp"
         android:layout_marginTop="16dp"
         android:gravity="center_vertical"
         android:text="Nom du plat"
         android:textAllCaps="true"
+        android:textSize="16sp"
         android:textStyle="bold"
         app:layout_constraintStart_toEndOf="@+id/dish_bg_id"
         app:layout_constraintTop_toTopOf="parent" />
 
     <TextView
         android:id="@+id/dish_price_id"
-        android:layout_width="138dp"
+        android:layout_width="155dp"
         android:layout_height="wrap_content"
-        android:layout_marginStart="24dp"
+        android:layout_marginBottom="8dp"
+        android:layout_marginStart="12dp"
+        android:layout_marginTop="16dp"
         android:text="Prix"
+        app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintStart_toEndOf="@+id/dish_bg_id"
         app:layout_constraintTop_toBottomOf="@+id/dish_name_id" />
-
-
-    <Button
-        android:id="@+id/details_btn_id"
-
-        android:layout_width="72dp"
-        android:layout_height="37dp"
-
-        android:layout_marginStart="24dp"
-        android:layout_marginTop="8dp"
-        android:background="@drawable/buttonshape"
-        android:text="Détails"
-        android:textColor="#FFFFFF"
-        android:textSize="12sp"
-        app:layout_constraintStart_toEndOf="@+id/dish_bg_id"
-        app:layout_constraintTop_toBottomOf="@+id/dish_price_id" />
-
-    <Button
-        android:id="@+id/add_btn_id"
-
-        android:layout_width="64dp"
-        android:layout_height="37dp"
-
-        android:layout_marginBottom="16dp"
-        android:layout_marginStart="8dp"
-        android:layout_marginTop="8dp"
-        android:background="@drawable/buttonshape"
-        android:text="Ajouter"
-        android:textColor="#FFFFFF"
-        android:textSize="12sp"
-        app:layout_constraintBottom_toBottomOf="parent"
-        app:layout_constraintStart_toEndOf="@+id/details_btn_id"
-        app:layout_constraintTop_toBottomOf="@+id/dish_price_id"
-        app:layout_constraintVertical_bias="0.0" />
 
 
     <ImageView
         android:id="@+id/favorite_btn"
         android:layout_width="35dp"
         android:layout_height="30dp"
-        android:layout_marginStart="68dp"
+        android:layout_marginBottom="8dp"
+        android:layout_marginEnd="8dp"
+        android:layout_marginTop="8dp"
         app:layout_constraintBottom_toBottomOf="parent"
-        app:layout_constraintStart_toEndOf="@+id/add_btn_id"
+        app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintTop_toTopOf="parent"
-        app:layout_constraintVertical_bias="0.494"
         app:srcCompat="@drawable/heart_empty" />
 
 </android.support.constraint.ConstraintLayout>

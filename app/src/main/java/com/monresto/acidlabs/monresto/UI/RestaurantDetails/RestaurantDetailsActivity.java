@@ -1,4 +1,4 @@
-package com.monresto.acidlabs.monresto;
+package com.monresto.acidlabs.monresto.UI.RestaurantDetails;
 
 import android.content.Intent;
 import android.support.design.widget.FloatingActionButton;
@@ -16,15 +16,19 @@ import android.widget.TextView;
 import butterknife.BindView;
 import butterknife.ButterKnife;
 
+import com.monresto.acidlabs.monresto.HackViewPager;
 import com.monresto.acidlabs.monresto.Model.Dish;
 import com.monresto.acidlabs.monresto.Model.Menu;
 import com.monresto.acidlabs.monresto.Model.Restaurant;
 import com.monresto.acidlabs.monresto.Model.Review;
 import com.monresto.acidlabs.monresto.Model.Speciality;
+import com.monresto.acidlabs.monresto.R;
+import com.monresto.acidlabs.monresto.UI.RestaurantDetails.Reviews.ReviewsAdapter;
 import com.monresto.acidlabs.monresto.Service.Restaurant.RestaurantAsyncResponse;
 import com.monresto.acidlabs.monresto.Service.Restaurant.RestaurantService;
 import com.monresto.acidlabs.monresto.Service.Review.ReviewAsyncResponse;
 import com.monresto.acidlabs.monresto.Service.Review.ReviewService;
+import com.monresto.acidlabs.monresto.Utilities;
 import com.squareup.picasso.Picasso;
 
 

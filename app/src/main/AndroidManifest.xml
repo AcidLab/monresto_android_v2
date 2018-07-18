@@ -22,7 +22,7 @@
             </intent-filter>
         </activity>
         <activity android:name=".UI.HomeActivity" />
-        <activity android:name=".RestaurantDetailsActivity"></activity>
+        <activity android:name=".UI.RestaurantDetails.RestaurantDetailsActivity"></activity>
         <activity android:name=".UI.FacebookActivity" />
 
         <meta-data android:name="com.facebook.sdk.ApplicationId"

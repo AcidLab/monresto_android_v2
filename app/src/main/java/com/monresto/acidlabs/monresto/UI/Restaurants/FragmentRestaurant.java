@@ -1,4 +1,4 @@
-package com.monresto.acidlabs.monresto;
+package com.monresto.acidlabs.monresto.UI.Restaurants;
 
 import android.os.Bundle;
 import android.support.annotation.NonNull;
@@ -11,12 +11,12 @@ import android.view.View;
 import android.view.ViewGroup;
 
 import com.monresto.acidlabs.monresto.Model.Restaurant;
+import com.monresto.acidlabs.monresto.R;
 
 import java.util.ArrayList;
 import java.util.List;
 
-public class FragmentStores extends Fragment {
-    View v;
+public class FragmentRestaurant extends Fragment {
     private RecyclerView recyclerView;
     private List<Restaurant> restaurants;
     private RecyclerViewAdapter recyclerViewAdapter;
@@ -24,7 +24,7 @@ public class FragmentStores extends Fragment {
     @Nullable
     @Override
     public View onCreateView(@NonNull LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
-        v = inflater.inflate(R.layout.fragment_stores, container,false);
+        View v = inflater.inflate(R.layout.fragment_stores, container,false);
 
         restaurants = new ArrayList<>();
 
@@ -43,8 +43,6 @@ public class FragmentStores extends Fragment {
     }
 
     public void updateList(List<Restaurant> restaurants) {
-        //System.out.println(restaurants.size());
-        //System.out.println(recyclerViewAdapter);
         recyclerViewAdapter.setRestaurants(restaurants);
         recyclerViewAdapter.notifyDataSetChanged();
     }
