@@ -32,7 +32,8 @@
         android:gravity="center_vertical"
         android:text="Nom du plat"
         android:textAllCaps="true"
-        android:textSize="16dp"
+        android:textColor="@color/dish_title"
+        android:textSize="16sp"
         android:textStyle="bold"
         app:layout_constraintEnd_toStartOf="@+id/favorite_btn"
         app:layout_constraintStart_toEndOf="@+id/dish_bg_id"
@@ -47,7 +48,7 @@
         android:layout_marginStart="12dp"
         android:layout_marginTop="4dp"
         android:text="Prix"
-        android:textSize="14dp"
+        android:textSize="14sp"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toStartOf="@+id/favorite_btn"
         app:layout_constraintHorizontal_bias="0.0"
@@ -66,6 +67,6 @@
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintTop_toTopOf="parent"
-        app:srcCompat="@drawable/heart_empty" />
+        app:srcCompat="@drawable/ic_chevron_right_grey_400_24dp" />
 
 </android.support.constraint.ConstraintLayout>
