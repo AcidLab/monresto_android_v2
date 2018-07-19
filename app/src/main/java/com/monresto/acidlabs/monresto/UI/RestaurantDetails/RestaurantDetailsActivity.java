@@ -9,6 +9,7 @@ import android.os.Bundle;
 import android.support.v7.widget.Toolbar;
 import android.view.MenuItem;
 import android.view.View;
+import android.view.Window;
 import android.widget.ImageView;
 import android.widget.ListView;
 import android.widget.TextView;
@@ -75,13 +76,11 @@ public class RestaurantDetailsActivity extends AppCompatActivity implements Rest
         setContentView(R.layout.activity_restaurant_details);
         ButterKnife.bind(this);
 
-        // Uncomment this later after you setup the toolbar
+        // Setting up the toolbar
         setSupportActionBar(toolbar);
         getSupportActionBar().setDisplayShowTitleEnabled(false);
-        //toolbar.setNavigationIcon(R.drawable.ic_toolbar);
         toolbar.setTitle("");
         toolbar.setSubtitle("");
-        //toolbar.setLogo(R.drawable.ic_toolbar);
         toolbar.setNavigationIcon(getResources().getDrawable(R.drawable.ic_arrow_back_white_24dp));
         toolbar.setNavigationOnClickListener(new View.OnClickListener() {
             @Override
@@ -95,7 +94,7 @@ public class RestaurantDetailsActivity extends AppCompatActivity implements Rest
 
         // Get restaurant information from the caller intent
         Intent i = getIntent();
-        restaurant = (Restaurant) i.getParcelableExtra("restaurant");
+        restaurant = i.getParcelableExtra("restaurant");
 
         // Assigning details to views
         Picasso.get().load(restaurant.getBackground()).into(storeBg);
@@ -135,12 +134,8 @@ public class RestaurantDetailsActivity extends AppCompatActivity implements Rest
 
     @Override
     public boolean onOptionsItemSelected(MenuItem item) {
-        // Handle action bar item clicks here. The action bar will
-        // automatically handle clicks on the Home/Up button, so long
-        // as you specify a parent activity in AndroidManifest.xml.
         int id = item.getItemId();
 
-        //noinspection SimplifiableIfStatement
         if (id == R.id.cart_btn) {
             System.out.println("CART BUTTON PRESSED");
             return true;

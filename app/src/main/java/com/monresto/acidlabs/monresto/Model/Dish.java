@@ -1,5 +1,7 @@
 package com.monresto.acidlabs.monresto.Model;
 
+import android.os.Parcel;
+import android.os.Parcelable;
 import android.util.Log;
 
 import org.json.JSONArray;
@@ -7,7 +9,7 @@ import org.json.JSONObject;
 
 import java.util.ArrayList;
 
-public class Dish {
+public class Dish implements Parcelable {
     private int id;
     private String title;
     private String description;
@@ -27,6 +29,7 @@ public class Dish {
     private String restoimage;
     private JSONArray paymentmethode;
     private int quantity;
+
 
     public class Dimension {
         private int id;
@@ -205,6 +208,53 @@ public class Dish {
 
     public ArrayList<Component> getComponents() {
         return components;
+    }
+
+    @Override
+    public int describeContents() {
+        return 0;
+    }
+
+    // Creates a parcel to be passed through Intents
+    @Override
+    public void writeToParcel(Parcel parcel, int i) {
+        parcel.writeInt(id);
+        parcel.writeInt(restoID);
+        parcel.writeString(title);
+        parcel.writeString(description);
+        parcel.writeDouble(price);
+        parcel.writeString(promotion);
+        parcel.writeString(tva);
+        parcel.writeByte((byte) (isOrdered ? 1 : 0));
+        parcel.writeByte((byte) (isFavorite ? 1 : 0));
+        parcel.writeByte((byte) (isComposed ? 1 : 0));
+        parcel.writeString(imagePath);
+    }
+
+    // This is used to regenerate the object. All Parcelables must have a CREATOR that implements these two methods
+    public static final Parcelable.Creator<Dish> CREATOR = new Parcelable.Creator<Dish>() {
+        public Dish createFromParcel(Parcel in) {
+            return new Dish(in);
+        }
+
+        public Dish[] newArray(int size) {
+            return new Dish[size];
+        }
+    };
+
+    // Constructor that takes a Parcel and gives you an object populated with it's values
+    private Dish(Parcel in) {
+        id = in.readInt();
+        restoID = in.readInt();
+        title = in.readString();
+        description = in.readString();
+        price = in.readDouble();
+        promotion = in.readString();
+        tva = in.readString();
+        isOrdered = in.readByte() != 0;
+        isFavorite = in.readByte() != 0;
+        isComposed = in.readByte() != 0;
+        imagePath = in.readString();
     }
 
 }

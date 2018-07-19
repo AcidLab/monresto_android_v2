@@ -1,6 +1,7 @@
 package com.monresto.acidlabs.monresto.UI.RestaurantDetails;
 
 import android.content.Context;
+import android.content.Intent;
 import android.support.constraint.ConstraintLayout;
 import android.support.design.widget.Snackbar;
 import android.support.v7.widget.RecyclerView;
@@ -13,6 +14,7 @@ import android.widget.TextView;
 import com.monresto.acidlabs.monresto.Model.Dish;
 import com.monresto.acidlabs.monresto.R;
 import com.monresto.acidlabs.monresto.Service.Restaurant.RestaurantService;
+import com.monresto.acidlabs.monresto.UI.RestaurantDetails.Order.OrderActivity;
 import com.monresto.acidlabs.monresto.Utilities;
 import com.squareup.picasso.Picasso;
 
@@ -56,7 +58,9 @@ public class RestaurantDetailsAdapter extends RecyclerView.Adapter<RestaurantDet
         viewHolder.constraintLayout.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                System.out.println("OMMEEEKK");
+                Intent intent = new Intent(context, OrderActivity.class);
+                intent.putExtra("dish",dishes.get(viewHolder.getAdapterPosition()));
+                context.startActivity(intent);
             }
         });
 
