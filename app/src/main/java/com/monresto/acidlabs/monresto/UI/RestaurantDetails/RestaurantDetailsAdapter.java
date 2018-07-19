@@ -24,7 +24,6 @@ import butterknife.ButterKnife;
 public class RestaurantDetailsAdapter extends RecyclerView.Adapter<RestaurantDetailsAdapter.ViewHolder> {
 
     private ArrayList<Dish> dishes;
-    private RestaurantService service;
     private Context context;
 
     public RestaurantDetailsAdapter(ArrayList<Dish> dishes, Context context) {
@@ -36,8 +35,7 @@ public class RestaurantDetailsAdapter extends RecyclerView.Adapter<RestaurantDet
     public RestaurantDetailsAdapter.ViewHolder onCreateViewHolder(ViewGroup parent, int viewType) {
 
         View itemLayoutView = LayoutInflater.from(parent.getContext()).inflate(R.layout.item_dish, null);
-        ViewHolder viewHolder = new ViewHolder(itemLayoutView);
-        return viewHolder;
+        return new ViewHolder(itemLayoutView);
 
     }
 
@@ -51,34 +49,14 @@ public class RestaurantDetailsAdapter extends RecyclerView.Adapter<RestaurantDet
             viewHolder.price.setText("Prix indisponible");
         else viewHolder.price.setText("Prix: " + Double.toString(dishes.get(position).getPrice()) + " DT");
 
+        // Loads background image
         Picasso.get().load(dishes.get(position).getImagePath()).into(viewHolder.bg_img);
 
-        // Checks if dish is favorite
-        if (dishes.get(position).isFavorite()) {
-            Picasso.get().load(R.drawable.heart_filled).into(viewHolder.favorite_btn);
-            System.out.println("Dish " + dishes.get(position).getId() + " is favorite");
-        }
-
-        service = new RestaurantService(context);
-
-        viewHolder.favorite_btn.setOnClickListener(new View.OnClickListener() {
+        // On click event
+        viewHolder.constraintLayout.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                dishes.get(position).setFavorite(true);
-                service.setFavorite(dishes.get(position).getId(), true);
-                Snackbar.make(view, "Ce plat a été ajouté aux favoris.", Snackbar.LENGTH_LONG).setAction("Action", null).show();
-                Picasso.get().load(R.drawable.heart_filled).into(viewHolder.favorite_btn);
-
-                /*
-                ///// To be re-enabled when they add "remove from favorite" to their webservice...
-                if(dishes.get(position).isFavorite()) {
-                    service.setFavorite(dishes.get(position).getId(), false);
-                    dishes.get(position).setFavorite(false);
-                    Snackbar.make(view, "Dish ma3adech favorite :(", Snackbar.LENGTH_LONG).setAction("Action", null).show();
-                    Picasso.get().load(R.drawable.heart_empty).into(viewHolder.favorite_btn);
-                }
-                else {
-                }*/
+                System.out.println("OMMEEEKK");
             }
         });
 
@@ -93,7 +71,7 @@ public class RestaurantDetailsAdapter extends RecyclerView.Adapter<RestaurantDet
         @BindView(R.id.dish_name_id) TextView name;
         @BindView(R.id.dish_price_id) TextView price;
         @BindView(R.id.dish_bg_id) ImageView bg_img;
-        @BindView(R.id.favorite_btn) ImageView favorite_btn;
+        @BindView(R.id.arrow_btn) ImageView arrow_btn;
         @BindView(R.id.constraintLayout) ConstraintLayout constraintLayout;
         public ViewHolder(View itemLayoutView) {
             super(itemLayoutView);

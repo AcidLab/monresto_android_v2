@@ -38,37 +38,37 @@
 
             <TextView
                 android:id="@+id/storeState"
-                android:transitionName="storeState"
-                android:layout_width="100dp"
+                android:layout_width="wrap_content"
                 android:layout_height="25dp"
-                android:layout_marginLeft="20dp"
+                android:layout_gravity="bottom"
                 android:layout_marginBottom="87dp"
+                android:layout_marginLeft="20dp"
                 android:fontFamily="@font/roboto"
                 android:text="État"
-                android:layout_gravity="bottom"
                 android:textAllCaps="true"
                 android:textColor="@color/button_text_color"
                 android:textSize="14sp"
-                android:textStyle="normal"/>
+                android:textStyle="normal"
+                android:transitionName="storeState" />
 
             <TextView
                 android:id="@+id/storeName"
-                android:transitionName="storeName"
-                android:layout_width="277dp"
+                android:layout_width="wrap_content"
                 android:layout_height="37dp"
-                android:layout_marginLeft="20dp"
+                android:layout_gravity="bottom"
                 android:layout_marginBottom="50dp"
+                android:layout_marginLeft="20dp"
                 android:fontFamily="@font/roboto"
                 android:text="Nom"
-                android:layout_gravity="bottom"
                 android:textColor="@color/button_text_color"
                 android:textSize="24sp"
-                android:textStyle="bold" />
+                android:textStyle="bold"
+                android:transitionName="storeName" />
 
             <android.support.v7.widget.Toolbar
                 android:id="@+id/toolbar"
                 android:layout_width="match_parent"
-                android:layout_height="150dp"
+                android:layout_height="170dp"
                 android:gravity="top"
                 android:minHeight="50dp"
                 app:layout_collapseMode="pin"
