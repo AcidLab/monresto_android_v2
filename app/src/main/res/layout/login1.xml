@@ -1,0 +1,133 @@
+<?xml version="1.0" encoding="utf-8"?>
+<ScrollView xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent" android:layout_height="match_parent"
+    android:fillViewport="true">
+
+    <android.support.constraint.ConstraintLayout
+        android:layout_width="match_parent"
+        android:layout_height="match_parent">
+
+
+        <ImageView
+            android:id="@+id/imageViewBg"
+            android:layout_width="0dp"
+            android:layout_height="0dp"
+            android:paddingLeft="0dp"
+            android:paddingRight="0dp"
+            android:scaleType="fitXY"
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toTopOf="parent"
+            app:layout_constraintVertical_bias="0.0"
+            app:srcCompat="@drawable/splashscreen" />
+
+        <ImageView
+            android:id="@+id/imageViewLogo"
+            android:layout_width="196dp"
+            android:layout_height="106dp"
+            android:layout_marginEnd="8dp"
+            android:layout_marginStart="8dp"
+            android:layout_marginTop="32dp"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintHorizontal_bias="0.503"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toTopOf="parent"
+            app:srcCompat="@drawable/logo_web" />
+
+        <LinearLayout
+            android:id="@+id/formLayout"
+            android:layout_width="0dp"
+            android:layout_height="244dp"
+            android:layout_marginEnd="32dp"
+            android:layout_marginStart="32dp"
+            android:layout_marginTop="24dp"
+            android:orientation="vertical"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@+id/imageViewLogo">
+
+            <EditText
+                android:id="@+id/textLogin"
+                style="?attr/editTextStyle"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:contentDescription="Login"
+                android:ems="10"
+                android:hint="Login"
+                android:inputType="textPersonName"
+                android:textColor="@color/colorPrimaryDark" />
+
+            <EditText
+                android:id="@+id/textPassword"
+                style="?attr/editTextStyle"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:ems="10"
+                android:hint="Mot de passe"
+                android:inputType="textPassword"
+                android:textColor="@color/colorPrimaryDark" />
+
+            <Button
+                android:id="@+id/forgotPasswordButton"
+                style="@style/Widget.AppCompat.Button.Borderless"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:paddingTop="0dp"
+                android:text="Mot de passe oublié ?"
+                android:textAlignment="textEnd"
+                android:textColor="@color/colorPrimaryDark"
+                android:textSize="12sp" />
+
+            <Button
+                android:id="@+id/loginButton"
+                style="@style/Widget.AppCompat.Button.Colored"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:paddingBottom="16dp"
+                android:paddingTop="16dp"
+                android:text="Se connecter" />
+
+            <Button
+                android:id="@+id/registerButton"
+                style="@style/Widget.AppCompat.Button.Borderless"
+                android:layout_width="match_parent"
+                android:layout_height="38dp"
+                android:paddingTop="0dp"
+                android:text="Créer un compte"
+                android:textColor="@color/colorPrimaryDark"
+                android:textSize="12sp" />
+        </LinearLayout>
+
+        <View
+            android:id="@+id/view"
+            android:layout_width="match_parent"
+            android:layout_height="1dp"
+            android:layout_marginBottom="16dp"
+            android:layout_marginEnd="32dp"
+            android:layout_marginStart="32dp"
+            android:background="@android:color/darker_gray"
+            android:visibility="visible"
+            app:layout_constraintBottom_toTopOf="@+id/login_button"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent" />
+
+        <com.facebook.login.widget.LoginButton
+            android:id="@+id/login_button"
+            style="@style/FacebookLoginButton"
+            android:layout_width="0dp"
+            android:layout_height="45dp"
+            android:layout_centerHorizontal="true"
+            android:layout_gravity="center_horizontal"
+            android:layout_marginBottom="32dp"
+            android:layout_marginEnd="32dp"
+            android:layout_marginStart="32dp"
+            android:scaleType="centerInside"
+            app:layout_constraintBottom_toBottomOf="@+id/imageViewBg"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent" />
+
+    </android.support.constraint.ConstraintLayout>
+</ScrollView>
