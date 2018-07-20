@@ -198,12 +198,12 @@ public class RestaurantService {
                                 dish.addDimension(dimensionObject.optInt("dimensionID"), dimensionObject.optString("title"), dimensionObject.optDouble("price"));
                             }
                             for (int i = 0; i < jsonComponents.length(); i++) {
-                                JSONObject componentObject = jsonDimensions.getJSONObject(i);
+                                JSONObject componentObject = jsonComponents.getJSONObject(i);
                                 JSONArray jsonOptions = componentObject.getJSONArray("Options");
-                                ArrayList<Dish.Component.Option> options = new ArrayList<>();
+                                ArrayList<Dish.Option> options = new ArrayList<>();
                                 for(int j=0; j<jsonOptions.length(); j++){
-                                    JSONObject optionObject = jsonDimensions.getJSONObject(j);
-                                    options.add(new Dish.Component.Option(optionObject.optInt("optionID"), optionObject.optString("optionTitle"), optionObject.optDouble("optionPrice")));
+                                    JSONObject optionObject = jsonOptions.getJSONObject(j);
+                                    options.add(new Dish.Option(optionObject.optInt("optionID"), optionObject.optString("optionTitle"), optionObject.optDouble("optionPrice")));
                                 }
                                 dish.addComponent(componentObject.optInt("componentID"), componentObject.optString("componentName"), componentObject.optInt("numberChoice"), componentObject.optInt("numberChoiceMax"), options);
                             }
