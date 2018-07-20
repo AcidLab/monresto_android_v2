@@ -217,5 +217,6 @@ public class RestaurantDetailsActivity extends AppCompatActivity implements Rest
         ReviewsAdapter reviewsAdapter = new ReviewsAdapter(reviews, this);
         if (reviewsList != null)
             reviewsList.setAdapter(reviewsAdapter);
+        Utilities.setListViewHeightBasedOnChildren(reviewsList);
     }
 }

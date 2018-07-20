@@ -2,17 +2,14 @@ package com.monresto.acidlabs.monresto.UI.RestaurantDetails.Order;
 
 import android.content.Intent;
 import android.os.Bundle;
-import android.support.constraint.ConstraintLayout;
 import android.support.design.widget.CollapsingToolbarLayout;
-import android.support.design.widget.CoordinatorLayout;
-import android.support.design.widget.FloatingActionButton;
-import android.support.design.widget.Snackbar;
-import android.support.v4.content.ContextCompat;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.Toolbar;
 import android.view.View;
 import android.view.Window;
+import android.widget.AbsListView;
 import android.widget.ImageView;
+import android.widget.ListView;
 import android.widget.TextView;
 
 import com.monresto.acidlabs.monresto.Model.Dish;
@@ -36,9 +33,16 @@ public class OrderActivity extends AppCompatActivity implements RestaurantAsyncR
     private Dish dish;
     CollapsingToolbarLayout toolbar_layout;
     RestaurantService restaurantService;
+    OptionsAdapter optionsAdapter;
+
 
     @BindView(R.id.dish_name)
     TextView dish_name;
+
+    @BindView(R.id.dimensions_list)
+    ListView dimensions_list;
+    @BindView(R.id.dimensions_text)
+    TextView dimensions_text;
 
     @BindView(R.id.dish_description)
     TextView dish_description;
@@ -75,7 +79,9 @@ public class OrderActivity extends AppCompatActivity implements RestaurantAsyncR
         final Toolbar toolbar = findViewById(R.id.toolbar);
 
         dish_name.setText(Utilities.decodeUTF(dish.getTitle()));
-        dish_price.setText(String.valueOf(dish.getPrice()) + " DT");
+        if (Double.isNaN(dish.getPrice()))
+            dish_price.setText("Choisissez parmi les options");
+        else dish_price.setText("Prix: " + String.valueOf(dish.getPrice()) + " DT");
         dish_description.setText(Utilities.decodeUTF(dish.getDescription()));
 
         dish_quantity_add.setOnClickListener(new View.OnClickListener() {
@@ -110,8 +116,6 @@ public class OrderActivity extends AppCompatActivity implements RestaurantAsyncR
         if (dish.isComposed()) {
             restaurantService = new RestaurantService(this);
             restaurantService.getComposedDish(dish);
-            //System.out.println(dish.getDimensions().get(0).getTitle());
-            System.out.println("Composed fucker");
         }
 
         setSupportActionBar(toolbar);
@@ -135,7 +139,14 @@ public class OrderActivity extends AppCompatActivity implements RestaurantAsyncR
 
     @Override
     public void onComposedDishReceived(Dish dish) {
-        System.out.println(dish.getDimensions().get(0).getTitle() + "   " +  dish.getDimensions().get(0).getPrice());
+        if (dish.getDimensions().get(0).getTitle().trim().length() > 0) {
+            dimensions_list.setVisibility(View.VISIBLE);
+            dimensions_text.setVisibility(View.VISIBLE);
+        } else return;
+        dimensions_list.setSelection(AbsListView.CHOICE_MODE_MULTIPLE);
+        optionsAdapter = new OptionsAdapter(dish.getDimensions(), this);
+        dimensions_list.setAdapter(optionsAdapter);
+        Utilities.setListViewHeightBasedOnChildren(dimensions_list);
     }
 
     @Override
