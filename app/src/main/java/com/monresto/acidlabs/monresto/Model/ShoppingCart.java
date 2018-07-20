@@ -15,10 +15,10 @@ public class ShoppingCart {
 
     public class Options{
         private int quantity;
-        private Dish.Dimension dimension;
+        private Dish.Option dimension;
         private ArrayList<Dish.Component> components;
 
-        public Options(int quantity, Dish.Dimension dimension, ArrayList<Dish.Component> components) {
+        public Options(int quantity, Dish.Option dimension, ArrayList<Dish.Component> components) {
             this.quantity = quantity;
             this.dimension = dimension;
             this.components = components;
@@ -28,7 +28,7 @@ public class ShoppingCart {
             return quantity;
         }
 
-        public Dish.Dimension getDimension() {
+        public Dish.Option getDimension() {
             return dimension;
         }
 
@@ -55,7 +55,7 @@ public class ShoppingCart {
         items.put(dish, new Options(1 , null, null));
     }
 
-    public void addToCart(Dish dish, int quantity, Dish.Dimension dimension, ArrayList<Dish.Component> components){
+    public void addToCart(Dish dish, int quantity, Dish.Option dimension, ArrayList<Dish.Component> components){
         items.put(dish, new Options(quantity, dimension, components));
     }
 
@@ -84,7 +84,7 @@ public class ShoppingCart {
                         actualComponent = new JSONObject();
                         actualComponent.put("componentID", component.getId());
                         JSONArray optionsJson = new JSONArray();
-                        for(Dish.Component.Option option : component.getOptions()){
+                        for(Dish.Option option : component.getOptions()){
                             JSONObject optionObject = new JSONObject();
                             optionObject.put("optionID", option.getId());
                             optionsJson.put(optionObject);

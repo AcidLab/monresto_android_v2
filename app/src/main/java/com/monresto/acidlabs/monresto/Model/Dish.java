@@ -30,14 +30,13 @@ public class Dish implements Parcelable {
     private JSONArray paymentmethode;
     private int quantity;
 
-
-    public class Dimension {
+    public static class Option {
         private int id;
         private String title;
         private double price;
 
-        Dimension(int dimensionID, String title, double price) {
-            this.id = dimensionID;
+        public Option(int id, String title, double price) {
+            this.id = id;
             this.title = title;
             this.price = price;
         }
@@ -60,30 +59,6 @@ public class Dish implements Parcelable {
         private String name;
         private int numberChoice;
         private int numberChoiceMax;
-
-        public static class Option {
-            private int id;
-            private String title;
-            private double price;
-
-            public Option(int id, String title, double price) {
-                this.id = id;
-                this.title = title;
-                this.price = price;
-            }
-
-            public int getId() {
-                return id;
-            }
-
-            public String getTitle() {
-                return title;
-            }
-
-            public double getPrice() {
-                return price;
-            }
-        }
 
         private ArrayList<Option> options;
 
@@ -116,7 +91,7 @@ public class Dish implements Parcelable {
         }
     }
 
-    ArrayList<Dimension> dimensions;
+    ArrayList<Option> dimensions;
     ArrayList<Component> components;
 
     private Dish(int id, int restoID, String title, String description, double price, String promotion, String tva, boolean isOrdered, boolean isFavorite, boolean isComposed, String imagePath) {
@@ -195,14 +170,14 @@ public class Dish implements Parcelable {
     }
 
     public void addDimension(int id, String title, double price) {
-        dimensions.add(new Dimension(id, title, price));
+        dimensions.add(new Option(id, title, price));
     }
 
-    public void addComponent(int componentID, String name, int numberChoice, int numberChoiceMax, ArrayList<Component.Option> options) {
+    public void addComponent(int componentID, String name, int numberChoice, int numberChoiceMax, ArrayList<Option> options) {
         components.add(new Component(componentID, name, numberChoice, numberChoiceMax, options));
     }
 
-    public ArrayList<Dimension> getDimensions() {
+    public ArrayList<Option> getDimensions() {
         return dimensions;
     }
 
