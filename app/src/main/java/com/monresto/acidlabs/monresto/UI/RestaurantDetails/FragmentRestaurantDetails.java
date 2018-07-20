@@ -44,9 +44,9 @@ public class FragmentRestaurantDetails extends Fragment {
         }
 
         // Binding views
-        dish_bg = (ImageView) v.findViewById(R.id.dish_bg_id);
-        rating = (TextView) v.findViewById(R.id.rating_id);
-        delivery_price = (TextView) v.findViewById(R.id.delivery_id);
+        dish_bg = v.findViewById(R.id.dish_bg_id);
+        rating = v.findViewById(R.id.rating_id);
+        delivery_price = v.findViewById(R.id.delivery_id);
 
         // Assigning values
         Picasso.get().load(restaurant.getImage()).into(dish_bg);

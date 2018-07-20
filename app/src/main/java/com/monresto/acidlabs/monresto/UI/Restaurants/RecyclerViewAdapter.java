@@ -91,10 +91,10 @@ public class RecyclerViewAdapter extends RecyclerView.Adapter<RecyclerViewAdapte
         public ViewHolder(@NonNull View itemView) {
             super(itemView);
 
-            storeName = (TextView) itemView.findViewById(R.id.storeName);
-            storeState = (TextView) itemView.findViewById(R.id.storeState);
-            storeBg = (ImageView) itemView.findViewById(R.id.storeBg);
-            restaurantItem = (ConstraintLayout) itemView.findViewById(R.id.restaurant_id);
+            storeName = itemView.findViewById(R.id.storeName);
+            storeState = itemView.findViewById(R.id.storeState);
+            storeBg = itemView.findViewById(R.id.storeBg);
+            restaurantItem = itemView.findViewById(R.id.restaurant_id);
         }
     }
 

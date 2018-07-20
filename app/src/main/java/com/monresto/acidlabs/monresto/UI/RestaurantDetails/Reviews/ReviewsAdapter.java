@@ -52,10 +52,10 @@ public class ReviewsAdapter extends BaseAdapter {
         view = LayoutInflater.from(context).inflate(R.layout.item_review, null);
 
         starsFilled = 0;
-        name = (TextView)view.findViewById(R.id.rating_name);
+        name = view.findViewById(R.id.rating_name);
         name.setText(reviews.get(i).getClientname());
 
-        stars = (TextView)view.findViewById(R.id.rating_stars);
+        stars = view.findViewById(R.id.rating_stars);
 
         for(int j=0; j<5; j++) {
             if (starsFilled < reviews.get(i).getNote())
