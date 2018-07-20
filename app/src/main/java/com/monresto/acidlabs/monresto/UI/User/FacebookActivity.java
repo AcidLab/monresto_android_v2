@@ -1,4 +1,4 @@
-package com.monresto.acidlabs.monresto.UI;
+package com.monresto.acidlabs.monresto.UI.User;
 
 import android.content.Intent;
 import android.content.pm.PackageInfo;

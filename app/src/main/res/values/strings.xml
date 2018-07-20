@@ -167,4 +167,12 @@
         "when a user tries to pick up one of cards.\n\n"
     </string>
     <string name="action_settings">Settings</string>
+
+
+
+    <!-- Start of Login page strings -->
+    <string name="no_account"><u>Vous n\'avez pas de compte ?</u></string>
+
+    <!-- End of Login page strings -->
+
 </resources>

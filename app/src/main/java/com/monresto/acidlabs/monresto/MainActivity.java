@@ -1,6 +1,7 @@
 package com.monresto.acidlabs.monresto;
 
 import android.annotation.SuppressLint;
+import android.content.Intent;
 import android.os.Bundle;
 import android.support.design.widget.TabLayout;
 import android.support.v4.view.ViewPager;
@@ -17,6 +18,7 @@ import com.monresto.acidlabs.monresto.UI.Cart.FragmentCart;
 import com.monresto.acidlabs.monresto.UI.Profile.FragmentProfile;
 import com.monresto.acidlabs.monresto.UI.Restaurants.FragmentRestaurant;
 import com.monresto.acidlabs.monresto.UI.Restaurants.ViewPagerAdapter;
+import com.monresto.acidlabs.monresto.UI.User.LoginActivity;
 
 import java.util.ArrayList;
 
@@ -38,7 +40,7 @@ public class MainActivity extends AppCompatActivity implements RestaurantAsyncRe
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
 
-        tabLayout = findViewById(R.id.tabLayout_id);
+        /*tabLayout = findViewById(R.id.tabLayout_id);
         viewPager = findViewById(R.id.viewPager_id);
         adapter = new ViewPagerAdapter(getSupportFragmentManager());
 
@@ -58,6 +60,10 @@ public class MainActivity extends AppCompatActivity implements RestaurantAsyncRe
         tabLayout.getTabAt(0).setIcon(R.drawable.store_light);
         tabLayout.getTabAt(1).setIcon(R.drawable.cart_light);
         tabLayout.getTabAt(2).setIcon(R.drawable.user_light);
+        */
+
+        Intent intent = new Intent(this, LoginActivity.class);
+        startActivity(intent);
 
     }
 
