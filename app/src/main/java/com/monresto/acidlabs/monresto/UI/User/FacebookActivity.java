@@ -41,7 +41,7 @@ public class FacebookActivity extends AppCompatActivity implements UserAsyncResp
         userService = new UserService(this);
         callbackManager = CallbackManager.Factory.create();
 
-        LoginButton loginButton = findViewById(R.id.login_button);
+        LoginButton loginButton = findViewById(R.id.fbButton);
         loginButton.setReadPermissions(Arrays.asList("public_profile", "email"));
 
         AccessToken accessToken = AccessToken.getCurrentAccessToken();
