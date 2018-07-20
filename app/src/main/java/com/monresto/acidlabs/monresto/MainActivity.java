@@ -34,36 +34,45 @@ public class MainActivity extends AppCompatActivity implements RestaurantAsyncRe
 
     private FusedLocationProviderClient mFusedLocationClient;
 
+
     @SuppressLint("MissingPermission")
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
 
-        /*tabLayout = findViewById(R.id.tabLayout_id);
-        viewPager = findViewById(R.id.viewPager_id);
-        adapter = new ViewPagerAdapter(getSupportFragmentManager());
+        boolean login = true;
 
-        RestaurantService service = new RestaurantService(this);
-        service.getAll(0, 0);
+        if(!login){
+            tabLayout = findViewById(R.id.tabLayout_id);
+            viewPager = findViewById(R.id.viewPager_id);
+            adapter = new ViewPagerAdapter(getSupportFragmentManager());
 
-        fragmentRestaurants = new FragmentRestaurant();
+            RestaurantService service = new RestaurantService(this);
+            service.getAll(0, 0);
 
-        adapter.AddFragment(fragmentRestaurants, "Restaurants");
-        adapter.AddFragment(new FragmentCart(), "Panier");
-        adapter.AddFragment(new FragmentProfile(), "Profil");
+            fragmentRestaurants = new FragmentRestaurant();
 
-        viewPager.setAdapter(adapter);
-        viewPager.setOffscreenPageLimit(3);
-        tabLayout.setupWithViewPager(viewPager);
+            adapter.AddFragment(fragmentRestaurants, "Restaurants");
+            adapter.AddFragment(new FragmentCart(), "Panier");
+            adapter.AddFragment(new FragmentProfile(), "Profil");
 
-        tabLayout.getTabAt(0).setIcon(R.drawable.store_light);
-        tabLayout.getTabAt(1).setIcon(R.drawable.cart_light);
-        tabLayout.getTabAt(2).setIcon(R.drawable.user_light);
-        */
+            viewPager.setAdapter(adapter);
+            viewPager.setOffscreenPageLimit(3);
+            tabLayout.setupWithViewPager(viewPager);
 
-        Intent intent = new Intent(this, LoginActivity.class);
-        startActivity(intent);
+            tabLayout.getTabAt(0).setIcon(R.drawable.store_light);
+            tabLayout.getTabAt(1).setIcon(R.drawable.cart_light);
+            tabLayout.getTabAt(2).setIcon(R.drawable.user_light);
+        }
+        else{
+            Intent intent = new Intent(this, LoginActivity.class);
+            startActivity(intent);
+        }
+
+
+
+
 
     }
 
