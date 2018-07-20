@@ -7,6 +7,7 @@ import android.util.Log;
 import org.json.JSONArray;
 import org.json.JSONObject;
 
+import java.io.Serializable;
 import java.util.ArrayList;
 
 public class Dish implements Parcelable {
@@ -30,14 +31,13 @@ public class Dish implements Parcelable {
     private JSONArray paymentmethode;
     private int quantity;
 
-
-    public class Dimension {
+    public static class Option implements Serializable{
         private int id;
         private String title;
         private double price;
 
-        Dimension(int dimensionID, String title, double price) {
-            this.id = dimensionID;
+        public Option(int id, String title, double price) {
+            this.id = id;
             this.title = title;
             this.price = price;
         }
@@ -55,35 +55,12 @@ public class Dish implements Parcelable {
         }
     }
 
-    public static class Component {
+    public static class Component implements Serializable {
         private int id;
         private String name;
         private int numberChoice;
         private int numberChoiceMax;
 
-        public static class Option {
-            private int id;
-            private String title;
-            private double price;
-
-            public Option(int id, String title, double price) {
-                this.id = id;
-                this.title = title;
-                this.price = price;
-            }
-
-            public int getId() {
-                return id;
-            }
-
-            public String getTitle() {
-                return title;
-            }
-
-            public double getPrice() {
-                return price;
-            }
-        }
 
         private ArrayList<Option> options;
 
@@ -116,7 +93,7 @@ public class Dish implements Parcelable {
         }
     }
 
-    ArrayList<Dimension> dimensions;
+    ArrayList<Option> dimensions;
     ArrayList<Component> components;
 
     private Dish(int id, int restoID, String title, String description, double price, String promotion, String tva, boolean isOrdered, boolean isFavorite, boolean isComposed, String imagePath) {
@@ -139,9 +116,6 @@ public class Dish implements Parcelable {
     }
 
     public static Dish createFromJson(JSONObject obj) {
-        if (obj.optInt("isComposed") != 0) {
-            Log.d("DISH", "createFromJson: " + obj.optInt("dishID"));
-        }
         return new Dish(obj.optInt("dishID"), obj.optInt("restoID"), obj.optString("title"), obj.optString("description"),
                 obj.optDouble("price"), obj.optString("promotion"), obj.optString("tva"),
                 obj.optInt("isOrdered") != 0, obj.optInt("isFavorite") != 0, obj.optInt("isComposed") != 0,
@@ -195,14 +169,14 @@ public class Dish implements Parcelable {
     }
 
     public void addDimension(int id, String title, double price) {
-        dimensions.add(new Dimension(id, title, price));
+        dimensions.add(new Option(id, title, price));
     }
 
-    public void addComponent(int componentID, String name, int numberChoice, int numberChoiceMax, ArrayList<Component.Option> options) {
+    public void addComponent(int componentID, String name, int numberChoice, int numberChoiceMax, ArrayList<Option> options) {
         components.add(new Component(componentID, name, numberChoice, numberChoiceMax, options));
     }
 
-    public ArrayList<Dimension> getDimensions() {
+    public ArrayList<Option> getDimensions() {
         return dimensions;
     }
 
@@ -229,6 +203,8 @@ public class Dish implements Parcelable {
         parcel.writeByte((byte) (isFavorite ? 1 : 0));
         parcel.writeByte((byte) (isComposed ? 1 : 0));
         parcel.writeString(imagePath);
+        parcel.writeList(dimensions);
+        parcel.writeList(components);
     }
 
     // This is used to regenerate the object. All Parcelables must have a CREATOR that implements these two methods
@@ -255,6 +231,8 @@ public class Dish implements Parcelable {
         isFavorite = in.readByte() != 0;
         isComposed = in.readByte() != 0;
         imagePath = in.readString();
+        dimensions = in.readArrayList(Option.class.getClassLoader());
+        components = in.readArrayList(Component.class.getClassLoader());
     }
 
 }

@@ -43,7 +43,7 @@ public class MainActivity extends AppCompatActivity implements RestaurantAsyncRe
 
         boolean login = true;
 
-        if(!login){
+        if(login){
             tabLayout = findViewById(R.id.tabLayout_id);
             viewPager = findViewById(R.id.viewPager_id);
             adapter = new ViewPagerAdapter(getSupportFragmentManager());
