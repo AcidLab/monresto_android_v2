@@ -2,13 +2,17 @@ package com.monresto.acidlabs.monresto.UI.RestaurantDetails.Order;
 
 import android.content.Intent;
 import android.os.Bundle;
+import android.support.constraint.ConstraintLayout;
 import android.support.design.widget.CollapsingToolbarLayout;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.Toolbar;
+import android.view.LayoutInflater;
 import android.view.View;
 import android.view.Window;
 import android.widget.AbsListView;
+import android.widget.Button;
 import android.widget.ImageView;
+import android.widget.LinearLayout;
 import android.widget.ListView;
 import android.widget.TextView;
 
@@ -34,13 +38,17 @@ public class OrderActivity extends AppCompatActivity implements RestaurantAsyncR
     CollapsingToolbarLayout toolbar_layout;
     RestaurantService restaurantService;
     OptionsAdapter optionsAdapter;
+    ComponentsAdapter componentsAdapter;
 
+    @BindView(R.id.lists_container)
+    LinearLayout lists_container;
 
     @BindView(R.id.dish_name)
     TextView dish_name;
 
     @BindView(R.id.dimensions_list)
     ListView dimensions_list;
+
     @BindView(R.id.dimensions_text)
     TextView dimensions_text;
 
@@ -59,6 +67,8 @@ public class OrderActivity extends AppCompatActivity implements RestaurantAsyncR
     @BindView(R.id.dish_quantity_reduce)
     ImageView dish_quantity_reduce;
 
+    @BindView(R.id.cancel_order)
+    Button cancel_order;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -99,6 +109,13 @@ public class OrderActivity extends AppCompatActivity implements RestaurantAsyncR
             }
         });
 
+        cancel_order.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                finish();
+            }
+        });
+
         final ImageView img = new ImageView(this);
         Picasso.get().load(dish.getImagePath()).resize(600, 600).centerInside().into(img, new Callback() {
             @Override
@@ -117,6 +134,7 @@ public class OrderActivity extends AppCompatActivity implements RestaurantAsyncR
             restaurantService = new RestaurantService(this);
             restaurantService.getComposedDish(dish);
         }
+
 
         setSupportActionBar(toolbar);
 
@@ -138,19 +156,35 @@ public class OrderActivity extends AppCompatActivity implements RestaurantAsyncR
     }
 
     @Override
-    public void onComposedDishReceived(Dish dish) {
-        if (dish.getDimensions().get(0).getTitle().trim().length() > 0) {
-            dimensions_list.setVisibility(View.VISIBLE);
-            dimensions_text.setVisibility(View.VISIBLE);
-        } else return;
-        dimensions_list.setSelection(AbsListView.CHOICE_MODE_MULTIPLE);
+    public void onComposedDishReceived(final Dish dish) {
+        dimensions_list.setVisibility(View.VISIBLE);
+        dimensions_text.setVisibility(View.VISIBLE);
+
         optionsAdapter = new OptionsAdapter(dish.getDimensions(), this);
         dimensions_list.setAdapter(optionsAdapter);
         Utilities.setListViewHeightBasedOnChildren(dimensions_list);
+
+        for (int i=0; i<dish.getComponents().size(); i++) {
+            TextView textView = (TextView) LayoutInflater.from(this).inflate(R.layout.textview_order_header, null);
+            textView.setText(dish.getComponents().get(i).getName() + " (" + dish.getComponents().get(i).getNumberChoiceMax() + " CHOIX)");
+            lists_container.addView(textView);
+
+            ListView listView = (ListView) LayoutInflater.from(this).inflate(R.layout.listview_order_options, null);
+            componentsAdapter = new ComponentsAdapter(dish.getComponents().get(i).getOptions(), this, dish.getComponents().get(i).getNumberChoiceMax());
+            listView.setAdapter(componentsAdapter);
+
+
+            listView.setLayoutParams(new LinearLayout.LayoutParams(LinearLayout.LayoutParams.MATCH_PARENT, Utilities.convDpToPx(this,30)*dish.getComponents().get(i).getNumberChoice() + Utilities.convDpToPx(this,16)));
+            listView.requestLayout();
+
+            lists_container.addView(listView);
+        }
+
     }
 
     @Override
     public void onSpecialitiesReceived(ArrayList<Speciality> specialities) {
 
     }
+
 }

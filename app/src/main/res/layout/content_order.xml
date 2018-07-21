@@ -14,7 +14,9 @@
         android:layout_width="match_parent"
         android:layout_height="match_parent"
         android:padding="15dp"
-        android:scrollbars="vertical">
+        android:scrollbars="vertical"
+        android:focusable="true"
+        android:focusableInTouchMode="true">
 
         <TextView
             android:id="@+id/dish_name"
@@ -148,35 +150,42 @@
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toBottomOf="@+id/textView4" />
 
-        <TextView
-            android:id="@+id/dimensions_text"
+        <LinearLayout
+            android:id="@+id/lists_container"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_marginStart="4dp"
             android:layout_marginTop="16dp"
-            android:fontFamily="@font/roboto"
-            android:text="OPTION (1 choix)"
-            android:textAllCaps="true"
-            android:textColor="@color/material_blue_grey_95"
-            android:textSize="16sp"
-            android:textStyle="bold"
-            android:visibility="invisible"
+            android:orientation="vertical"
             app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toBottomOf="@+id/additional_informations" />
+            app:layout_constraintTop_toBottomOf="@+id/additional_informations">
 
-        <ListView
-            android:id="@+id/dimensions_list"
-            android:layout_width="0dp"
-            android:layout_height="wrap_content"
-            android:layout_marginEnd="8dp"
-            android:layout_marginStart="8dp"
-            android:layout_marginTop="8dp"
-            android:choiceMode="singleChoice"
-            android:scrollbars="vertical"
-            android:visibility="invisible"
-            app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toBottomOf="@+id/dimensions_text" />
+            <TextView
+                android:id="@+id/dimensions_text"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginStart="4dp"
+                android:layout_marginTop="16dp"
+                android:fontFamily="@font/roboto"
+                android:text="OPTION (1 choix)"
+                android:textAllCaps="true"
+                android:textColor="@color/material_blue_grey_95"
+                android:textSize="16sp"
+                android:textStyle="bold"
+                android:visibility="invisible" />
+
+            <ListView
+                android:id="@+id/dimensions_list"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginBottom="8dp"
+                android:layout_marginEnd="8dp"
+                android:layout_marginStart="8dp"
+                android:layout_marginTop="8dp"
+                android:choiceMode="singleChoice"
+                android:scrollbars="vertical"
+                android:visibility="invisible" />
+        </LinearLayout>
 
         <LinearLayout
             android:layout_width="0dp"
@@ -187,7 +196,7 @@
             android:orientation="horizontal"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toBottomOf="@+id/dimensions_list">
+            app:layout_constraintTop_toBottomOf="@+id/lists_container">
 
             <Button
                 android:id="@+id/button5"
@@ -199,7 +208,7 @@
                 android:textSize="12sp" />
 
             <Button
-                android:id="@+id/button4"
+                android:id="@+id/cancel_order"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_weight="1"
