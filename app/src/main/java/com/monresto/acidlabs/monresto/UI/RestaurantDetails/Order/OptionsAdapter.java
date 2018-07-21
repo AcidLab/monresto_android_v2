@@ -53,7 +53,10 @@ public class OptionsAdapter extends ArrayAdapter<Option> {
         TextView option_price = v.findViewById(R.id.option_price);
         RadioButton option_radio = v.findViewById(R.id.option_radio);
 
-        option_name.setText(option.getTitle());
+        if (option.getTitle().trim().length() > 0) {
+            option_name.setText(Utilities.decodeUTF(option.getTitle()));
+        } else option_name.setText("Option " + position+1);
+
         option_price.setText("(" + String.valueOf(option.getPrice()) + " DT)");
 
         if (position == selectedItem) option_radio.setChecked(true);

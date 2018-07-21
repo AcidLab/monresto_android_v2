@@ -14,6 +14,7 @@ import android.widget.TextView;
 
 import com.monresto.acidlabs.monresto.Model.Dish;
 import com.monresto.acidlabs.monresto.R;
+import com.monresto.acidlabs.monresto.Utilities;
 
 import java.util.ArrayList;
 
@@ -52,7 +53,7 @@ public class ComponentsAdapter extends ArrayAdapter<Dish.Option> {
         TextView component_price = v.findViewById(R.id.component_price);
         final CheckBox component_checkbox = v.findViewById(R.id.component_checkbox);
 
-        component_name.setText(option.getTitle());
+        component_name.setText(Utilities.decodeUTF(option.getTitle()));
         component_price.setText("(" + String.valueOf(option.getPrice()) + " DT)");
 
         v.setOnClickListener(new View.OnClickListener() {

@@ -162,7 +162,9 @@ public class OrderActivity extends AppCompatActivity implements RestaurantAsyncR
 
         optionsAdapter = new OptionsAdapter(dish.getDimensions(), this);
         dimensions_list.setAdapter(optionsAdapter);
-        Utilities.setListViewHeightBasedOnChildren(dimensions_list);
+        dimensions_list.setLayoutParams(new LinearLayout.LayoutParams(LinearLayout.LayoutParams.MATCH_PARENT, Utilities.convDpToPx(this,30)*dish.getDimensions().size() + Utilities.convDpToPx(this,16)));
+        dimensions_list.requestLayout();
+
 
         for (int i=0; i<dish.getComponents().size(); i++) {
             TextView textView = (TextView) LayoutInflater.from(this).inflate(R.layout.textview_order_header, null);
