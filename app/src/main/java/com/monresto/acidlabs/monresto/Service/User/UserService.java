@@ -101,7 +101,7 @@ public class UserService {
                         try {
                             JSONObject jsonResponse = new JSONObject(response);
                             JSONObject clientObject = jsonResponse.getJSONObject("Client");
-                            int status = clientObject.getInt("Status");
+                            int status = jsonResponse.getInt("Status");
                             if (status != 0) {
                                 int id = clientObject.optInt("userID");
                                 User user = new User(id, login, "", "", "", "", "", "", "", null);

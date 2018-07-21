@@ -1,20 +1,21 @@
 package com.monresto.acidlabs.monresto.UI.User;
 
+import android.support.v4.app.Fragment;
 import android.graphics.Paint;
 import android.os.Bundle;
-import android.support.design.widget.TextInputEditText;
+import android.support.v4.app.FragmentManager;
+import android.support.v4.app.FragmentTransaction;
 import android.support.v7.app.AppCompatActivity;
-import android.view.View;
+import android.support.v7.app.AppCompatDelegate;
 import android.widget.Button;
 import android.widget.EditText;
 
-import com.monresto.acidlabs.monresto.Model.Address;
 import com.monresto.acidlabs.monresto.Model.User;
 import com.monresto.acidlabs.monresto.R;
 import com.monresto.acidlabs.monresto.Service.User.UserAsyncResponse;
 import com.monresto.acidlabs.monresto.Service.User.UserService;
+import com.monresto.acidlabs.monresto.UI.Profile.FragmentProfile;
 
-import java.util.ArrayList;
 import java.util.Objects;
 
 import butterknife.BindView;
@@ -37,7 +38,7 @@ public class LoginActivity extends AppCompatActivity implements UserAsyncRespons
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.login1);
+        setContentView(R.layout.login);
         ButterKnife.bind(this);
 
         userService = new UserService(this);
@@ -62,6 +63,6 @@ public class LoginActivity extends AppCompatActivity implements UserAsyncRespons
 
     @Override
     public void onUserDetailsReceived(User user) {
-
+        finish();
     }
 }

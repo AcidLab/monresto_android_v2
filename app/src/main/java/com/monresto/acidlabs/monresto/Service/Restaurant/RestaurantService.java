@@ -161,8 +161,7 @@ public class RestaurantService {
         ) {
             @Override
             protected Map<String, String> getParams() {
-                int userID = User.getInstance().getId();
-                System.out.println("SPECIAL DEBUG: User involved is: " + userID);
+                int userID = User.getInstance()==null ? 0 : User.getInstance().getId();
 
                 Map<String, String> params = new HashMap<>();
                 String signature = Utilities.md5("" + userID + restoID + menu.getId() + Config.sharedKey);
@@ -268,7 +267,7 @@ public class RestaurantService {
     }
 
     public void getSpecialities(){
-        final int userID = User.getInstance().getId();
+        final int userID = User.getInstance()==null ? 0 : User.getInstance().getId();
         RequestQueue queue = Volley.newRequestQueue(context);
         String url = Config.server + "Speciality/speciality.php";
 

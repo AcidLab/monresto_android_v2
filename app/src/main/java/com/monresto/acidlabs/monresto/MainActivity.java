@@ -1,7 +1,6 @@
 package com.monresto.acidlabs.monresto;
 
 import android.annotation.SuppressLint;
-import android.content.Intent;
 import android.os.Bundle;
 import android.support.design.widget.TabLayout;
 import android.support.v4.view.ViewPager;
@@ -18,7 +17,6 @@ import com.monresto.acidlabs.monresto.UI.Cart.FragmentCart;
 import com.monresto.acidlabs.monresto.UI.Profile.FragmentProfile;
 import com.monresto.acidlabs.monresto.UI.Restaurants.FragmentRestaurant;
 import com.monresto.acidlabs.monresto.UI.Restaurants.ViewPagerAdapter;
-import com.monresto.acidlabs.monresto.UI.User.LoginActivity;
 
 import java.util.ArrayList;
 
@@ -31,6 +29,8 @@ public class MainActivity extends AppCompatActivity implements RestaurantAsyncRe
     private ViewPagerAdapter adapter;
     private ArrayList<Restaurant> restaurants;
     private FragmentRestaurant fragmentRestaurants;
+    private FragmentProfile fragmentProfile;
+    private FragmentCart fragmentCart;
 
     private FusedLocationProviderClient mFusedLocationClient;
 
@@ -41,40 +41,32 @@ public class MainActivity extends AppCompatActivity implements RestaurantAsyncRe
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
 
-        boolean login = true;
+        tabLayout = findViewById(R.id.tabLayout_id);
+        viewPager = findViewById(R.id.viewPager_id);
+        adapter = new ViewPagerAdapter(getSupportFragmentManager());
 
-        if(login){
-            tabLayout = findViewById(R.id.tabLayout_id);
-            viewPager = findViewById(R.id.viewPager_id);
-            adapter = new ViewPagerAdapter(getSupportFragmentManager());
+        RestaurantService service = new RestaurantService(this);
+        service.getAll(0, 0);
 
-            RestaurantService service = new RestaurantService(this);
-            service.getAll(0, 0);
+        fragmentRestaurants = new FragmentRestaurant();
+        fragmentCart = new FragmentCart();
+        fragmentProfile = new FragmentProfile();
 
-            fragmentRestaurants = new FragmentRestaurant();
+        adapter.AddFragment(fragmentRestaurants, "Restaurants");
+        adapter.AddFragment(fragmentCart, "Panier");
+        adapter.AddFragment(fragmentProfile, "Profil");
 
-            adapter.AddFragment(fragmentRestaurants, "Restaurants");
-            adapter.AddFragment(new FragmentCart(), "Panier");
-            adapter.AddFragment(new FragmentProfile(), "Profil");
+        viewPager.setAdapter(adapter);
+        viewPager.setOffscreenPageLimit(3);
+        tabLayout.setupWithViewPager(viewPager);
 
-            viewPager.setAdapter(adapter);
-            viewPager.setOffscreenPageLimit(3);
-            tabLayout.setupWithViewPager(viewPager);
-
-            tabLayout.getTabAt(0).setIcon(R.drawable.store_light);
-            tabLayout.getTabAt(1).setIcon(R.drawable.cart_light);
-            tabLayout.getTabAt(2).setIcon(R.drawable.user_light);
-        }
-        else{
-            Intent intent = new Intent(this, LoginActivity.class);
-            startActivity(intent);
-        }
-
-
-
-
-
+        tabLayout.getTabAt(0).setIcon(R.drawable.store_light);
+        tabLayout.getTabAt(1).setIcon(R.drawable.cart_light);
+        tabLayout.getTabAt(2).setIcon(R.drawable.user_light);
     }
+    //Intent intent = new Intent(this, LoginActivity.class);
+    // startActivity(intent);
+
 
     @Override
     public void onListReceived(ArrayList<Restaurant> restaurantList) {
