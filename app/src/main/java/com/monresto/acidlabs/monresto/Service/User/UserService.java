@@ -2,6 +2,7 @@ package com.monresto.acidlabs.monresto.Service.User;
 
 import android.content.Context;
 import android.content.SharedPreferences;
+import android.content.res.Resources;
 import android.util.Log;
 
 import com.android.volley.Request;
@@ -91,7 +92,7 @@ public class UserService {
      *
      * onUserLogin should call for getDetails with login parameter true
      */
-    public void login(final String login, final String password) {
+    public void login(final String login, final String password, SharedPreferences sharedPref) {
         RequestQueue queue = Volley.newRequestQueue(context);
         String url = Config.server + "User/Login.php";
         StringRequest postRequest = new StringRequest(Request.Method.POST, url,
@@ -105,6 +106,12 @@ public class UserService {
                             if (status != 0) {
                                 int id = clientObject.optInt("userID");
                                 User user = new User(id, login, "", "", "", "", "", "", "", null);
+                                String isLogin = sharedPref.getString("passwordLogin", null);
+                                if(isLogin==null){
+                                    SharedPreferences.Editor editor = sharedPref.edit();
+                                    editor.putString("passwordLogin", "{login: "+login+", password: "+password+"}");
+                                    editor.apply();
+                                }
                                 ((UserAsyncResponse) context).onUserLogin(user);
                             }
                         } catch (JSONException e) {
@@ -137,17 +144,9 @@ public class UserService {
         queue.add(postRequest);
     }
 
-    public void login(final String login, final String password, SharedPreferences sharedPref) {
-        SharedPreferences.Editor editor = sharedPref.edit();
-        editor.putString("login", login);
-        editor.putString("password", password);
-        editor.apply();
-    }
-
-    public void facebookLogin(final String socialID, final String email, final String fname, final String lname) {
+    public void facebookLogin(final String socialID, final String email, final String fname, final String lname, SharedPreferences sharedPref) {
         final int socialNetworkID = 1;
         final int deviceID = 1;
-
         RequestQueue queue = Volley.newRequestQueue(context);
         String url = Config.server + "User/socialConnect.php"; //doesn't work
         url = "http://41.231.54.20/jibly/api/User/socialConnect.php";
@@ -158,10 +157,13 @@ public class UserService {
                         try {
                             JSONObject jsonResponse = new JSONObject(response);
                             JSONObject clientObject = jsonResponse.getJSONObject("Client");
-                            int status = clientObject.getInt("Status");
+                            int status = jsonResponse.getInt("Status");
                             if (status != 0) {
                                 int id = clientObject.optInt("userID");
                                 User user = new User(id, email, fname, lname);
+                                SharedPreferences.Editor editor = sharedPref.edit();
+                                editor.putString("fbLogin", "{id: "+id+", email: "+email+", fname: "+fname+", lname: "+lname+"}");
+                                editor.apply();
                                 ((UserAsyncResponse) context).onUserLogin(user);
                             }
                         } catch (JSONException e) {

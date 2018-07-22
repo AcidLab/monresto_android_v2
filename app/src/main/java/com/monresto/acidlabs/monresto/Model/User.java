@@ -132,4 +132,9 @@ public class User {
     public ArrayList<Address> getAddresses() {
         return addresses;
     }
+
+    @Override
+    public String toString(){
+        return id+" - " + email + " " + fname + " " + lname;
+    }
 }

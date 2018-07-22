@@ -26,6 +26,8 @@ public class FragmentProfile extends Fragment {
     @BindView(R.id.viewPagerProfile)
     ViewPager viewPager;
 
+    FragmentProfileLogin fragmentProfileLogin;
+
     @Nullable
     @Override
     public View onCreateView(@NonNull LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
@@ -33,9 +35,10 @@ public class FragmentProfile extends Fragment {
         root = (ViewGroup) inflater.inflate(R.layout.fragment_profile, container, false);
         ButterKnife.bind(this, root);
 
+        fragmentProfileLogin = new FragmentProfileLogin();
         ViewPagerAdapter viewPagerAdapter = new ViewPagerAdapter(getFragmentManager());
         viewPagerAdapter.AddFragment(new FragmentProfileNoLogin(), "no_login");
-        viewPagerAdapter.AddFragment(new FragmentProfileLogin(), "login");
+        viewPagerAdapter.AddFragment(fragmentProfileLogin, "login");
 
         viewPager.setAdapter(viewPagerAdapter);
 
@@ -44,11 +47,27 @@ public class FragmentProfile extends Fragment {
     }
 
     @Override
+    public void setUserVisibleHint(boolean isVisible) {
+        super.setUserVisibleHint(isVisible);
+
+        if ((getFragmentManager() != null) && isVisible) {
+            if (User.getInstance() == null)
+                viewPager.setCurrentItem(0);
+            else{
+                viewPager.setCurrentItem(1);
+                fragmentProfileLogin.update();
+            }
+        }
+    }
+
+    @Override
     public void onResume() {
         super.onResume();
         if (User.getInstance() == null)
             viewPager.setCurrentItem(0);
-        else
+        else{
             viewPager.setCurrentItem(1);
+            fragmentProfileLogin.update();
+        }
     }
 }

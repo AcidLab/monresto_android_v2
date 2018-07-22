@@ -1,5 +1,6 @@
 package com.monresto.acidlabs.monresto.UI.User;
 
+import android.content.Context;
 import android.content.Intent;
 import android.content.pm.PackageInfo;
 import android.content.pm.PackageManager;
@@ -31,8 +32,8 @@ import java.util.Arrays;
 
 //Fb login test
 public class FacebookActivity extends AppCompatActivity implements UserAsyncResponse {
-    CallbackManager callbackManager;
-    UserService userService;
+    private CallbackManager callbackManager;
+    private UserService userService;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -79,7 +80,7 @@ public class FacebookActivity extends AppCompatActivity implements UserAsyncResp
                             String fname = object.getString("first_name");
                             String lname = object.getString("last_name");
                             Log.d("onCompleted", fname + " - " + lname);
-                            userService.facebookLogin(socialID, email, fname, lname);
+                            userService.facebookLogin(socialID, email, fname, lname, getPreferences(Context.MODE_PRIVATE));
                         } catch (JSONException e) {
                             e.printStackTrace();
                         }

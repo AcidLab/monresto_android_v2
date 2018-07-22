@@ -1,39 +1,57 @@
 package com.monresto.acidlabs.monresto;
 
 import android.annotation.SuppressLint;
+import android.content.Context;
+import android.content.Intent;
+import android.content.SharedPreferences;
 import android.os.Bundle;
 import android.support.design.widget.TabLayout;
 import android.support.v4.view.ViewPager;
 import android.support.v7.app.AppCompatActivity;
+import android.util.Log;
 
+import com.facebook.AccessToken;
+import com.facebook.CallbackManager;
+import com.facebook.GraphRequest;
+import com.facebook.GraphResponse;
+import com.facebook.login.LoginManager;
+import com.facebook.login.widget.LoginButton;
 import com.google.android.gms.location.FusedLocationProviderClient;
 import com.monresto.acidlabs.monresto.Model.Dish;
 import com.monresto.acidlabs.monresto.Model.Menu;
 import com.monresto.acidlabs.monresto.Model.Restaurant;
 import com.monresto.acidlabs.monresto.Model.Speciality;
+import com.monresto.acidlabs.monresto.Model.User;
 import com.monresto.acidlabs.monresto.Service.Restaurant.RestaurantAsyncResponse;
 import com.monresto.acidlabs.monresto.Service.Restaurant.RestaurantService;
+import com.monresto.acidlabs.monresto.Service.User.UserAsyncResponse;
+import com.monresto.acidlabs.monresto.Service.User.UserService;
 import com.monresto.acidlabs.monresto.UI.Cart.FragmentCart;
 import com.monresto.acidlabs.monresto.UI.Profile.FragmentProfile;
 import com.monresto.acidlabs.monresto.UI.Restaurants.FragmentRestaurant;
 import com.monresto.acidlabs.monresto.UI.Restaurants.ViewPagerAdapter;
 
+import org.json.JSONException;
+import org.json.JSONObject;
+
 import java.util.ArrayList;
+import java.util.Arrays;
 
 
 //Testing fetch information from api
 
-public class MainActivity extends AppCompatActivity implements RestaurantAsyncResponse {
+public class MainActivity extends AppCompatActivity implements RestaurantAsyncResponse, UserAsyncResponse {
     private TabLayout tabLayout;
     private ViewPager viewPager;
     private ViewPagerAdapter adapter;
     private ArrayList<Restaurant> restaurants;
+    private ArrayList<Speciality> specialities;
     private FragmentRestaurant fragmentRestaurants;
     private FragmentProfile fragmentProfile;
     private FragmentCart fragmentCart;
 
     private FusedLocationProviderClient mFusedLocationClient;
-
+    private UserService userService;
 
     @SuppressLint("MissingPermission")
     @Override
@@ -41,12 +59,41 @@ public class MainActivity extends AppCompatActivity implements RestaurantAsyncRe
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
 
+        RestaurantService service = new RestaurantService(this);
+        userService = new UserService(this);
+
+        SharedPreferences sharedPref = getSharedPreferences("login_data", Context.MODE_PRIVATE);
+        String savedLogin = sharedPref.getString("passwordLogin", null);
+        JSONObject loginObj;
+        if (savedLogin != null) {
+            try {
+                loginObj = new JSONObject(savedLogin);
+                userService.login(loginObj.getString("login"), loginObj.getString("password"), sharedPref);
+            } catch (JSONException e) {
+                e.printStackTrace();
+            }
+        } else {
+            AccessToken accessToken = AccessToken.getCurrentAccessToken();
+            if (accessToken != null && !accessToken.isExpired()) {
+                savedLogin = sharedPref.getString("fbLogin", null);
+                if (savedLogin != null) {
+                    try {
+                        loginObj = new JSONObject(savedLogin);
+                        User.setInstance(new User(loginObj.getInt("id"), loginObj.getString("email"), loginObj.getString("fname"), loginObj.getString("lname")));
+                    } catch (JSONException e) {
+                        e.printStackTrace();
+                    }
+                }
+
+            }
+        }
+
+        service.getAll(0, 0);
+        service.getSpecialities();
+
         tabLayout = findViewById(R.id.tabLayout_id);
         viewPager = findViewById(R.id.viewPager_id);
         adapter = new ViewPagerAdapter(getSupportFragmentManager());
-
-        RestaurantService service = new RestaurantService(this);
-        service.getAll(0, 0);
 
         fragmentRestaurants = new FragmentRestaurant();
         fragmentCart = new FragmentCart();
@@ -64,9 +111,6 @@ public class MainActivity extends AppCompatActivity implements RestaurantAsyncRe
         tabLayout.getTabAt(1).setIcon(R.drawable.cart_light);
         tabLayout.getTabAt(2).setIcon(R.drawable.user_light);
     }
-    //Intent intent = new Intent(this, LoginActivity.class);
-    // startActivity(intent);
-
 
     @Override
     public void onListReceived(ArrayList<Restaurant> restaurantList) {
@@ -92,6 +136,16 @@ public class MainActivity extends AppCompatActivity implements RestaurantAsyncRe
 
     @Override
     public void onSpecialitiesReceived(ArrayList<Speciality> specialities) {
-
+        this.specialities = specialities;
     }
+
+    @Override
+    public void onUserLogin(User user) {
+        userService.getDetails(user.getId(), true);
+    }
+
+    @Override
+    public void onUserDetailsReceived(User user) {
+    }
+
 }
