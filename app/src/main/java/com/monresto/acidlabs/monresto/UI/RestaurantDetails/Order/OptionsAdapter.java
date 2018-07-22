@@ -28,12 +28,17 @@ public class OptionsAdapter extends ArrayAdapter<Option> {
     private ArrayList<Option> optionsList;
     private Context context;
     private int selectedItem;
+    private TextView total_order;
+    double oldPriceSelected;
 
-    public OptionsAdapter(ArrayList<Option> optionsList, Context context) {
+    public OptionsAdapter(ArrayList<Option> optionsList, Context context, TextView total_order) {
         super(context, R.layout.item_dish_option, optionsList);
         this.optionsList = optionsList;
         this.context = context;
-        selectedItem = (-1);
+        selectedItem = 0;
+        this.total_order = total_order;
+        oldPriceSelected = optionsList.get(0).getPrice();
+        this.total_order.setText(String.valueOf(oldPriceSelected));
     }
 
 
@@ -54,26 +59,30 @@ public class OptionsAdapter extends ArrayAdapter<Option> {
         RadioButton option_radio = v.findViewById(R.id.option_radio);
 
         if (option.getTitle().trim().length() > 0) {
-            option_name.setText(Utilities.decodeUTF(option.getTitle()));
+            option_name.setText(option.getTitle());
         } else option_name.setText("Option " + position+1);
 
         option_price.setText("(" + String.valueOf(option.getPrice()) + " DT)");
 
-        if (position == selectedItem) option_radio.setChecked(true);
-        else option_radio.setChecked(false);
+        if (position == selectedItem) {
+            option_radio.setChecked(true);
+            total_order.setText(String.valueOf(Double.valueOf(total_order.getText().toString()) - oldPriceSelected));
+            total_order.setText(String.valueOf(Double.valueOf(total_order.getText().toString()) + option.getPrice()));
+            oldPriceSelected = option.getPrice();
+        } else option_radio.setChecked(false);
 
         v.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
                 selectedItem = position;
-                OptionsAdapter.this.notifyDataSetChanged();
+                notifyDataSetChanged();
             }
         });
         option_radio.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
                 selectedItem = position;
-                OptionsAdapter.this.notifyDataSetChanged();
+                notifyDataSetChanged();
             }
         });
 

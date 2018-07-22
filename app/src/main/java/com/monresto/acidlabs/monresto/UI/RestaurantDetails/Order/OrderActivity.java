@@ -1,5 +1,6 @@
 package com.monresto.acidlabs.monresto.UI.RestaurantDetails.Order;
 
+import android.annotation.SuppressLint;
 import android.content.Intent;
 import android.os.Bundle;
 import android.support.constraint.ConstraintLayout;
@@ -45,6 +46,9 @@ public class OrderActivity extends AppCompatActivity implements RestaurantAsyncR
 
     @BindView(R.id.dish_name)
     TextView dish_name;
+
+    @BindView(R.id.total_order)
+    TextView total_order;
 
     @BindView(R.id.dimensions_list)
     ListView dimensions_list;
@@ -109,6 +113,7 @@ public class OrderActivity extends AppCompatActivity implements RestaurantAsyncR
             }
         });
 
+        total_order.setText(String.valueOf(dish.getPrice()));
         cancel_order.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
@@ -131,6 +136,7 @@ public class OrderActivity extends AppCompatActivity implements RestaurantAsyncR
         });
 
         if (dish.isComposed()) {
+            total_order.setText("0");
             restaurantService = new RestaurantService(this);
             restaurantService.getComposedDish(dish);
         }
@@ -160,7 +166,7 @@ public class OrderActivity extends AppCompatActivity implements RestaurantAsyncR
         dimensions_list.setVisibility(View.VISIBLE);
         dimensions_text.setVisibility(View.VISIBLE);
 
-        optionsAdapter = new OptionsAdapter(dish.getDimensions(), this);
+        optionsAdapter = new OptionsAdapter(dish.getDimensions(), this, total_order);
         dimensions_list.setAdapter(optionsAdapter);
         dimensions_list.setLayoutParams(new LinearLayout.LayoutParams(LinearLayout.LayoutParams.MATCH_PARENT, Utilities.convDpToPx(this,30)*dish.getDimensions().size() + Utilities.convDpToPx(this,16)));
         dimensions_list.requestLayout();
@@ -172,7 +178,7 @@ public class OrderActivity extends AppCompatActivity implements RestaurantAsyncR
             lists_container.addView(textView);
 
             ListView listView = (ListView) LayoutInflater.from(this).inflate(R.layout.listview_order_options, null);
-            componentsAdapter = new ComponentsAdapter(dish.getComponents().get(i).getOptions(), this, dish.getComponents().get(i).getNumberChoiceMax());
+            componentsAdapter = new ComponentsAdapter(dish.getComponents().get(i).getOptions(), this, dish.getComponents().get(i).getNumberChoiceMax(), total_order);
             listView.setAdapter(componentsAdapter);
 
 
@@ -188,5 +194,6 @@ public class OrderActivity extends AppCompatActivity implements RestaurantAsyncR
     public void onSpecialitiesReceived(ArrayList<Speciality> specialities) {
 
     }
+
 
 }
