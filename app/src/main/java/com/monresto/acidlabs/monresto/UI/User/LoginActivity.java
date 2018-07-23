@@ -3,13 +3,9 @@ package com.monresto.acidlabs.monresto.UI.User;
 import android.content.Context;
 import android.content.Intent;
 import android.content.SharedPreferences;
-import android.support.v4.app.Fragment;
 import android.graphics.Paint;
 import android.os.Bundle;
-import android.support.v4.app.FragmentManager;
-import android.support.v4.app.FragmentTransaction;
 import android.support.v7.app.AppCompatActivity;
-import android.support.v7.app.AppCompatDelegate;
 import android.util.Log;
 import android.widget.Button;
 import android.widget.EditText;
@@ -26,7 +22,6 @@ import com.monresto.acidlabs.monresto.Model.User;
 import com.monresto.acidlabs.monresto.R;
 import com.monresto.acidlabs.monresto.Service.User.UserAsyncResponse;
 import com.monresto.acidlabs.monresto.Service.User.UserService;
-import com.monresto.acidlabs.monresto.UI.Profile.FragmentProfile;
 
 import org.json.JSONException;
 import org.json.JSONObject;
@@ -56,7 +51,7 @@ public class LoginActivity extends AppCompatActivity implements UserAsyncRespons
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.login);
+        setContentView(R.layout.activity_login);
         ButterKnife.bind(this);
 
         userService = new UserService(this);
@@ -68,20 +63,18 @@ public class LoginActivity extends AppCompatActivity implements UserAsyncRespons
         loginButton.setOnClickListener(e -> {
             String login = Objects.requireNonNull(textLogin.getText()).toString();
             String password = Objects.requireNonNull(textPassword.getText()).toString();
-
             userService.login(login, password, sharedPref);
+        });
 
+        registerButton.setOnClickListener(e -> {
+            Intent intent = new Intent(this, RegisterActivity.class);
+            startActivity(intent);
+            finish();
         });
 
         callbackManager = CallbackManager.Factory.create();
-
-        LoginButton loginButton = findViewById(R.id.fbButton);
+        LoginButton loginButton = findViewById(R.id.nextButton);
         loginButton.setReadPermissions(Arrays.asList("public_profile", "email"));
-
-        /*AccessToken accessToken = AccessToken.getCurrentAccessToken();
-        if(accessToken != null && !accessToken.isExpired()){
-            doGraphRequest();
-        }*/
 
         loginButton.registerCallback(callbackManager, new FacebookCallback<LoginResult>() {
             @Override
@@ -111,7 +104,6 @@ public class LoginActivity extends AppCompatActivity implements UserAsyncRespons
     public void onUserDetailsReceived(User user) {
         finish();
     }
-
 
     private void doGraphRequest(){
         GraphRequest request = GraphRequest.newMeRequest(

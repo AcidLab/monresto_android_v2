@@ -159,12 +159,12 @@
                         android:layout_marginStart="8dp"
                         android:background="@android:color/darker_gray"
                         android:visibility="visible"
-                        app:layout_constraintBottom_toTopOf="@+id/fbButton"
+                        app:layout_constraintBottom_toTopOf="@+id/nextButton"
                         app:layout_constraintEnd_toEndOf="parent"
                         app:layout_constraintStart_toStartOf="parent" />
 
                     <com.facebook.login.widget.LoginButton
-                        android:id="@+id/fbButton"
+                        android:id="@+id/nextButton"
                         style="@style/FacebookLoginButton"
                         android:layout_width="0dp"
                         android:layout_height="45dp"

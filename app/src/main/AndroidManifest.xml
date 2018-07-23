@@ -24,8 +24,8 @@
         </activity>
         <activity android:name=".UI.HomeActivity" />
         <activity android:name=".UI.RestaurantDetails.RestaurantDetailsActivity" />
-        <activity android:name=".UI.User.FacebookActivity" />
         <activity android:name=".UI.User.LoginActivity" />
+        <activity android:name=".UI.User.RegisterActivity" />
         <activity
             android:name=".UI.RestaurantDetails.Order.OrderActivity"
             android:excludeFromRecents="true"
