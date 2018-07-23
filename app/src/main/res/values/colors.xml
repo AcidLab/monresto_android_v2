@@ -3,7 +3,7 @@
     <color name="colorPrimary">#000000</color>
     <color name="colorPrimaryDark">#ffffff</color>
     <color name="colorPrimaryDarkDisabled">#96acacac</color>
-    <color name="colorAccent">#5990a1</color>
+    <color name="colorAccent">#009688</color>
     <color name="sweet_dialog_bg_color">#FFFFFF</color>
     <color name="button_text_color">#ffffff</color>
     <color name="gray_btn_bg_color">#efefef</color>
