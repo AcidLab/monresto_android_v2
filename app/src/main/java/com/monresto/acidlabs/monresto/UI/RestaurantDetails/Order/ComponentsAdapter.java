@@ -26,19 +26,23 @@ public class ComponentsAdapter extends ArrayAdapter<Dish.Option> {
     private int selectedItemCounter;
     private int maxChoices;
     private TextView total_order;
+    private ArrayList<Integer> checkedItemsPositions;
+    private TextView dish_quantity;
 
-    public ComponentsAdapter(ArrayList<Dish.Option> optionsList, Context context, int maxChoices, TextView total_order) {
+    public ComponentsAdapter(ArrayList<Dish.Option> optionsList, Context context, int maxChoices, TextView total_order, TextView dish_quantity) {
         super(context, R.layout.item_dish_option, optionsList);
         this.optionsList = optionsList;
         this.context = context;
         selectedItemCounter = 0;
         this.maxChoices = maxChoices;
         this.total_order = total_order;
+        checkedItemsPositions = new ArrayList<>();
+        this.dish_quantity = dish_quantity;
     }
 
     @NonNull
     @Override
-    public View getView(int position, @Nullable View convertView, @NonNull ViewGroup parent) {
+    public View getView(final int position, @Nullable View convertView, @NonNull ViewGroup parent) {
         View v = convertView;
 
         if (convertView == null) {
@@ -68,22 +72,31 @@ public class ComponentsAdapter extends ArrayAdapter<Dish.Option> {
             public void onCheckedChanged(CompoundButton buttonView, boolean isChecked) {
                 if (isChecked) {
                     selectedItemCounter++;
-
                     if (selectedItemCounter > maxChoices) {
                         buttonView.setChecked(false);
                         selectedItemCounter--;
                         notifyDataSetChanged();
-                    } else total_order.setText(String.valueOf(Double.valueOf(total_order.getText().toString())+option.getPrice()));
+                    } else {
+                        total_order.setText(String.valueOf(Double.valueOf(total_order.getText().toString())+option.getPrice() * Integer.valueOf(dish_quantity.getText().toString())));
+
+                        checkedItemsPositions.add(position);
+
+                    }
                 } else {
                     selectedItemCounter--;
-                    total_order.setText(String.valueOf(Double.valueOf(total_order.getText().toString())-option.getPrice()));
+                    total_order.setText(String.valueOf(Double.valueOf(total_order.getText().toString())-option.getPrice() * Integer.valueOf(dish_quantity.getText().toString())));
+
+                    checkedItemsPositions.remove(checkedItemsPositions.indexOf(position));
+
                 }
             }
         });
 
-        //component_checkbox.setChecked(false);
-
         return v;
     }
 
+
+    public ArrayList<Integer> getCheckedItemsPositions() {
+        return checkedItemsPositions;
+    }
 }

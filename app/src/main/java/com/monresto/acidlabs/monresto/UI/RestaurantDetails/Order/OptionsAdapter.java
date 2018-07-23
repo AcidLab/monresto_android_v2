@@ -11,6 +11,7 @@ import android.widget.ArrayAdapter;
 import android.widget.CheckBox;
 import android.widget.CompoundButton;
 import android.widget.LinearLayout;
+import android.widget.ListView;
 import android.widget.RadioButton;
 import android.widget.TextView;
 
@@ -29,9 +30,10 @@ public class OptionsAdapter extends ArrayAdapter<Option> {
     private Context context;
     private int selectedItem;
     private TextView total_order;
-    double oldPriceSelected;
+    private double oldPriceSelected;
+    private TextView dish_quantity;
 
-    public OptionsAdapter(ArrayList<Option> optionsList, Context context, TextView total_order) {
+    public OptionsAdapter(ArrayList<Option> optionsList, Context context, TextView total_order, TextView dish_quantity) {
         super(context, R.layout.item_dish_option, optionsList);
         this.optionsList = optionsList;
         this.context = context;
@@ -39,6 +41,7 @@ public class OptionsAdapter extends ArrayAdapter<Option> {
         this.total_order = total_order;
         oldPriceSelected = optionsList.get(0).getPrice();
         this.total_order.setText(String.valueOf(oldPriceSelected));
+        this.dish_quantity = dish_quantity;
     }
 
 
@@ -60,14 +63,14 @@ public class OptionsAdapter extends ArrayAdapter<Option> {
 
         if (option.getTitle().trim().length() > 0) {
             option_name.setText(option.getTitle());
-        } else option_name.setText("Option " + position+1);
+        } else option_name.setText("Option " + position + 1);
 
         option_price.setText("(" + String.valueOf(option.getPrice()) + " DT)");
 
         if (position == selectedItem) {
             option_radio.setChecked(true);
-            total_order.setText(String.valueOf(Double.valueOf(total_order.getText().toString()) - oldPriceSelected));
-            total_order.setText(String.valueOf(Double.valueOf(total_order.getText().toString()) + option.getPrice()));
+            total_order.setText(String.valueOf(Double.valueOf(total_order.getText().toString()) - oldPriceSelected * Integer.valueOf(dish_quantity.getText().toString())));
+            total_order.setText(String.valueOf(Double.valueOf(total_order.getText().toString()) + option.getPrice() * Integer.valueOf(dish_quantity.getText().toString())));
             oldPriceSelected = option.getPrice();
         } else option_radio.setChecked(false);
 
@@ -88,5 +91,9 @@ public class OptionsAdapter extends ArrayAdapter<Option> {
 
 
         return v;
+    }
+
+    public int getSelectedItem() {
+        return selectedItem;
     }
 }
