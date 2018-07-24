@@ -25,8 +25,7 @@
         <activity android:name=".UI.HomeActivity" />
         <activity android:name=".UI.RestaurantDetails.RestaurantDetailsActivity" />
         <activity android:name=".UI.User.LoginActivity" />
-        <activity android:name=".UI.User.RegisterActivity"
-            android:windowSoftInputMode="adjustPan"/>
+        <activity android:name=".UI.User.RegisterActivity"/>
         <activity
             android:name=".UI.RestaurantDetails.Order.OrderActivity"
             android:excludeFromRecents="true"

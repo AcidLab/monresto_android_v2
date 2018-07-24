@@ -10,12 +10,15 @@ import android.view.ViewGroup;
 
 import com.monresto.acidlabs.monresto.R;
 
+import butterknife.ButterKnife;
+
 public class FragmentRegisterAddress extends Fragment {
     @Nullable
     @Override
     public View onCreateView(@NonNull LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
         ViewGroup root;
         root = (ViewGroup) inflater.inflate(R.layout.fragment_register_address, container, false);
+        ButterKnife.bind(this, root);
 
         return root;
     }

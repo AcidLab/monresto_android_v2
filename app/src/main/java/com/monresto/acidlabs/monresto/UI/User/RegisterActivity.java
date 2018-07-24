@@ -2,13 +2,17 @@ package com.monresto.acidlabs.monresto.UI.User;
 
 import android.annotation.SuppressLint;
 import android.os.Bundle;
+import android.support.constraint.ConstraintLayout;
 import android.support.v4.view.ViewPager;
 import android.support.v7.app.AppCompatActivity;
 import android.view.MotionEvent;
 import android.view.View;
+import android.view.ViewGroup;
 import android.widget.Button;
+import android.widget.LinearLayout;
 
 import com.monresto.acidlabs.monresto.Model.Address;
+import com.monresto.acidlabs.monresto.Model.User;
 import com.monresto.acidlabs.monresto.R;
 import com.monresto.acidlabs.monresto.Service.User.UserService;
 import com.monresto.acidlabs.monresto.UI.Restaurants.ViewPagerAdapter;
@@ -24,6 +28,7 @@ public class RegisterActivity extends AppCompatActivity {
     @BindView(R.id.nextButton)
     Button nextButton;
 
+    boolean isValid = true;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -42,17 +47,44 @@ public class RegisterActivity extends AppCompatActivity {
 
         viewPager.setAdapter(viewPagerAdapter);
 
+        UserService userService = new UserService(this);
+        User newUser = new User(0 ,"" ,"" ,"");
+
         nextButton.setOnClickListener(e -> {
-            if(viewPager.getCurrentItem()<3)
-                viewPager.setCurrentItem(viewPager.getCurrentItem()+1);
+            switch (viewPager.getCurrentItem()) {
+                case 0:
+                    if(fragmentRegisterLoginInfo.validate()){
+                        fragmentRegisterLoginInfo.fill(newUser);
+                        viewPager.setCurrentItem(viewPager.getCurrentItem() + 1);
+                    }
+                    break;
+
+                case 1:
+                    if(fragmentRegisterPersonalInfo.validate()){
+                        fragmentRegisterPersonalInfo.fill(newUser);
+                        viewPager.setCurrentItem(viewPager.getCurrentItem() + 1);
+                    }
+                    break;
+
+                case 2:
+
+                    if(false)
+                    userService.register(newUser.getLogin(),newUser.getPassword(),newUser.getPassword_confirm(),newUser.getEmail(),newUser.getFname(),
+                            newUser.getLname(),newUser.getCivility(),newUser.getPhone(),newUser.getMobile(),"", newUser.getAddresses());
+                    break;
+                default:
+                    break;
+
+            }
+
         });
+
 
         /*ArrayList<Address> addresses = new ArrayList<>();
         Address A = new Address(30.1, 20.1, "ok", "ok", "ok", "ok", "ok", 9999, 5, 22, "yes");
 
         addresses.add(A);
 
-        UserService userService = new UserService(this);
         userService.register("mrTester","azerty","azerty","tester@az.er","Cool",
                 "Tester","whatever","11111","22222","no", addresses);*/
 

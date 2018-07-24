@@ -133,6 +133,46 @@ public class User {
         return addresses;
     }
 
+    public void setLogin(String login) {
+        this.login = login;
+    }
+
+    public void setPassword(String password) {
+        this.password = password;
+    }
+
+    public void setEmail(String email) {
+        this.email = email;
+    }
+
+    public void setFname(String fname) {
+        this.fname = fname;
+    }
+
+    public void setLname(String lname) {
+        this.lname = lname;
+    }
+
+    public void setCivility(String civility) {
+        this.civility = civility;
+    }
+
+    public void setPhone(String phone) {
+        this.phone = phone;
+    }
+
+    public void setMobile(String mobile) {
+        this.mobile = mobile;
+    }
+
+    public void setComment(String comment) {
+        this.comment = comment;
+    }
+
+    public void setAddresses(ArrayList<Address> addresses) {
+        this.addresses = addresses;
+    }
+
     @Override
     public String toString(){
         return id+" - " + email + " " + fname + " " + lname;
