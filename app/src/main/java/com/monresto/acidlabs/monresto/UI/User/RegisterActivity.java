@@ -21,9 +21,9 @@ import butterknife.ButterKnife;
 public class RegisterActivity extends AppCompatActivity {
     @BindView(R.id.viewPagerRegister)
     ViewPager viewPager;
-   /* @BindView(R.id.nextButton)
+    @BindView(R.id.nextButton)
     Button nextButton;
-*/
+
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -42,10 +42,10 @@ public class RegisterActivity extends AppCompatActivity {
 
         viewPager.setAdapter(viewPagerAdapter);
 
-        /*nextButton.setOnClickListener(e -> {
+        nextButton.setOnClickListener(e -> {
             if(viewPager.getCurrentItem()<3)
                 viewPager.setCurrentItem(viewPager.getCurrentItem()+1);
-        });*/
+        });
 
         /*ArrayList<Address> addresses = new ArrayList<>();
         Address A = new Address(30.1, 20.1, "ok", "ok", "ok", "ok", "ok", 9999, 5, 22, "yes");

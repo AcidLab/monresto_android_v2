@@ -8,6 +8,8 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 
+import com.monresto.acidlabs.monresto.Model.ShoppingCart;
+import com.monresto.acidlabs.monresto.Model.User;
 import com.monresto.acidlabs.monresto.R;
 
 public class FragmentCart extends Fragment {
@@ -16,5 +18,20 @@ public class FragmentCart extends Fragment {
     public View onCreateView(@NonNull LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
         View v = inflater.inflate(R.layout.fragment_cart, container,false);
         return v;
+    }
+
+    @Override
+    public void setUserVisibleHint(boolean isVisible) {
+        super.setUserVisibleHint(isVisible);
+
+        if ((getFragmentManager() != null) && isVisible) {
+            update();
+        }
+    }
+
+
+    public void update(){
+        ShoppingCart cart = ShoppingCart.getInstance();
+        //TODO: get items and stuff
     }
 }
