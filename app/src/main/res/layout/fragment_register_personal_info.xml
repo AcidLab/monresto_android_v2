@@ -20,8 +20,7 @@
             android:layout_marginTop="8dp"
             android:ems="10"
             android:hint="Nom"
-            android:inputType="textPersonName"
-            android:textColor="@color/colorPrimaryDark" />
+            android:inputType="textPersonName" />
 
         <EditText
             android:id="@+id/textFirstName"
@@ -32,8 +31,7 @@
             android:layout_marginTop="8dp"
             android:ems="10"
             android:hint="Prénom"
-            android:inputType="textPersonName"
-            android:textColor="@color/colorPrimaryDark" />
+            android:inputType="textPersonName" />
 
         <EditText
             android:id="@+id/textEmail"
@@ -44,8 +42,7 @@
             android:layout_marginTop="8dp"
             android:ems="10"
             android:hint="Adresse Email"
-            android:inputType="textEmailAddress"
-            android:textColor="@color/colorPrimaryDark" />
+            android:inputType="textEmailAddress" />
 
         <EditText
             android:id="@+id/textPhoneNumber"

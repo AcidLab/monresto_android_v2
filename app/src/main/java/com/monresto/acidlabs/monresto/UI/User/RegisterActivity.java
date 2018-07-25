@@ -1,6 +1,7 @@
 package com.monresto.acidlabs.monresto.UI.User;
 
 import android.annotation.SuppressLint;
+import android.content.Intent;
 import android.os.Bundle;
 import android.support.constraint.ConstraintLayout;
 import android.support.v4.view.ViewPager;
@@ -14,7 +15,9 @@ import android.widget.LinearLayout;
 import com.monresto.acidlabs.monresto.Model.Address;
 import com.monresto.acidlabs.monresto.Model.User;
 import com.monresto.acidlabs.monresto.R;
+import com.monresto.acidlabs.monresto.Service.User.UserAsyncResponse;
 import com.monresto.acidlabs.monresto.Service.User.UserService;
+import com.monresto.acidlabs.monresto.UI.Maps.MapsActivity;
 import com.monresto.acidlabs.monresto.UI.Restaurants.ViewPagerAdapter;
 
 import java.util.ArrayList;
@@ -22,7 +25,7 @@ import java.util.ArrayList;
 import butterknife.BindView;
 import butterknife.ButterKnife;
 
-public class RegisterActivity extends AppCompatActivity {
+public class RegisterActivity extends AppCompatActivity implements UserAsyncResponse{
     @BindView(R.id.viewPagerRegister)
     ViewPager viewPager;
     @BindView(R.id.nextButton)
@@ -53,17 +56,23 @@ public class RegisterActivity extends AppCompatActivity {
         nextButton.setOnClickListener(e -> {
             switch (viewPager.getCurrentItem()) {
                 case 0:
-                    if(fragmentRegisterLoginInfo.validate()){
+                   /* if(fragmentRegisterLoginInfo.validate()){
                         fragmentRegisterLoginInfo.fill(newUser);
                         viewPager.setCurrentItem(viewPager.getCurrentItem() + 1);
-                    }
+                    }*/
+                    viewPager.setCurrentItem(viewPager.getCurrentItem() + 1);
+
                     break;
 
                 case 1:
-                    if(fragmentRegisterPersonalInfo.validate()){
+                    /*if(fragmentRegisterPersonalInfo.validate()){
                         fragmentRegisterPersonalInfo.fill(newUser);
                         viewPager.setCurrentItem(viewPager.getCurrentItem() + 1);
-                    }
+                    }*/
+                    Intent intent = new Intent(this, MapsActivity.class);
+                    startActivity(intent);
+                    viewPager.setCurrentItem(viewPager.getCurrentItem() + 1);
+
                     break;
 
                 case 2:
@@ -91,4 +100,18 @@ public class RegisterActivity extends AppCompatActivity {
     }
 
 
+    @Override
+    public void onUserLogin(User user) {
+
+    }
+
+    @Override
+    public void onUserDetailsReceived(User user) {
+
+    }
+
+    @Override
+    public void oncheckLoginDispoReceived(boolean isDispo) {
+
+    }
 }

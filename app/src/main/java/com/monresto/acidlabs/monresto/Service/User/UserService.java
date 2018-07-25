@@ -35,6 +35,48 @@ public class UserService {
         this.context = context;
     }
 
+    public void checkLoginDispo(final String login, final String email) {
+        RequestQueue queue = Volley.newRequestQueue(context);
+        String url = Config.server + "User/disponibilite.php";
+        StringRequest postRequest = new StringRequest(Request.Method.POST, url,
+                new Response.Listener<String>() {
+                    @Override
+                    public void onResponse(String response) {
+                        try {
+                            JSONObject jsonResponse = new JSONObject(response);
+                            int status = jsonResponse.getInt("Status");
+                            boolean isDispo = true;
+                            if (status != 1)
+                               isDispo = false;
+                            ((UserAsyncResponse) context).oncheckLoginDispoReceived(isDispo);
+                        } catch (JSONException e) {
+                            e.printStackTrace();
+                        }
+                    }
+                },
+                new Response.ErrorListener() {
+                    @Override
+                    public void onErrorResponse(VolleyError error) {
+                        // error
+                    }
+                }
+        ) {
+            @Override
+            protected Map<String, String> getParams() {
+                Map<String, String> params = new HashMap<>();
+                String token = "kento";//FirebaseInstanceId.getInstance().getToken();
+
+                String signature = Utilities.md5(email + login + Config.sharedKey);
+                params.put("login", login);
+                params.put("email", email);
+                params.put("signature", signature);
+
+                return params;
+            }
+        };
+        queue.add(postRequest);
+    }
+
     public void register(final String login, final String password, final String password_confirm, final String email, final String fname, final String lname,
                          final String civility, final String phone, final String mobile, final String comment, final ArrayList<Address> addresses) {
         final JSONArray addressesArray = new JSONArray();

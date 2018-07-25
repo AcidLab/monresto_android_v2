@@ -105,6 +105,11 @@ public class LoginActivity extends AppCompatActivity implements UserAsyncRespons
         finish();
     }
 
+    @Override
+    public void oncheckLoginDispoReceived(boolean isDispo) {
+
+    }
+
     private void doGraphRequest(){
         GraphRequest request = GraphRequest.newMeRequest(
                 AccessToken.getCurrentAccessToken(),

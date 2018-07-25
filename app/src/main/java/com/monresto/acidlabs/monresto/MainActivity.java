@@ -148,4 +148,9 @@ public class MainActivity extends AppCompatActivity implements RestaurantAsyncRe
     public void onUserDetailsReceived(User user) {
     }
 
+    @Override
+    public void oncheckLoginDispoReceived(boolean isDispo) {
+
+    }
+
 }
