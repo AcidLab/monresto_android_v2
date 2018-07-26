@@ -169,10 +169,16 @@
     <string name="action_settings">Settings</string>
 
 
-
     <!-- Start of Login page strings -->
     <string name="no_account"><u>Vous n\'avez pas de compte ?</u></string>
-
     <!-- End of Login page strings -->
 
+    <string-array name="location_array">
+        <item>Maison</item>
+        <item>Bureau</item>
+        <item>Appartement</item>
+        <item>Amis</item>
+        <item>Parents</item>
+        <item>Autre</item>
+    </string-array>
 </resources>

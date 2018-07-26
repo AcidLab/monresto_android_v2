@@ -27,12 +27,12 @@ public class Address {
         this.emplacement = emplacement;
         this.adresse = adresse;
         this.rue = rue;
-        this.rueTransversalle = rueTransversalle;
         this.appartement = appartement;
         this.postalCode = postalCode;
         this.zoneID = zoneID;
         this.cityID = cityID;
         this.municipality = municipality;
+        this.rueTransversalle = rueTransversalle;
     }
 
     public Address(double lat, double lon, String emplacement, String adresse, String rue, String rueTransversalle, String appartement, int postalCode, int zoneID, int cityID, String municipality) {

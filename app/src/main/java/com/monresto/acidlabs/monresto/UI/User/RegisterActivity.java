@@ -3,6 +3,7 @@ package com.monresto.acidlabs.monresto.UI.User;
 import android.annotation.SuppressLint;
 import android.app.Activity;
 import android.content.Intent;
+import android.location.Geocoder;
 import android.os.Bundle;
 import android.support.constraint.ConstraintLayout;
 import android.support.v4.view.ViewPager;
@@ -22,7 +23,9 @@ import com.monresto.acidlabs.monresto.Service.User.UserService;
 import com.monresto.acidlabs.monresto.UI.Maps.MapsActivity;
 import com.monresto.acidlabs.monresto.UI.Restaurants.ViewPagerAdapter;
 
+import java.io.IOException;
 import java.util.ArrayList;
+import java.util.List;
 
 import butterknife.BindView;
 import butterknife.ButterKnife;
@@ -35,6 +38,7 @@ public class RegisterActivity extends AppCompatActivity implements UserAsyncResp
 
     boolean isValid = true;
     Address address = new Address();
+    Geocoder geocoder;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -55,6 +59,8 @@ public class RegisterActivity extends AppCompatActivity implements UserAsyncResp
 
         UserService userService = new UserService(this);
         User newUser = new User(0 ,"" ,"" ,"");
+
+        geocoder = new Geocoder(this);
 
         nextButton.setOnClickListener(e -> {
             switch (viewPager.getCurrentItem()) {
@@ -77,6 +83,8 @@ public class RegisterActivity extends AppCompatActivity implements UserAsyncResp
                     break;
 
                 case 2:
+                    if(fragmentRegisterAddress.validate())
+                        address = fragmentRegisterAddress.fill(address);
                     if(false)
                     userService.register(newUser.getLogin(),newUser.getPassword(),newUser.getPassword_confirm(),newUser.getEmail(),newUser.getFname(),
                             newUser.getLname(),newUser.getCivility(),newUser.getPhone(),newUser.getMobile(),"", newUser.getAddresses());
@@ -125,7 +133,15 @@ public class RegisterActivity extends AppCompatActivity implements UserAsyncResp
 
                     double lat = data.getDoubleExtra("lat", 36.849109);
                     double lon = data.getDoubleExtra("lon", 10.166124);
+                    android.location.Address currentAddress;
+                    try {
+                        List<android.location.Address> addressList = geocoder.getFromLocation(lat, lon, 1);
+                        if (addressList != null && !addressList.isEmpty())
+                            currentAddress = addressList.get(0);
 
+                    } catch (IOException e) {
+                        e.printStackTrace();
+                    }
                     address.setLat(lat);
                     address.setLon(lon);
                 }
