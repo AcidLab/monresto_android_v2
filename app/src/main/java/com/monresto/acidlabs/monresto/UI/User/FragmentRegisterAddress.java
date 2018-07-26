@@ -36,17 +36,5 @@ public class FragmentRegisterAddress extends Fragment {
     }
 
 
-   /* @Override
-    public void onActivityResult(int requestCode, int resultCode, Intent data) {
-        super.onActivityResult(requestCode, resultCode, data);
-        switch(requestCode) {
-            case (0) : {
-                if (resultCode == Activity.RESULT_OK) {
-                    String newText = data.getStringExtra("");
-                    // TODO whatever.
-                }
-                break;
-            }
-        }
-    }*/
+   /* */
 }

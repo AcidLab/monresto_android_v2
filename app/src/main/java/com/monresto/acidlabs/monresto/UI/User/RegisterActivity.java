@@ -1,6 +1,7 @@
 package com.monresto.acidlabs.monresto.UI.User;
 
 import android.annotation.SuppressLint;
+import android.app.Activity;
 import android.content.Intent;
 import android.os.Bundle;
 import android.support.constraint.ConstraintLayout;
@@ -11,6 +12,7 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.Button;
 import android.widget.LinearLayout;
+import android.widget.Toast;
 
 import com.monresto.acidlabs.monresto.Model.Address;
 import com.monresto.acidlabs.monresto.Model.User;
@@ -32,6 +34,7 @@ public class RegisterActivity extends AppCompatActivity implements UserAsyncResp
     Button nextButton;
 
     boolean isValid = true;
+    Address address = new Address();
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -70,13 +73,10 @@ public class RegisterActivity extends AppCompatActivity implements UserAsyncResp
                         viewPager.setCurrentItem(viewPager.getCurrentItem() + 1);
                     }*/
                     Intent intent = new Intent(this, MapsActivity.class);
-                    startActivity(intent);
-                    viewPager.setCurrentItem(viewPager.getCurrentItem() + 1);
-
+                    startActivityForResult(intent, 0);
                     break;
 
                 case 2:
-
                     if(false)
                     userService.register(newUser.getLogin(),newUser.getPassword(),newUser.getPassword_confirm(),newUser.getEmail(),newUser.getFname(),
                             newUser.getLname(),newUser.getCivility(),newUser.getPhone(),newUser.getMobile(),"", newUser.getAddresses());
@@ -113,5 +113,24 @@ public class RegisterActivity extends AppCompatActivity implements UserAsyncResp
     @Override
     public void oncheckLoginDispoReceived(boolean isDispo) {
 
+    }
+
+    @Override
+    public void onActivityResult(int requestCode, int resultCode, Intent data) {
+        super.onActivityResult(requestCode, resultCode, data);
+        switch(requestCode) {
+            case (0) : {
+                if (resultCode == Activity.RESULT_OK) {
+                    viewPager.setCurrentItem(viewPager.getCurrentItem() + 1);
+
+                    double lat = data.getDoubleExtra("lat", 36.849109);
+                    double lon = data.getDoubleExtra("lon", 10.166124);
+
+                    address.setLat(lat);
+                    address.setLon(lon);
+                }
+                break;
+            }
+        }
     }
 }

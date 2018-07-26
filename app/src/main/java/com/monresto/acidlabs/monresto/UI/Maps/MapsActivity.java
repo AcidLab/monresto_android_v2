@@ -1,13 +1,16 @@
 package com.monresto.acidlabs.monresto.UI.Maps;
 
 import android.Manifest;
+import android.app.Activity;
 import android.content.DialogInterface;
+import android.content.Intent;
 import android.content.pm.PackageManager;
 import android.os.Bundle;
 import android.support.v4.app.ActivityCompat;
 import android.support.v4.app.FragmentActivity;
 import android.support.v4.content.ContextCompat;
 import android.support.v7.app.AlertDialog;
+import android.widget.Button;
 
 import com.google.android.gms.maps.CameraUpdateFactory;
 import com.google.android.gms.maps.GoogleMap;
@@ -34,6 +37,15 @@ public class MapsActivity extends FragmentActivity implements OnMapReadyCallback
         SupportMapFragment mapFragment = (SupportMapFragment) getSupportFragmentManager()
                 .findFragmentById(R.id.map);
         mapFragment.getMapAsync(this);
+
+        Button button = findViewById(R.id.buttonPickPosition);
+        button.setOnClickListener(e -> {
+            Intent resultIntent = new Intent();
+            resultIntent.putExtra("lat", mMap.getCameraPosition().target.latitude);
+            resultIntent.putExtra("lon", mMap.getCameraPosition().target.longitude);
+            setResult(Activity.RESULT_OK, resultIntent);
+            finish();
+        });
     }
 
     @Override
@@ -43,61 +55,6 @@ public class MapsActivity extends FragmentActivity implements OnMapReadyCallback
             LatLng position = new LatLng(gpsTracker.getLatitude(), gpsTracker.getLongitude());
             mMap.addMarker(new MarkerOptions().position(position).title("Ma position"));
             mMap.moveCamera(CameraUpdateFactory.newLatLng(position));
-        }
-    }
-
-
-    public boolean checkLocationPermission() {
-        if (ContextCompat.checkSelfPermission(this,
-                Manifest.permission.ACCESS_FINE_LOCATION)
-                != PackageManager.PERMISSION_GRANTED) {
-
-            if (ActivityCompat.shouldShowRequestPermissionRationale(this,
-                    Manifest.permission.ACCESS_FINE_LOCATION)) {
-                new AlertDialog.Builder(this)
-                        .setTitle("Demande d'autorisation")
-                        .setMessage("Monresto a besoin de savoir votre position")
-                        .setPositiveButton("Accépter", new DialogInterface.OnClickListener() {
-                            @Override
-                            public void onClick(DialogInterface dialogInterface, int i) {
-                                //Prompt the user once explanation has been shown
-                                ActivityCompat.requestPermissions(MapsActivity.this,
-                                        new String[]{Manifest.permission.ACCESS_FINE_LOCATION},
-                                        MY_PERMISSIONS_REQUEST_LOCATION);
-                            }
-                        })
-                        .create()
-                        .show();
-            } else {
-                ActivityCompat.requestPermissions(this,
-                        new String[]{Manifest.permission.ACCESS_FINE_LOCATION},
-                        MY_PERMISSIONS_REQUEST_LOCATION);
-            }
-            return false;
-        } else {
-            return true;
-        }
-    }
-
-    @Override
-    public void onRequestPermissionsResult(int requestCode,
-                                           String permissions[], int[] grantResults) {
-        switch (requestCode) {
-            case MY_PERMISSIONS_REQUEST_LOCATION: {
-                if (grantResults.length > 0
-                        && grantResults[0] == PackageManager.PERMISSION_GRANTED) {
-
-                    if (ContextCompat.checkSelfPermission(this,
-                            Manifest.permission.ACCESS_FINE_LOCATION)
-                            == PackageManager.PERMISSION_GRANTED) {
-                        System.out.println("permission granted here");
-                    }
-
-                } else {
-                }
-                break;
-            }
-
         }
     }
 }

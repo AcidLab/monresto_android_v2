@@ -17,6 +17,9 @@ public class Address {
     private int cityID;
     private String municipality;
 
+    public Address(){
+
+    }
     public Address(int id, double lat, double lon, String emplacement, String adresse, String rue, String rueTransversalle, String appartement, int postalCode, int zoneID, int cityID, String municipality) {
         this.id = id;
         this.lat = lat;
@@ -112,5 +115,49 @@ public class Address {
 
     public String getMunicipality() {
         return municipality;
+    }
+
+    public void setLat(double lat) {
+        this.lat = lat;
+    }
+
+    public void setLon(double lon) {
+        this.lon = lon;
+    }
+
+    public void setEmplacement(String emplacement) {
+        this.emplacement = emplacement;
+    }
+
+    public void setAdresse(String adresse) {
+        this.adresse = adresse;
+    }
+
+    public void setRue(String rue) {
+        this.rue = rue;
+    }
+
+    public void setRueTransversalle(String rueTransversalle) {
+        this.rueTransversalle = rueTransversalle;
+    }
+
+    public void setAppartement(String appartement) {
+        this.appartement = appartement;
+    }
+
+    public void setPostalCode(int postalCode) {
+        this.postalCode = postalCode;
+    }
+
+    public void setZoneID(int zoneID) {
+        this.zoneID = zoneID;
+    }
+
+    public void setCityID(int cityID) {
+        this.cityID = cityID;
+    }
+
+    public void setMunicipality(String municipality) {
+        this.municipality = municipality;
     }
 }

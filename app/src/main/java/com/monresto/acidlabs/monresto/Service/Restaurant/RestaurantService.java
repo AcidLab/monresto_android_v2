@@ -41,6 +41,7 @@ public class RestaurantService {
         //TODO: remove after tests
         final double lat = 36.849109;
         final double lon = 10.166124;
+        //System.out.println("lat = [" + lat + "], lon = [" + lon + "]");
 
         final ArrayList<Restaurant> RestaurantList = new ArrayList<>();
 
