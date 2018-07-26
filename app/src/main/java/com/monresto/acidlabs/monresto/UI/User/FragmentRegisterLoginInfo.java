@@ -23,6 +23,8 @@ import butterknife.ButterKnife;
 public class FragmentRegisterLoginInfo extends Fragment {
     @BindView(R.id.textLogin)
     EditText textLogin;
+    @BindView(R.id.textEmail)
+    EditText textEmail;
     @BindView(R.id.textPassword)
     EditText textPassword;
     @BindView(R.id.textPasswordConfirm)
@@ -43,6 +45,7 @@ public class FragmentRegisterLoginInfo extends Fragment {
     }
     public User fill(User user) {
         user.setLogin(textLogin.getText().toString());
+        user.setEmail(textEmail.getText().toString());
         user.setPassword(textPassword.getText().toString());
         return user;
     }

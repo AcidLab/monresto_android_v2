@@ -20,8 +20,6 @@ public class FragmentRegisterPersonalInfo extends Fragment {
     EditText textLastName;
     @BindView(R.id.textFirstName)
     EditText textFirstName;
-    @BindView(R.id.textEmail)
-    EditText textEmail;
     @BindView(R.id.textPhoneNumber)
     EditText textPhoneNumber;
     @BindView(R.id.textMobileNumber)
@@ -42,8 +40,6 @@ public class FragmentRegisterPersonalInfo extends Fragment {
             return false;
         if (textFirstName.getText().equals(""))
             return false;
-        if (textEmail.getText().equals(""))
-            return false;
         if (textLastName.getText().equals(""))
             return false;
         if (textPhoneNumber.getText().equals(""))
@@ -56,7 +52,6 @@ public class FragmentRegisterPersonalInfo extends Fragment {
     public User fill(User user) {
         user.setFname(textFirstName.getText().toString());
         user.setLname(textLastName.getText().toString());
-        user.setEmail(textEmail.getText().toString());
         user.setPhone(textPhoneNumber.getText().toString());
         user.setMobile(textMobileNumber.getText().toString());
         return user;

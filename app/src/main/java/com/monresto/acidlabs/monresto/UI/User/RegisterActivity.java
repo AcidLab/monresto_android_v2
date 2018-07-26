@@ -11,13 +11,16 @@ import android.support.v7.app.AppCompatActivity;
 import android.view.MotionEvent;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.ArrayAdapter;
 import android.widget.Button;
 import android.widget.LinearLayout;
 import android.widget.Toast;
 
 import com.monresto.acidlabs.monresto.Model.Address;
+import com.monresto.acidlabs.monresto.Model.City;
 import com.monresto.acidlabs.monresto.Model.User;
 import com.monresto.acidlabs.monresto.R;
+import com.monresto.acidlabs.monresto.Service.City.CityAsyncResponse;
 import com.monresto.acidlabs.monresto.Service.User.UserAsyncResponse;
 import com.monresto.acidlabs.monresto.Service.User.UserService;
 import com.monresto.acidlabs.monresto.UI.Maps.MapsActivity;
@@ -30,7 +33,7 @@ import java.util.List;
 import butterknife.BindView;
 import butterknife.ButterKnife;
 
-public class RegisterActivity extends AppCompatActivity implements UserAsyncResponse{
+public class RegisterActivity extends AppCompatActivity implements UserAsyncResponse, CityAsyncResponse {
     @BindView(R.id.viewPagerRegister)
     ViewPager viewPager;
     @BindView(R.id.nextButton)
@@ -39,6 +42,11 @@ public class RegisterActivity extends AppCompatActivity implements UserAsyncResp
     boolean isValid = true;
     Address address = new Address();
     Geocoder geocoder;
+
+    boolean loginDispo = true;
+    User newUser;
+
+    FragmentRegisterAddress fragmentRegisterAddress;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -49,7 +57,7 @@ public class RegisterActivity extends AppCompatActivity implements UserAsyncResp
         ViewPagerAdapter viewPagerAdapter = new ViewPagerAdapter(getSupportFragmentManager());
         FragmentRegisterLoginInfo fragmentRegisterLoginInfo = new FragmentRegisterLoginInfo();
         FragmentRegisterPersonalInfo fragmentRegisterPersonalInfo = new FragmentRegisterPersonalInfo();
-        FragmentRegisterAddress fragmentRegisterAddress = new FragmentRegisterAddress();
+        fragmentRegisterAddress = new FragmentRegisterAddress();
 
         viewPagerAdapter.AddFragment(fragmentRegisterLoginInfo, "fragmentRegisterLoginInfo");
         viewPagerAdapter.AddFragment(fragmentRegisterPersonalInfo, "fragmentRegisterPersonalInfo");
@@ -58,53 +66,46 @@ public class RegisterActivity extends AppCompatActivity implements UserAsyncResp
         viewPager.setAdapter(viewPagerAdapter);
 
         UserService userService = new UserService(this);
-        User newUser = new User(0 ,"" ,"" ,"");
+        newUser = new User(0, "", "", "");
 
         geocoder = new Geocoder(this);
 
         nextButton.setOnClickListener(e -> {
             switch (viewPager.getCurrentItem()) {
                 case 0:
-                   /* if(fragmentRegisterLoginInfo.validate()){
+                    nextButton.setText("Suivant");
+                    if (fragmentRegisterLoginInfo.validate()) {
                         fragmentRegisterLoginInfo.fill(newUser);
-                        viewPager.setCurrentItem(viewPager.getCurrentItem() + 1);
-                    }*/
-                    viewPager.setCurrentItem(viewPager.getCurrentItem() + 1);
-
+                        userService.checkLoginDispo(newUser.getLogin(), newUser.getEmail());
+                    }
                     break;
-
                 case 1:
-                    /*if(fragmentRegisterPersonalInfo.validate()){
+                    nextButton.setText("Suivant");
+                    if (fragmentRegisterPersonalInfo.validate()) {
                         fragmentRegisterPersonalInfo.fill(newUser);
-                        viewPager.setCurrentItem(viewPager.getCurrentItem() + 1);
-                    }*/
+                    }
                     Intent intent = new Intent(this, MapsActivity.class);
                     startActivityForResult(intent, 0);
                     break;
 
                 case 2:
-                    if(fragmentRegisterAddress.validate())
+                    nextButton.setText("Valider");
+                    if (fragmentRegisterAddress.validate()) {
                         address = fragmentRegisterAddress.fill(address);
-                    if(false)
-                    userService.register(newUser.getLogin(),newUser.getPassword(),newUser.getPassword_confirm(),newUser.getEmail(),newUser.getFname(),
-                            newUser.getLname(),newUser.getCivility(),newUser.getPhone(),newUser.getMobile(),"", newUser.getAddresses());
+                        newUser = fragmentRegisterAddress.addComment(newUser);
+                        ArrayList<Address> addresses = new ArrayList<>();
+                        addresses.add(address);
+                        newUser.setAddresses(addresses);
+                        userService.register(newUser.getLogin(), newUser.getPassword(), newUser.getPassword_confirm(), newUser.getEmail(), newUser.getFname(),
+                                newUser.getLname(), newUser.getCivility(), newUser.getPhone(), newUser.getMobile(), newUser.getComment(), newUser.getAddresses());
+                        finish();
+                    }
                     break;
                 default:
                     break;
 
             }
-
         });
-
-
-        /*ArrayList<Address> addresses = new ArrayList<>();
-        Address A = new Address(30.1, 20.1, "ok", "ok", "ok", "ok", "ok", 9999, 5, 22, "yes");
-
-        addresses.add(A);
-
-        userService.register("mrTester","azerty","azerty","tester@az.er","Cool",
-                "Tester","whatever","11111","22222","no", addresses);*/
-
     }
 
 
@@ -120,14 +121,18 @@ public class RegisterActivity extends AppCompatActivity implements UserAsyncResp
 
     @Override
     public void oncheckLoginDispoReceived(boolean isDispo) {
-
+        System.out.println("RegisterActivity.oncheckLoginDispoReceived");
+        if (isDispo) {
+            viewPager.setCurrentItem(viewPager.getCurrentItem() + 1);
+        } else
+            Toast.makeText(this, "Ce login est déja utilisé", Toast.LENGTH_SHORT);
     }
 
     @Override
     public void onActivityResult(int requestCode, int resultCode, Intent data) {
         super.onActivityResult(requestCode, resultCode, data);
-        switch(requestCode) {
-            case (0) : {
+        switch (requestCode) {
+            case (0): {
                 if (resultCode == Activity.RESULT_OK) {
                     viewPager.setCurrentItem(viewPager.getCurrentItem() + 1);
 
@@ -148,5 +153,10 @@ public class RegisterActivity extends AppCompatActivity implements UserAsyncResp
                 break;
             }
         }
+    }
+
+    @Override
+    public void onCitiesReceived(ArrayList<City> cities) {
+        fragmentRegisterAddress.fillCities(cities);
     }
 }

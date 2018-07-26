@@ -20,9 +20,15 @@ import com.google.android.gms.maps.OnMapReadyCallback;
 import com.google.android.gms.maps.model.LatLng;
 import com.google.android.gms.maps.model.MarkerOptions;
 import com.monresto.acidlabs.monresto.Model.Address;
+import com.monresto.acidlabs.monresto.Model.City;
 import com.monresto.acidlabs.monresto.Model.User;
 import com.monresto.acidlabs.monresto.R;
+import com.monresto.acidlabs.monresto.Service.City.CityAsyncResponse;
+import com.monresto.acidlabs.monresto.Service.City.CityService;
 import com.monresto.acidlabs.monresto.UI.Maps.MapsActivity;
+
+import java.util.ArrayList;
+import java.util.stream.Collectors;
 
 import butterknife.BindView;
 import butterknife.ButterKnife;
@@ -37,7 +43,12 @@ public class FragmentRegisterAddress extends Fragment {
     EditText textStreet;
     @BindView(R.id.textAppart)
     EditText textAppart;
+    @BindView(R.id.textComment)
+    EditText textComment;
+    @BindView(R.id.city_spinner)
+    Spinner citySpinner;
 
+    ArrayList<City> cities;
 
     @Nullable
     @Override
@@ -51,6 +62,10 @@ public class FragmentRegisterAddress extends Fragment {
         adapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
         locationSpinner.setAdapter(adapter);
 
+        cities = new ArrayList<>();
+        CityService cityService = new CityService(getContext());
+        cityService.getCities();
+
         return root;
     }
 
@@ -61,6 +76,31 @@ public class FragmentRegisterAddress extends Fragment {
         address.setAdresse(textAddress.getText().toString());
         address.setRue(textStreet.getText().toString());
         address.setAppartement(textAppart.getText().toString());
+        int cityID = 0;
+        if(!cities.isEmpty())
+        for(int i = 0; i<cities.size(); i++){
+            if(citySpinner.getSelectedItem().toString().equals(cities.get(i).getName())) {
+                cityID = cities.get(i).getId();
+                break;
+            }
+        }
+        address.setCityID(cityID);
+        address.setEmplacement(locationSpinner.getSelectedItem().toString());
         return address;
+    }
+
+    public User addComment(User user){
+        user.setComment(textComment.getText().toString());
+        return user;
+    }
+
+    public void fillCities(ArrayList<City> cities) {
+        ArrayList<String> list = new ArrayList<>();
+        for(int i = 0; i<cities.size();i++)
+            list.add(cities.get(i).getName());
+
+        ArrayAdapter<String> adapter = new ArrayAdapter<String>(getActivity()
+                .getApplicationContext(), android.R.layout.simple_spinner_item, list);
+        adapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
     }
 }

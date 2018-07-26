@@ -52,7 +52,7 @@
             android:layout_height="wrap_content"
             android:ems="10"
             android:inputType="textPersonName"
-            android:hint="Addresse" />
+            android:hint="Adresse" />
 
         <EditText
             android:id="@+id/textStreet"
@@ -70,5 +70,42 @@
             android:hint="Appartement"
             android:inputType="textPersonName" />
 
+        <RelativeLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginBottom="6dp"
+            android:layout_marginRight="3dp"
+            android:layout_marginTop="6dp"
+            android:layout_weight=".28"
+            android:background="@drawable/border_bg"
+            android:orientation="horizontal">
+
+            <Spinner
+                android:id="@+id/city_spinner"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_centerVertical="true"
+                android:layout_gravity="center"
+                android:layout_marginLeft="5dp"
+                android:background="@android:color/transparent"
+                android:gravity="center"
+                android:spinnerMode="dropdown" />
+
+            <ImageView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_alignParentEnd="true"
+                android:layout_centerVertical="true"
+                android:layout_gravity="center"
+                android:src="@mipmap/drop" />
+        </RelativeLayout>
+
+        <EditText
+            android:id="@+id/textComment"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:ems="10"
+            android:hint="Commentaire (Optionel)"
+            android:inputType="textPersonName" />
     </LinearLayout>
 </ScrollView>
