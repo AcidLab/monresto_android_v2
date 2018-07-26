@@ -7,12 +7,22 @@ import android.support.v4.app.Fragment;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.TextView;
 
 import com.monresto.acidlabs.monresto.Model.ShoppingCart;
 import com.monresto.acidlabs.monresto.Model.User;
 import com.monresto.acidlabs.monresto.R;
 
+import butterknife.BindView;
+
 public class FragmentCart extends Fragment {
+    @BindView(R.id.cart_subtotal)
+    TextView cart_subtotal;
+    @BindView(R.id.cart_delivery)
+    TextView cart_delivery;
+    @BindView(R.id.cart_total)
+    TextView cart_total;
+
     @Nullable
     @Override
     public View onCreateView(@NonNull LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
@@ -32,6 +42,6 @@ public class FragmentCart extends Fragment {
 
     public void update(){
         ShoppingCart cart = ShoppingCart.getInstance();
-        //TODO: get items and stuff
+        //cart_subtotal.setText(cart.);
     }
 }

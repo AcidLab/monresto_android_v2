@@ -55,6 +55,16 @@ public class ShoppingCart {
         items.put(dish, new Options(1 , null, null));
     }
 
+    public double getCartTotal() {
+        for(Map.Entry<Dish, Options> entry : getItems().entrySet()) {
+            Dish cle = entry.getKey();
+            Options valeur = entry.getValue();
+
+
+        }
+        return 1;
+    }
+
     public void addToCart(Dish dish, int quantity, Dish.Option dimension, ArrayList<Dish.Component> components){
         items.put(dish, new Options(quantity, dimension, components));
     }
