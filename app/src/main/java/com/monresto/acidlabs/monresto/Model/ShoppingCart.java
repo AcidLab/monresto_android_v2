@@ -55,14 +55,42 @@ public class ShoppingCart {
         items.put(dish, new Options(1 , null, null));
     }
 
-    public double getCartTotal() {
+    public double getCartSubTotal() {
+        double subTotal = 0;
         for(Map.Entry<Dish, Options> entry : getItems().entrySet()) {
             Dish cle = entry.getKey();
             Options valeur = entry.getValue();
 
+            subTotal += valeur.getDimension().getPrice();
+            for(Dish.Component component : valeur.getComponents()) {
+                for(Dish.Option option : component.getOptions()) {
+                    subTotal += option.getPrice();
+                }
+            }
 
+            subTotal *= valeur.quantity;
         }
-        return 1;
+        return subTotal;
+    }
+
+    public double getCartDelivery() {
+        double deliveryTotal = 0;
+        /*Map.Entry<Dish, Options> entry = getItems().entrySet().iterator().next();
+        deliveryTotal += entry.getKey().getRestoID()
+        for(Map.Entry<Dish, Options> entry : getItems().entrySet()) {
+            Dish cle = entry.getKey();
+            Options valeur = entry.getValue();
+
+            total += valeur.getDimension().getPrice();
+            for(Dish.Component component : valeur.getComponents()) {
+                for(Dish.Option option : component.getOptions()) {
+                    total += option.getPrice();
+                }
+            }
+
+            total *= valeur.quantity;
+        }*/
+        return deliveryTotal;
     }
 
     public void addToCart(Dish dish, int quantity, Dish.Option dimension, ArrayList<Dish.Component> components){

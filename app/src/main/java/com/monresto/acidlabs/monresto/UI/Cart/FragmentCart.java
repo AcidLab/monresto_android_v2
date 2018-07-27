@@ -14,6 +14,7 @@ import com.monresto.acidlabs.monresto.Model.User;
 import com.monresto.acidlabs.monresto.R;
 
 import butterknife.BindView;
+import butterknife.ButterKnife;
 
 public class FragmentCart extends Fragment {
     @BindView(R.id.cart_subtotal)
@@ -27,6 +28,8 @@ public class FragmentCart extends Fragment {
     @Override
     public View onCreateView(@NonNull LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
         View v = inflater.inflate(R.layout.fragment_cart, container,false);
+
+        ButterKnife.bind(this, v);
         return v;
     }
 
@@ -42,6 +45,6 @@ public class FragmentCart extends Fragment {
 
     public void update(){
         ShoppingCart cart = ShoppingCart.getInstance();
-        //cart_subtotal.setText(cart.);
+        cart_subtotal.setText(String.valueOf(cart.getCartSubTotal()) + " DT");
     }
 }
