@@ -26,7 +26,9 @@ import com.google.android.gms.location.FusedLocationProviderClient;
 import com.google.android.gms.maps.model.LatLng;
 import com.monresto.acidlabs.monresto.Model.Dish;
 import com.monresto.acidlabs.monresto.Model.Menu;
+import com.monresto.acidlabs.monresto.Model.Monresto;
 import com.monresto.acidlabs.monresto.Model.Restaurant;
+import com.monresto.acidlabs.monresto.Model.ShoppingCart;
 import com.monresto.acidlabs.monresto.Model.Speciality;
 import com.monresto.acidlabs.monresto.Model.User;
 import com.monresto.acidlabs.monresto.Service.Restaurant.RestaurantAsyncResponse;
@@ -131,6 +133,7 @@ public class MainActivity extends AppCompatActivity implements RestaurantAsyncRe
 
     @Override
     public void onListReceived(ArrayList<Restaurant> restaurantList) {
+        Monresto.getInstance().setRestaurants(restaurantList);
         fragmentRestaurants.updateList(restaurantList);
     }
 

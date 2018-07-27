@@ -16,7 +16,7 @@ public class ForgotPasswordActivity extends AppCompatActivity {
         setContentView(R.layout.activity_main);
 
         ArrayList<Address> addresses = new ArrayList<>();
-        Address A = new Address(30.1, 20.1, "ok", "ok", "ok", "ok", "ok", 9999, 5, 22, "yes");
+        Address A = new Address(30.1, 20.1, "ok", "ok", "ok", "ok", "ok", "9999", 5, 22, "yes");
 
         addresses.add(A);
 

@@ -181,4 +181,7 @@
         <item>Parents</item>
         <item>Autre</item>
     </string-array>
+    <string-array name="default_city_array">
+        <item>Tunis</item>
+    </string-array>
 </resources>

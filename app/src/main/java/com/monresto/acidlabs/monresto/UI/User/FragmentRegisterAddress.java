@@ -62,6 +62,11 @@ public class FragmentRegisterAddress extends Fragment {
         adapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
         locationSpinner.setAdapter(adapter);
 
+        ArrayAdapter<CharSequence> adapter_city = ArrayAdapter.createFromResource(getContext(),
+                R.array.default_city_array, android.R.layout.simple_spinner_item);
+        adapter_city.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
+        citySpinner.setAdapter(adapter_city);
+
         cities = new ArrayList<>();
         CityService cityService = new CityService(getContext());
         cityService.getCities();
@@ -76,7 +81,7 @@ public class FragmentRegisterAddress extends Fragment {
         address.setAdresse(textAddress.getText().toString());
         address.setRue(textStreet.getText().toString());
         address.setAppartement(textAppart.getText().toString());
-        int cityID = 0;
+        int cityID = 1;
         if(!cities.isEmpty())
         for(int i = 0; i<cities.size(); i++){
             if(citySpinner.getSelectedItem().toString().equals(cities.get(i).getName())) {
@@ -102,5 +107,6 @@ public class FragmentRegisterAddress extends Fragment {
         ArrayAdapter<String> adapter = new ArrayAdapter<String>(getActivity()
                 .getApplicationContext(), android.R.layout.simple_spinner_item, list);
         adapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
+        citySpinner.setAdapter(adapter);
     }
 }

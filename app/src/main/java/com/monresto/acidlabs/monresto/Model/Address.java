@@ -12,7 +12,7 @@ public class Address {
     private String rue;
     private String rueTransversalle;
     private String appartement;
-    private int postalCode;
+    private String postalCode;
     private int zoneID;
     private int cityID;
     private String municipality;
@@ -20,7 +20,7 @@ public class Address {
     public Address(){
 
     }
-    public Address(int id, double lat, double lon, String emplacement, String adresse, String rue, String rueTransversalle, String appartement, int postalCode, int zoneID, int cityID, String municipality) {
+    public Address(int id, double lat, double lon, String emplacement, String adresse, String rue, String rueTransversalle, String appartement, String postalCode, int zoneID, int cityID, String municipality) {
         this.id = id;
         this.lat = lat;
         this.lon = lon;
@@ -35,7 +35,7 @@ public class Address {
         this.rueTransversalle = rueTransversalle;
     }
 
-    public Address(double lat, double lon, String emplacement, String adresse, String rue, String rueTransversalle, String appartement, int postalCode, int zoneID, int cityID, String municipality) {
+    public Address(double lat, double lon, String emplacement, String adresse, String rue, String rueTransversalle, String appartement, String postalCode, int zoneID, int cityID, String municipality) {
         this.lat = lat;
         this.lon = lon;
         this.emplacement = emplacement;
@@ -101,7 +101,7 @@ public class Address {
         return appartement;
     }
 
-    public int getPostalCode() {
+    public String getPostalCode() {
         return postalCode;
     }
 
@@ -145,7 +145,7 @@ public class Address {
         this.appartement = appartement;
     }
 
-    public void setPostalCode(int postalCode) {
+    public void setPostalCode(String postalCode) {
         this.postalCode = postalCode;
     }
 

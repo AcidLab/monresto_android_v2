@@ -80,16 +80,18 @@ public class RegisterActivity extends AppCompatActivity implements UserAsyncResp
                     }
                     break;
                 case 1:
-                    nextButton.setText("Suivant");
+                    nextButton.setText("Valider");
                     if (fragmentRegisterPersonalInfo.validate()) {
                         fragmentRegisterPersonalInfo.fill(newUser);
+                        Intent intent = new Intent(this, MapsActivity.class);
+                        startActivityForResult(intent, 0);
                     }
-                    Intent intent = new Intent(this, MapsActivity.class);
-                    startActivityForResult(intent, 0);
+                    else{
+                        Toast.makeText(this, "Veuillez renseigner tout les champs.", Toast.LENGTH_SHORT).show();
+                    }
                     break;
 
                 case 2:
-                    nextButton.setText("Valider");
                     if (fragmentRegisterAddress.validate()) {
                         address = fragmentRegisterAddress.fill(address);
                         newUser = fragmentRegisterAddress.addComment(newUser);
@@ -99,7 +101,9 @@ public class RegisterActivity extends AppCompatActivity implements UserAsyncResp
                         userService.register(newUser.getLogin(), newUser.getPassword(), newUser.getPassword_confirm(), newUser.getEmail(), newUser.getFname(),
                                 newUser.getLname(), newUser.getCivility(), newUser.getPhone(), newUser.getMobile(), newUser.getComment(), newUser.getAddresses());
                         finish();
-                    }
+                    }else
+                        Toast.makeText(this, "Veuillez renseigner tout les champs.", Toast.LENGTH_SHORT).show();
+
                     break;
                 default:
                     break;
@@ -121,9 +125,8 @@ public class RegisterActivity extends AppCompatActivity implements UserAsyncResp
 
     @Override
     public void oncheckLoginDispoReceived(boolean isDispo) {
-        System.out.println("RegisterActivity.oncheckLoginDispoReceived");
         if (isDispo) {
-            viewPager.setCurrentItem(viewPager.getCurrentItem() + 1);
+            viewPager.setCurrentItem(1);
         } else
             Toast.makeText(this, "Ce login est déja utilisé", Toast.LENGTH_SHORT);
     }
@@ -134,15 +137,17 @@ public class RegisterActivity extends AppCompatActivity implements UserAsyncResp
         switch (requestCode) {
             case (0): {
                 if (resultCode == Activity.RESULT_OK) {
-                    viewPager.setCurrentItem(viewPager.getCurrentItem() + 1);
+                    viewPager.setCurrentItem(2);
 
                     double lat = data.getDoubleExtra("lat", 36.849109);
                     double lon = data.getDoubleExtra("lon", 10.166124);
                     android.location.Address currentAddress;
                     try {
                         List<android.location.Address> addressList = geocoder.getFromLocation(lat, lon, 1);
-                        if (addressList != null && !addressList.isEmpty())
+                        if (addressList != null && !addressList.isEmpty()){
                             currentAddress = addressList.get(0);
+                            address.setPostalCode(currentAddress.getPostalCode());
+                        }
 
                     } catch (IOException e) {
                         e.printStackTrace();
