@@ -184,6 +184,9 @@ public class RestaurantDetailsActivity extends AppCompatActivity implements Rest
         fixedMenu.setTitle(Utilities.decodeUTF(menu.getTitle()));
         fixedMenu.setDescription(Utilities.decodeUTF(menu.getDescription()));
 
+        for (int i = 0; i < dishes.size(); i++)
+            dishes.get(i).setRestoID(restaurant.getId());
+
         this.dishes.put(fixedMenu, dishes);
 
         filledDishes++;

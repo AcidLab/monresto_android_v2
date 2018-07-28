@@ -10,7 +10,6 @@ import java.util.Map;
 
 public class ShoppingCart {
     private Map<Dish, Options> items;
-    private Restaurant restaurant;
 
     private static ShoppingCart instance;
 
@@ -57,14 +56,9 @@ public class ShoppingCart {
         addToCart(dish, 1, null, null);
     }
 
-<<<<<<< HEAD
     public double getCartSubTotal() {
         double subTotal = 0;
         for(Map.Entry<Dish, Options> entry : getItems().entrySet()) {
-=======
-    public double getCartTotal() {
-        for (Map.Entry<Dish, Options> entry : getItems().entrySet()) {
->>>>>>> 3a2f8f0eb35ce1964800e82011eaae3521d13745
             Dish cle = entry.getKey();
             Options valeur = entry.getValue();
 
@@ -81,52 +75,22 @@ public class ShoppingCart {
     }
 
     public double getCartDelivery() {
-        double deliveryTotal = 0;
-        /*Map.Entry<Dish, Options> entry = getItems().entrySet().iterator().next();
-        deliveryTotal += entry.getKey().getRestoID()
-        for(Map.Entry<Dish, Options> entry : getItems().entrySet()) {
-            Dish cle = entry.getKey();
-            Options valeur = entry.getValue();
-
-            total += valeur.getDimension().getPrice();
-            for(Dish.Component component : valeur.getComponents()) {
-                for(Dish.Option option : component.getOptions()) {
-                    total += option.getPrice();
-                }
-            }
-
-            total *= valeur.quantity;
-        }*/
-        return deliveryTotal;
+        if (ShoppingCart.getInstance().getItems().keySet().iterator().hasNext()) {
+            return Monresto.getInstance().findRestaurant(ShoppingCart.getInstance().getItems().keySet().iterator().next().getRestoID()).getDeliveryCost();
+        }
+        else return (0);
     }
 
     public void addToCart(Dish dish, int quantity, Dish.Option dimension, ArrayList<Dish.Component> components) {
-        if (dish.getRestoID() != restaurant.getId())
-            return;
+        /*if (dish.getRestoID() != restaurant.getId())
+            return;*/
         items.put(dish, new Options(quantity, dimension, components));
     }
 
 
-    /**
-     * -- TEST --
-     */
-    public boolean addToCart(Dish dish, Restaurant resto, int quantity, Dish.Option dimension, ArrayList<Dish.Component> components) {
-        if (restaurant == null) {
-            restaurant = resto;
-            items.put(dish, new Options(quantity, dimension, components));
-        } else if (restaurant.equals(resto))
-            items.put(dish, new Options(quantity, dimension, components));
-        else
-            return false;
-
-        return true;
-    }
-
     public void removeFromCart(Dish dish) {
         if (items.containsKey(dish))
             items.remove(dish);
-        if (items.isEmpty())
-            restaurant = null;
     }
 
     public JSONArray getOrdersJson() {
@@ -166,7 +130,4 @@ public class ShoppingCart {
         return orders;
     }
 
-    public Restaurant getRestaurant() {
-        return restaurant;
-    }
 }

@@ -46,5 +46,6 @@ public class FragmentCart extends Fragment {
     public void update(){
         ShoppingCart cart = ShoppingCart.getInstance();
         cart_subtotal.setText(String.valueOf(cart.getCartSubTotal()) + " DT");
+        cart_delivery.setText(String.valueOf(cart.getCartDelivery()) + " DT");
     }
 }

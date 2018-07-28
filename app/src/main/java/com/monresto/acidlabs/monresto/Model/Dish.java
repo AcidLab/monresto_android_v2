@@ -130,6 +130,10 @@ public class Dish implements Parcelable {
         return restoID;
     }
 
+    public void setRestoID(int restoID) {
+        this.restoID = restoID;
+    }
+
     public String getTitle() {
         return title;
     }
