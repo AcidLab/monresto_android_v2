@@ -77,7 +77,7 @@ public class CartItemAdapter extends BaseAdapter {
         else cart_option.setText("Pas d'options");
         cart_components.setText("+ " + String.valueOf(item.getValue().getComponents().size()) + " suppléments");
         Picasso.get().load(item.getKey().getImagePath()).into(cart_picture);
-        cart_price.setText(String.valueOf(item.getKey().getPrice()));
+        cart_price.setText(String.valueOf(item.getKey().getPrice()) + " DT");
 
 
         return result;
