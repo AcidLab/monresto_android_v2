@@ -112,7 +112,7 @@ public class OrderActivity extends AppCompatActivity implements RestaurantAsyncR
         dish_quantity_add.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                updateTotalOnQuantityChanged(currentQuantity+1);
+                updateTotalOnQuantityChanged(currentQuantity + 1);
                 dish_quantity.setText(Integer.toString(currentQuantity));
             }
         });
@@ -121,7 +121,7 @@ public class OrderActivity extends AppCompatActivity implements RestaurantAsyncR
             @Override
             public void onClick(View view) {
                 if (Integer.valueOf(dish_quantity.getText().toString()) > 1) {
-                    updateTotalOnQuantityChanged(currentQuantity-1);
+                    updateTotalOnQuantityChanged(currentQuantity - 1);
                     dish_quantity.setText(Integer.toString(currentQuantity));
                 }
             }
@@ -161,17 +161,20 @@ public class OrderActivity extends AppCompatActivity implements RestaurantAsyncR
                 ArrayList<Dish.Component> components = new ArrayList<>();
                 ArrayList<Dish.Option> options = new ArrayList<>();
 
-                for (int i=0; i< componentsLists.size(); i++)
-                {
-                    ComponentsAdapter componentsAdapterTemp = (ComponentsAdapter)componentsLists.get(i).getAdapter();
+                if (componentsLists != null)
+                    for (int i = 0; i < componentsLists.size(); i++) {
+                        ComponentsAdapter componentsAdapterTemp = (ComponentsAdapter) componentsLists.get(i).getAdapter();
 
-                    for (int j=0; j<componentsAdapterTemp.getCheckedItemsPositions().size();j++)
-                        options.add(componentsAdapterTemp.getItem(componentsAdapterTemp.getCheckedItemsPositions().get(j)));
+                        for (int j = 0; j < componentsAdapterTemp.getCheckedItemsPositions().size(); j++)
+                            options.add(componentsAdapterTemp.getItem(componentsAdapterTemp.getCheckedItemsPositions().get(j)));
 
-                    components.add(new Dish.Component(dish.getComponents().get(i).getId(), dish.getComponents().get(i).getName(), dish.getComponents().get(i).getNumberChoice(), dish.getComponents().get(i).getNumberChoiceMax(), options));
-                }
+                        components.add(new Dish.Component(dish.getComponents().get(i).getId(), dish.getComponents().get(i).getName(), dish.getComponents().get(i).getNumberChoice(), dish.getComponents().get(i).getNumberChoiceMax(), options));
+                    }
 
-                ShoppingCart.getInstance().addToCart(dish,Integer.valueOf(dish_quantity.getText().toString()), optionsAdapter.getItem(optionsAdapter.getSelectedItem()), components);
+                if (optionsAdapter != null)
+                    ShoppingCart.getInstance().addToCart(dish, Integer.valueOf(dish_quantity.getText().toString()), optionsAdapter.getItem(optionsAdapter.getSelectedItem()), components);
+                else ShoppingCart.getInstance().addToCart(dish, Integer.valueOf(dish_quantity.getText().toString()), null, components);
+
 
                 System.out.println("SPECIAL DEBUG: Items added to cart !");
                 finish();
@@ -227,12 +230,12 @@ public class OrderActivity extends AppCompatActivity implements RestaurantAsyncR
 
         optionsAdapter = new OptionsAdapter(dish.getDimensions(), this, total_order, dish_quantity);
         dimensions_list.setAdapter(optionsAdapter);
-        dimensions_list.setLayoutParams(new LinearLayout.LayoutParams(LinearLayout.LayoutParams.MATCH_PARENT, Utilities.convDpToPx(this,30)*dish.getDimensions().size() + Utilities.convDpToPx(this,16)));
+        dimensions_list.setLayoutParams(new LinearLayout.LayoutParams(LinearLayout.LayoutParams.MATCH_PARENT, Utilities.convDpToPx(this, 30) * dish.getDimensions().size() + Utilities.convDpToPx(this, 16)));
         dimensions_list.requestLayout();
 
         componentsLists = new ArrayList<>();
 
-        for (int i=0; i<dish.getComponents().size(); i++) {
+        for (int i = 0; i < dish.getComponents().size(); i++) {
             TextView textView = (TextView) LayoutInflater.from(this).inflate(R.layout.textview_order_header, null);
             textView.setText(dish.getComponents().get(i).getName() + " (" + dish.getComponents().get(i).getNumberChoiceMax() + " CHOIX)");
             lists_container.addView(textView);
@@ -244,7 +247,7 @@ public class OrderActivity extends AppCompatActivity implements RestaurantAsyncR
             componentsLists.get(i).setAdapter(componentsAdapter);
 
 
-            componentsLists.get(i).setLayoutParams(new LinearLayout.LayoutParams(LinearLayout.LayoutParams.MATCH_PARENT, Utilities.convDpToPx(this,30)*dish.getComponents().get(i).getNumberChoice() + Utilities.convDpToPx(this,16)));
+            componentsLists.get(i).setLayoutParams(new LinearLayout.LayoutParams(LinearLayout.LayoutParams.MATCH_PARENT, Utilities.convDpToPx(this, 30) * dish.getComponents().get(i).getNumberChoice() + Utilities.convDpToPx(this, 16)));
             componentsLists.get(i).requestLayout();
 
             lists_container.addView(componentsLists.get(i));
@@ -259,7 +262,7 @@ public class OrderActivity extends AppCompatActivity implements RestaurantAsyncR
 
     private void updateTotalOnQuantityChanged(int quantity) {
         System.out.println(quantity);
-        total_order.setText(String.valueOf(Double.valueOf(total_order.getText().toString())/currentQuantity * quantity));
+        total_order.setText(String.valueOf(Double.valueOf(total_order.getText().toString()) / currentQuantity * quantity));
         currentQuantity = quantity;
     }
 

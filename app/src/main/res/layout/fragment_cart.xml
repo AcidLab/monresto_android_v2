@@ -7,8 +7,8 @@
     android:layout_height="match_parent"
     android:background="@drawable/bg">
 
-    <android.support.v4.widget.NestedScrollView
-        android:id="@+id/scrollView2"
+    <ListView
+        android:id="@+id/cart_items_list"
         android:layout_width="0dp"
         android:layout_height="284dp"
         android:layout_marginEnd="16dp"
@@ -17,14 +17,7 @@
         android:background="@drawable/shadow_233038"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toTopOf="parent">
-
-        <ListView
-            android:layout_width="match_parent"
-            android:layout_height="match_parent"
-            tools:layout_editor_absoluteX="153dp"
-            tools:layout_editor_absoluteY="16dp" />
-    </android.support.v4.widget.NestedScrollView>
+        app:layout_constraintTop_toTopOf="parent" />
 
     <LinearLayout
         android:id="@+id/linearLayout7"
@@ -37,7 +30,7 @@
         android:orientation="vertical"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/scrollView2">
+        app:layout_constraintTop_toBottomOf="@+id/cart_items_list">
 
         <android.support.constraint.ConstraintLayout
             android:layout_width="match_parent"

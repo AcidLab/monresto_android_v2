@@ -44,6 +44,11 @@ public class OptionsAdapter extends ArrayAdapter<Option> {
         this.dish_quantity = dish_quantity;
     }
 
+    public OptionsAdapter(Context context) {
+        super(context, R.layout.item_dish_option);
+
+    }
+
 
     @NonNull
     @Override

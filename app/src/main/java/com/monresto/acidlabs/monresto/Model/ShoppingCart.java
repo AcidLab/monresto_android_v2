@@ -62,7 +62,10 @@ public class ShoppingCart {
             Dish cle = entry.getKey();
             Options valeur = entry.getValue();
 
-            subTotal += valeur.getDimension().getPrice();
+            if (valeur.getDimension() != null)
+               subTotal += valeur.getDimension().getPrice();
+            else subTotal += cle.getPrice();
+
             for(Dish.Component component : valeur.getComponents()) {
                 for(Dish.Option option : component.getOptions()) {
                     subTotal += option.getPrice();

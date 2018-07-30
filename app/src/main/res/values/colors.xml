@@ -1,6 +1,6 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
-    <color name="colorPrimary">#000000</color>
+    <color name="colorPrimary">#484848</color>
     <color name="colorPrimaryDark">#ffffff</color>
     <color name="colorPrimaryDarkDisabled">#96acacac</color>
     <color name="colorAccent">#009688</color>
@@ -19,7 +19,7 @@
     <color name="text_color">#575757</color>
     <color name="material_blue_grey_80">#ff37474f</color>
     <color name="material_blue_grey_90">#ff263238</color>
-    <color name="material_blue_grey_95">#21272b</color>
+    <color name="material_blue_grey_95">#252525</color>
     <color name="material_deep_teal_20">#ff80cbc4</color>
     <color name="material_deep_teal_50">#009688</color>
 
