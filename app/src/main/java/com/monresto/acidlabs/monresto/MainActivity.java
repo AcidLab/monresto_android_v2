@@ -24,6 +24,7 @@ import com.facebook.login.LoginManager;
 import com.facebook.login.widget.LoginButton;
 import com.google.android.gms.location.FusedLocationProviderClient;
 import com.google.android.gms.maps.model.LatLng;
+import com.mancj.materialsearchbar.MaterialSearchBar;
 import com.monresto.acidlabs.monresto.Model.Dish;
 import com.monresto.acidlabs.monresto.Model.Menu;
 import com.monresto.acidlabs.monresto.Model.Monresto;
@@ -55,6 +56,7 @@ import static com.monresto.acidlabs.monresto.UI.Maps.MapsActivity.MY_PERMISSIONS
 public class MainActivity extends AppCompatActivity implements RestaurantAsyncResponse, UserAsyncResponse {
     private TabLayout tabLayout;
     private ViewPager viewPager;
+    private MaterialSearchBar searchBar;
     private ViewPagerAdapter adapter;
     private ArrayList<Restaurant> restaurants;
     private ArrayList<Speciality> specialities;
@@ -112,6 +114,7 @@ public class MainActivity extends AppCompatActivity implements RestaurantAsyncRe
 
         tabLayout = findViewById(R.id.tabLayout_id);
         viewPager = findViewById(R.id.viewPager_id);
+        searchBar = findViewById(R.id.searchBar);
         adapter = new ViewPagerAdapter(getSupportFragmentManager());
 
         fragmentRestaurants = new FragmentRestaurant();

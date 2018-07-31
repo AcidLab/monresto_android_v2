@@ -6,22 +6,16 @@
     android:layout_width="match_parent"
     android:layout_height="wrap_content"
     android:layout_marginBottom="10dp"
-    android:layout_marginLeft="-10dp"
-    android:layout_marginRight="-10dp"
-    android:layout_marginTop="10dp"
-    android:background="@drawable/shadow_233038">
+    android:layout_marginLeft="8dp"
+    android:layout_marginRight="8dp"
+    android:layout_marginTop="10dp">
 
     <ImageView
         android:id="@+id/storeBg"
         android:layout_width="0dp"
-        android:layout_height="192dp"
-        android:backgroundTint="#6a000000"
-        android:backgroundTintMode="src_over"
-        android:foregroundTint="#6a000000"
-        android:foregroundTintMode="src_over"
+        android:layout_height="240dp"
+        android:background="@drawable/card_shadow"
         android:scaleType="centerCrop"
-        android:tint="#6a000000"
-        android:tintMode="src_over"
         android:transitionName="storeBg"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
@@ -29,33 +23,79 @@
 
     <TextView
         android:id="@+id/storeState"
-        android:layout_width="100dp"
-        android:layout_height="25dp"
-        android:layout_marginStart="20dp"
-        android:layout_marginTop="16dp"
+        android:layout_width="0dp"
+        android:layout_height="wrap_content"
+        android:layout_marginEnd="36dp"
+        android:layout_marginStart="36dp"
+        android:layout_marginTop="30dp"
         android:fontFamily="@font/roboto"
         android:text="État"
         android:textAllCaps="true"
-        android:textColor="@color/button_text_color"
+        android:textColor="@color/com_facebook_button_border_color_focused"
         android:textSize="14sp"
         android:textStyle="normal"
         android:transitionName="storeState"
+        app:layout_constraintEnd_toEndOf="@+id/storeBg"
         app:layout_constraintStart_toStartOf="@+id/storeBg"
         app:layout_constraintTop_toTopOf="@+id/storeBg" />
 
     <TextView
         android:id="@+id/storeName"
-        android:layout_width="277dp"
-        android:layout_height="37dp"
-        android:layout_marginStart="20dp"
-        android:layout_marginTop="32dp"
+        android:layout_width="0dp"
+        android:layout_height="wrap_content"
+        android:layout_marginEnd="36dp"
+        android:layout_marginStart="36dp"
         android:fontFamily="@font/roboto"
         android:text="Nom"
         android:textColor="@color/button_text_color"
         android:textSize="24sp"
         android:textStyle="bold"
         android:transitionName="storeName"
+        app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="@+id/storeBg"
-        app:layout_constraintTop_toTopOf="@+id/storeBg" />
+        app:layout_constraintTop_toBottomOf="@+id/storeState" />
+
+    <ImageView
+        android:id="@+id/delivery_holder"
+        android:layout_width="51dp"
+        android:layout_height="42dp"
+        android:layout_marginBottom="36dp"
+        android:layout_marginEnd="36dp"
+        app:layout_constraintBottom_toBottomOf="@+id/storeBg"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:srcCompat="@drawable/lolshadow_215157" />
+
+    <TextView
+        android:id="@+id/restaurant_delivery"
+        android:layout_width="0dp"
+        android:layout_height="0dp"
+        android:layout_marginBottom="8dp"
+        android:layout_marginEnd="8dp"
+        android:layout_marginStart="8dp"
+        android:layout_marginTop="8dp"
+        android:fontFamily="@font/roboto"
+        android:gravity="center_vertical|center_horizontal"
+        android:text="00'"
+        android:textAlignment="center"
+        android:textColor="@color/card_hint_color"
+        android:textSize="18sp"
+        android:textStyle="bold"
+        app:layout_constraintBottom_toBottomOf="@+id/delivery_holder"
+        app:layout_constraintEnd_toEndOf="@+id/delivery_holder"
+        app:layout_constraintStart_toStartOf="@+id/delivery_holder"
+        app:layout_constraintTop_toTopOf="@+id/delivery_holder" />
+
+    <TextView
+        android:id="@+id/restaurant_rating"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginStart="36dp"
+        android:layout_marginTop="8dp"
+        android:fontFamily="@font/roboto"
+        android:textAlignment="textStart"
+        android:textColor="@color/card_hint_color"
+        android:textSize="24sp"
+        app:layout_constraintStart_toStartOf="@+id/storeBg"
+        app:layout_constraintTop_toBottomOf="@+id/storeName" />
 
 </android.support.constraint.ConstraintLayout>

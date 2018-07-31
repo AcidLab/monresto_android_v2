@@ -60,7 +60,7 @@ public class ReviewsAdapter extends BaseAdapter {
         for(int j=0; j<5; j++) {
             if (starsFilled < reviews.get(i).getNote())
             {
-                stars.setText(String.format("%s✭", stars.getText()));
+                stars.setText(String.format("%s★", stars.getText()));
                 starsFilled++;
             }
             else stars.setText(String.format("%s✩", stars.getText()));

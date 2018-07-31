@@ -32,8 +32,6 @@ public class CartItemAdapter extends BaseAdapter {
     TextView cart_components;
     @BindView(R.id.cart_price)
     TextView cart_price;
-    @BindView(R.id.cart_quantity)
-    TextView cart_quantity;
     @BindView(R.id.cart_picture)
     ImageView cart_picture;
 

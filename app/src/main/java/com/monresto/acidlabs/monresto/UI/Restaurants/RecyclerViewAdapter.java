@@ -3,6 +3,7 @@ package com.monresto.acidlabs.monresto.UI.Restaurants;
 import android.app.Activity;
 import android.content.Context;
 import android.content.Intent;
+import android.graphics.Color;
 import android.support.annotation.NonNull;
 import android.support.constraint.ConstraintLayout;
 import android.support.v4.app.ActivityOptionsCompat;
@@ -17,16 +18,20 @@ import android.widget.TextView;
 
 import com.monresto.acidlabs.monresto.Model.Restaurant;
 import com.monresto.acidlabs.monresto.R;
+import com.monresto.acidlabs.monresto.RoundedTransformation;
 import com.monresto.acidlabs.monresto.UI.RestaurantDetails.RestaurantDetailsActivity;
 import com.squareup.picasso.Picasso;
 
 import java.util.List;
+
+import jp.wasabeef.picasso.transformations.ColorFilterTransformation;
 
 public class RecyclerViewAdapter extends RecyclerView.Adapter<RecyclerViewAdapter.ViewHolder> {
 
     Context context;
     List<Restaurant> restaurants;
     private final static int FADE_DURATION = 1000; //FADE_DURATION in milliseconds
+    private int starsFilled;
 
     public RecyclerViewAdapter(Context context, List<Restaurant> restaurants) {
         this.context = context;
@@ -69,9 +74,25 @@ public class RecyclerViewAdapter extends RecyclerView.Adapter<RecyclerViewAdapte
         System.out.println("STORE: " + restaurants.get(i).getName());
 
         viewHolder.storeName.setText(restaurants.get(i).getName());
-        viewHolder.storeState.setText(restaurants.get(i).getState());
-        Picasso.get().load(restaurants.get(i).getBackground()).into(viewHolder.storeBg);
 
+        if (restaurants.get(i).getState().equals("open"))
+            viewHolder.storeState.setText("OUVERT");
+        else viewHolder.storeState.setText("FERMÉ");
+
+        Picasso.get().load(restaurants.get(i).getBackground()).fit().transform(new RoundedTransformation(50,0)).transform(new ColorFilterTransformation(Color.argb(120, 0, 0, 0))).into(viewHolder.storeBg);
+
+        starsFilled = 0;
+        viewHolder.restaurant_rating.setText("");
+        for(int j=0; j<5; j++) {
+            if (starsFilled < restaurants.get(i).getRate())
+            {
+                viewHolder.restaurant_rating.setText(String.format("%s★", viewHolder.restaurant_rating.getText()));
+                starsFilled++;
+            }
+            else viewHolder.restaurant_rating.setText(String.format("%s✩", viewHolder.restaurant_rating.getText()));
+        }
+
+        viewHolder.restaurant_delivery.setText(String.valueOf(restaurants.get(i).getEstimatedTime())+"'");
         // Set the view to fade in
         setFadeAnimation(viewHolder.itemView);
     }
@@ -86,6 +107,8 @@ public class RecyclerViewAdapter extends RecyclerView.Adapter<RecyclerViewAdapte
         private TextView storeName;
         private TextView storeState;
         private ImageView storeBg;
+        private TextView restaurant_rating;
+        private TextView restaurant_delivery;
         private ConstraintLayout restaurantItem;
 
         public ViewHolder(@NonNull View itemView) {
@@ -93,7 +116,9 @@ public class RecyclerViewAdapter extends RecyclerView.Adapter<RecyclerViewAdapte
 
             storeName = itemView.findViewById(R.id.storeName);
             storeState = itemView.findViewById(R.id.storeState);
+            restaurant_delivery = itemView.findViewById(R.id.restaurant_delivery);
             storeBg = itemView.findViewById(R.id.storeBg);
+            restaurant_rating = itemView.findViewById(R.id.restaurant_rating);
             restaurantItem = itemView.findViewById(R.id.restaurant_id);
         }
     }

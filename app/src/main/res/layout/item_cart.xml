@@ -11,8 +11,7 @@
         android:layout_height="96dp"
         android:scaleType="centerCrop"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toTopOf="parent"
-        app:srcCompat="@drawable/toremove_resto1" />
+        app:layout_constraintTop_toTopOf="parent" />
 
     <TextView
         android:id="@+id/cart_title"
@@ -71,56 +70,13 @@
         android:id="@+id/cart_price"
         android:layout_width="0dp"
         android:layout_height="wrap_content"
-        android:layout_marginEnd="8dp"
         android:layout_marginStart="8dp"
         android:layout_marginTop="8dp"
         android:fontFamily="@font/roboto"
         android:text="Prix"
         android:textColor="@color/browser_actions_text_color"
         android:textSize="15sp"
-        app:layout_constraintEnd_toStartOf="@+id/linearLayout8"
         app:layout_constraintStart_toEndOf="@+id/cart_picture"
         app:layout_constraintTop_toBottomOf="@+id/cart_components" />
-
-    <LinearLayout
-        android:id="@+id/linearLayout8"
-        android:layout_width="wrap_content"
-        android:layout_height="37dp"
-        android:gravity="center_vertical"
-        android:orientation="horizontal"
-        app:layout_constraintEnd_toStartOf="@+id/cart_close_btn"
-        app:layout_constraintTop_toBottomOf="@+id/cart_components">
-
-        <ImageView
-            android:id="@+id/cart_quantity_reduce"
-            android:layout_width="20dp"
-            android:layout_height="match_parent"
-            android:layout_weight="1"
-            app:layout_constraintEnd_toStartOf="@+id/cart_quantity"
-            app:srcCompat="@drawable/ic_remove_black_24dp" />
-
-        <EditText
-            android:id="@+id/cart_quantity"
-            android:layout_width="30dp"
-            android:layout_height="match_parent"
-            android:layout_marginLeft="10dp"
-            android:layout_marginRight="10dp"
-            android:layout_weight="1"
-            android:ems="10"
-            android:inputType="numberDecimal"
-            android:text="1"
-            android:textAlignment="center"
-            android:textSize="14sp"
-            app:layout_constraintEnd_toEndOf="parent" />
-
-        <ImageView
-            android:id="@+id/cart_quantity_add"
-            android:layout_width="20dp"
-            android:layout_height="match_parent"
-            android:layout_weight="1"
-            app:layout_constraintStart_toEndOf="@+id/cart_quantity"
-            app:srcCompat="@drawable/ic_add_black_24dp" />
-
-    </LinearLayout>
 
 </android.support.constraint.ConstraintLayout>

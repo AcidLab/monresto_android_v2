@@ -1,15 +1,18 @@
 package com.monresto.acidlabs.monresto.UI.Cart;
 
+import android.content.DialogInterface;
 import android.os.Bundle;
 import android.support.annotation.NonNull;
 import android.support.annotation.Nullable;
 import android.support.v4.app.Fragment;
+import android.support.v7.app.AlertDialog;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ListView;
 import android.widget.TextView;
 
+import com.monresto.acidlabs.monresto.MainActivity;
 import com.monresto.acidlabs.monresto.Model.ShoppingCart;
 import com.monresto.acidlabs.monresto.Model.User;
 import com.monresto.acidlabs.monresto.R;
@@ -55,5 +58,16 @@ public class FragmentCart extends Fragment {
 
         CartItemAdapter cartItemAdapter = new CartItemAdapter(ShoppingCart.getInstance().getItems());
         cart_items_list.setAdapter(cartItemAdapter);
+
+        /*AlertDialog alertDialog = new AlertDialog.Builder(FragmentCart.this.getContext()).create();
+        alertDialog.setTitle("Alert");
+        alertDialog.setMessage("Alert message to be shown");
+        alertDialog.setButton(AlertDialog.BUTTON_NEUTRAL, "OK",
+                new DialogInterface.OnClickListener() {
+                    public void onClick(DialogInterface dialog, int which) {
+                        dialog.dismiss();
+                    }
+                });
+        alertDialog.show();*/
     }
 }
