@@ -5,6 +5,8 @@ import android.app.Activity;
 import android.content.DialogInterface;
 import android.content.Intent;
 import android.content.pm.PackageManager;
+import android.location.Address;
+import android.location.Geocoder;
 import android.os.Bundle;
 import android.support.v4.app.ActivityCompat;
 import android.support.v4.app.FragmentActivity;
@@ -16,15 +18,20 @@ import com.google.android.gms.maps.CameraUpdateFactory;
 import com.google.android.gms.maps.GoogleMap;
 import com.google.android.gms.maps.OnMapReadyCallback;
 import com.google.android.gms.maps.SupportMapFragment;
+import com.google.android.gms.maps.model.BitmapDescriptorFactory;
 import com.google.android.gms.maps.model.LatLng;
 import com.google.android.gms.maps.model.MarkerOptions;
 import com.monresto.acidlabs.monresto.GPSTracker;
 import com.monresto.acidlabs.monresto.R;
 
+import java.io.IOException;
+import java.util.ArrayList;
+import java.util.List;
+
 public class MapsActivity extends FragmentActivity implements OnMapReadyCallback {
     private GoogleMap mMap;
     GPSTracker gpsTracker;
-
+    Geocoder geocoder;
     public static final int MY_PERMISSIONS_REQUEST_LOCATION = 99;
 
     @Override
@@ -33,6 +40,7 @@ public class MapsActivity extends FragmentActivity implements OnMapReadyCallback
         setContentView(R.layout.activity_maps);
 
         gpsTracker = new GPSTracker(this);
+        geocoder = new Geocoder(getBaseContext());
 
         SupportMapFragment mapFragment = (SupportMapFragment) getSupportFragmentManager()
                 .findFragmentById(R.id.map);
@@ -53,8 +61,25 @@ public class MapsActivity extends FragmentActivity implements OnMapReadyCallback
         mMap = googleMap;
         if (gpsTracker.canGetLocation()) {
             LatLng position = new LatLng(gpsTracker.getLatitude(), gpsTracker.getLongitude());
-            mMap.addMarker(new MarkerOptions().position(position).title("Ma position"));
-            mMap.moveCamera(CameraUpdateFactory.newLatLng(position));
+            mMap.addMarker(new MarkerOptions().position(position).title("Ma position")).showInfoWindow();
+            mMap.moveCamera(CameraUpdateFactory.newLatLngZoom(position, 12));
         }
+
+        mMap.setOnMapClickListener(e -> {
+            List<Address> addresses = new ArrayList<>();
+            mMap.clear();
+            try {
+                addresses = geocoder.getFromLocation(e.latitude, e.longitude, 1);
+            } catch (IOException e1) {
+                e1.printStackTrace();
+            }
+            String title = "Votre adresse";
+            if (!addresses.isEmpty()) {
+                title = addresses.get(0).getFeatureName();
+            }
+            mMap.addMarker(new MarkerOptions()
+                    .position(new LatLng(e.latitude, e.longitude))
+                    .title(title)).showInfoWindow();
+        });
     }
 }

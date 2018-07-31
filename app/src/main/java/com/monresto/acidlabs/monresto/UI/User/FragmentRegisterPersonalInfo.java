@@ -36,16 +36,16 @@ public class FragmentRegisterPersonalInfo extends Fragment {
     }
 
     public boolean validate() {
-        if (textLastName.getText().equals(""))
+        if (textLastName.getText().toString().equals(""))
             return false;
-        if (textFirstName.getText().equals(""))
+        if (textFirstName.getText().toString().equals(""))
             return false;
-        if (textLastName.getText().equals(""))
+        if (textLastName.getText().toString().equals(""))
             return false;
-        if (textPhoneNumber.getText().equals(""))
-            return !textMobileNumber.getText().equals("");
-        if (textMobileNumber.getText().equals(""))
-            return !textPhoneNumber.getText().equals("");
+        if (textPhoneNumber.getText().toString().equals(""))
+            return !textMobileNumber.getText().toString().equals("");
+        if (textMobileNumber.getText().toString().equals(""))
+            return !textPhoneNumber.getText().toString().equals("");
 
         return true;
     }

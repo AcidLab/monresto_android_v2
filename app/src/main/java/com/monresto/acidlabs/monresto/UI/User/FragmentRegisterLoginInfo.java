@@ -40,8 +40,12 @@ public class FragmentRegisterLoginInfo extends Fragment {
         return root;
     }
 
-    public boolean validate() {
-        return !textLogin.getText().toString().equals("") && !textPassword.getText().toString().equals("") && textPassword.getText().toString().equals(textPasswordConfirm.getText().toString());
+    public int validate() {
+        if(textLogin.getText().toString().equals("") || textPassword.getText().toString().equals("") || textLogin.getText().toString().equals(""))
+            return -1;
+        if(!textPassword.getText().toString().equals(textPasswordConfirm.getText().toString()))
+            return -2;
+        return 1;
     }
     public User fill(User user) {
         user.setLogin(textLogin.getText().toString());

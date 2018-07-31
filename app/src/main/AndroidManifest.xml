@@ -32,6 +32,8 @@
             android:name=".UI.RestaurantDetails.Order.OrderActivity"
             android:excludeFromRecents="true"
             android:theme="@style/Theme.AppCompat.Light.Dialog" />
+        <activity android:name=".UI.Profile.ProfileActivity" />
+        <activity android:name=".UI.Profile.ProfileSettingsActivity" />
 
         <meta-data
             android:name="com.facebook.sdk.ApplicationId"

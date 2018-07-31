@@ -1,0 +1,56 @@
+package com.monresto.acidlabs.monresto.UI.Profile;
+
+import android.content.Intent;
+import android.os.Bundle;
+import android.support.design.widget.TabLayout;
+import android.support.v4.view.ViewPager;
+import android.support.v7.app.AppCompatActivity;
+import android.widget.ImageView;
+
+import com.monresto.acidlabs.monresto.R;
+import com.monresto.acidlabs.monresto.UI.Cart.FragmentCart;
+import com.monresto.acidlabs.monresto.UI.Restaurants.FragmentRestaurant;
+import com.monresto.acidlabs.monresto.UI.Restaurants.ViewPagerAdapter;
+
+import butterknife.BindView;
+import butterknife.ButterKnife;
+
+public class ProfileActivity extends AppCompatActivity {
+    @BindView(R.id.viewPagerProfile)
+    ViewPager viewPagerProfile;
+    @BindView(R.id.tabLayoutProfile)
+    TabLayout tabLayoutProfile;
+
+    @BindView(R.id.imageProfileSettings)
+    ImageView imageSettings;
+
+    ViewPagerAdapter adapter;
+    @Override
+    protected void onCreate(Bundle savedInstanceState) {
+        super.onCreate(savedInstanceState);
+        setContentView(R.layout.activity_profile);
+        ButterKnife.bind(this);
+
+        adapter = new ViewPagerAdapter(getSupportFragmentManager());
+
+        adapter.AddFragment(new FragmentOrders(), "Ordres");
+        adapter.AddFragment(new FragmentHistory(), "Historique");
+        adapter.AddFragment(new FragmentFavorites(), "Favoris");
+        adapter.AddFragment(new FragmentAddress(), "Adresses");
+
+        viewPagerProfile.setAdapter(adapter);
+        viewPagerProfile.setOffscreenPageLimit(4);
+        tabLayoutProfile.setupWithViewPager(viewPagerProfile);
+
+        tabLayoutProfile.getTabAt(0).setIcon(R.drawable.icon_orders);
+        tabLayoutProfile.getTabAt(1).setIcon(R.drawable.icon_history);
+        tabLayoutProfile.getTabAt(2).setIcon(R.drawable.icon_dishes);
+        tabLayoutProfile.getTabAt(3).setIcon(R.drawable.icon_address);
+
+        imageSettings.setOnClickListener(e -> {
+            Intent intent = new Intent(this, ProfileSettingsActivity.class);
+            startActivity(intent);
+        });
+
+    }
+}

@@ -26,4 +26,8 @@
         <item name="android:paddingBottom">12dp</item>
         <item name="android:layout_gravity">center_horizontal</item>
     </style>
+
+    <style name="smallTextTab" parent="TextAppearance.Design.Tab">
+        <item name="android:textSize">10sp</item>
+    </style>
 </resources>

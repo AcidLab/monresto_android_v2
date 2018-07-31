@@ -75,6 +75,7 @@ public class FragmentRegisterAddress extends Fragment {
     }
 
     public boolean validate() {
+        System.out.println("FragmentRegisterAddress.validate");
         return true;
     }
     public Address fill(Address address) {
@@ -100,12 +101,12 @@ public class FragmentRegisterAddress extends Fragment {
     }
 
     public void fillCities(ArrayList<City> cities) {
-        ArrayList<String> list = new ArrayList<>();
+        ArrayList<CharSequence> list = new ArrayList<>();
         for(int i = 0; i<cities.size();i++)
             list.add(cities.get(i).getName());
 
-        ArrayAdapter<String> adapter = new ArrayAdapter<String>(getActivity()
-                .getApplicationContext(), android.R.layout.simple_spinner_item, list);
+        ArrayAdapter<CharSequence> adapter = new ArrayAdapter<>(getContext(),
+                android.R.layout.simple_spinner_item, list);
         adapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
         citySpinner.setAdapter(adapter);
     }
