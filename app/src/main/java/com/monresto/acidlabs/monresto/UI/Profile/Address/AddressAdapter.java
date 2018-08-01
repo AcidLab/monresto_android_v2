@@ -58,4 +58,13 @@ public class AddressAdapter extends BaseAdapter {
 
         return result;
     }
+
+    public ArrayList<Address> getmData() {
+        return mData;
+    }
+
+    public void setmData(ArrayList<Address> mData) {
+        this.mData = mData;
+    }
+
 }

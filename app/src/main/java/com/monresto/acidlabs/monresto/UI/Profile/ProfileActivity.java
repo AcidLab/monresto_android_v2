@@ -9,14 +9,18 @@ import android.support.v4.view.ViewPager;
 import android.support.v7.app.AppCompatActivity;
 import android.widget.ImageView;
 
+import com.monresto.acidlabs.monresto.Model.Address;
 import com.monresto.acidlabs.monresto.R;
+import com.monresto.acidlabs.monresto.Service.User.UserAsyncResponse;
 import com.monresto.acidlabs.monresto.UI.Profile.Address.FragmentAddress;
 import com.monresto.acidlabs.monresto.UI.Restaurants.ViewPagerAdapter;
+
+import java.util.ArrayList;
 
 import butterknife.BindView;
 import butterknife.ButterKnife;
 
-public class ProfileActivity extends AppCompatActivity {
+public class ProfileActivity extends AppCompatActivity implements UserAsyncResponse{
     @BindView(R.id.viewPagerProfile)
     ViewPager viewPagerProfile;
     @BindView(R.id.tabLayoutProfile)
@@ -25,19 +29,24 @@ public class ProfileActivity extends AppCompatActivity {
     @BindView(R.id.imageProfileSettings)
     ImageView imageSettings;
 
+    FragmentAddress fragmentAddress;
+
     ViewPagerAdapter adapter;
+
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_profile);
         ButterKnife.bind(this);
 
+        fragmentAddress = new FragmentAddress().setContext(this);
         adapter = new ViewPagerAdapter(getSupportFragmentManager());
 
         adapter.AddFragment(new FragmentOrdersItem(), "Commandes");
         adapter.AddFragment(new FragmentHistory(), "Historique");
         adapter.AddFragment(new FragmentFavorites(), "Favoris");
-        adapter.AddFragment(new FragmentAddress(), "Adresses");
+        adapter.AddFragment(fragmentAddress, "Adresses");
 
         viewPagerProfile.setAdapter(adapter);
         viewPagerProfile.setOffscreenPageLimit(4);
@@ -79,5 +88,13 @@ public class ProfileActivity extends AppCompatActivity {
 
             }
         });
+
+
     }
+
+    @Override
+    public void onAddressListReceived(ArrayList<Address> addresses) {
+        fragmentAddress.updateList(addresses);
+    }
+
 }

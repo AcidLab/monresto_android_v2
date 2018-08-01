@@ -193,8 +193,8 @@ public class MainActivity extends AppCompatActivity implements RestaurantAsyncRe
 
     @Override
     public void onAddressListReceived(ArrayList<Address> addresses){
-        if(User.getInstance()!=null)
-            User.getInstance().setAddresses(addresses);
+        if(User.getInstance()!=null) return;
+            //User.getInstance().setAddresses(addresses);
     }
 
     //Location permission
