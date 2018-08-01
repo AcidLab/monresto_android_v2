@@ -146,48 +146,78 @@
 
             <android.support.constraint.ConstraintLayout
                 android:layout_width="match_parent"
-                android:layout_height="match_parent">
-
-                <ImageView
-                    android:id="@+id/imageView5"
-                    android:layout_width="0dp"
-                    android:layout_height="0dp"
-                    android:layout_marginEnd="8dp"
-                    android:layout_marginStart="8dp"
-                    android:scaleType="fitXY"
-                    app:layout_constraintBottom_toBottomOf="parent"
-                    app:layout_constraintEnd_toEndOf="parent"
-                    app:layout_constraintStart_toStartOf="parent"
-                    app:layout_constraintTop_toTopOf="parent"
-                    app:srcCompat="@drawable/cart_half_rounded" />
+                android:layout_height="match_parent"
+                android:background="@color/colorAccent">
 
                 <TextView
                     android:id="@+id/textView13"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:layout_marginStart="25dp"
-                    android:layout_marginTop="5dp"
+                    android:layout_marginStart="24dp"
+                    android:layout_marginTop="4dp"
                     android:fontFamily="@font/googlesans_bold"
                     android:text="Mon couffin"
                     android:textColor="@color/button_text_color"
                     android:textSize="24sp"
                     android:textStyle="bold"
-                    app:layout_constraintStart_toStartOf="@+id/imageView5"
+                    app:layout_constraintStart_toStartOf="parent"
                     app:layout_constraintTop_toTopOf="parent" />
 
                 <TextView
                     android:id="@+id/textView14"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:layout_marginStart="25dp"
+                    android:layout_marginBottom="8dp"
+                    android:layout_marginStart="24dp"
                     android:fontFamily="@font/googlesans_regular"
                     android:text="0.00 TND"
                     android:textColor="@color/button_text_color"
                     android:textSize="18sp"
-                    app:layout_constraintStart_toStartOf="@+id/imageView5"
+                    app:layout_constraintBottom_toBottomOf="parent"
+                    app:layout_constraintStart_toStartOf="parent"
                     app:layout_constraintTop_toBottomOf="@+id/textView13" />
+
+                <ImageView
+                    android:id="@+id/delivery_holder2"
+                    android:layout_width="51dp"
+                    android:layout_height="42dp"
+                    android:layout_marginBottom="8dp"
+                    android:layout_marginEnd="24dp"
+                    android:layout_marginTop="8dp"
+                    app:layout_constraintBottom_toBottomOf="parent"
+                    app:layout_constraintEnd_toEndOf="parent"
+                    app:layout_constraintTop_toTopOf="parent"
+                    app:layout_constraintVertical_bias="0.428"
+                    app:srcCompat="@drawable/lolshadow_whiter" />
+
+                <TextView
+                    android:id="@+id/textView16"
+                    android:layout_width="0dp"
+                    android:layout_height="0dp"
+                    android:layout_marginBottom="4dp"
+                    android:layout_marginEnd="8dp"
+                    android:layout_marginStart="8dp"
+                    android:layout_marginTop="4dp"
+                    android:fontFamily="@font/googlesans_bold"
+                    android:gravity="center_vertical|center_horizontal"
+                    android:text="0"
+                    android:textAlignment="center"
+                    android:textSize="18sp"
+                    android:textStyle="bold"
+                    app:layout_constraintBottom_toBottomOf="@+id/delivery_holder2"
+                    app:layout_constraintEnd_toEndOf="@+id/delivery_holder2"
+                    app:layout_constraintStart_toStartOf="@+id/delivery_holder2"
+                    app:layout_constraintTop_toTopOf="@+id/delivery_holder2" />
             </android.support.constraint.ConstraintLayout>
         </FrameLayout>
+
+        <ImageView
+            android:id="@+id/imageView5"
+            android:layout_width="60dp"
+            android:layout_height="60dp"
+            app:layout_constraintBottom_toTopOf="@+id/frameLayout2"
+            app:layout_constraintStart_toStartOf="parent"
+            app:srcCompat="@drawable/cart_homepage" />
 
     </android.support.constraint.ConstraintLayout>
 
