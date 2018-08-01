@@ -44,6 +44,7 @@ import com.monresto.acidlabs.monresto.UI.Profile.FragmentProfile;
 import com.monresto.acidlabs.monresto.UI.Profile.ProfileActivity;
 import com.monresto.acidlabs.monresto.UI.Restaurants.FragmentRestaurant;
 import com.monresto.acidlabs.monresto.UI.Restaurants.ViewPagerAdapter;
+import com.monresto.acidlabs.monresto.UI.User.LoginActivity;
 
 import org.json.JSONException;
 import org.json.JSONObject;
@@ -80,6 +81,7 @@ public class MainActivity extends AppCompatActivity implements RestaurantAsyncRe
 
         if(checkLocationPermission())
             init();
+
     }
 
     public void init() {
@@ -126,7 +128,12 @@ public class MainActivity extends AppCompatActivity implements RestaurantAsyncRe
         fragmentProfile = new FragmentProfile();
 
         home_profile_icon.setOnClickListener(view -> {
-            Intent intent = new Intent(this, ProfileActivity.class);
+            Intent intent;
+            if(User.getInstance()==null)
+                intent = new Intent(this, LoginActivity.class);
+            else
+                intent = new Intent(this, ProfileActivity.class);
+
             startActivity(intent);
         });
 
@@ -141,6 +148,7 @@ public class MainActivity extends AppCompatActivity implements RestaurantAsyncRe
         tabLayout.getTabAt(0).setIcon(R.drawable.store_light);
         tabLayout.getTabAt(1).setIcon(R.drawable.cart_light);
         tabLayout.getTabAt(2).setIcon(R.drawable.user_light);
+
     }
 
     @Override
@@ -178,6 +186,8 @@ public class MainActivity extends AppCompatActivity implements RestaurantAsyncRe
 
     @Override
     public void onUserDetailsReceived(User user) {
+        userService.getAddress(User.getInstance().getId());
+
     }
 
     @Override

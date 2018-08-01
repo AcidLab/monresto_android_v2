@@ -259,7 +259,7 @@ public class UserService {
                             int status = jsonResponse.getInt("Status");
                             if (status != 0) {
                                 JSONObject clientObject = jsonResponse.optJSONObject("User");
-                                User user = new User(id, clientObject.optString("login"), clientObject.optString("email"), clientObject.optString("firstName"), clientObject.optString("lastName"), clientObject.optString("civility"), clientObject.optString("phone"), clientObject.optString("mobile"), "", Address.makeListFromJson(clientObject.optJSONArray("Address")));
+                                User user = new User(id, clientObject.optString("login"), clientObject.optString("email"), clientObject.optString("firstName"), clientObject.optString("lastName"), clientObject.optString("civility"), clientObject.optString("phone"), clientObject.optString("mobile"), "", null);
                                 if (login)
                                     User.setInstance(user);
                                 ((UserAsyncResponse) context).onUserDetailsReceived(user);
@@ -280,6 +280,44 @@ public class UserService {
             protected Map<String, String> getParams() {
                 Map<String, String> params = new HashMap<>();
                 String token = "kento";//FirebaseInstanceId.getInstance().getToken();
+
+                String signature = Utilities.md5(id + Config.sharedKey);
+                params.put("userID", String.valueOf(id));
+                params.put("signature", signature);
+
+                return params;
+            }
+        };
+        queue.add(postRequest);
+    }
+
+    public void getAddress(final int id){
+        RequestQueue queue = Volley.newRequestQueue(context);
+        String url = Config.server + "User/address.php";
+        StringRequest postRequest = new StringRequest(Request.Method.POST, url,
+                new Response.Listener<String>() {
+                    @Override
+                    public void onResponse(String response) {
+                        try {
+                            JSONObject jsonResponse = new JSONObject(response);
+                            JSONArray array = jsonResponse.getJSONArray("Address");
+                            ArrayList<Address> addresses = Address.makeListFromJson(array);
+                            ((UserAsyncResponse) context).onAddressListReceived(addresses);
+                        } catch (JSONException e) {
+                            e.printStackTrace();
+                        }
+                    }
+                },
+                new Response.ErrorListener() {
+                    @Override
+                    public void onErrorResponse(VolleyError error) {
+                        // error
+                    }
+                }
+        ) {
+            @Override
+            protected Map<String, String> getParams() {
+                Map<String, String> params = new HashMap<>();
 
                 String signature = Utilities.md5(id + Config.sharedKey);
                 params.put("userID", String.valueOf(id));

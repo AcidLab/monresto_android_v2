@@ -20,12 +20,13 @@ public class Address {
     private int zoneID;
     private int cityID;
     private String municipality;
+    private boolean isDefault;
 
     public Address() {
 
     }
 
-    public Address(int id, double lat, double lon, String emplacement, String adresse, String rue, String rueTransversalle, String appartement, String postalCode, int zoneID, int cityID, String municipality) {
+    public Address(int id, double lat, double lon, String emplacement, String adresse, String rue, String rueTransversalle, String appartement, String postalCode, int zoneID, int cityID, String municipality, boolean isDefault) {
         this.id = id;
         this.lat = lat;
         this.lon = lon;
@@ -38,6 +39,7 @@ public class Address {
         this.cityID = cityID;
         this.municipality = municipality;
         this.rueTransversalle = rueTransversalle;
+        this.isDefault = isDefault;
     }
 
     public Address(double lat, double lon, String emplacement, String adresse, String rue, String rueTransversalle, String appartement, String postalCode, int zoneID, int cityID, String municipality) {
@@ -59,10 +61,10 @@ public class Address {
         for (int i = 0; i < array.length(); i++) {
             try {
                 JSONObject obj = array.getJSONObject(i);
-                addresses.add(new Address(obj.optDouble("latitude"), obj.optDouble("latitude"),
+                addresses.add(new Address(obj.optInt("adressID"), obj.optDouble("latitude"), obj.optDouble("latitude"),
                         obj.getString("emplacement"), obj.getString("adresse"), obj.getString("rue"),
                         obj.getString("rueTransversalle"), obj.getString("appartement"), obj.getString("codePostale"),
-                        obj.getInt("zoneID"), obj.getInt("cityID"), obj.getString("municipalite")));
+                        obj.getInt("zoneID"), obj.getInt("cityID"), obj.getString("municipalite"), obj.optInt("is_default") == 1));
             } catch (JSONException e) {
                 e.printStackTrace();
             }

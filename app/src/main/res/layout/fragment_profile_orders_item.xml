@@ -16,8 +16,8 @@
 
         <ImageView
             android:id="@+id/imageRestoLogo"
-            android:layout_width="64dp"
-            android:layout_height="64dp"
+            android:layout_width="48dp"
+            android:layout_height="48dp"
             android:layout_weight="1"
             app:srcCompat="@color/blue_btn_bg_color" />
 
@@ -28,11 +28,13 @@
             android:layout_marginStart="6dp"
             android:layout_marginTop="16dp"
             android:layout_weight="8"
-            android:text="TextView"
-            android:textSize="18sp" />
+            android:text="Ordered dish name"
+            android:textSize="18sp"
+            android:textStyle="bold" />
     </LinearLayout>
 
     <android.support.constraint.ConstraintLayout
+        android:id="@+id/layoutCards"
         android:layout_width="match_parent"
         android:layout_height="128dp"
         android:layout_marginTop="8dp"
@@ -65,7 +67,7 @@
                     android:layout_height="0dp"
                     android:layout_marginBottom="8dp"
                     android:layout_marginTop="8dp"
-                    app:layout_constraintBottom_toTopOf="@+id/textRestoName"
+                    app:layout_constraintBottom_toTopOf="@id/textRestoName"
                     app:layout_constraintEnd_toEndOf="parent"
                     app:layout_constraintStart_toStartOf="parent"
                     app:layout_constraintTop_toTopOf="parent"
@@ -105,7 +107,7 @@
             app:cardCornerRadius="16dp"
             app:layout_constraintBottom_toBottomOf="parent"
             app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintStart_toEndOf="@+id/separator"
+            app:layout_constraintStart_toEndOf="@id/separator"
             app:layout_constraintTop_toTopOf="parent">
 
             <android.support.constraint.ConstraintLayout
@@ -118,7 +120,7 @@
                     android:layout_height="0dp"
                     android:layout_marginBottom="8dp"
                     android:layout_marginTop="8dp"
-                    app:layout_constraintBottom_toTopOf="@+id/textOrderTotal"
+                    app:layout_constraintBottom_toTopOf="@id/textOrderTotal"
                     app:layout_constraintEnd_toEndOf="parent"
                     app:layout_constraintStart_toStartOf="parent"
                     app:layout_constraintTop_toTopOf="parent"
@@ -139,5 +141,90 @@
         </android.support.v7.widget.CardView>
 
     </android.support.constraint.ConstraintLayout>
+
+    <view
+        android:id="@+id/separatorH"
+        android:layout_width="match_parent"
+        android:layout_height="1dp"
+        android:layout_marginTop="8dp"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@id/layoutCards" />
+
+    <LinearLayout
+        android:id="@+id/layoutPending"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:layout_marginEnd="24dp"
+        android:layout_marginStart="24dp"
+        android:layout_marginTop="4dp"
+        android:orientation="horizontal"
+        android:paddingEnd="6dp"
+        android:paddingStart="6dp"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@id/separatorH">
+
+
+        <ImageView
+            android:id="@+id/pending_queue"
+            android:layout_width="48dp"
+            android:layout_height="48dp"
+            android:layout_weight="1"
+            app:srcCompat="@drawable/pending_en_attante" />
+
+        <ImageView
+            android:id="@+id/pending_now"
+            android:layout_width="48dp"
+            android:layout_height="48dp"
+            android:layout_weight="1"
+            app:srcCompat="@drawable/pending_en_cours" />
+
+        <ImageView
+            android:id="@+id/pending_resto"
+            android:layout_width="48dp"
+            android:layout_height="48dp"
+            android:layout_weight="1"
+            app:srcCompat="@drawable/pending_arrive_resto" />
+
+        <ImageView
+            android:id="@+id/pending_pickup"
+            android:layout_width="48dp"
+            android:layout_height="48dp"
+            android:layout_weight="1"
+            app:srcCompat="@drawable/pending_pickup_resto" />
+
+        <ImageView
+            android:id="@+id/pending_client"
+            android:layout_width="48dp"
+            android:layout_height="48dp"
+            android:layout_weight="1"
+            app:srcCompat="@drawable/pending_arrive_client" />
+    </LinearLayout>
+
+    <TextView
+        android:id="@+id/textOrderStatus"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginBottom="8dp"
+        android:layout_marginEnd="8dp"
+        android:layout_marginStart="8dp"
+        android:layout_marginTop="8dp"
+        android:text="Status"
+        android:textSize="18sp"
+        android:textStyle="bold"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@id/layoutPending" />
+
+    <view
+        android:id="@+id/separatorH2"
+        android:layout_width="match_parent"
+        android:layout_height="1dp"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintBottom_toBottomOf="parent" />
+
 
 </android.support.constraint.ConstraintLayout>
