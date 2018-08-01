@@ -1,5 +1,6 @@
 package com.monresto.acidlabs.monresto.UI.Profile;
 
+import android.content.Intent;
 import android.os.Bundle;
 import android.support.annotation.NonNull;
 import android.support.annotation.Nullable;
@@ -18,7 +19,6 @@ public class FragmentOrdersItem extends Fragment {
     public View onCreateView(@NonNull LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
         ViewGroup root;
         root = (ViewGroup) inflater.inflate(R.layout.fragment_profile_orders_item, container, false);
-        ButterKnife.bind(this, root);
 
         return root;
     }

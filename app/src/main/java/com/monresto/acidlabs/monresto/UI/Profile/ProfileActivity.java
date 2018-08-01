@@ -3,6 +3,8 @@ package com.monresto.acidlabs.monresto.UI.Profile;
 import android.content.Intent;
 import android.os.Bundle;
 import android.support.design.widget.TabLayout;
+import android.support.v4.app.FragmentManager;
+import android.support.v4.app.FragmentTransaction;
 import android.support.v4.view.ViewPager;
 import android.support.v7.app.AppCompatActivity;
 import android.widget.ImageView;
@@ -32,7 +34,7 @@ public class ProfileActivity extends AppCompatActivity {
 
         adapter = new ViewPagerAdapter(getSupportFragmentManager());
 
-        adapter.AddFragment(new FragmentOrders(), "Commandes");
+        adapter.AddFragment(new FragmentOrdersItem(), "Commandes");
         adapter.AddFragment(new FragmentHistory(), "Historique");
         adapter.AddFragment(new FragmentFavorites(), "Favoris");
         adapter.AddFragment(new FragmentAddress(), "Adresses");
@@ -51,5 +53,31 @@ public class ProfileActivity extends AppCompatActivity {
             startActivity(intent);
         });
 
+        viewPagerProfile.addOnPageChangeListener(new ViewPager.OnPageChangeListener() {
+            @Override
+            public void onPageScrolled(int i, float v, int i1) {
+
+            }
+
+            @Override
+            public void onPageSelected(int i) {
+                switch (i){
+                    case 0:
+                        /*FragmentManager fragmentManager = getSupportFragmentManager();
+                        FragmentTransaction fragmentTransaction = fragmentManager.beginTransaction();
+
+                        fragmentTransaction.add(R.id.layoutOrdersContainer, new FragmentOrdersItem());
+                        fragmentTransaction.add(R.id.layoutOrdersContainer, new FragmentOrdersItem());
+                        fragmentTransaction.add(R.id.layoutOrdersContainer, new FragmentOrdersItem());
+
+                        fragmentTransaction.commit();*/
+                }
+            }
+
+            @Override
+            public void onPageScrollStateChanged(int i) {
+
+            }
+        });
     }
 }

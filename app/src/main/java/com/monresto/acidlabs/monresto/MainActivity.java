@@ -27,6 +27,7 @@ import com.facebook.login.widget.LoginButton;
 import com.google.android.gms.location.FusedLocationProviderClient;
 import com.google.android.gms.maps.model.LatLng;
 import com.mancj.materialsearchbar.MaterialSearchBar;
+import com.monresto.acidlabs.monresto.Model.Address;
 import com.monresto.acidlabs.monresto.Model.Dish;
 import com.monresto.acidlabs.monresto.Model.Menu;
 import com.monresto.acidlabs.monresto.Model.Monresto;
@@ -191,8 +192,9 @@ public class MainActivity extends AppCompatActivity implements RestaurantAsyncRe
     }
 
     @Override
-    public void oncheckLoginDispoReceived(boolean isDispo) {
-
+    public void onAddressListReceived(ArrayList<Address> addresses){
+        if(User.getInstance()!=null)
+            User.getInstance().setAddresses(addresses);
     }
 
     //Location permission
