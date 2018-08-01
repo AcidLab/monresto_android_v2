@@ -31,6 +31,16 @@ public class Dish implements Parcelable {
     private JSONArray paymentmethode;
     private int quantity;
 
+    private Dish(int id, String name, int quantity){
+        this.id = id;
+        this.title = name;
+        this.quantity = quantity;
+    }
+
+    public static Dish getOrderedDish(int id, String name, int quantity){
+        return new Dish(id, name, quantity);
+    }
+
     public static class Option implements Serializable{
         private int id;
         private String title;
@@ -167,6 +177,10 @@ public class Dish implements Parcelable {
     }
 
     public void setFavorite(boolean favorite) { isFavorite = favorite; }
+
+    public int getQuantity() {
+        return quantity;
+    }
 
     public String getImagePath() {
         return imagePath;

@@ -1,22 +1,18 @@
-package com.monresto.acidlabs.monresto.UI.Profile;
+package com.monresto.acidlabs.monresto.UI.Profile.Settings;
 
-import android.app.Activity;
 import android.content.Intent;
 import android.graphics.drawable.Drawable;
-import android.graphics.drawable.Icon;
 import android.os.Bundle;
 import android.support.annotation.NonNull;
 import android.support.annotation.Nullable;
 import android.support.constraint.ConstraintLayout;
 import android.support.v4.app.Fragment;
-import android.support.v4.app.FragmentManager;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ImageView;
 import android.widget.TextView;
 
-import com.monresto.acidlabs.monresto.MainActivity;
 import com.monresto.acidlabs.monresto.R;
 
 import butterknife.BindView;
