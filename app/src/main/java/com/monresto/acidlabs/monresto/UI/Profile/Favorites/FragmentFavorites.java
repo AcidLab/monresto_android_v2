@@ -1,4 +1,4 @@
-package com.monresto.acidlabs.monresto.UI.Profile;
+package com.monresto.acidlabs.monresto.UI.Profile.Favorites;
 
 import android.os.Bundle;
 import android.support.annotation.NonNull;

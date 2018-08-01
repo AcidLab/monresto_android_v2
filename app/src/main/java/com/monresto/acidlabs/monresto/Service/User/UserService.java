@@ -14,6 +14,7 @@ import com.android.volley.toolbox.Volley;
 import com.google.firebase.iid.FirebaseInstanceId;
 import com.monresto.acidlabs.monresto.Config;
 import com.monresto.acidlabs.monresto.Model.Address;
+import com.monresto.acidlabs.monresto.Model.Order;
 import com.monresto.acidlabs.monresto.Model.ShoppingCart;
 import com.monresto.acidlabs.monresto.Model.User;
 import com.monresto.acidlabs.monresto.Utilities;
@@ -504,7 +505,8 @@ public class UserService {
         queue.add(postRequest);
     }
 
-    public void getPending(final int id) {
+    public void getOrders(final int id) {
+        int _id = 49468;
         RequestQueue queue = Volley.newRequestQueue(context);
         String url = Config.server + "User/pendingOrder.php";
         StringRequest postRequest = new StringRequest(Request.Method.POST, url,
@@ -513,7 +515,10 @@ public class UserService {
                     public void onResponse(String response) {
                         try {
                             JSONObject jsonResponse = new JSONObject(response);
-                            ((UserAsyncResponse) context).onPendingReceived();
+                            JSONArray array = jsonResponse.getJSONArray("Order");
+                            ArrayList<Order> orders = Order.makeListFromJson(array);
+
+                            ((UserAsyncResponse) context).onPendingReceived(orders);
                         } catch (JSONException e) {
                             e.printStackTrace();
                         }
@@ -529,8 +534,8 @@ public class UserService {
             @Override
             protected Map<String, String> getParams() {
                 Map<String, String> params = new HashMap<>();
-                String signature = Utilities.md5(id + Config.sharedKey);
-                params.put("userID", String.valueOf(id));
+                String signature = Utilities.md5(_id + Config.sharedKey);
+                params.put("userID", String.valueOf(_id));
                 params.put("signature", signature);
 
                 return params;
