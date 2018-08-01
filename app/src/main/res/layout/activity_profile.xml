@@ -9,7 +9,8 @@
     <android.support.constraint.ConstraintLayout
         android:id="@+id/constraintLayout2"
         android:layout_width="match_parent"
-        android:layout_height="58dp">
+        android:layout_height="58dp"
+        android:background="@drawable/dish_border">
 
         <ImageView
             android:id="@+id/imageProfileSettings"
@@ -46,6 +47,7 @@
         android:id="@+id/tabLayoutProfile"
         android:layout_width="match_parent"
         android:layout_height="64dp"
+        android:background="@drawable/border_top"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
@@ -53,6 +55,6 @@
         app:tabIndicatorColor="@color/material_deep_teal_50"
         app:tabMode="fixed"
         app:tabSelectedTextColor="@color/material_blue_grey_90"
-        app:tabTextColor="@color/gray_btn_bg_pressed_color"
-        app:tabTextAppearance="@style/smallTextTab" />
+        app:tabTextAppearance="@style/smallTextTab"
+        app:tabTextColor="@color/com_facebook_button_background_color_focused_disabled" />
 </android.support.constraint.ConstraintLayout>

@@ -8,8 +8,7 @@ import android.support.v7.app.AppCompatActivity;
 import android.widget.ImageView;
 
 import com.monresto.acidlabs.monresto.R;
-import com.monresto.acidlabs.monresto.UI.Cart.FragmentCart;
-import com.monresto.acidlabs.monresto.UI.Restaurants.FragmentRestaurant;
+import com.monresto.acidlabs.monresto.UI.Profile.Address.FragmentAddress;
 import com.monresto.acidlabs.monresto.UI.Restaurants.ViewPagerAdapter;
 
 import butterknife.BindView;
@@ -33,7 +32,7 @@ public class ProfileActivity extends AppCompatActivity {
 
         adapter = new ViewPagerAdapter(getSupportFragmentManager());
 
-        adapter.AddFragment(new FragmentOrders(), "Ordres");
+        adapter.AddFragment(new FragmentOrders(), "Commandes");
         adapter.AddFragment(new FragmentHistory(), "Historique");
         adapter.AddFragment(new FragmentFavorites(), "Favoris");
         adapter.AddFragment(new FragmentAddress(), "Adresses");

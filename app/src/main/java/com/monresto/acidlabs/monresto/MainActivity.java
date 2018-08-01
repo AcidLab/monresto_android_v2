@@ -15,6 +15,8 @@ import android.support.v4.view.ViewPager;
 import android.support.v7.app.AlertDialog;
 import android.support.v7.app.AppCompatActivity;
 import android.util.Log;
+import android.view.View;
+import android.widget.ImageView;
 
 import com.facebook.AccessToken;
 import com.facebook.CallbackManager;
@@ -39,6 +41,7 @@ import com.monresto.acidlabs.monresto.Service.User.UserService;
 import com.monresto.acidlabs.monresto.UI.Cart.FragmentCart;
 import com.monresto.acidlabs.monresto.UI.Maps.MapsActivity;
 import com.monresto.acidlabs.monresto.UI.Profile.FragmentProfile;
+import com.monresto.acidlabs.monresto.UI.Profile.ProfileActivity;
 import com.monresto.acidlabs.monresto.UI.Restaurants.FragmentRestaurant;
 import com.monresto.acidlabs.monresto.UI.Restaurants.ViewPagerAdapter;
 
@@ -55,6 +58,7 @@ import static com.monresto.acidlabs.monresto.UI.Maps.MapsActivity.MY_PERMISSIONS
 
 public class MainActivity extends AppCompatActivity implements RestaurantAsyncResponse, UserAsyncResponse {
     private TabLayout tabLayout;
+    private ImageView home_profile_icon;
     private ViewPager viewPager;
     private MaterialSearchBar searchBar;
     private ViewPagerAdapter adapter;
@@ -116,10 +120,15 @@ public class MainActivity extends AppCompatActivity implements RestaurantAsyncRe
         viewPager = findViewById(R.id.viewPager_id);
         searchBar = findViewById(R.id.searchBar);
         adapter = new ViewPagerAdapter(getSupportFragmentManager());
-
+        home_profile_icon = findViewById(R.id.home_profile_icon);
         fragmentRestaurants = new FragmentRestaurant();
         fragmentCart = new FragmentCart();
         fragmentProfile = new FragmentProfile();
+
+        home_profile_icon.setOnClickListener(view -> {
+            Intent intent = new Intent(this, ProfileActivity.class);
+            startActivity(intent);
+        });
 
         adapter.AddFragment(fragmentRestaurants, "Restaurants");
         adapter.AddFragment(fragmentCart, "Panier");
