@@ -11,7 +11,11 @@ import android.view.View;
 import android.view.ViewGroup;
 
 import com.monresto.acidlabs.monresto.R;
+import com.monresto.acidlabs.monresto.UI.Restaurants.RecyclerViewAdapter;
 import com.monresto.acidlabs.monresto.UI.User.LoginActivity;
+
+import java.lang.reflect.Array;
+import java.util.ArrayList;
 
 import butterknife.ButterKnife;
 
@@ -23,14 +27,18 @@ public class FragmentOrders extends Fragment {
         root = (ViewGroup) inflater.inflate(R.layout.fragment_profile_orders, container, false);
         ButterKnife.bind(this, root);
 
-        /*FragmentManager fragmentManager = getFragmentManager();
+        /*ArrayList<Order>
+        RecyclerViewAdapter adapter = new RecyclerViewAdapter();
+        adapter.*/
+
+        FragmentManager fragmentManager = getFragmentManager();
         FragmentTransaction fragmentTransaction = fragmentManager.beginTransaction();
 
         fragmentTransaction.add(R.id.layoutOrdersContainer, new FragmentOrdersItem());
         fragmentTransaction.add(R.id.layoutOrdersContainer, new FragmentOrdersItem());
         fragmentTransaction.add(R.id.layoutOrdersContainer, new FragmentOrdersItem());
 
-        fragmentTransaction.commit();*/
+        fragmentTransaction.commit();
 
         return root;
     }

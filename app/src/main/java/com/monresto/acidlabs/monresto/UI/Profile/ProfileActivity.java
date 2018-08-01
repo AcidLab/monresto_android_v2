@@ -34,7 +34,7 @@ public class ProfileActivity extends AppCompatActivity {
 
         adapter = new ViewPagerAdapter(getSupportFragmentManager());
 
-        adapter.AddFragment(new FragmentOrdersItem(), "Commandes");
+        adapter.AddFragment(new FragmentOrders(), "Commandes");
         adapter.AddFragment(new FragmentHistory(), "Historique");
         adapter.AddFragment(new FragmentFavorites(), "Favoris");
         adapter.AddFragment(new FragmentAddress(), "Adresses");
