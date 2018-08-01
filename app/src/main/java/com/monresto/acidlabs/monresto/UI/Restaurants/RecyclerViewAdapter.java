@@ -7,6 +7,7 @@ import android.graphics.Color;
 import android.support.annotation.NonNull;
 import android.support.constraint.ConstraintLayout;
 import android.support.v4.app.ActivityOptionsCompat;
+import android.support.v7.widget.CardView;
 import android.support.v7.widget.RecyclerView;
 import android.support.v4.util.Pair;
 import android.view.LayoutInflater;
@@ -54,7 +55,7 @@ public class RecyclerViewAdapter extends RecyclerView.Adapter<RecyclerViewAdapte
                 intent.putExtra("restaurant",restaurants.get(viewHolder.getAdapterPosition()));
 
                 Pair<View, String> p1 = Pair.create((View)viewHolder.storeName, "storeName");
-                Pair<View, String> p2 = Pair.create((View)viewHolder.storeBg, "storeBg");
+                Pair<View, String> p2 = Pair.create((View)viewHolder.store_bg, "store_bg");
                 Pair<View, String> p3 = Pair.create((View)viewHolder.storeState, "storeState");
 
                 ActivityOptionsCompat options = ActivityOptionsCompat.
@@ -79,7 +80,7 @@ public class RecyclerViewAdapter extends RecyclerView.Adapter<RecyclerViewAdapte
             viewHolder.storeState.setText("OUVERT");
         else viewHolder.storeState.setText("FERMÉ");
 
-        Picasso.get().load(restaurants.get(i).getBackground()).fit().transform(new RoundedTransformation(50,0)).transform(new ColorFilterTransformation(Color.argb(120, 0, 0, 0))).into(viewHolder.storeBg);
+        Picasso.get().load(restaurants.get(i).getBackground()).fit().transform(new ColorFilterTransformation(Color.argb(120, 0, 0, 0))).into(viewHolder.store_bg);
 
         starsFilled = 0;
         viewHolder.restaurant_rating.setText("");
@@ -106,7 +107,7 @@ public class RecyclerViewAdapter extends RecyclerView.Adapter<RecyclerViewAdapte
 
         private TextView storeName;
         private TextView storeState;
-        private ImageView storeBg;
+        private ImageView store_bg;
         private TextView restaurant_rating;
         private TextView restaurant_delivery;
         private ConstraintLayout restaurantItem;
@@ -117,7 +118,7 @@ public class RecyclerViewAdapter extends RecyclerView.Adapter<RecyclerViewAdapte
             storeName = itemView.findViewById(R.id.storeName);
             storeState = itemView.findViewById(R.id.storeState);
             restaurant_delivery = itemView.findViewById(R.id.restaurant_delivery);
-            storeBg = itemView.findViewById(R.id.storeBg);
+            store_bg = itemView.findViewById(R.id.store_bg);
             restaurant_rating = itemView.findViewById(R.id.restaurant_rating);
             restaurantItem = itemView.findViewById(R.id.restaurant_id);
         }

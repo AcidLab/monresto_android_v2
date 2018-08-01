@@ -56,6 +56,7 @@ public class Address {
 
     public static ArrayList<Address> makeListFromJson(JSONArray array) {
         ArrayList<Address> addresses = new ArrayList<>();
+        if (array != null)
         for (int i = 0; i < array.length(); i++) {
             try {
                 JSONObject obj = array.getJSONObject(i);
