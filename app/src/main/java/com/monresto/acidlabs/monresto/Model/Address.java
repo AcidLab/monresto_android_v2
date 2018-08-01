@@ -57,19 +57,20 @@ public class Address {
     }
 
     public static ArrayList<Address> makeListFromJson(JSONArray array) {
+        System.out.println("array = [" + array.toString() + "]");
         ArrayList<Address> addresses = new ArrayList<>();
-        if (array != null)
         for (int i = 0; i < array.length(); i++) {
             try {
                 JSONObject obj = array.getJSONObject(i);
                 addresses.add(new Address(obj.optInt("adressID"), obj.optDouble("latitude"), obj.optDouble("latitude"),
-                        obj.getString("emplacement"), obj.getString("adresse"), obj.getString("rue"),
-                        obj.getString("rueTransversalle"), obj.getString("appartement"), obj.getString("codePostale"),
-                        obj.getInt("zoneID"), obj.getInt("cityID"), obj.getString("municipalite"), obj.optInt("is_default") == 1));
+                        obj.optString("emplacement"), obj.optString("adresse"), obj.optString("rue"),
+                        obj.optString("rueTransversalle"), obj.optString("appartement"), obj.optString("codePostale"),
+                        obj.optInt("zoneID"), obj.optInt("cityID"), obj.optString("municipalite"), obj.optInt("is_default") == 1));
             } catch (JSONException e) {
                 e.printStackTrace();
             }
         }
+        //System.out.println("asize: "+addresses.size());
         return addresses;
     }
 
