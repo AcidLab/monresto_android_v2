@@ -69,32 +69,6 @@ public class ProfileActivity extends AppCompatActivity implements UserAsyncRespo
         });
     }
 
-        viewPagerProfile.addOnPageChangeListener(new ViewPager.OnPageChangeListener() {
-            @Override
-            public void onPageScrolled(int i, float v, int i1) {
-
-            }
-
-            @Override
-            public void onPageSelected(int i) {
-                switch (i){
-                    case 0:
-                        /*FragmentManager fragmentManager = getSupportFragmentManager();
-                        FragmentTransaction fragmentTransaction = fragmentManager.beginTransaction();
-
-                        fragmentTransaction.add(R.id.layoutOrdersContainer, new FragmentOrdersItem());
-                        fragmentTransaction.add(R.id.layoutOrdersContainer, new FragmentOrdersItem());
-                        fragmentTransaction.add(R.id.layoutOrdersContainer, new FragmentOrdersItem());
-
-                        fragmentTransaction.commit();*/
-                }
-            }
-
-            @Override
-            public void onPageScrollStateChanged(int i) {
-
-            }
-        });
 
 
     @Override
