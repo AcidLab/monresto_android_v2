@@ -206,6 +206,18 @@ public class MainActivity extends AppCompatActivity implements RestaurantAsyncRe
         restaurants_swiper.setRefreshing(false);
     }
 
+    @Override
+    public void onBackPressed() {
+
+        LinearLayoutManager layoutManager = (LinearLayoutManager) stores_recyclerview.getLayoutManager();
+        assert layoutManager != null;
+        if(layoutManager.findFirstCompletelyVisibleItemPosition()==0){
+            super.onBackPressed();
+        }else {
+            stores_recyclerview.smoothScrollToPosition(0);
+        }
+    }
+
     //Location permission
     public boolean checkLocationPermission() {
         if (ContextCompat.checkSelfPermission(this,
