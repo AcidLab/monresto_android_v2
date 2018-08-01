@@ -54,6 +54,7 @@
         app:layout_constraintStart_toStartOf="parent"
         app:tabGravity="fill"
         app:tabIndicatorColor="@color/material_deep_teal_50"
+        app:tabIndicatorGravity="top"
         app:tabMode="fixed"
         app:tabSelectedTextColor="@color/material_blue_grey_90"
         app:tabTextAppearance="@style/smallTextTab"

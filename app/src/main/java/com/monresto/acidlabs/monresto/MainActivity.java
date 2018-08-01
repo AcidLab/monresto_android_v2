@@ -12,8 +12,11 @@ import android.support.design.widget.TabLayout;
 import android.support.v4.app.ActivityCompat;
 import android.support.v4.content.ContextCompat;
 import android.support.v4.view.ViewPager;
+import android.support.v4.widget.SwipeRefreshLayout;
 import android.support.v7.app.AlertDialog;
 import android.support.v7.app.AppCompatActivity;
+import android.support.v7.widget.LinearLayoutManager;
+import android.support.v7.widget.RecyclerView;
 import android.util.Log;
 import android.view.View;
 import android.widget.ImageView;
@@ -44,6 +47,7 @@ import com.monresto.acidlabs.monresto.UI.Maps.MapsActivity;
 import com.monresto.acidlabs.monresto.UI.Profile.FragmentProfile;
 import com.monresto.acidlabs.monresto.UI.Profile.ProfileActivity;
 import com.monresto.acidlabs.monresto.UI.Restaurants.FragmentRestaurant;
+import com.monresto.acidlabs.monresto.UI.Restaurants.RecyclerViewAdapter;
 import com.monresto.acidlabs.monresto.UI.Restaurants.ViewPagerAdapter;
 import com.monresto.acidlabs.monresto.UI.User.LoginActivity;
 
@@ -53,25 +57,31 @@ import org.json.JSONObject;
 import java.util.ArrayList;
 import java.util.Arrays;
 
+import butterknife.BindView;
+import butterknife.ButterKnife;
+
 import static com.monresto.acidlabs.monresto.UI.Maps.MapsActivity.MY_PERMISSIONS_REQUEST_LOCATION;
 
 
 //Testing fetch information from api
 
-public class MainActivity extends AppCompatActivity implements RestaurantAsyncResponse, UserAsyncResponse {
-    private TabLayout tabLayout;
-    private ImageView home_profile_icon;
-    private ViewPager viewPager;
-    private MaterialSearchBar searchBar;
-    private ViewPagerAdapter adapter;
+public class MainActivity extends AppCompatActivity implements RestaurantAsyncResponse, UserAsyncResponse, SwipeRefreshLayout.OnRefreshListener {
+    @BindView(R.id.home_profile_icon)
+    ImageView home_profile_icon;
+    @BindView(R.id.searchBar)
+    MaterialSearchBar searchBar;
+    @BindView(R.id.stores_recyclerview)
+    RecyclerView stores_recyclerview;
+    @BindView(R.id.restaurants_swiper)
+    SwipeRefreshLayout restaurants_swiper;
+
     private ArrayList<Restaurant> restaurants;
     private ArrayList<Speciality> specialities;
-    private FragmentRestaurant fragmentRestaurants;
-    private FragmentProfile fragmentProfile;
-    private FragmentCart fragmentCart;
 
     private FusedLocationProviderClient mFusedLocationClient;
     private UserService userService;
+    private RestaurantService service;
+    private RecyclerViewAdapter recyclerViewAdapter;
     GPSTracker gpsTracker;
 
     @SuppressLint("MissingPermission")
@@ -80,6 +90,8 @@ public class MainActivity extends AppCompatActivity implements RestaurantAsyncRe
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
 
+        ButterKnife.bind(this);
+        restaurants_swiper.setOnRefreshListener(this);
         if (checkLocationPermission())
             init();
 
@@ -87,7 +99,7 @@ public class MainActivity extends AppCompatActivity implements RestaurantAsyncRe
 
     public void init() {
         gpsTracker = new GPSTracker(this);
-        RestaurantService service = new RestaurantService(this);
+        service = new RestaurantService(this);
         userService = new UserService(this);
 
         SharedPreferences sharedPref = getSharedPreferences("login_data", Context.MODE_PRIVATE);
@@ -119,14 +131,7 @@ public class MainActivity extends AppCompatActivity implements RestaurantAsyncRe
         service.getAll(gpsTracker.getLatitude(), gpsTracker.getLongitude());
         service.getSpecialities();
 
-        tabLayout = findViewById(R.id.tabLayout_id);
-        viewPager = findViewById(R.id.viewPager_id);
-        searchBar = findViewById(R.id.searchBar);
-        adapter = new ViewPagerAdapter(getSupportFragmentManager());
-        home_profile_icon = findViewById(R.id.home_profile_icon);
-        fragmentRestaurants = new FragmentRestaurant();
-        fragmentCart = new FragmentCart();
-        fragmentProfile = new FragmentProfile();
+        stores_recyclerview.setLayoutManager(new LinearLayoutManager(this));
 
         home_profile_icon.setOnClickListener(view -> {
             Intent intent;
@@ -138,24 +143,12 @@ public class MainActivity extends AppCompatActivity implements RestaurantAsyncRe
             startActivity(intent);
         });
 
-        adapter.AddFragment(fragmentRestaurants, "Restaurants");
-        adapter.AddFragment(fragmentCart, "Panier");
-        adapter.AddFragment(fragmentProfile, "Profil");
-
-        viewPager.setAdapter(adapter);
-        viewPager.setOffscreenPageLimit(3);
-        tabLayout.setupWithViewPager(viewPager);
-
-        tabLayout.getTabAt(0).setIcon(R.drawable.store_light);
-        tabLayout.getTabAt(1).setIcon(R.drawable.cart_light);
-        tabLayout.getTabAt(2).setIcon(R.drawable.user_light);
-
     }
 
     @Override
     public void onListReceived(ArrayList<Restaurant> restaurantList) {
         Monresto.getInstance().setRestaurants(restaurantList);
-        fragmentRestaurants.updateList(restaurantList);
+        populateRecyclerView(restaurantList);
     }
 
 
@@ -193,8 +186,24 @@ public class MainActivity extends AppCompatActivity implements RestaurantAsyncRe
 
     @Override
     public void onAddressListReceived(ArrayList<Address> addresses){
-        if(User.getInstance()!=null) return;
-            //User.getInstance().setAddresses(addresses);
+        if(User.getInstance()!=null)
+            User.getInstance().setAddresses(addresses);
+    }
+
+    public void populateRecyclerView(ArrayList<Restaurant> restaurantList) {
+        if (recyclerViewAdapter == null)
+            recyclerViewAdapter = new RecyclerViewAdapter(this, restaurantList);
+        else recyclerViewAdapter.setRestaurants(restaurantList);
+
+        stores_recyclerview.setAdapter(recyclerViewAdapter);
+        recyclerViewAdapter.notifyDataSetChanged();
+
+    }
+
+    @Override
+    public void onRefresh() {
+        service.getAll(gpsTracker.getLatitude(), gpsTracker.getLongitude());
+        restaurants_swiper.setRefreshing(false);
     }
 
     //Location permission
@@ -245,4 +254,5 @@ public class MainActivity extends AppCompatActivity implements RestaurantAsyncRe
                 break;
         }
     }
+
 }

@@ -64,6 +64,12 @@ public class FragmentAddress extends Fragment implements UserAsyncResponse, Swip
                         System.out.println("SPECIAL DEBUG: " + User.getInstance().getAddresses().size() + " Addresses, sending to the listview");
                         AddressAdapter addressAdapter = new AddressAdapter(User.getInstance().getAddresses());
                         listview_address.setAdapter(addressAdapter);
+
+                        status_address.setVisibility(View.INVISIBLE);
+                        swiper_address.setVisibility(View.VISIBLE);
+                        address_pull_to_refresh.setVisibility(View.VISIBLE);
+
+
                         _hasLoadedOnce = true;
                     }
                 }
