@@ -23,14 +23,14 @@ public class FragmentOrders extends Fragment {
         root = (ViewGroup) inflater.inflate(R.layout.fragment_profile_orders, container, false);
         ButterKnife.bind(this, root);
 
-        FragmentManager fragmentManager = getFragmentManager();
+        /*FragmentManager fragmentManager = getFragmentManager();
         FragmentTransaction fragmentTransaction = fragmentManager.beginTransaction();
 
         fragmentTransaction.add(R.id.layoutOrdersContainer, new FragmentOrdersItem());
         fragmentTransaction.add(R.id.layoutOrdersContainer, new FragmentOrdersItem());
         fragmentTransaction.add(R.id.layoutOrdersContainer, new FragmentOrdersItem());
 
-        fragmentTransaction.commit();
+        fragmentTransaction.commit();*/
 
         return root;
     }

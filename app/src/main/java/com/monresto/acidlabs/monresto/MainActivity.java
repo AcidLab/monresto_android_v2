@@ -79,7 +79,7 @@ public class MainActivity extends AppCompatActivity implements RestaurantAsyncRe
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
 
-        if(checkLocationPermission())
+        if (checkLocationPermission())
             init();
 
     }
@@ -129,10 +129,10 @@ public class MainActivity extends AppCompatActivity implements RestaurantAsyncRe
 
         home_profile_icon.setOnClickListener(view -> {
             Intent intent;
-            if(User.getInstance()==null)
+            /*if(User.getInstance()==null)
                 intent = new Intent(this, LoginActivity.class);
-            else
-                intent = new Intent(this, ProfileActivity.class);
+            else*/
+            intent = new Intent(this, ProfileActivity.class);
 
             startActivity(intent);
         });
