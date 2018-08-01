@@ -29,21 +29,29 @@
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/imageView6" />
 
-    <ListView
-        android:id="@+id/listview_address"
+    <android.support.v4.widget.SwipeRefreshLayout
+        android:id="@+id/swiper_address"
         android:layout_width="0dp"
         android:layout_height="0dp"
         android:layout_marginBottom="8dp"
         android:layout_marginEnd="24dp"
         android:layout_marginStart="24dp"
         android:layout_marginTop="8dp"
-        android:divider="@color/colorPrimaryDark"
-        android:dividerHeight="0dp"
         android:visibility="invisible"
         app:layout_constraintBottom_toTopOf="@+id/frameLayout"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toTopOf="@+id/divider_address" />
+        app:layout_constraintTop_toBottomOf="@+id/address_pull_to_refresh">
+
+        <ListView
+            android:id="@+id/listview_address"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:divider="@color/colorPrimaryDark"
+            android:dividerHeight="0dp"
+            android:visibility="visible" />
+
+    </android.support.v4.widget.SwipeRefreshLayout>
 
     <include
         android:id="@+id/status_address"
@@ -53,7 +61,7 @@
         android:layout_marginTop="33dp"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toTopOf="@+id/listview_address" />
+        app:layout_constraintTop_toTopOf="@+id/swiper_address" />
 
     <FrameLayout
         android:id="@+id/frameLayout"
@@ -86,5 +94,19 @@
                 app:layout_constraintTop_toTopOf="parent" />
         </android.support.constraint.ConstraintLayout>
     </FrameLayout>
+
+    <TextView
+        android:id="@+id/address_pull_to_refresh"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="4dp"
+        android:fontFamily="@font/googlesans_regular"
+        android:text="Tirer la liste en bas pour rafraichir"
+        android:textSize="12sp"
+        android:visibility="invisible"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="0.497"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/divider_address" />
 
 </android.support.constraint.ConstraintLayout>

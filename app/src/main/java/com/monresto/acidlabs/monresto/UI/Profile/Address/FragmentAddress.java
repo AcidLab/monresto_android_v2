@@ -6,6 +6,7 @@ import android.support.annotation.NonNull;
 import android.support.annotation.Nullable;
 import android.support.constraint.ConstraintLayout;
 import android.support.v4.app.Fragment;
+import android.support.v4.widget.SwipeRefreshLayout;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -23,15 +24,19 @@ import java.util.ArrayList;
 import butterknife.BindView;
 import butterknife.ButterKnife;
 
-public class FragmentAddress extends Fragment implements UserAsyncResponse {
+public class FragmentAddress extends Fragment implements UserAsyncResponse, SwipeRefreshLayout.OnRefreshListener {
 
     private boolean _hasLoadedOnce = false; // your boolean field
     private UserService userService;
     @BindView(R.id.listview_address)
     ListView listview_address;
+    @BindView(R.id.address_pull_to_refresh)
+    TextView address_pull_to_refresh;
     Context context;
     @BindView(R.id.status_address)
     ConstraintLayout status_address;
+    @BindView(R.id.swiper_address)
+    SwipeRefreshLayout swiper_address;
 
     @Nullable
     @Override
@@ -39,6 +44,8 @@ public class FragmentAddress extends Fragment implements UserAsyncResponse {
         ViewGroup root;
         root = (ViewGroup) inflater.inflate(R.layout.fragment_profile_address, container, false);
         ButterKnife.bind(this, root);
+
+        swiper_address.setOnRefreshListener(this);
 
         userService = new UserService(context);
 
@@ -87,11 +94,18 @@ public class FragmentAddress extends Fragment implements UserAsyncResponse {
         listview_address.setAdapter(addressAdapter);
 
         status_address.setVisibility(View.INVISIBLE);
-        listview_address.setVisibility(View.VISIBLE);
+        swiper_address.setVisibility(View.VISIBLE);
+        address_pull_to_refresh.setVisibility(View.VISIBLE);
     }
 
     public FragmentAddress setContext(Context context) {
         this.context = context;
         return this;
+    }
+
+    @Override
+    public void onRefresh() {
+        userService.getAddress(User.getInstance().getId());
+        swiper_address.setRefreshing(false);
     }
 }
