@@ -49,7 +49,7 @@ public class UserService {
                             System.out.println(status);
                             boolean isDispo = true;
                             if (status != 1)
-                               isDispo = false;
+                                isDispo = false;
                             ((UserAsyncResponse) context).oncheckLoginDispoReceived(isDispo);
                         } catch (JSONException e) {
                             e.printStackTrace();
@@ -130,11 +130,10 @@ public class UserService {
     }
 
     /**
-     *
-     * @param login user login
+     * @param login    user login
      * @param password user password
-     *
-     * onUserLogin should call for getDetails with login parameter true
+     *                 <p>
+     *                 onUserLogin should call for getDetails with login parameter true
      */
     public void login(final String login, final String password, SharedPreferences sharedPref) {
         RequestQueue queue = Volley.newRequestQueue(context);
@@ -151,9 +150,9 @@ public class UserService {
                                 int id = clientObject.optInt("userID");
                                 User user = new User(id, login, "", "", "", "", "", "", "", null);
                                 String isLogin = sharedPref.getString("passwordLogin", null);
-                                if(isLogin==null){
+                                if (isLogin == null) {
                                     SharedPreferences.Editor editor = sharedPref.edit();
-                                    editor.putString("passwordLogin", "{login: "+login+", password: "+password+"}");
+                                    editor.putString("passwordLogin", "{login: " + login + ", password: " + password + "}");
                                     editor.apply();
                                 }
                                 ((UserAsyncResponse) context).onUserLogin(user);
@@ -206,7 +205,7 @@ public class UserService {
                                 int id = clientObject.optInt("userID");
                                 User user = new User(id, email, fname, lname);
                                 SharedPreferences.Editor editor = sharedPref.edit();
-                                editor.putString("fbLogin", "{id: "+id+", email: "+email+", fname: "+fname+", lname: "+lname+"}");
+                                editor.putString("fbLogin", "{id: " + id + ", email: " + email + ", fname: " + fname + ", lname: " + lname + "}");
                                 editor.apply();
                                 ((UserAsyncResponse) context).onUserLogin(user);
                             }
@@ -245,8 +244,7 @@ public class UserService {
     }
 
     /**
-     *
-     * @param id user's id
+     * @param id    user's id
      * @param login is true when user details are requested after login
      */
     public void getDetails(final int id, final boolean login) {
@@ -261,8 +259,8 @@ public class UserService {
                             int status = jsonResponse.getInt("Status");
                             if (status != 0) {
                                 JSONObject clientObject = jsonResponse.optJSONObject("User");
-                                User user = new User(id, clientObject.optString("login"), clientObject.optString("email"), clientObject.optString("firstName"), clientObject.optString("lastName"), clientObject.optString("civility"), clientObject.optString("phone"), clientObject.optString("mobile"), "", null);
-                                if(login)
+                                User user = new User(id, clientObject.optString("login"), clientObject.optString("email"), clientObject.optString("firstName"), clientObject.optString("lastName"), clientObject.optString("civility"), clientObject.optString("phone"), clientObject.optString("mobile"), "", Address.makeListFromJson(clientObject.optJSONArray("Address")));
+                                if (login)
                                     User.setInstance(user);
                                 ((UserAsyncResponse) context).onUserDetailsReceived(user);
                             }
@@ -326,8 +324,59 @@ public class UserService {
         queue.add(postRequest);
     }
 
+    /**
+     * Modify user info
+     */
+    public void modifyInfo(User user){
+        final JSONArray addressesArray = new JSONArray();
+        /*for (Address A : addresses) {
+            addressesArray.put(A.toJson());
+        }*/
+
+        RequestQueue queue = Volley.newRequestQueue(context);
+        String url = Config.server + "User/Register.php";
+        StringRequest postRequest = new StringRequest(Request.Method.POST, url,
+                new Response.Listener<String>() {
+                    @Override
+                    public void onResponse(String response) {
+                        try {
+                            JSONObject jsonResponse = new JSONObject(response);
+                            JSONObject clientObject = jsonResponse.getJSONObject("Client");
+                            int status = clientObject.getInt("Status");
+                            if (status != 0) {
+                                int id = clientObject.optInt("userID");
+                                //((UserAsyncResponse) context).onUserLogin(user);
+                            }
+                        } catch (JSONException e) {
+                            e.printStackTrace();
+                        }
+                    }
+                },
+                new Response.ErrorListener() {
+                    @Override
+                    public void onErrorResponse(VolleyError error) {
+                        Log.d("ERROR", "onErrorResponse: " + error.getMessage());
+                    }
+                }
+        ) {
+            @Override
+            protected Map<String, String> getParams() {
+                Map<String, String> params = new HashMap<>();
+                /*JSONObject userObject = User.registerJson(login, password, password_confirm, fname, lname, civility, email, phone, mobile, comment, addresses);
+                String token = "kento";//FirebaseInstanceId.getInstance().getToken();
+                String signature = Utilities.md5(userObject.toString() + token + "android" + Config.sharedKey);
+
+                params.put("user", userObject.toString());
+                params.put("signature", signature);*/
+
+                return params;
+            }
+        };
+        queue.add(postRequest);
+    }
+
     //Not finished
-    public void submitOrders(final int userID, final int addressID, final int partnerID){
+    public void submitOrders(final int userID, final int addressID, final int partnerID) {
         //TODO: return if user is null
         //TODO: correct missing assignments (?type, ?numtransm, ?optionOrderID, time, date, promo)
         final JSONArray orders = ShoppingCart.getInstance().getOrdersJson();
@@ -377,6 +426,79 @@ public class UserService {
             }
         };
         queue.add(postRequest);
-
     }
+
+    //Order details
+    public void getHistory(final int id, final int restoID) {
+        RequestQueue queue = Volley.newRequestQueue(context);
+        String url = Config.server + "User/orderHistory.php";
+        StringRequest postRequest = new StringRequest(Request.Method.POST, url,
+                new Response.Listener<String>() {
+                    @Override
+                    public void onResponse(String response) {
+                        try {
+                            JSONObject jsonResponse = new JSONObject(response);
+                            int status = jsonResponse.getInt("Status");
+
+                            ((UserAsyncResponse) context).onHistoryReceived();
+                        } catch (JSONException e) {
+                            e.printStackTrace();
+                        }
+                    }
+                },
+                new Response.ErrorListener() {
+                    @Override
+                    public void onErrorResponse(VolleyError error) {
+                        // error
+                    }
+                }
+        ) {
+            @Override
+            protected Map<String, String> getParams() {
+                Map<String, String> params = new HashMap<>();
+                String signature = Utilities.md5(id + Config.sharedKey);
+                params.put("userID", String.valueOf(id));
+                params.put("signature", signature);
+
+                return params;
+            }
+        };
+        queue.add(postRequest);
+    }
+
+    public void getPending(final int id) {
+        RequestQueue queue = Volley.newRequestQueue(context);
+        String url = Config.server + "User/pendingOrder.php";
+        StringRequest postRequest = new StringRequest(Request.Method.POST, url,
+                new Response.Listener<String>() {
+                    @Override
+                    public void onResponse(String response) {
+                        try {
+                            JSONObject jsonResponse = new JSONObject(response);
+                            ((UserAsyncResponse) context).onPendingReceived();
+                        } catch (JSONException e) {
+                            e.printStackTrace();
+                        }
+                    }
+                },
+                new Response.ErrorListener() {
+                    @Override
+                    public void onErrorResponse(VolleyError error) {
+                        // error
+                    }
+                }
+        ) {
+            @Override
+            protected Map<String, String> getParams() {
+                Map<String, String> params = new HashMap<>();
+                String signature = Utilities.md5(id + Config.sharedKey);
+                params.put("userID", String.valueOf(id));
+                params.put("signature", signature);
+
+                return params;
+            }
+        };
+        queue.add(postRequest);
+    }
+
 }

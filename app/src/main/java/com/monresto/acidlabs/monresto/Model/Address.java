@@ -1,7 +1,11 @@
 package com.monresto.acidlabs.monresto.Model;
 
+import org.json.JSONArray;
 import org.json.JSONException;
 import org.json.JSONObject;
+
+import java.lang.reflect.Array;
+import java.util.ArrayList;
 
 public class Address {
     private int id;
@@ -17,9 +21,10 @@ public class Address {
     private int cityID;
     private String municipality;
 
-    public Address(){
+    public Address() {
 
     }
+
     public Address(int id, double lat, double lon, String emplacement, String adresse, String rue, String rueTransversalle, String appartement, String postalCode, int zoneID, int cityID, String municipality) {
         this.id = id;
         this.lat = lat;
@@ -47,6 +52,22 @@ public class Address {
         this.zoneID = zoneID;
         this.cityID = cityID;
         this.municipality = municipality;
+    }
+
+    public static ArrayList<Address> makeListFromJson(JSONArray array) {
+        ArrayList<Address> addresses = new ArrayList<>();
+        for (int i = 0; i < array.length(); i++) {
+            try {
+                JSONObject obj = array.getJSONObject(i);
+                addresses.add(new Address(obj.optDouble("latitude"), obj.optDouble("latitude"),
+                        obj.getString("emplacement"), obj.getString("adresse"), obj.getString("rue"),
+                        obj.getString("rueTransversalle"), obj.getString("appartement"), obj.getString("codePostale"),
+                        obj.getInt("zoneID"), obj.getInt("cityID"), obj.getString("municipalite")));
+            } catch (JSONException e) {
+                e.printStackTrace();
+            }
+        }
+        return addresses;
     }
 
     public JSONObject toJson() {
