@@ -293,7 +293,8 @@ public class MainActivity extends AppCompatActivity implements RestaurantAsyncRe
 
     @Override
     public void onSearchStateChanged(boolean enabled) {
-
+        if(!enabled)
+            onRefresh();
     }
 
     @Override
@@ -304,8 +305,10 @@ public class MainActivity extends AppCompatActivity implements RestaurantAsyncRe
                 searchList.add(restaurant);
             }
         }
-        if(!searchList.isEmpty())
+        if(!searchList.isEmpty()){
             populateRecyclerView(searchList);
+            Utilities.hideKeyboard(this);
+        }
         else
             Toast.makeText(this, "Aucune donnée trouvée", Toast.LENGTH_SHORT).show(); //TODO: change this
     }
