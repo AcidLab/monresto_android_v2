@@ -8,6 +8,7 @@ import android.content.Intent;
 import android.content.SharedPreferences;
 import android.content.pm.PackageManager;
 import android.os.Bundle;
+import android.support.constraint.ConstraintLayout;
 import android.support.v4.app.ActivityCompat;
 import android.support.v4.content.ContextCompat;
 import android.support.v4.widget.SwipeRefreshLayout;
@@ -15,6 +16,7 @@ import android.support.v7.app.AlertDialog;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
+import android.view.View;
 import android.widget.ImageView;
 
 import com.facebook.AccessToken;
@@ -56,6 +58,8 @@ public class MainActivity extends AppCompatActivity implements RestaurantAsyncRe
     RecyclerView stores_recyclerview;
     @BindView(R.id.restaurants_swiper)
     SwipeRefreshLayout restaurants_swiper;
+    @BindView(R.id.status_restaurants)
+    ConstraintLayout status_restaurants;
 
     private ArrayList<Restaurant> restaurants;
     private ArrayList<Speciality> specialities;
@@ -130,7 +134,13 @@ public class MainActivity extends AppCompatActivity implements RestaurantAsyncRe
     @Override
     public void onListReceived(ArrayList<Restaurant> restaurantList) {
         Monresto.getInstance().setRestaurants(restaurantList);
-        populateRecyclerView(restaurantList);
+        if (!restaurantList.isEmpty()) {
+            restaurants_swiper.setVisibility(View.VISIBLE);
+            status_restaurants.setVisibility(View.INVISIBLE);
+            populateRecyclerView(restaurantList);
+        } else {
+            //TODO inflate no restaurants found fragment, check FragmentAddess.java for help
+        }
     }
 
 
@@ -167,8 +177,8 @@ public class MainActivity extends AppCompatActivity implements RestaurantAsyncRe
     }
 
     @Override
-    public void onAddressListReceived(ArrayList<Address> addresses){
-        if(User.getInstance()!=null)
+    public void onAddressListReceived(ArrayList<Address> addresses) {
+        if (User.getInstance() != null)
             User.getInstance().setAddresses(addresses);
     }
 
@@ -193,9 +203,9 @@ public class MainActivity extends AppCompatActivity implements RestaurantAsyncRe
 
         LinearLayoutManager layoutManager = (LinearLayoutManager) stores_recyclerview.getLayoutManager();
         assert layoutManager != null;
-        if(layoutManager.findFirstCompletelyVisibleItemPosition()==0){
+        if (layoutManager.findFirstCompletelyVisibleItemPosition() == 0) {
             super.onBackPressed();
-        }else {
+        } else {
             stores_recyclerview.smoothScrollToPosition(0);
         }
     }

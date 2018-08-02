@@ -121,6 +121,7 @@
             android:id="@+id/restaurants_swiper"
             android:layout_width="0dp"
             android:layout_height="0dp"
+            android:visibility="invisible"
             app:layout_constraintBottom_toTopOf="@+id/frameLayout2"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintHorizontal_bias="0.0"
@@ -139,7 +140,7 @@
         <FrameLayout
             android:id="@+id/frameLayout2"
             android:layout_width="0dp"
-            android:layout_height="65dp"
+            android:layout_height="50dp"
             app:layout_constraintBottom_toBottomOf="parent"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent">
@@ -154,12 +155,12 @@
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:layout_marginStart="24dp"
-                    android:layout_marginTop="4dp"
                     android:fontFamily="@font/googlesans_bold"
                     android:text="Mon couffin"
                     android:textColor="@color/button_text_color"
                     android:textSize="24sp"
                     android:textStyle="bold"
+                    app:layout_constraintBottom_toBottomOf="parent"
                     app:layout_constraintStart_toStartOf="parent"
                     app:layout_constraintTop_toTopOf="parent" />
 
@@ -167,20 +168,19 @@
                     android:id="@+id/textView14"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:layout_marginBottom="8dp"
-                    android:layout_marginStart="24dp"
+                    android:layout_marginBottom="2dp"
+                    android:layout_marginStart="8dp"
                     android:fontFamily="@font/googlesans_regular"
                     android:text="0.00 TND"
                     android:textColor="@color/button_text_color"
                     android:textSize="18sp"
-                    app:layout_constraintBottom_toBottomOf="parent"
-                    app:layout_constraintStart_toStartOf="parent"
-                    app:layout_constraintTop_toBottomOf="@+id/textView13" />
+                    app:layout_constraintBottom_toBottomOf="@+id/textView13"
+                    app:layout_constraintStart_toEndOf="@+id/textView13" />
 
                 <ImageView
                     android:id="@+id/delivery_holder2"
                     android:layout_width="51dp"
-                    android:layout_height="42dp"
+                    android:layout_height="0dp"
                     android:layout_marginBottom="8dp"
                     android:layout_marginEnd="24dp"
                     android:layout_marginTop="8dp"
@@ -213,11 +213,22 @@
 
         <ImageView
             android:id="@+id/imageView5"
-            android:layout_width="60dp"
-            android:layout_height="60dp"
+            android:layout_width="178dp"
+            android:layout_height="73dp"
+            android:scaleType="fitEnd"
             app:layout_constraintBottom_toTopOf="@+id/frameLayout2"
             app:layout_constraintStart_toStartOf="parent"
-            app:srcCompat="@drawable/cart_homepage" />
+            app:srcCompat="@drawable/couffin" />
+
+        <include
+            android:id="@+id/status_restaurants"
+            layout="@layout/fragment_loading"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="60dp"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toTopOf="@+id/restaurants_swiper" />
 
     </android.support.constraint.ConstraintLayout>
 

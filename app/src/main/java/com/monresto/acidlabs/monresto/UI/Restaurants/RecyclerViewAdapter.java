@@ -74,18 +74,28 @@ public class RecyclerViewAdapter extends RecyclerView.Adapter<RecyclerViewAdapte
 
         System.out.println("STORE: " + restaurantItem.getName());
 
-        viewHolder.storeName.setText(restaurantItem.getName());
-
-        if (restaurantItem.getState().equals("open"))
-            viewHolder.storeState.setText("OUVERT");
-        else viewHolder.storeState.setText("FERMÉ");
-
-        Picasso.get().load(restaurantItem.getBackground()).fit().transform(new ColorFilterTransformation(Color.argb(120, 0, 0, 0))).into(viewHolder.store_bg);
-
-        viewHolder.ratingBar.setRating((float)restaurantItem.getRate());
-        viewHolder.restaurant_delivery.setText(String.valueOf(restaurantItem.getEstimatedTime())+"'");
         // Set the view to fade in
         setFadeAnimation(viewHolder.itemView);
+
+        Picasso.get().load(restaurantItem.getBackground()).fit().transform(new ColorFilterTransformation(Color.argb(120, 0, 0, 0))).into(viewHolder.store_bg, new com.squareup.picasso.Callback() {
+            @Override
+            public void onSuccess() {
+                viewHolder.storeName.setText(restaurantItem.getName());
+
+                if (restaurantItem.getState().equals("open"))
+                    viewHolder.storeState.setText("OUVERT");
+                else viewHolder.storeState.setText("FERMÉ");
+                viewHolder.ratingBar.setRating((float)restaurantItem.getRate());
+                viewHolder.restaurant_delivery.setText(String.valueOf(restaurantItem.getEstimatedTime())+"'");
+
+            }
+
+            @Override
+            public void onError(Exception ex) {
+
+            }
+        });
+
     }
 
     @Override
