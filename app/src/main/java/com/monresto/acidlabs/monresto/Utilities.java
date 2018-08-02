@@ -4,11 +4,13 @@ import android.app.Activity;
 import android.content.Context;
 import android.util.DisplayMetrics;
 import android.util.TypedValue;
+import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.view.inputmethod.InputMethodManager;
 import android.widget.ListAdapter;
 import android.widget.ListView;
+import android.widget.TextView;
 
 import org.json.JSONArray;
 import org.json.JSONException;
@@ -97,4 +99,30 @@ public class Utilities {
         return true;
     }
 
+    // Use this only for Loading or Breakdown alerts
+    public static void statusChanger(Context context, int resource, ViewGroup statusContainer, ViewGroup listContainer) {
+        LayoutInflater inflater = (LayoutInflater)context.getSystemService(Context.LAYOUT_INFLATER_SERVICE);
+        View layout = inflater.inflate(resource, statusContainer, false);
+
+        statusContainer.removeAllViews();
+        statusContainer.addView(layout);
+
+        listContainer.setVisibility(View.INVISIBLE);
+        statusContainer.setVisibility(View.VISIBLE);
+    }
+
+    // Use this only for Unavailability alerts (+Custom message)
+    public static void statusChangerLoading(Context context, String message, ViewGroup statusContainer, ViewGroup listContainer) {
+        LayoutInflater inflater = (LayoutInflater)context.getSystemService(Context.LAYOUT_INFLATER_SERVICE);
+        View layout = inflater.inflate(R.layout.fragment_unavailable, statusContainer, false);
+
+        TextView unavailable_msg = layout.findViewById(R.id.unavailable_msg);
+        unavailable_msg.setText(message);
+
+        statusContainer.removeAllViews();
+        statusContainer.addView(layout);
+
+        listContainer.setVisibility(View.INVISIBLE);
+        statusContainer.setVisibility(View.VISIBLE);
+    }
 }
