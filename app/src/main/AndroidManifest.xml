@@ -26,8 +26,8 @@
         <activity android:name=".UI.HomeActivity" />
         <activity android:name=".UI.RestaurantDetails.RestaurantDetailsActivity" />
         <activity android:name=".UI.User.LoginActivity" />
-        <activity android:name=".UI.User.RegisterActivity"/>
-        <activity android:name=".UI.Maps.MapsActivity"/>
+        <activity android:name=".UI.User.RegisterActivity" />
+        <activity android:name=".UI.Maps.MapsActivity" />
         <activity
             android:name=".UI.RestaurantDetails.Order.OrderActivity"
             android:excludeFromRecents="true"
@@ -36,7 +36,10 @@
         <activity android:name=".UI.Profile.Settings.ProfileSettingsActivity" />
         <activity android:name=".UI.Profile.Address.NewAddressActivity" />
         <activity android:name=".UI.FAQ.FAQActivity" />
-        <activity android:name=".UI.FAQ.FAQAnswerActivity" />
+        <activity
+            android:name=".UI.FAQ.FAQAnswerActivity"
+            android:excludeFromRecents="true"
+            android:theme="@style/Theme.AppCompat.Light.Dialog" />
 
         <meta-data
             android:name="com.facebook.sdk.ApplicationId"

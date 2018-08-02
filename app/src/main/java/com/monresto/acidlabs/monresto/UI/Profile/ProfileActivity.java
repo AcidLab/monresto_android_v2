@@ -39,6 +39,8 @@ public class ProfileActivity extends AppCompatActivity implements UserAsyncRespo
     ViewPagerAdapter adapter;
 
     FragmentOrders fragmentOrders;
+    FragmentHistory fragmentHistory;
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -49,9 +51,10 @@ public class ProfileActivity extends AppCompatActivity implements UserAsyncRespo
         adapter = new ViewPagerAdapter(getSupportFragmentManager());
 
         fragmentOrders = new FragmentOrders();
+        fragmentHistory = new FragmentHistory();
 
         adapter.AddFragment(fragmentOrders, "Commandes");
-        adapter.AddFragment(new FragmentHistory(), "Historique");
+        adapter.AddFragment(fragmentHistory, "Historique");
         adapter.AddFragment(new FragmentFavorites(), "Favoris");
         adapter.AddFragment(fragmentAddress, "Adresses");
 
@@ -71,14 +74,18 @@ public class ProfileActivity extends AppCompatActivity implements UserAsyncRespo
 
         UserService userService = new UserService(this);
         userService.getOrders(User.getInstance().getId());
-        userService.getHistory(User.getInstance().getId(),1);
+        userService.getHistory(User.getInstance().getId(), 1);
     }
-
 
 
     @Override
     public void onPendingReceived(ArrayList<Order> orders) {
         fragmentOrders.fillPending(orders);
+    }
+
+    @Override
+    public void onHistoryReceived(ArrayList<Order> orders) {
+        fragmentHistory.fillHistory(orders);
     }
 
     @Override

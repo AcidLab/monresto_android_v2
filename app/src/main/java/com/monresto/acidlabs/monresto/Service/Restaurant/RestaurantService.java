@@ -267,6 +267,10 @@ public class RestaurantService {
         queue.add(postRequest);
     }
 
+    public void getFavorites(){
+
+    }
+
     public void getSpecialities(){
         final int userID = User.getInstance()==null ? 0 : User.getInstance().getId();
         RequestQueue queue = Volley.newRequestQueue(context);

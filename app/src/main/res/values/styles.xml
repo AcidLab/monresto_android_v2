@@ -17,7 +17,9 @@
 
     <style name="AppTheme.AppBarOverlay" parent="ThemeOverlay.AppCompat.Dark.ActionBar" />
     <style name="AppTheme.Rabek" parent="Widget.AppCompat.Button.Colored">
+        <item name="android:textColor">@color/button_text_color</item>
     </style>
+
     <style name="tab_text" parent="@android:style/TextAppearance.Widget.TabWidget">
         <item name="android:fontFamily">@font/googlesans_regular</item>
     </style>

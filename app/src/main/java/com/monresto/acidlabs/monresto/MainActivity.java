@@ -16,12 +16,16 @@ import android.support.v7.app.AlertDialog;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
+import android.text.Editable;
+import android.text.TextWatcher;
 import android.view.View;
 import android.widget.ImageView;
+import android.widget.Toast;
 
 import com.facebook.AccessToken;
 import com.google.android.gms.location.FusedLocationProviderClient;
 import com.mancj.materialsearchbar.MaterialSearchBar;
+import com.mancj.materialsearchbar.SimpleOnSearchActionListener;
 import com.monresto.acidlabs.monresto.Model.Address;
 import com.monresto.acidlabs.monresto.Model.Dish;
 import com.monresto.acidlabs.monresto.Model.Menu;
@@ -41,6 +45,7 @@ import org.json.JSONException;
 import org.json.JSONObject;
 
 import java.util.ArrayList;
+import java.util.stream.Collectors;
 
 import butterknife.BindView;
 import butterknife.ButterKnife;
@@ -50,7 +55,7 @@ import static com.monresto.acidlabs.monresto.UI.Maps.MapsActivity.MY_PERMISSIONS
 
 //Testing fetch information from api
 
-public class MainActivity extends AppCompatActivity implements RestaurantAsyncResponse, UserAsyncResponse, SwipeRefreshLayout.OnRefreshListener {
+public class MainActivity extends AppCompatActivity implements RestaurantAsyncResponse, UserAsyncResponse, SwipeRefreshLayout.OnRefreshListener, MaterialSearchBar.OnSearchActionListener {
     @BindView(R.id.home_profile_icon)
     ImageView home_profile_icon;
     @BindView(R.id.searchBar)
@@ -62,7 +67,7 @@ public class MainActivity extends AppCompatActivity implements RestaurantAsyncRe
     @BindView(R.id.status_restaurants)
     ConstraintLayout status_restaurants;
 
-    private ArrayList<Restaurant> restaurants;
+    private ArrayList<Restaurant> searchList;
     private ArrayList<Speciality> specialities;
 
     private FusedLocationProviderClient mFusedLocationClient;
@@ -71,7 +76,6 @@ public class MainActivity extends AppCompatActivity implements RestaurantAsyncRe
     private RecyclerViewAdapter recyclerViewAdapter;
     GPSTracker gpsTracker;
 
-    @SuppressLint("MissingPermission")
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -122,13 +126,15 @@ public class MainActivity extends AppCompatActivity implements RestaurantAsyncRe
 
         home_profile_icon.setOnClickListener(view -> {
             Intent intent;
-            if(User.getInstance()==null)
+            if (User.getInstance() == null)
                 intent = new Intent(this, LoginActivity.class);
             else
-            intent = new Intent(this, ProfileActivity.class);
+                intent = new Intent(this, ProfileActivity.class);
 
             startActivity(intent);
         });
+
+        searchBar.setOnSearchActionListener(this);
 
     }
 
@@ -260,4 +266,27 @@ public class MainActivity extends AppCompatActivity implements RestaurantAsyncRe
         }
     }
 
+    @Override
+    public void onSearchStateChanged(boolean enabled) {
+
+    }
+
+    @Override
+    public void onSearchConfirmed(CharSequence text) {
+        searchList = new ArrayList<>();
+        for (Restaurant restaurant : Monresto.getInstance().getRestaurants()) {
+            if (restaurant.getName().toLowerCase().contains(text.toString().toLowerCase())) {
+                searchList.add(restaurant);
+            }
+        }
+        if(!searchList.isEmpty())
+            populateRecyclerView(searchList);
+        else
+            Toast.makeText(this, "Aucune donnée trouvée", Toast.LENGTH_SHORT).show(); //TODO: change this
+    }
+
+    @Override
+    public void onButtonClicked(int buttonCode) {
+
+    }
 }

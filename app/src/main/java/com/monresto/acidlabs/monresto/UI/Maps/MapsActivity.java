@@ -13,6 +13,7 @@ import android.support.v4.app.FragmentActivity;
 import android.support.v4.content.ContextCompat;
 import android.support.v7.app.AlertDialog;
 import android.widget.Button;
+import android.widget.ImageView;
 
 import com.google.android.gms.maps.CameraUpdateFactory;
 import com.google.android.gms.maps.GoogleMap;
@@ -38,7 +39,6 @@ public class MapsActivity extends FragmentActivity implements OnMapReadyCallback
     double lng;
     String title;
 
-
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -49,17 +49,15 @@ public class MapsActivity extends FragmentActivity implements OnMapReadyCallback
 
         SupportMapFragment mapFragment = (SupportMapFragment) getSupportFragmentManager()
                 .findFragmentById(R.id.map);
-        mapFragment.getMapAsync(this);
+        if (mapFragment != null) {
+            mapFragment.getMapAsync(this);
+        }
 
         Button button = findViewById(R.id.buttonPickPosition);
-        button.setOnClickListener(e -> {
-            /*Intent resultIntent = new Intent();
-            resultIntent.putExtra("lat", mMap.getCameraPosition().target.latitude);
-            resultIntent.putExtra("lon", mMap.getCameraPosition().target.longitude);
-            setResult(Activity.RESULT_OK, resultIntent);
-            finish();*/
-            onBackPressed();
-        });
+        ImageView finishBtn = findViewById(R.id.buttonFinish);
+
+        button.setOnClickListener(e -> onBackPressed());
+        finishBtn.setOnClickListener(e -> onBackPressed());
     }
 
     @Override
