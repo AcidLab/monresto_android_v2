@@ -34,6 +34,7 @@
             android:theme="@style/Theme.AppCompat.Light.Dialog" />
         <activity android:name=".UI.Profile.ProfileActivity" />
         <activity android:name=".UI.Profile.Settings.ProfileSettingsActivity" />
+        <activity android:name=".UI.Profile.Address.NewAddressActivity" />
 
         <meta-data
             android:name="com.facebook.sdk.ApplicationId"

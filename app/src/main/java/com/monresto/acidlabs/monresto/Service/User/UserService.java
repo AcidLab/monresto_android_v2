@@ -469,6 +469,8 @@ public class UserService {
 
     //Order details
     public void getHistory(final int id, final int restoID) {
+        int _id = 49468;
+
         RequestQueue queue = Volley.newRequestQueue(context);
         String url = Config.server + "User/orderHistory.php";
         StringRequest postRequest = new StringRequest(Request.Method.POST, url,
@@ -477,9 +479,12 @@ public class UserService {
                     public void onResponse(String response) {
                         try {
                             JSONObject jsonResponse = new JSONObject(response);
-                            int status = jsonResponse.getInt("Status");
+                            JSONArray array = jsonResponse.getJSONArray("Order");
+                            ArrayList<Order> orders = Order.makeListFromJson(array);
 
-                            ((UserAsyncResponse) context).onHistoryReceived();
+                            ((UserAsyncResponse) context).onHistoryReceived(orders);
+
+                            //((UserAsyncResponse) context).onHistoryReceived();
                         } catch (JSONException e) {
                             e.printStackTrace();
                         }
@@ -495,8 +500,8 @@ public class UserService {
             @Override
             protected Map<String, String> getParams() {
                 Map<String, String> params = new HashMap<>();
-                String signature = Utilities.md5(id + Config.sharedKey);
-                params.put("userID", String.valueOf(id));
+                String signature = Utilities.md5(_id + Config.sharedKey);
+                params.put("userID", String.valueOf(_id));
                 params.put("signature", signature);
 
                 return params;

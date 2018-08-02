@@ -20,8 +20,7 @@
             android:id="@+id/imageRestoLogo"
             android:layout_width="48dp"
             android:layout_height="48dp"
-            android:layout_weight="1"
-            app:srcCompat="@color/blue_btn_bg_color" />
+            android:layout_weight="1" />
 
         <TextView
             android:id="@+id/textOrderDish"
@@ -175,35 +174,35 @@
 
 
         <ImageView
-            android:id="@+id/pending_queue"
+            android:id="@+id/pending_status_1"
             android:layout_width="48dp"
             android:layout_height="48dp"
             android:layout_weight="1"
             app:srcCompat="@drawable/pending_en_attante" />
 
         <ImageView
-            android:id="@+id/pending_now"
+            android:id="@+id/pending_status_2"
             android:layout_width="48dp"
             android:layout_height="48dp"
             android:layout_weight="1"
             app:srcCompat="@drawable/pending_en_cours" />
 
         <ImageView
-            android:id="@+id/pending_resto"
+            android:id="@+id/pending_status_3"
             android:layout_width="48dp"
             android:layout_height="48dp"
             android:layout_weight="1"
             app:srcCompat="@drawable/pending_arrive_resto" />
 
         <ImageView
-            android:id="@+id/pending_pickup"
+            android:id="@+id/pending_status_4"
             android:layout_width="48dp"
             android:layout_height="48dp"
             android:layout_weight="1"
             app:srcCompat="@drawable/pending_pickup_resto" />
 
         <ImageView
-            android:id="@+id/pending_client"
+            android:id="@+id/pending_status_5"
             android:layout_width="48dp"
             android:layout_height="48dp"
             android:layout_weight="1"

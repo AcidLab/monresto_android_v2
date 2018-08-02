@@ -76,7 +76,7 @@
             android:layout_height="match_parent">
 
             <Button
-                android:id="@+id/button5"
+                android:id="@+id/buttonNewAddress"
                 style="@style/AppTheme.Rabek"
                 android:layout_width="0dp"
                 android:layout_height="0dp"

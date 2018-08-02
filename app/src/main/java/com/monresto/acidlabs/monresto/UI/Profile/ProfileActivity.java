@@ -8,6 +8,7 @@ import android.support.v7.app.AppCompatActivity;
 import android.widget.ImageView;
 
 import com.monresto.acidlabs.monresto.Model.Address;
+import com.monresto.acidlabs.monresto.Model.User;
 import com.monresto.acidlabs.monresto.R;
 import com.monresto.acidlabs.monresto.Model.Order;
 import com.monresto.acidlabs.monresto.Service.User.UserAsyncResponse;
@@ -67,6 +68,9 @@ public class ProfileActivity extends AppCompatActivity implements UserAsyncRespo
             Intent intent = new Intent(this, ProfileSettingsActivity.class);
             startActivity(intent);
         });
+
+        UserService userService = new UserService(this);
+        userService.getHistory(1,1);
     }
 
 
@@ -74,7 +78,6 @@ public class ProfileActivity extends AppCompatActivity implements UserAsyncRespo
     @Override
     public void onPendingReceived(ArrayList<Order> orders) {
         fragmentOrders.fillPending(orders);
-        System.out.println("ProfileActivity.onPendingReceived");
     }
 
     @Override

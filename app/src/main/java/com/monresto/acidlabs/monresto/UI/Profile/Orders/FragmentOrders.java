@@ -39,8 +39,7 @@ public class FragmentOrders extends Fragment {
         adapter = new OrderRecyclerViewAdapter(getContext());
 
         UserService userService = new UserService(getContext());
-        userService.getOrders(0);
-        System.out.println("FragmentOrders.onCreateView");
+        userService.getOrders(0);//TODO:
         return root;
     }
 

@@ -1,6 +1,7 @@
 package com.monresto.acidlabs.monresto.UI.Profile.Address;
 
 import android.content.Context;
+import android.content.Intent;
 import android.os.Bundle;
 import android.support.annotation.NonNull;
 import android.support.annotation.Nullable;
@@ -10,6 +11,7 @@ import android.support.v4.widget.SwipeRefreshLayout;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.Button;
 import android.widget.ListView;
 import android.widget.TextView;
 
@@ -37,6 +39,8 @@ public class FragmentAddress extends Fragment implements UserAsyncResponse, Swip
     ConstraintLayout status_address;
     @BindView(R.id.swiper_address)
     SwipeRefreshLayout swiper_address;
+    @BindView(R.id.buttonNewAddress)
+    Button buttonNewAddress;
 
     @Nullable
     @Override
@@ -49,6 +53,10 @@ public class FragmentAddress extends Fragment implements UserAsyncResponse, Swip
 
         userService = new UserService(context);
 
+        buttonNewAddress.setOnClickListener(e -> {
+            Intent intent = new Intent(this.getContext(), NewAddressActivity.class);
+            startActivity(intent);
+        });
         return root;
     }
 

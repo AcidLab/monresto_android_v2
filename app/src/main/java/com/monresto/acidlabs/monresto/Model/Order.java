@@ -79,9 +79,9 @@ public class Order {
         String dishNames = "";
         for (Dish D : Dishes) {
             if (dishNames.equals(""))
-                dishNames = D.getTitle();
+                dishNames = D.getQuantity() + " " + D.getTitle();
             else
-                dishNames += ", " + D.getTitle();
+                dishNames += ", " + D.getQuantity() + " " + D.getTitle();
         }
         return dishNames;
     }

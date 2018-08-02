@@ -7,7 +7,9 @@ import android.support.annotation.Nullable;
 import android.support.v7.app.AppCompatActivity;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
+import android.widget.TextView;
 
+import com.monresto.acidlabs.monresto.Model.User;
 import com.monresto.acidlabs.monresto.R;
 import com.monresto.acidlabs.monresto.UI.User.LoginActivity;
 
@@ -19,6 +21,8 @@ public class ProfileSettingsActivity extends AppCompatActivity {
     ImageView imageClose;
     @BindView(R.id.linearLayoutProfileSettings)
     LinearLayout linearLayout;
+    @BindView(R.id.textProfileTitle)
+    TextView textProfileTitle;
 
     @Override
     protected void onCreate(@Nullable Bundle savedInstanceState) {
@@ -37,8 +41,11 @@ public class ProfileSettingsActivity extends AppCompatActivity {
         fragmentTransaction.add(R.id.linearLayoutProfileSettings, new FragmentGotoItem().setLabel("Bons de réduction").setIcon(getResources().getDrawable(R.drawable.vourcher, getTheme())));
         fragmentTransaction.add(R.id.linearLayoutProfileSettings, new FragmentGotoItem().setLabel("FAQ").setIcon(getResources().getDrawable(R.drawable.faq, getTheme())));
         fragmentTransaction.add(R.id.linearLayoutProfileSettings, new FragmentGotoItem().setLabel("A propos").setIcon(getResources().getDrawable(R.drawable.about, getTheme())));
+        fragmentTransaction.add(R.id.linearLayoutProfileSettings, new FragmentGotoItem().setLabel("Se déconnecter").setIcon(getResources().getDrawable(R.drawable.logout, getTheme())));
 
         fragmentTransaction.commit();
+
+        textProfileTitle.setText(String.format("%s %s", User.getInstance().getFname(), User.getInstance().getLname()));
 
     }
 }
