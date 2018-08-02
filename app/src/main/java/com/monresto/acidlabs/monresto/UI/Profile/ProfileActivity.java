@@ -70,7 +70,8 @@ public class ProfileActivity extends AppCompatActivity implements UserAsyncRespo
         });
 
         UserService userService = new UserService(this);
-        userService.getHistory(1,1);
+        userService.getOrders(User.getInstance().getId());
+        userService.getHistory(User.getInstance().getId(),1);
     }
 
 

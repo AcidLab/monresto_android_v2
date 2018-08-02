@@ -20,7 +20,7 @@ public class Address {
     private int zoneID;
     private int cityID;
     private String municipality;
-    private boolean isDefault;
+    private boolean isDefault = false;
 
     public Address() {
 
@@ -70,7 +70,6 @@ public class Address {
                 e.printStackTrace();
             }
         }
-        //System.out.println("asize: "+addresses.size());
         return addresses;
     }
 
@@ -88,6 +87,7 @@ public class Address {
             obj.put("zoneID", String.valueOf(zoneID));
             obj.put("zoneID", String.valueOf(cityID));
             obj.put("municipalite", municipality);
+            obj.put("is_default", isDefault ? 1 : 0);
         } catch (JSONException e) {
             e.printStackTrace();
         }

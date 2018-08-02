@@ -333,11 +333,18 @@ public class UserService {
     public void addAddress(final Address address) {
         RequestQueue queue = Volley.newRequestQueue(context);
         String url = Config.server + "Address/addAddress.php";
-        final int userID = User.getInstance().getId();
+        final int userID = User.getInstance().getId();//49468
         StringRequest postRequest = new StringRequest(Request.Method.POST, url,
                 new Response.Listener<String>() {
                     @Override
                     public void onResponse(String response) {
+                        try {
+                            JSONObject jsonResponse = new JSONObject(response);
+                            int status = jsonResponse.getInt("Status");
+                            ((UserAsyncResponse) (context)).onAddressAddResponse(status==1);
+                        } catch (JSONException e) {
+                            e.printStackTrace();
+                        }
 
                     }
                 },
@@ -351,10 +358,15 @@ public class UserService {
             @Override
             protected Map<String, String> getParams() {
                 Map<String, String> params = new HashMap<>();
-                String signature = Utilities.md5(address.toJson().toString() + userID + Config.sharedKey);
+                JSONObject jsonAddress = address.toJson();
+                try {
+                    jsonAddress.put("userID", userID);
+                } catch (JSONException e) {
+                    e.printStackTrace();
+                }
+                String signature = Utilities.md5(jsonAddress.toString() + Config.sharedKey);
 
-                params.put("address", address.toJson().toString());
-                params.put("userID", String.valueOf(userID));
+                params.put("Address", jsonAddress.toString());
                 params.put("signature", signature);
 
                 return params;
@@ -469,8 +481,7 @@ public class UserService {
 
     //Order details
     public void getHistory(final int id, final int restoID) {
-        int _id = 49468;
-
+        //int _id = 49468;
         RequestQueue queue = Volley.newRequestQueue(context);
         String url = Config.server + "User/orderHistory.php";
         StringRequest postRequest = new StringRequest(Request.Method.POST, url,
@@ -500,8 +511,8 @@ public class UserService {
             @Override
             protected Map<String, String> getParams() {
                 Map<String, String> params = new HashMap<>();
-                String signature = Utilities.md5(_id + Config.sharedKey);
-                params.put("userID", String.valueOf(_id));
+                String signature = Utilities.md5(id + Config.sharedKey);
+                params.put("userID", String.valueOf(id));
                 params.put("signature", signature);
 
                 return params;
@@ -511,7 +522,7 @@ public class UserService {
     }
 
     public void getOrders(final int id) {
-        int _id = 49468;
+        //int _id = 49468;
         RequestQueue queue = Volley.newRequestQueue(context);
         String url = Config.server + "User/pendingOrder.php";
         StringRequest postRequest = new StringRequest(Request.Method.POST, url,
@@ -539,8 +550,8 @@ public class UserService {
             @Override
             protected Map<String, String> getParams() {
                 Map<String, String> params = new HashMap<>();
-                String signature = Utilities.md5(_id + Config.sharedKey);
-                params.put("userID", String.valueOf(_id));
+                String signature = Utilities.md5(id + Config.sharedKey);
+                params.put("userID", String.valueOf(id));
                 params.put("signature", signature);
 
                 return params;

@@ -34,6 +34,11 @@ public class MapsActivity extends FragmentActivity implements OnMapReadyCallback
     Geocoder geocoder;
     public static final int MY_PERMISSIONS_REQUEST_LOCATION = 99;
 
+    double lat;
+    double lng;
+    String title;
+
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -48,11 +53,12 @@ public class MapsActivity extends FragmentActivity implements OnMapReadyCallback
 
         Button button = findViewById(R.id.buttonPickPosition);
         button.setOnClickListener(e -> {
-            Intent resultIntent = new Intent();
+            /*Intent resultIntent = new Intent();
             resultIntent.putExtra("lat", mMap.getCameraPosition().target.latitude);
             resultIntent.putExtra("lon", mMap.getCameraPosition().target.longitude);
             setResult(Activity.RESULT_OK, resultIntent);
-            finish();
+            finish();*/
+            onBackPressed();
         });
     }
 
@@ -63,6 +69,9 @@ public class MapsActivity extends FragmentActivity implements OnMapReadyCallback
             LatLng position = new LatLng(gpsTracker.getLatitude(), gpsTracker.getLongitude());
             mMap.addMarker(new MarkerOptions().position(position).title("Ma position")).showInfoWindow();
             mMap.moveCamera(CameraUpdateFactory.newLatLngZoom(position, 12));
+
+            this.lat = position.latitude;
+            this.lng = position.longitude;
         }
 
         mMap.setOnMapClickListener(e -> {
@@ -80,6 +89,20 @@ public class MapsActivity extends FragmentActivity implements OnMapReadyCallback
             mMap.addMarker(new MarkerOptions()
                     .position(new LatLng(e.latitude, e.longitude))
                     .title(title)).showInfoWindow();
+
+            this.lat = e.latitude;
+            this.lng = e.longitude;
+
         });
+    }
+
+    @Override
+    public void onBackPressed()
+    {
+        Intent resultIntent = new Intent();
+        resultIntent.putExtra("lat", this.lat);
+        resultIntent.putExtra("lon", this.lng);
+        setResult(Activity.RESULT_OK, resultIntent);
+        finish();
     }
 }

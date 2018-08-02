@@ -13,4 +13,5 @@ public interface UserAsyncResponse {
     default void onHistoryReceived(ArrayList<Order> orders){}
     default void onPendingReceived(ArrayList<Order> orders){}
     default void onAddressListReceived(ArrayList<Address> addresses){}
+    default void onAddressAddResponse(boolean success){}
 }

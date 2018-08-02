@@ -35,6 +35,7 @@ import com.monresto.acidlabs.monresto.Service.User.UserAsyncResponse;
 import com.monresto.acidlabs.monresto.Service.User.UserService;
 import com.monresto.acidlabs.monresto.UI.Profile.ProfileActivity;
 import com.monresto.acidlabs.monresto.UI.Restaurants.RecyclerViewAdapter;
+import com.monresto.acidlabs.monresto.UI.User.LoginActivity;
 
 import org.json.JSONException;
 import org.json.JSONObject;
@@ -121,9 +122,9 @@ public class MainActivity extends AppCompatActivity implements RestaurantAsyncRe
 
         home_profile_icon.setOnClickListener(view -> {
             Intent intent;
-            /*if(User.getInstance()==null)
+            if(User.getInstance()==null)
                 intent = new Intent(this, LoginActivity.class);
-            else*/
+            else
             intent = new Intent(this, ProfileActivity.class);
 
             startActivity(intent);
