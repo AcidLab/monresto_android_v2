@@ -1,7 +1,6 @@
 package com.monresto.acidlabs.monresto;
 
 import android.Manifest;
-import android.annotation.SuppressLint;
 import android.content.Context;
 import android.content.DialogInterface;
 import android.content.Intent;
@@ -16,16 +15,16 @@ import android.support.v7.app.AlertDialog;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
-import android.text.Editable;
-import android.text.TextWatcher;
+import android.view.LayoutInflater;
 import android.view.View;
+import android.widget.FrameLayout;
 import android.widget.ImageView;
+import android.widget.TextView;
 import android.widget.Toast;
 
 import com.facebook.AccessToken;
 import com.google.android.gms.location.FusedLocationProviderClient;
 import com.mancj.materialsearchbar.MaterialSearchBar;
-import com.mancj.materialsearchbar.SimpleOnSearchActionListener;
 import com.monresto.acidlabs.monresto.Model.Address;
 import com.monresto.acidlabs.monresto.Model.Dish;
 import com.monresto.acidlabs.monresto.Model.Menu;
@@ -37,6 +36,7 @@ import com.monresto.acidlabs.monresto.Service.Restaurant.RestaurantAsyncResponse
 import com.monresto.acidlabs.monresto.Service.Restaurant.RestaurantService;
 import com.monresto.acidlabs.monresto.Service.User.UserAsyncResponse;
 import com.monresto.acidlabs.monresto.Service.User.UserService;
+import com.monresto.acidlabs.monresto.UI.Cart.FragmentCart;
 import com.monresto.acidlabs.monresto.UI.Profile.ProfileActivity;
 import com.monresto.acidlabs.monresto.UI.Restaurants.RecyclerViewAdapter;
 import com.monresto.acidlabs.monresto.UI.User.LoginActivity;
@@ -45,7 +45,6 @@ import org.json.JSONException;
 import org.json.JSONObject;
 
 import java.util.ArrayList;
-import java.util.stream.Collectors;
 
 import butterknife.BindView;
 import butterknife.ButterKnife;
@@ -66,10 +65,12 @@ public class MainActivity extends AppCompatActivity implements RestaurantAsyncRe
     SwipeRefreshLayout restaurants_swiper;
     @BindView(R.id.status_restaurants)
     ConstraintLayout status_restaurants;
+    @BindView(R.id.cart_frame)
+    FrameLayout cart_frame;
 
     private ArrayList<Restaurant> searchList;
     private ArrayList<Speciality> specialities;
-
+    private boolean firstResume;
     private FusedLocationProviderClient mFusedLocationClient;
     private UserService userService;
     private RestaurantService service;
@@ -83,6 +84,7 @@ public class MainActivity extends AppCompatActivity implements RestaurantAsyncRe
 
         ButterKnife.bind(this);
         restaurants_swiper.setOnRefreshListener(this);
+        firstResume = true;
         if (checkLocationPermission())
             init();
 
@@ -135,6 +137,12 @@ public class MainActivity extends AppCompatActivity implements RestaurantAsyncRe
         });
 
         searchBar.setOnSearchActionListener(this);
+        cart_frame.setOnClickListener(view -> {
+            Intent intent;
+            intent = new Intent(this, FragmentCart.class);
+
+            startActivity(intent);
+        });
 
     }
 
@@ -144,9 +152,20 @@ public class MainActivity extends AppCompatActivity implements RestaurantAsyncRe
         if (!restaurantList.isEmpty()) {
             restaurants_swiper.setVisibility(View.VISIBLE);
             status_restaurants.setVisibility(View.INVISIBLE);
+            System.out.println("SPECIAL DEBUG: Populating homepage restaurants !");
             populateRecyclerView(restaurantList);
         } else {
-            //TODO inflate no restaurants found fragment, check FragmentAddess.java for help
+            LayoutInflater inflater = (LayoutInflater)getSystemService(Context.LAYOUT_INFLATER_SERVICE);
+            View layout = inflater.inflate(R.layout.fragment_unavailable, status_restaurants, false);
+
+            TextView unavailable_msg = layout.findViewById(R.id.unavailable_msg);
+            unavailable_msg.setText("Aucun restaurant trouvé");
+
+            status_restaurants.removeAllViews();
+            status_restaurants.addView(layout);
+
+            restaurants_swiper.setVisibility(View.INVISIBLE);
+            status_restaurants.setVisibility(View.VISIBLE);
         }
     }
 
@@ -173,6 +192,18 @@ public class MainActivity extends AppCompatActivity implements RestaurantAsyncRe
     }
 
     @Override
+    public void onServerDown() {
+        LayoutInflater inflater = (LayoutInflater)getSystemService(Context.LAYOUT_INFLATER_SERVICE);
+        View layout = inflater.inflate(R.layout.fragment_breakdown, status_restaurants, false);
+
+        status_restaurants.removeAllViews();
+        status_restaurants.addView(layout);
+
+        restaurants_swiper.setVisibility(View.INVISIBLE);
+        status_restaurants.setVisibility(View.VISIBLE);
+    }
+
+    @Override
     public void onUserLogin(User user) {
         userService.getDetails(user.getId(), true);
     }
@@ -182,6 +213,7 @@ public class MainActivity extends AppCompatActivity implements RestaurantAsyncRe
         userService.getAddress(User.getInstance().getId());
 
     }
+
 
     @Override
     public void onAddressListReceived(ArrayList<Address> addresses) {
@@ -215,6 +247,14 @@ public class MainActivity extends AppCompatActivity implements RestaurantAsyncRe
         } else {
             stores_recyclerview.smoothScrollToPosition(0);
         }
+    }
+
+    @Override
+    protected void onResume() {
+        super.onResume();
+        if (firstResume)
+            firstResume = false;
+        else onRefresh();
     }
 
     //Location permission

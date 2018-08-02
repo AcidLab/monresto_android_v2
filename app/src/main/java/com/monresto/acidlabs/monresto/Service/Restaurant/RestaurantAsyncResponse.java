@@ -13,4 +13,5 @@ public interface RestaurantAsyncResponse {
     void onDishesReceived(ArrayList<Dish> dishes, Menu menu);
     void onComposedDishReceived(Dish dish);
     void onSpecialitiesReceived(ArrayList<Speciality> specialities);
+    void onServerDown();
 }

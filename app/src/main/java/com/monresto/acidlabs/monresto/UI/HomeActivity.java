@@ -66,4 +66,9 @@ public class HomeActivity extends AppCompatActivity implements RestaurantAsyncRe
     public void onSpecialitiesReceived(ArrayList<Speciality> specialities) {
 
     }
+
+    @Override
+    public void onServerDown() {
+
+    }
 }

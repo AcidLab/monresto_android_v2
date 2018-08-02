@@ -52,6 +52,10 @@ public class RestaurantService {
                     @Override
                     public void onResponse(String response) {
                         try {
+                            if (!Utilities.isJSONValid(response)) {
+                                ((RestaurantAsyncResponse) context).onServerDown();
+                                return;
+                            }
                             JSONObject jsonResponse = new JSONObject(response);
                             JSONArray resto = jsonResponse.getJSONArray("Resto");
                             JSONObject obj;

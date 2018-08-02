@@ -122,7 +122,7 @@
             android:layout_width="0dp"
             android:layout_height="0dp"
             android:visibility="invisible"
-            app:layout_constraintBottom_toTopOf="@+id/frameLayout2"
+            app:layout_constraintBottom_toTopOf="@+id/cart_frame"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintHorizontal_bias="0.0"
             app:layout_constraintStart_toStartOf="parent"
@@ -138,7 +138,7 @@
         </android.support.v4.widget.SwipeRefreshLayout>
 
         <FrameLayout
-            android:id="@+id/frameLayout2"
+            android:id="@+id/cart_frame"
             android:layout_width="0dp"
             android:layout_height="50dp"
             app:layout_constraintBottom_toBottomOf="parent"
@@ -216,20 +216,21 @@
             android:layout_width="178dp"
             android:layout_height="73dp"
             android:scaleType="fitEnd"
-            app:layout_constraintBottom_toTopOf="@+id/frameLayout2"
+            app:layout_constraintBottom_toTopOf="@+id/cart_frame"
             app:layout_constraintStart_toStartOf="parent"
             app:srcCompat="@drawable/couffin" />
 
-        <include
-            android:id="@+id/status_restaurants"
-            layout="@layout/fragment_loading"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_marginTop="60dp"
-            app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toTopOf="@+id/restaurants_swiper" />
-
     </android.support.constraint.ConstraintLayout>
+
+    <include
+        android:id="@+id/status_restaurants"
+        layout="@layout/fragment_loading"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_alignParentTop="true"
+        android:layout_centerHorizontal="true"
+        android:layout_marginTop="158dp"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent" />
 
 </RelativeLayout>
