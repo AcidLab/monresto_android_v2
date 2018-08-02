@@ -8,6 +8,8 @@ import android.support.annotation.Nullable;
 import android.support.constraint.ConstraintLayout;
 import android.support.v4.app.Fragment;
 import android.support.v4.widget.SwipeRefreshLayout;
+import android.support.v7.widget.LinearLayoutManager;
+import android.support.v7.widget.RecyclerView;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -30,17 +32,18 @@ public class FragmentAddress extends Fragment implements UserAsyncResponse, Swip
 
     private boolean _hasLoadedOnce = false; // your boolean field
     private UserService userService;
-    @BindView(R.id.listview_address)
-    ListView listview_address;
+    @BindView(R.id.recyclerview_address)
+    RecyclerView recyclerview_address;
     @BindView(R.id.address_pull_to_refresh)
     TextView address_pull_to_refresh;
-    Context context;
     @BindView(R.id.status_address)
     ConstraintLayout status_address;
     @BindView(R.id.swiper_address)
     SwipeRefreshLayout swiper_address;
     @BindView(R.id.buttonNewAddress)
     Button buttonNewAddress;
+
+    AddressRecyclerViewAdapter adapter;
 
     @Nullable
     @Override
@@ -51,7 +54,9 @@ public class FragmentAddress extends Fragment implements UserAsyncResponse, Swip
 
         swiper_address.setOnRefreshListener(this);
 
-        userService = new UserService(context);
+        userService = new UserService(getContext());
+        adapter = new AddressRecyclerViewAdapter(getContext());
+        recyclerview_address.setLayoutManager(new LinearLayoutManager(getActivity()));
 
         buttonNewAddress.setOnClickListener(e -> {
             Intent intent = new Intent(this.getContext(), NewAddressActivity.class);
@@ -70,8 +75,8 @@ public class FragmentAddress extends Fragment implements UserAsyncResponse, Swip
                     // we check that the fragment is becoming visible
                     if (isFragmentVisible_ && !_hasLoadedOnce) {
                         System.out.println("SPECIAL DEBUG: " + User.getInstance().getAddresses().size() + " Addresses, sending to the listview");
-                        AddressAdapter addressAdapter = new AddressAdapter(User.getInstance().getAddresses());
-                        listview_address.setAdapter(addressAdapter);
+                        adapter.setAddresses(User.getInstance().getAddresses());
+                        recyclerview_address.setAdapter(adapter);
 
                         status_address.setVisibility(View.INVISIBLE);
                         swiper_address.setVisibility(View.VISIBLE);
@@ -104,17 +109,12 @@ public class FragmentAddress extends Fragment implements UserAsyncResponse, Swip
             return;
         }
 
-        AddressAdapter addressAdapter = new AddressAdapter(addresses);
-        listview_address.setAdapter(addressAdapter);
+        adapter.setAddresses(addresses);
+        recyclerview_address.setAdapter(adapter);
 
         status_address.setVisibility(View.INVISIBLE);
         swiper_address.setVisibility(View.VISIBLE);
         address_pull_to_refresh.setVisibility(View.VISIBLE);
-    }
-
-    public FragmentAddress setContext(Context context) {
-        this.context = context;
-        return this;
     }
 
     @Override

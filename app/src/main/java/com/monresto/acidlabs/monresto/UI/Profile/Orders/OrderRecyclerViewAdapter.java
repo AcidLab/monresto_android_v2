@@ -109,7 +109,7 @@ public class OrderRecyclerViewAdapter extends RecyclerView.Adapter<OrderRecycler
                 if(j>status)
                     viewHolder.pending_images[j].setColorFilter(Color.LTGRAY);
                 else
-                    viewHolder.pending_images[j].setColorFilter(Color.GREEN);
+                    viewHolder.pending_images[j].setColorFilter(Color.parseColor("#33b998"));
             }
         }
     }

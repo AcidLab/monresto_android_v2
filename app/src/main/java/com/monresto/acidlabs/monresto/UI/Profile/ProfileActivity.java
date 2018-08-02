@@ -51,7 +51,7 @@ public class ProfileActivity extends AppCompatActivity implements UserAsyncRespo
 
         adapter = new ViewPagerAdapter(getSupportFragmentManager());
 
-        fragmentAddress = new FragmentAddress().setContext(this);
+        fragmentAddress = new FragmentAddress();
         fragmentOrders = new FragmentOrders();
         fragmentHistory = new FragmentHistory();
         fragmentFavorites = new FragmentFavorites();
