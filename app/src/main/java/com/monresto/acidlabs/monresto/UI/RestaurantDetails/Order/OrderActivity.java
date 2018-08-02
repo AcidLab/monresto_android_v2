@@ -260,6 +260,11 @@ public class OrderActivity extends AppCompatActivity implements RestaurantAsyncR
 
     }
 
+    @Override
+    public void onServerDown() {
+
+    }
+
     private void updateTotalOnQuantityChanged(int quantity) {
         System.out.println(quantity);
         total_order.setText(String.valueOf(Double.valueOf(total_order.getText().toString()) / currentQuantity * quantity));

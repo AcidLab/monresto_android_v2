@@ -98,7 +98,7 @@ public class FragmentAddress extends Fragment implements UserAsyncResponse, Swip
             status_address.removeAllViews();
             status_address.addView(layout);
 
-            TextView unavailable_msg = (TextView)status_address.getViewById(R.id.unavailable_msg);
+            TextView unavailable_msg = (TextView)status_address.getViewById(R.id.loading_msg);
             unavailable_msg.setText("Aucune adresse trouvée");
 
             return;

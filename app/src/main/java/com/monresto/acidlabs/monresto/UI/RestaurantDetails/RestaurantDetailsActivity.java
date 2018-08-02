@@ -212,6 +212,11 @@ public class RestaurantDetailsActivity extends AppCompatActivity implements Rest
     }
 
     @Override
+    public void onServerDown() {
+
+    }
+
+    @Override
     public void onReviewsReceived(ArrayList<Review> ReviewList) {
         System.out.println("SPECIAL DEBUG: Reviews received, setting tabs...");
         ListView reviewsList = findViewById(R.id.listReviews);
