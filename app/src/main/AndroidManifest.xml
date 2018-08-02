@@ -35,6 +35,8 @@
         <activity android:name=".UI.Profile.ProfileActivity" />
         <activity android:name=".UI.Profile.Settings.ProfileSettingsActivity" />
         <activity android:name=".UI.Profile.Address.NewAddressActivity" />
+        <activity android:name=".UI.FAQ.FAQActivity" />
+        <activity android:name=".UI.FAQ.FAQAnswerActivity" />
 
         <meta-data
             android:name="com.facebook.sdk.ApplicationId"
