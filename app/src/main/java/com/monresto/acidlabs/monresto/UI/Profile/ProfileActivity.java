@@ -8,6 +8,7 @@ import android.support.v7.app.AppCompatActivity;
 import android.widget.ImageView;
 
 import com.monresto.acidlabs.monresto.Model.Address;
+import com.monresto.acidlabs.monresto.Model.Dish;
 import com.monresto.acidlabs.monresto.Model.User;
 import com.monresto.acidlabs.monresto.R;
 import com.monresto.acidlabs.monresto.Model.Order;
@@ -40,6 +41,7 @@ public class ProfileActivity extends AppCompatActivity implements UserAsyncRespo
 
     FragmentOrders fragmentOrders;
     FragmentHistory fragmentHistory;
+    FragmentFavorites fragmentFavorites;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -47,15 +49,16 @@ public class ProfileActivity extends AppCompatActivity implements UserAsyncRespo
         setContentView(R.layout.activity_profile);
         ButterKnife.bind(this);
 
-        fragmentAddress = new FragmentAddress().setContext(this);
         adapter = new ViewPagerAdapter(getSupportFragmentManager());
 
+        fragmentAddress = new FragmentAddress().setContext(this);
         fragmentOrders = new FragmentOrders();
         fragmentHistory = new FragmentHistory();
+        fragmentFavorites = new FragmentFavorites();
 
         adapter.AddFragment(fragmentOrders, "Commandes");
         adapter.AddFragment(fragmentHistory, "Historique");
-        adapter.AddFragment(new FragmentFavorites(), "Favoris");
+        adapter.AddFragment(fragmentFavorites, "Favoris");
         adapter.AddFragment(fragmentAddress, "Adresses");
 
         viewPagerProfile.setAdapter(adapter);
@@ -75,6 +78,7 @@ public class ProfileActivity extends AppCompatActivity implements UserAsyncRespo
         UserService userService = new UserService(this);
         userService.getOrders(User.getInstance().getId());
         userService.getHistory(User.getInstance().getId(), 1);
+        userService.getFavoritesDishes(User.getInstance().getId());
     }
 
 
@@ -91,6 +95,10 @@ public class ProfileActivity extends AppCompatActivity implements UserAsyncRespo
     @Override
     public void onAddressListReceived(ArrayList<Address> addresses) {
         fragmentAddress.updateList(addresses);
+    }
+    @Override
+    public void onFavoriteDishesReceived(ArrayList<Dish> dishes) {
+        fragmentFavorites.updateList(dishes);
     }
 
 }

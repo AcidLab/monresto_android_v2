@@ -8,7 +8,10 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 
+import com.monresto.acidlabs.monresto.Model.Dish;
 import com.monresto.acidlabs.monresto.R;
+
+import java.util.ArrayList;
 
 import butterknife.ButterKnife;
 
@@ -21,5 +24,9 @@ public class FragmentFavorites extends Fragment {
         ButterKnife.bind(this, root);
 
         return root;
+    }
+
+    public void updateList(ArrayList<Dish> dishes){
+
     }
 }

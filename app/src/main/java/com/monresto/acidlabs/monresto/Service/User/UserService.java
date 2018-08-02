@@ -9,14 +9,18 @@ import com.android.volley.Request;
 import com.android.volley.RequestQueue;
 import com.android.volley.Response;
 import com.android.volley.VolleyError;
+import com.android.volley.toolbox.JsonObjectRequest;
 import com.android.volley.toolbox.StringRequest;
 import com.android.volley.toolbox.Volley;
 import com.google.firebase.iid.FirebaseInstanceId;
 import com.monresto.acidlabs.monresto.Config;
 import com.monresto.acidlabs.monresto.Model.Address;
+import com.monresto.acidlabs.monresto.Model.Dish;
 import com.monresto.acidlabs.monresto.Model.Order;
 import com.monresto.acidlabs.monresto.Model.ShoppingCart;
+import com.monresto.acidlabs.monresto.Model.Speciality;
 import com.monresto.acidlabs.monresto.Model.User;
+import com.monresto.acidlabs.monresto.Service.Restaurant.RestaurantAsyncResponse;
 import com.monresto.acidlabs.monresto.Utilities;
 
 import org.json.JSONArray;
@@ -536,6 +540,49 @@ public class UserService {
                             ArrayList<Order> orders = Order.makeListFromJson(array);
 
                             ((UserAsyncResponse) context).onPendingReceived(orders);
+                        } catch (JSONException e) {
+                            e.printStackTrace();
+                        }
+                    }
+                },
+                new Response.ErrorListener() {
+                    @Override
+                    public void onErrorResponse(VolleyError error) {
+                        // error
+                    }
+                }
+        ) {
+            @Override
+            protected Map<String, String> getParams() {
+                Map<String, String> params = new HashMap<>();
+                String signature = Utilities.md5(id + Config.sharedKey);
+                params.put("userID", String.valueOf(id));
+                params.put("signature", signature);
+
+                return params;
+            }
+        };
+        queue.add(postRequest);
+    }
+
+    public void getFavoritesDishes(final int id){
+        ArrayList<Dish> dishesList = new ArrayList<>();
+
+        RequestQueue queue = Volley.newRequestQueue(context);
+        String url = Config.server + "User/favoritesDish.php";
+        StringRequest postRequest = new StringRequest(Request.Method.POST, url,
+                new Response.Listener<String>() {
+                    @Override
+                    public void onResponse(String response) {
+                        try {
+                            JSONObject jsonResponse = new JSONObject(response);
+                            JSONArray jsonMenus = jsonResponse.getJSONArray("Dishes");
+                            JSONObject obj;
+                            for (int i = 0; i < jsonMenus.length(); i++) {
+                                obj = jsonMenus.getJSONObject(i);
+                                dishesList.add(Dish.createFromJson(obj));
+                            }
+                            ((UserAsyncResponse) context).onFavoriteDishesReceived(dishesList);
                         } catch (JSONException e) {
                             e.printStackTrace();
                         }

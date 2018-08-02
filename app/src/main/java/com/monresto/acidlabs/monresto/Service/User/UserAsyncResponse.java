@@ -1,6 +1,7 @@
 package com.monresto.acidlabs.monresto.Service.User;
 
 import com.monresto.acidlabs.monresto.Model.Address;
+import com.monresto.acidlabs.monresto.Model.Dish;
 import com.monresto.acidlabs.monresto.Model.Order;
 import com.monresto.acidlabs.monresto.Model.User;
 
@@ -14,4 +15,5 @@ public interface UserAsyncResponse {
     default void onPendingReceived(ArrayList<Order> orders){}
     default void onAddressListReceived(ArrayList<Address> addresses){}
     default void onAddressAddResponse(boolean success){}
+    default void onFavoriteDishesReceived(ArrayList<Dish> dishes){}
 }

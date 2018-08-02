@@ -136,7 +136,7 @@ public class RestaurantService {
     }
 
     public void getDishes(final int restoID, final Menu menu) {
-        final ArrayList<Dish> dishesList = new ArrayList<>();
+        ArrayList<Dish> dishesList = new ArrayList<>();
         RequestQueue queue = Volley.newRequestQueue(context);
         String url = Config.server + "Restaurant/subMenu.php";
         StringRequest postRequest = new StringRequest(Request.Method.POST, url,
@@ -269,10 +269,6 @@ public class RestaurantService {
             }
         };
         queue.add(postRequest);
-    }
-
-    public void getFavorites(){
-
     }
 
     public void getSpecialities(){
