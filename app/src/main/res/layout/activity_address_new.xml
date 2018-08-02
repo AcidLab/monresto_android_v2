@@ -25,7 +25,7 @@
             app:layout_constraintBottom_toBottomOf="parent"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toTopOf="parent"
-            app:srcCompat="@drawable/ic_arrow_left_black_48dp" />
+            app:srcCompat="@drawable/ic_close_black_48dp" />
 
         <TextView
             android:id="@+id/textView12"
@@ -33,6 +33,7 @@
             android:layout_height="wrap_content"
             android:layout_marginBottom="8dp"
             android:layout_marginEnd="8dp"
+            android:layout_marginStart="8dp"
             android:layout_marginTop="8dp"
             android:fontFamily="@font/googlesans_regular"
             android:text="Nouvelle adresse"
@@ -60,6 +61,8 @@
                 android:id="@+id/textView7"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
+                android:layout_marginTop="30dp"
+                android:fontFamily="@font/googlesans_regular"
                 android:text="Veuillez indiquer votre adresse"
                 android:textSize="18sp" />
 
@@ -68,7 +71,7 @@
                 android:layout_height="wrap_content"
                 android:layout_marginBottom="6dp"
                 android:layout_marginRight="3dp"
-                android:layout_marginTop="6dp"
+                android:layout_marginTop="10dp"
                 android:layout_weight=".28"
                 android:background="@drawable/border_bg"
                 android:orientation="horizontal">
@@ -76,21 +79,12 @@
                 <Spinner
                     android:id="@+id/location_spinner"
                     android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
-                    android:layout_centerVertical="true"
-                    android:layout_gravity="center"
-                    android:layout_marginLeft="5dp"
-                    android:background="@android:color/transparent"
-                    android:gravity="center"
-                    android:spinnerMode="dropdown" />
+                    android:layout_height="40dp"
+                    android:layout_alignParentStart="true"
+                    android:layout_alignParentTop="true"
+                    android:spinnerMode="dropdown"
+                    android:textColor="@android:color/primary_text_light" />
 
-                <ImageView
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:layout_alignParentEnd="true"
-                    android:layout_centerVertical="true"
-                    android:layout_gravity="center"
-                    android:src="@mipmap/drop" />
             </RelativeLayout>
 
             <EditText
@@ -130,22 +124,12 @@
                 <Spinner
                     android:id="@+id/city_spinner"
                     android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
-                    android:layout_centerVertical="true"
-                    android:layout_gravity="center"
-                    android:layout_marginLeft="5dp"
-                    android:background="@android:color/transparent"
-                    android:gravity="center"
+                    android:layout_height="40dp"
+                    android:layout_alignParentStart="true"
+                    android:layout_alignParentTop="true"
                     android:spinnerMode="dropdown"
                     android:textColor="@android:color/primary_text_light" />
 
-                <ImageView
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:layout_alignParentEnd="true"
-                    android:layout_centerVertical="true"
-                    android:layout_gravity="center"
-                    android:src="@mipmap/drop" />
             </RelativeLayout>
 
             <EditText
@@ -161,6 +145,7 @@
                 style="@style/AppTheme.Rabek"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
+                android:layout_marginTop="20dp"
                 android:fontFamily="@font/googlesans_regular"
                 android:text="Ajouter" />
 

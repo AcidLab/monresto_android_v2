@@ -22,6 +22,7 @@ import com.monresto.acidlabs.monresto.Model.User;
 import com.monresto.acidlabs.monresto.R;
 import com.monresto.acidlabs.monresto.Service.User.UserAsyncResponse;
 import com.monresto.acidlabs.monresto.Service.User.UserService;
+import com.monresto.acidlabs.monresto.Utilities;
 
 import java.util.ArrayList;
 
@@ -97,14 +98,7 @@ public class FragmentAddress extends Fragment implements UserAsyncResponse, Swip
     public void updateList(ArrayList<Address> addresses) {
         System.out.println("SPECIAL DEBUG: " + addresses.size() + " Addresses, choosing what to do...");
         if (addresses.size() == 0) {
-            LayoutInflater inflater = (LayoutInflater)getContext().getSystemService(Context.LAYOUT_INFLATER_SERVICE);
-            View layout = inflater.inflate(R.layout.fragment_unavailable, status_address, true);
-
-            status_address.removeAllViews();
-            status_address.addView(layout);
-
-            TextView unavailable_msg = (TextView)status_address.getViewById(R.id.loading_msg);
-            unavailable_msg.setText("Aucune adresse trouvée");
+            Utilities.statusChangerLoading(getContext(),"Aucune adresse trouvée",status_address,swiper_address);
 
             return;
         }

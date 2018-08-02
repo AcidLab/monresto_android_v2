@@ -152,20 +152,9 @@ public class MainActivity extends AppCompatActivity implements RestaurantAsyncRe
         if (!restaurantList.isEmpty()) {
             restaurants_swiper.setVisibility(View.VISIBLE);
             status_restaurants.setVisibility(View.INVISIBLE);
-            System.out.println("SPECIAL DEBUG: Populating homepage restaurants !");
             populateRecyclerView(restaurantList);
         } else {
-            LayoutInflater inflater = (LayoutInflater)getSystemService(Context.LAYOUT_INFLATER_SERVICE);
-            View layout = inflater.inflate(R.layout.fragment_unavailable, status_restaurants, false);
-
-            TextView unavailable_msg = layout.findViewById(R.id.unavailable_msg);
-            unavailable_msg.setText("Aucun restaurant trouvé");
-
-            status_restaurants.removeAllViews();
-            status_restaurants.addView(layout);
-
-            restaurants_swiper.setVisibility(View.INVISIBLE);
-            status_restaurants.setVisibility(View.VISIBLE);
+            Utilities.statusChangerLoading(this,"Aucun restaurant trouvé", status_restaurants, restaurants_swiper);
         }
     }
 
@@ -193,14 +182,7 @@ public class MainActivity extends AppCompatActivity implements RestaurantAsyncRe
 
     @Override
     public void onServerDown() {
-        LayoutInflater inflater = (LayoutInflater)getSystemService(Context.LAYOUT_INFLATER_SERVICE);
-        View layout = inflater.inflate(R.layout.fragment_breakdown, status_restaurants, false);
-
-        status_restaurants.removeAllViews();
-        status_restaurants.addView(layout);
-
-        restaurants_swiper.setVisibility(View.INVISIBLE);
-        status_restaurants.setVisibility(View.VISIBLE);
+        Utilities.statusChanger(this,R.layout.fragment_breakdown, status_restaurants, restaurants_swiper);
     }
 
     @Override
@@ -254,7 +236,10 @@ public class MainActivity extends AppCompatActivity implements RestaurantAsyncRe
         super.onResume();
         if (firstResume)
             firstResume = false;
-        else onRefresh();
+        else {
+            Utilities.statusChanger(this,R.layout.fragment_loading, status_restaurants, restaurants_swiper);
+            onRefresh();
+        }
     }
 
     //Location permission
