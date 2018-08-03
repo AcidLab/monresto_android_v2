@@ -33,6 +33,7 @@
         <activity android:name=".UI.Profile.Settings.ProfileSettingsActivity" />
         <activity android:name=".UI.Profile.Address.NewAddressActivity" />
         <activity android:name=".UI.FAQ.FAQActivity" />
+        <activity android:name=".UI.Cart.CartActivity" />
         <activity
             android:name=".UI.FAQ.FAQAnswerActivity"
             android:excludeFromRecents="true"

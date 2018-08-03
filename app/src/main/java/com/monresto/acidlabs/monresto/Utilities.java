@@ -112,7 +112,7 @@ public class Utilities {
     }
 
     // Use this only for Unavailability alerts (+Custom message)
-    public static void statusChangerLoading(Context context, String message, ViewGroup statusContainer, ViewGroup listContainer) {
+    public static void statusChangerUnavailable(Context context, String message, ViewGroup statusContainer, ViewGroup listContainer) {
         LayoutInflater inflater = (LayoutInflater)context.getSystemService(Context.LAYOUT_INFLATER_SERVICE);
         View layout = inflater.inflate(R.layout.fragment_unavailable, statusContainer, false);
 

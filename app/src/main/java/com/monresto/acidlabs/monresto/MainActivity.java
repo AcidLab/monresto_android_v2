@@ -15,11 +15,9 @@ import android.support.v7.app.AlertDialog;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
-import android.view.LayoutInflater;
 import android.view.View;
 import android.widget.FrameLayout;
 import android.widget.ImageView;
-import android.widget.TextView;
 import android.widget.Toast;
 
 import com.facebook.AccessToken;
@@ -36,7 +34,7 @@ import com.monresto.acidlabs.monresto.Service.Restaurant.RestaurantAsyncResponse
 import com.monresto.acidlabs.monresto.Service.Restaurant.RestaurantService;
 import com.monresto.acidlabs.monresto.Service.User.UserAsyncResponse;
 import com.monresto.acidlabs.monresto.Service.User.UserService;
-import com.monresto.acidlabs.monresto.UI.Cart.FragmentCart;
+import com.monresto.acidlabs.monresto.UI.Cart.CartActivity;
 import com.monresto.acidlabs.monresto.UI.Profile.ProfileActivity;
 import com.monresto.acidlabs.monresto.UI.Restaurants.RecyclerViewAdapter;
 import com.monresto.acidlabs.monresto.UI.User.LoginActivity;
@@ -139,7 +137,7 @@ public class MainActivity extends AppCompatActivity implements RestaurantAsyncRe
         searchBar.setOnSearchActionListener(this);
         cart_frame.setOnClickListener(view -> {
             Intent intent;
-            intent = new Intent(this, FragmentCart.class);
+            intent = new Intent(this, CartActivity.class);
 
             startActivity(intent);
         });
@@ -154,7 +152,7 @@ public class MainActivity extends AppCompatActivity implements RestaurantAsyncRe
             status_restaurants.setVisibility(View.INVISIBLE);
             populateRecyclerView(restaurantList);
         } else {
-            Utilities.statusChangerLoading(this,"Aucun restaurant trouvé", status_restaurants, restaurants_swiper);
+            Utilities.statusChangerUnavailable(this,"Aucun restaurant trouvé", status_restaurants, restaurants_swiper);
         }
     }
 

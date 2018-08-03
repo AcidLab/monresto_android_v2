@@ -1,52 +1,67 @@
 package com.monresto.acidlabs.monresto.UI.Cart;
 
-import android.content.DialogInterface;
 import android.os.Bundle;
 import android.support.annotation.NonNull;
 import android.support.annotation.Nullable;
-import android.support.v4.app.Fragment;
-import android.support.v7.app.AlertDialog;
+import android.support.constraint.ConstraintLayout;
+import android.support.v7.app.AppCompatActivity;
+import android.support.v7.widget.LinearLayoutManager;
+import android.support.v7.widget.RecyclerView;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.ImageView;
 import android.widget.ListView;
 import android.widget.TextView;
 
-import com.monresto.acidlabs.monresto.MainActivity;
 import com.monresto.acidlabs.monresto.Model.ShoppingCart;
-import com.monresto.acidlabs.monresto.Model.User;
 import com.monresto.acidlabs.monresto.R;
+import com.monresto.acidlabs.monresto.Utilities;
 
 import butterknife.BindView;
 import butterknife.ButterKnife;
 
-public class FragmentCart extends Fragment {
+public class CartActivity extends AppCompatActivity {
     @BindView(R.id.cart_subtotal)
     TextView cart_subtotal;
     @BindView(R.id.cart_delivery)
     TextView cart_delivery;
     @BindView(R.id.cart_total)
     TextView cart_total;
+    @BindView(R.id.back_button)
+    ImageView back_button;
     @BindView(R.id.cart_items_list)
-    ListView cart_items_list;
+    RecyclerView cart_items_list;
+    @BindView(R.id.cart_empty)
+    ConstraintLayout cart_empty;
 
-    @Nullable
+    private CartItemRecyclerViewAdapter cartItemAdapter;
+
     @Override
-    public View onCreateView(@NonNull LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
-        View v = inflater.inflate(R.layout.fragment_cart, container, false);
-        ButterKnife.bind(this, v);
+    public void onCreate(Bundle savedInstanceState) {
+        super.onCreate(savedInstanceState);
+        setContentView(R.layout.activity_cart);
 
+        ButterKnife.bind(this);
 
-        return v;
+        back_button.setOnClickListener(view -> {
+            finish();
+        });
+
+        cart_items_list.setLayoutManager(new LinearLayoutManager(this));
+        cartItemAdapter = new CartItemRecyclerViewAdapter(this);
+        cart_items_list.setAdapter(cartItemAdapter);
+
     }
 
-    @Override
-    public void setUserVisibleHint(boolean isVisible) {
-        super.setUserVisibleHint(isVisible);
 
-        if ((getFragmentManager() != null) && isVisible) {
+    @Override
+    protected void onResume() {
+        super.onResume();
+        if ((getFragmentManager() != null)) {
             update();
         }
+
     }
 
 
@@ -56,8 +71,14 @@ public class FragmentCart extends Fragment {
         cart_delivery.setText(String.valueOf(cart.getCartDelivery()) + " DT");
         cart_total.setText(String.valueOf(cart.getCartDelivery() + cart.getCartSubTotal()) + " DT");
 
-        CartItemAdapter cartItemAdapter = new CartItemAdapter(ShoppingCart.getInstance().getItems());
-        cart_items_list.setAdapter(cartItemAdapter);
+        if (ShoppingCart.getInstance().getItems().isEmpty()) {
+            Utilities.statusChangerUnavailable(this,"Le panier est vide",cart_empty,cart_items_list);
+            cart_items_list.setVisibility(View.VISIBLE);
+        } else cart_empty.setVisibility(View.INVISIBLE);
+
+        cartItemAdapter.setCartItems(ShoppingCart.getInstance().getItems());
+        cartItemAdapter.notifyDataSetChanged();
+
 
         /*AlertDialog alertDialog = new AlertDialog.Builder(FragmentCart.this.getContext()).create();
         alertDialog.setTitle("Alert");

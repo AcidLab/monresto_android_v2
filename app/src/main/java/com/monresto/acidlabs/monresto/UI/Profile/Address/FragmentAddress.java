@@ -98,7 +98,7 @@ public class FragmentAddress extends Fragment implements UserAsyncResponse, Swip
     public void updateList(ArrayList<Address> addresses) {
         System.out.println("SPECIAL DEBUG: " + addresses.size() + " Addresses, choosing what to do...");
         if (addresses.size() == 0) {
-            Utilities.statusChangerLoading(getContext(),"Aucune adresse trouvée",status_address,swiper_address);
+            Utilities.statusChangerUnavailable(getContext(),"Aucune adresse trouvée",status_address,swiper_address);
 
             return;
         }
