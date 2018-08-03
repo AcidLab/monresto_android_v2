@@ -14,6 +14,7 @@ import android.support.v4.content.ContextCompat;
 import android.support.v7.app.AlertDialog;
 import android.widget.Button;
 import android.widget.ImageView;
+import android.widget.TextView;
 
 import com.google.android.gms.maps.CameraUpdateFactory;
 import com.google.android.gms.maps.GoogleMap;
@@ -29,6 +30,9 @@ import java.io.IOException;
 import java.util.ArrayList;
 import java.util.List;
 
+import butterknife.BindView;
+import butterknife.ButterKnife;
+
 public class MapsActivity extends FragmentActivity implements OnMapReadyCallback {
     private GoogleMap mMap;
     GPSTracker gpsTracker;
@@ -39,10 +43,16 @@ public class MapsActivity extends FragmentActivity implements OnMapReadyCallback
     double lng;
     String title;
 
+    @BindView(R.id.text_address_position)
+    TextView text_address_position;
+
+    List<Address> addresses;
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_maps);
+        ButterKnife.bind(this);
 
         gpsTracker = new GPSTracker(this);
         geocoder = new Geocoder(getBaseContext());
@@ -65,38 +75,34 @@ public class MapsActivity extends FragmentActivity implements OnMapReadyCallback
         mMap = googleMap;
         if (gpsTracker.canGetLocation()) {
             LatLng position = new LatLng(gpsTracker.getLatitude(), gpsTracker.getLongitude());
-            mMap.addMarker(new MarkerOptions().position(position).title("Ma position")).showInfoWindow();
-            mMap.moveCamera(CameraUpdateFactory.newLatLngZoom(position, 12));
+            mMap.animateCamera(CameraUpdateFactory.newLatLngZoom(position, 12));
 
             this.lat = position.latitude;
             this.lng = position.longitude;
         }
 
-        mMap.setOnMapClickListener(e -> {
-            List<Address> addresses = new ArrayList<>();
-            mMap.clear();
+
+        mMap.setOnCameraIdleListener(() -> {
             try {
-                addresses = geocoder.getFromLocation(e.latitude, e.longitude, 1);
-            } catch (IOException e1) {
-                e1.printStackTrace();
+                addresses = geocoder.getFromLocation(mMap.getCameraPosition().target.latitude, mMap.getCameraPosition().target.longitude, 1);
+                title = "Votre adresse";
+                if (!addresses.isEmpty()) {
+                    title = addresses.get(0).getAddressLine(0);
+                }
+            } catch (IOException e) {
+                e.printStackTrace();
             }
-            String title = "Votre adresse";
-            if (!addresses.isEmpty()) {
-                title = addresses.get(0).getFeatureName();
+            if (text_address_position != null){
+                text_address_position.setText(title);
             }
-            mMap.addMarker(new MarkerOptions()
-                    .position(new LatLng(e.latitude, e.longitude))
-                    .title(title)).showInfoWindow();
-
-            this.lat = e.latitude;
-            this.lng = e.longitude;
-
         });
     }
 
     @Override
-    public void onBackPressed()
-    {
+    public void onBackPressed() {
+        this.lat = mMap.getCameraPosition().target.latitude;
+        this.lng = mMap.getCameraPosition().target.longitude;
+
         Intent resultIntent = new Intent();
         resultIntent.putExtra("lat", this.lat);
         resultIntent.putExtra("lon", this.lng);
