@@ -229,7 +229,7 @@ public class MainActivity extends AppCompatActivity implements RestaurantAsyncRe
         }
     }
 
-    @Override
+    /*@Override
     protected void onResume() {
         super.onResume();
         if (firstResume)
@@ -238,7 +238,7 @@ public class MainActivity extends AppCompatActivity implements RestaurantAsyncRe
             Utilities.statusChanger(this,R.layout.fragment_loading, status_restaurants, restaurants_swiper);
             onRefresh();
         }
-    }
+    }*/
 
     //Location permission
     public boolean checkLocationPermission() {

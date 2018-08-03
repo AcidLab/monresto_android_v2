@@ -1,19 +1,14 @@
 package com.monresto.acidlabs.monresto.UI.RestaurantDetails.Order;
 
-import android.annotation.SuppressLint;
 import android.content.Intent;
 import android.os.Bundle;
-import android.support.constraint.ConstraintLayout;
 import android.support.design.widget.CollapsingToolbarLayout;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.Toolbar;
 import android.text.Editable;
 import android.text.TextWatcher;
-import android.util.SparseBooleanArray;
 import android.view.LayoutInflater;
 import android.view.View;
-import android.view.Window;
-import android.widget.AbsListView;
 import android.widget.Button;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
@@ -49,37 +44,26 @@ public class OrderActivity extends AppCompatActivity implements RestaurantAsyncR
 
     @BindView(R.id.lists_container)
     LinearLayout lists_container;
-
     @BindView(R.id.dish_name)
     TextView dish_name;
-
     @BindView(R.id.total_order)
     TextView total_order;
-
     @BindView(R.id.dimensions_list)
     ListView dimensions_list;
-
     @BindView(R.id.dimensions_text)
     TextView dimensions_text;
-
     @BindView(R.id.dish_description)
     TextView dish_description;
-
     @BindView(R.id.dish_price)
     TextView dish_price;
-
     @BindView(R.id.dish_quantity)
     TextView dish_quantity;
-
     @BindView(R.id.dish_quantity_add)
     ImageView dish_quantity_add;
-
     @BindView(R.id.dish_quantity_reduce)
     ImageView dish_quantity_reduce;
-
     @BindView(R.id.cancel_order)
     Button cancel_order;
-
     @BindView(R.id.add_to_cart)
     Button add_to_cart;
 
@@ -177,18 +161,6 @@ public class OrderActivity extends AppCompatActivity implements RestaurantAsyncR
         });
 
         final ImageView img = new ImageView(this);
-        Picasso.get().load(dish.getImagePath()).resize(600, 600).centerInside().into(img, new Callback() {
-            @Override
-            public void onSuccess() {
-                toolbar_layout = findViewById(R.id.toolbar_layout);
-                toolbar_layout.setBackground(img.getDrawable());
-            }
-
-            @Override
-            public void onError(Exception e) {
-
-            }
-        });
 
         if (dish.isComposed()) {
             total_order.setText("0");

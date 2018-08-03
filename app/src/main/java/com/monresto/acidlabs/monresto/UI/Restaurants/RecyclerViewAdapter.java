@@ -86,6 +86,7 @@ public class RecyclerViewAdapter extends RecyclerView.Adapter<RecyclerViewAdapte
                     viewHolder.storeState.setText("OUVERT");
                 else viewHolder.storeState.setText("FERMÉ");
                 viewHolder.ratingBar.setRating((float)restaurantItem.getRate());
+                viewHolder.ratingBar.setIsIndicator(true);
                 viewHolder.restaurant_delivery.setText(String.valueOf(restaurantItem.getEstimatedTime())+"'");
 
             }
