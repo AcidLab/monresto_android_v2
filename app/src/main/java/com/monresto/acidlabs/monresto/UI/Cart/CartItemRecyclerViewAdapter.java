@@ -68,11 +68,13 @@ public class CartItemRecyclerViewAdapter extends RecyclerView.Adapter<CartItemRe
         if (item.getValue().getDimension() != null)
             viewHolder.cart_option.setText(item.getValue().getDimension().getTitle());
         else viewHolder.cart_option.setText("Pas d'options");
-        viewHolder.cart_components.setText("+ " + String.valueOf(item.getValue().getComponents().size()) + " suppléments");
+
         Picasso.get().load(item.getKey().getImagePath()).into(viewHolder.cart_picture);
+
+        viewHolder.cart_components.setText("+ " + String.valueOf(item.getValue().getComponents().size()) + " suppléments");
         viewHolder.cart_price.setText(String.valueOf(item.getKey().getPrice()) + " DT");
         viewHolder.cart_remove_btn.setOnClickListener(view -> {
-            ShoppingCart.getInstance().getItems().remove(item.getKey(), item.getValue());
+            ShoppingCart.getInstance().removeFromCart(item.getKey());
             mData.remove(mData.get(position));
             ((CartActivity) context).update();
         });

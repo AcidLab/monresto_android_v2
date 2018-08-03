@@ -9,10 +9,10 @@ import java.util.HashMap;
 import java.util.Map;
 
 public class ShoppingCart {
-    private Map<Dish, Options> items;
+    private HashMap<Dish, Options> items;
 
     private static ShoppingCart instance;
-    int restoID;
+    private int restoID;
 
     public class Options {
         private int quantity;
@@ -96,8 +96,16 @@ public class ShoppingCart {
             if(dish.getRestoID()!=restoID)
                 return;
         }
-        if(items.containsKey(dish))
+
+        System.out.println("Added Dish: "+dish.getId());
+        for(Map.Entry<Dish, Options> E : items.entrySet()){
+            System.out.println("Dish ID: "+E.getKey().getId());
+        }
+
+        if(items.containsKey(dish)){
             items.get(dish).quantity+=quantity;
+            System.out.println("ShoppingCart.addToCart.containsKey");
+        }
         else
             items.put(dish, new Options(quantity, dimension, components));
     }
@@ -106,6 +114,8 @@ public class ShoppingCart {
     public void removeFromCart(Dish dish) {
         if (items.containsKey(dish))
             items.remove(dish);
+        if(items.isEmpty())
+            restoID=-1;
     }
 
     public JSONArray getOrdersJson() {
@@ -144,5 +154,7 @@ public class ShoppingCart {
         }
         return orders;
     }
+
+
 
 }

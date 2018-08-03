@@ -253,4 +253,15 @@ public class Dish implements Parcelable {
         components = in.readArrayList(Component.class.getClassLoader());
     }
 
+    @Override
+    public boolean equals(Object obj) {
+        return this == obj || obj != null && obj instanceof Dish && ((Dish) obj).getId() == id;
+    }
+
+    @Override
+    public int hashCode() {
+        int hash = 3;
+        return  67 * hash + id;
+    }
+
 }
