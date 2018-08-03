@@ -1,5 +1,7 @@
 package com.monresto.acidlabs.monresto.UI.Cart;
 
+import android.app.Activity;
+import android.content.Intent;
 import android.os.Bundle;
 import android.support.annotation.NonNull;
 import android.support.annotation.Nullable;
@@ -14,6 +16,7 @@ import android.widget.ImageView;
 import android.widget.ListView;
 import android.widget.TextView;
 
+import com.monresto.acidlabs.monresto.MainActivity;
 import com.monresto.acidlabs.monresto.Model.ShoppingCart;
 import com.monresto.acidlabs.monresto.R;
 import com.monresto.acidlabs.monresto.Utilities;
@@ -91,4 +94,5 @@ public class CartActivity extends AppCompatActivity {
                 });
         alertDialog.show();*/
     }
+
 }

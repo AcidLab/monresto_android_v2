@@ -7,6 +7,7 @@ import android.content.Intent;
 import android.content.SharedPreferences;
 import android.content.pm.PackageManager;
 import android.os.Bundle;
+import android.support.annotation.Nullable;
 import android.support.constraint.ConstraintLayout;
 import android.support.v4.app.ActivityCompat;
 import android.support.v4.content.ContextCompat;
@@ -18,6 +19,7 @@ import android.support.v7.widget.RecyclerView;
 import android.view.View;
 import android.widget.FrameLayout;
 import android.widget.ImageView;
+import android.widget.TextView;
 import android.widget.Toast;
 
 import com.facebook.AccessToken;
@@ -28,6 +30,7 @@ import com.monresto.acidlabs.monresto.Model.Dish;
 import com.monresto.acidlabs.monresto.Model.Menu;
 import com.monresto.acidlabs.monresto.Model.Monresto;
 import com.monresto.acidlabs.monresto.Model.Restaurant;
+import com.monresto.acidlabs.monresto.Model.ShoppingCart;
 import com.monresto.acidlabs.monresto.Model.Speciality;
 import com.monresto.acidlabs.monresto.Model.User;
 import com.monresto.acidlabs.monresto.Service.Restaurant.RestaurantAsyncResponse;
@@ -65,6 +68,10 @@ public class MainActivity extends AppCompatActivity implements RestaurantAsyncRe
     ConstraintLayout status_restaurants;
     @BindView(R.id.cart_frame)
     FrameLayout cart_frame;
+    @BindView(R.id.cart_quantity)
+    TextView cart_quantity;
+    @BindView(R.id.cart_total)
+    TextView cart_total;
 
     private ArrayList<Restaurant> searchList;
     private ArrayList<Speciality> specialities;
@@ -135,6 +142,7 @@ public class MainActivity extends AppCompatActivity implements RestaurantAsyncRe
         });
 
         searchBar.setOnSearchActionListener(this);
+
         cart_frame.setOnClickListener(view -> {
             Intent intent;
             intent = new Intent(this, CartActivity.class);
@@ -229,16 +237,19 @@ public class MainActivity extends AppCompatActivity implements RestaurantAsyncRe
         }
     }
 
-    /*@Override
+    @Override
     protected void onResume() {
         super.onResume();
         if (firstResume)
             firstResume = false;
         else {
+            updateHomeCart();
+            /*
             Utilities.statusChanger(this,R.layout.fragment_loading, status_restaurants, restaurants_swiper);
             onRefresh();
+            */
         }
-    }*/
+    }
 
     //Location permission
     public boolean checkLocationPermission() {
@@ -315,4 +326,10 @@ public class MainActivity extends AppCompatActivity implements RestaurantAsyncRe
     public void onButtonClicked(int buttonCode) {
 
     }
+
+    public void updateHomeCart() {
+        cart_quantity.setText(String.valueOf(ShoppingCart.getInstance().getItems().size()));
+        cart_total.setText(String.valueOf(ShoppingCart.getInstance().getCartSubTotal()) + " TND");
+    }
+
 }
