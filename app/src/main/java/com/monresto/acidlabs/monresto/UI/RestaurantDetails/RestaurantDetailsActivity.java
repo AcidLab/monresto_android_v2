@@ -41,8 +41,6 @@ public class RestaurantDetailsActivity extends AppCompatActivity implements Rest
 
     @BindView(R.id.toolbar)
     Toolbar toolbar;
-    @BindView(R.id.fab)
-    FloatingActionButton fab;
     @BindView(R.id.tabs)
     TabLayout tabs;
     @BindView(R.id.pager)
@@ -82,15 +80,8 @@ public class RestaurantDetailsActivity extends AppCompatActivity implements Rest
         toolbar.setTitle("");
         toolbar.setSubtitle("");
         toolbar.setNavigationIcon(getResources().getDrawable(R.drawable.ic_arrow_back_white_24dp));
-        toolbar.setNavigationOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                finish();
-            }
-        });
+        toolbar.setNavigationOnClickListener(v -> finish());
 
-
-        setUpClick();
 
         // Get restaurant information from the caller intent
         Intent i = getIntent();
@@ -109,14 +100,6 @@ public class RestaurantDetailsActivity extends AppCompatActivity implements Rest
         service.getMenus(restaurant.getId());
     }
 
-    void setUpClick() {
-        fab.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View view) {
-                Snackbar.make(view, "Replace with your own action", Snackbar.LENGTH_LONG).setAction("Action", null).show();
-            }
-        });
-    }
 
     void setUpTabs() {
         adapter = new RestaurantDetailsPager(this.getSupportFragmentManager(), Titles, Titles.length, restaurant, dishes, reviews);

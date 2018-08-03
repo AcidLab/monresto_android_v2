@@ -9,6 +9,7 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ImageView;
+import android.widget.RatingBar;
 import android.widget.TextView;
 
 import com.monresto.acidlabs.monresto.Model.Restaurant;
@@ -29,6 +30,7 @@ public class FragmentRestaurantDetails extends Fragment {
     Restaurant restaurant;
     ImageView dish_bg;
     TextView rating;
+    RatingBar ratingBar;
     TextView price;
     TextView delivery_price;
     ArrayList<Review> reviews;
@@ -47,16 +49,15 @@ public class FragmentRestaurantDetails extends Fragment {
         dish_bg = v.findViewById(R.id.dish_bg_id);
         rating = v.findViewById(R.id.rating_id);
         delivery_price = v.findViewById(R.id.delivery_id);
+        ratingBar = v.findViewById(R.id.ratingBar);
 
         // Assigning values
         Picasso.get().load(restaurant.getImage()).into(dish_bg);
 
+        ratingBar.setRating((float)restaurant.getRate());
+        ratingBar.setIsIndicator(true);
 
-        for(int i=0; i<Math.round(restaurant.getRate()); i++) {
-            int resID = v.getResources().getIdentifier("avis_id_"+i, "id", v.getContext().getPackageName());
-            Picasso.get().load(R.drawable.star_filled).into((ImageView) v.findViewById(resID));
-        }
-            rating.setText("(" + restaurant.getNbrAvis() + " avis)");
+        rating.setText("(" + restaurant.getNbrAvis() + " avis)");
         delivery_price.setText(restaurant.getEstimatedTime() + " minutes | " + Double.toString(restaurant.getDeliveryCost()) + " DT");
 
         return v;

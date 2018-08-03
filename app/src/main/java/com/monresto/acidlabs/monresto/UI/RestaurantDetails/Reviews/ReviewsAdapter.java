@@ -7,6 +7,7 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.BaseAdapter;
 import android.widget.ImageView;
+import android.widget.RatingBar;
 import android.widget.TextView;
 
 import com.monresto.acidlabs.monresto.Model.Review;
@@ -19,11 +20,10 @@ import butterknife.BindView;
 
 public class ReviewsAdapter extends BaseAdapter {
     private int nbReviews;
-    private int starsFilled;
     private Context context;
     private ArrayList<Review> reviews;
     TextView name;
-    TextView stars;
+    RatingBar ratingBar;
 
     public ReviewsAdapter (ArrayList<Review> ReviewList, Context context) {
         reviews = ReviewList;
@@ -51,20 +51,14 @@ public class ReviewsAdapter extends BaseAdapter {
     public View getView(int i, View view, ViewGroup viewGroup) {
         view = LayoutInflater.from(context).inflate(R.layout.item_review, null);
 
-        starsFilled = 0;
         name = view.findViewById(R.id.rating_name);
         name.setText(reviews.get(i).getClientname());
 
-        stars = view.findViewById(R.id.rating_stars);
+        ratingBar = view.findViewById(R.id.ratingBar);
 
-        for(int j=0; j<5; j++) {
-            if (starsFilled < reviews.get(i).getNote())
-            {
-                stars.setText(String.format("%s★", stars.getText()));
-                starsFilled++;
-            }
-            else stars.setText(String.format("%s✩", stars.getText()));
-        }
+        ratingBar.setRating((float)reviews.get(i).getNote());
+        ratingBar.setIsIndicator(true);
+
         return view;
     }
 }
