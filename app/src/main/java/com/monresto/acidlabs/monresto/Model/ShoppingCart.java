@@ -12,6 +12,7 @@ public class ShoppingCart {
     private Map<Dish, Options> items;
 
     private static ShoppingCart instance;
+    int restoID;
 
     public class Options {
         private int quantity;
@@ -28,6 +29,10 @@ public class ShoppingCart {
             return quantity;
         }
 
+        public void setQuantity(int quantity) {
+            this.quantity = quantity;
+        }
+
         public Dish.Option getDimension() {
             return dimension;
         }
@@ -39,6 +44,7 @@ public class ShoppingCart {
 
     private ShoppingCart() {
         items = new HashMap<>();
+        restoID = -1;
     }
 
     public static ShoppingCart getInstance() {
@@ -58,16 +64,16 @@ public class ShoppingCart {
 
     public double getCartSubTotal() {
         double subTotal = 0;
-        for(Map.Entry<Dish, Options> entry : getItems().entrySet()) {
+        for (Map.Entry<Dish, Options> entry : getItems().entrySet()) {
             Dish cle = entry.getKey();
             Options valeur = entry.getValue();
 
             if (valeur.getDimension() != null)
-               subTotal += valeur.getDimension().getPrice();
+                subTotal += valeur.getDimension().getPrice();
             else subTotal += cle.getPrice();
 
-            for(Dish.Component component : valeur.getComponents()) {
-                for(Dish.Option option : component.getOptions()) {
+            for (Dish.Component component : valeur.getComponents()) {
+                for (Dish.Option option : component.getOptions()) {
                     subTotal += option.getPrice();
                 }
             }
@@ -80,14 +86,20 @@ public class ShoppingCart {
     public double getCartDelivery() {
         if (ShoppingCart.getInstance().getItems().keySet().iterator().hasNext()) {
             return Monresto.getInstance().findRestaurant(ShoppingCart.getInstance().getItems().keySet().iterator().next().getRestoID()).getDeliveryCost();
-        }
-        else return (0);
+        } else return (0);
     }
 
     public void addToCart(Dish dish, int quantity, Dish.Option dimension, ArrayList<Dish.Component> components) {
-        /*if (dish.getRestoID() != restaurant.getId())
-            return;*/
-        items.put(dish, new Options(quantity, dimension, components));
+        if(restoID==-1)
+            restoID=dish.getRestoID();
+        else{
+            if(dish.getRestoID()!=restoID)
+                return;
+        }
+        if(items.containsKey(dish))
+            items.get(dish).quantity+=quantity;
+        else
+            items.put(dish, new Options(quantity, dimension, components));
     }
 
 

@@ -86,10 +86,6 @@ public class OrderActivity extends AppCompatActivity implements RestaurantAsyncR
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        int width = (int) (getResources().getDisplayMetrics().widthPixels * 0.95);
-        int height = (int) (getResources().getDisplayMetrics().heightPixels * 0.90);
-
-        supportRequestWindowFeature(Window.FEATURE_NO_TITLE);
 
         // Get dish information from the caller intent
         Intent i = getIntent();
@@ -97,7 +93,6 @@ public class OrderActivity extends AppCompatActivity implements RestaurantAsyncR
 
         setContentView(R.layout.activity_order);
         ButterKnife.bind(this);
-        getWindow().setLayout(width, height);
 
         final Toolbar toolbar = findViewById(R.id.toolbar);
 

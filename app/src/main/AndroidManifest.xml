@@ -28,10 +28,7 @@
         <activity android:name=".UI.User.LoginActivity" />
         <activity android:name=".UI.User.RegisterActivity" />
         <activity android:name=".UI.Maps.MapsActivity" />
-        <activity
-            android:name=".UI.RestaurantDetails.Order.OrderActivity"
-            android:excludeFromRecents="true"
-            android:theme="@style/Theme.AppCompat.Light.Dialog" />
+        <activity android:name=".UI.RestaurantDetails.Order.OrderActivity" />
         <activity android:name=".UI.Profile.ProfileActivity" />
         <activity android:name=".UI.Profile.Settings.ProfileSettingsActivity" />
         <activity android:name=".UI.Profile.Address.NewAddressActivity" />
