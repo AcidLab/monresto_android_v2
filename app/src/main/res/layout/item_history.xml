@@ -34,6 +34,7 @@
             android:id="@+id/textHistoryNameItem"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
+            android:fontFamily="@font/googlesans_regular"
             android:text="TextView"
             android:textSize="18sp" />
 
@@ -41,6 +42,15 @@
             android:id="@+id/textHistoryPriceItem"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
+            android:fontFamily="@font/googlesans_regular"
+            android:text="TextView"
+            android:textSize="14sp" />
+
+        <TextView
+            android:id="@+id/textHistoryDateITem"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:fontFamily="@font/googlesans_regular"
             android:text="TextView"
             android:textSize="14sp" />
 

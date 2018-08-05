@@ -34,6 +34,8 @@ public class HistoryRecyclerViewAdapter extends RecyclerView.Adapter<HistoryRecy
         TextView textHistoryNameItem;
         @BindView(R.id.textHistoryPriceItem)
         TextView textHistoryPriceItem;
+        @BindView(R.id.textHistoryDateITem)
+        TextView textHistoryDateITem;
         @BindView(R.id.imageHistoryItem)
         ImageView imageHistoryItem;
 
@@ -59,6 +61,7 @@ public class HistoryRecyclerViewAdapter extends RecyclerView.Adapter<HistoryRecy
         if (orders != null && !orders.isEmpty()) {
             order = orders.get(i);
             viewHolder.textHistoryNameItem.setText(order.getRestoName());
+            viewHolder.textHistoryDateITem.setText(order.getOrderDate());
             viewHolder.textHistoryPriceItem.setText(String.format("%s DT", String.valueOf(order.getOrderPrice())));
             Picasso.get().load(order.getRestoImagePath()).transform(new RoundedTransformation(30, 0)).into(viewHolder.imageHistoryItem);
         }

@@ -31,7 +31,7 @@ import butterknife.ButterKnife;
 
 public class FragmentAddress extends Fragment implements UserAsyncResponse, SwipeRefreshLayout.OnRefreshListener {
 
-    private boolean _hasLoadedOnce = false; // your boolean field
+    private boolean _hasLoadedOnce = false;
     private UserService userService;
     @BindView(R.id.recyclerview_address)
     RecyclerView recyclerview_address;
