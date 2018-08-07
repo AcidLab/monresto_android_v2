@@ -81,6 +81,22 @@ public class User {
         return obj;
     }
 
+    public static JSONObject profileJson(User user) {
+
+        JSONObject obj = new JSONObject();
+
+        try {
+            obj.put("userID", user.id);
+            obj.put("firstName", user.fname);
+            obj.put("lastName", user.lname);
+            obj.put("email", user.email);
+            obj.put("mobile", user.mobile);
+        } catch (JSONException e) {
+            e.printStackTrace();
+        }
+        return obj;
+    }
+
     public int getId() {
         return id;
     }

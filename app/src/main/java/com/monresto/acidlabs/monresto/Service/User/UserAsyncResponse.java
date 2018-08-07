@@ -10,6 +10,7 @@ import java.util.ArrayList;
 public interface UserAsyncResponse {
     default void onUserLogin(User user){}
     default void onUserDetailsReceived(User user){}
+    default void onUserProfileUpdated(){}
     default void oncheckLoginDispoReceived(boolean isDispo){}
     default void onHistoryReceived(ArrayList<Order> orders){}
     default void onPendingReceived(ArrayList<Order> orders){}

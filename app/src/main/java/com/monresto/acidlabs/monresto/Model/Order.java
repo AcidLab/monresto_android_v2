@@ -40,6 +40,7 @@ public class Order {
             }
             orders.add(new Order(obj.optInt("orderID"), obj.optString("orderDate"), obj.optString("status"), obj.optDouble("orderPrice"), obj.optInt("restoID"), obj.optString("restoName"), obj.optString("restoImagePath"), dishesList));
         }
+
         return orders;
     }
 

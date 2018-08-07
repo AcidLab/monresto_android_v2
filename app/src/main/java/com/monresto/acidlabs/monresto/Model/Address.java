@@ -1,5 +1,8 @@
 package com.monresto.acidlabs.monresto.Model;
 
+import android.os.Parcel;
+import android.os.Parcelable;
+
 import org.json.JSONArray;
 import org.json.JSONException;
 import org.json.JSONObject;
@@ -7,8 +10,8 @@ import org.json.JSONObject;
 import java.lang.reflect.Array;
 import java.util.ArrayList;
 
-public class Address {
-    private int id;
+public class Address implements Parcelable{
+    private int id = -1;
     private double lat;
     private double lon;
     private String emplacement;
@@ -56,13 +59,41 @@ public class Address {
         this.municipality = municipality;
     }
 
+    protected Address(Parcel in) {
+        id = in.readInt();
+        lat = in.readDouble();
+        lon = in.readDouble();
+        emplacement = in.readString();
+        adresse = in.readString();
+        rue = in.readString();
+        rueTransversalle = in.readString();
+        appartement = in.readString();
+        postalCode = in.readString();
+        zoneID = in.readInt();
+        cityID = in.readInt();
+        municipality = in.readString();
+        isDefault = in.readByte() != 0;
+    }
+
+    public static final Creator<Address> CREATOR = new Creator<Address>() {
+        @Override
+        public Address createFromParcel(Parcel in) {
+            return new Address(in);
+        }
+
+        @Override
+        public Address[] newArray(int size) {
+            return new Address[size];
+        }
+    };
+
     public static ArrayList<Address> makeListFromJson(JSONArray array) {
         System.out.println("array = [" + array.toString() + "]");
         ArrayList<Address> addresses = new ArrayList<>();
         for (int i = 0; i < array.length(); i++) {
             try {
                 JSONObject obj = array.getJSONObject(i);
-                addresses.add(new Address(obj.optInt("adressID"), obj.optDouble("latitude"), obj.optDouble("latitude"),
+                addresses.add(new Address(obj.optInt("adressID"), obj.optDouble("latitude"), obj.optDouble("longitude"),
                         obj.optString("emplacement"), obj.optString("adresse"), obj.optString("rue"),
                         obj.optString("rueTransversalle"), obj.optString("appartement"), obj.optString("codePostale"),
                         obj.optInt("zoneID"), obj.optInt("cityID"), obj.optString("municipalite"), obj.optInt("is_default") == 1));
@@ -76,6 +107,8 @@ public class Address {
     public JSONObject toJson() {
         JSONObject obj = new JSONObject();
         try {
+            if(id!=-1)
+             obj.put("adressID", id);
             obj.put("latitude", String.valueOf(lat));
             obj.put("longitude", String.valueOf(lon));
             obj.put("emplacement", emplacement);
@@ -184,5 +217,28 @@ public class Address {
 
     public void setMunicipality(String municipality) {
         this.municipality = municipality;
+    }
+
+    @Override
+    public int describeContents() {
+        return 0;
+    }
+
+    @Override
+    public void writeToParcel(Parcel parcel, int i) {
+
+        parcel.writeInt(id);
+        parcel.writeDouble(lat);
+        parcel.writeDouble(lon);
+        parcel.writeString(emplacement);
+        parcel.writeString(adresse);
+        parcel.writeString(rue);
+        parcel.writeString(rueTransversalle);
+        parcel.writeString(appartement);
+        parcel.writeString(postalCode);
+        parcel.writeInt(zoneID);
+        parcel.writeInt(cityID);
+        parcel.writeString(municipality);
+        parcel.writeByte((byte) (isDefault ? 1 : 0));
     }
 }

@@ -1,5 +1,7 @@
 package com.monresto.acidlabs.monresto.UI.Profile.Settings;
 
+import android.content.Intent;
+import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentManager;
 import android.support.v4.app.FragmentTransaction;
 import android.os.Bundle;
@@ -36,8 +38,14 @@ public class ProfileSettingsActivity extends AppCompatActivity {
         FragmentManager fragmentManager = getSupportFragmentManager();
         FragmentTransaction fragmentTransaction = fragmentManager.beginTransaction();
 
-        fragmentTransaction.add(R.id.linearLayoutProfileSettings, new FragmentGotoItem().setLabel("Informations du profil").setIcon(getResources().getDrawable(R.drawable.user_male, getTheme())).setIntent(LoginActivity.class));
-        fragmentTransaction.add(R.id.linearLayoutProfileSettings, new FragmentGotoItem().setLabel("Mes adresses").setIcon(getResources().getDrawable(R.drawable.mail_ad, getTheme())));
+        for (Fragment fragment : getSupportFragmentManager().getFragments()) {
+            if (fragment instanceof FragmentGotoItem) {
+                getSupportFragmentManager().beginTransaction().remove(fragment).commit();
+            }
+        }
+
+        fragmentTransaction.add(R.id.linearLayoutProfileSettings, new FragmentGotoItem().setLabel("Informations du profil").setIcon(getResources().getDrawable(R.drawable.user_male, getTheme())).setIntent(EditProfileActivity.class));
+        fragmentTransaction.add(R.id.linearLayoutProfileSettings, new FragmentGotoItem().setLabel("Mes adresses").setIcon(getResources().getDrawable(R.drawable.mail_ad, getTheme())).setIntent(AddressSettingsActivity.class));
         fragmentTransaction.add(R.id.linearLayoutProfileSettings, new FragmentGotoItem().setLabel("Promotions").setIcon(getResources().getDrawable(R.drawable.discount, getTheme())));
         fragmentTransaction.add(R.id.linearLayoutProfileSettings, new FragmentGotoItem().setLabel("Bons de réduction").setIcon(getResources().getDrawable(R.drawable.vourcher, getTheme())));
         fragmentTransaction.add(R.id.linearLayoutProfileSettings, new FragmentGotoItem().setLabel("FAQ").setIcon(getResources().getDrawable(R.drawable.faq, getTheme())).setIntent(FAQActivity.class));
@@ -48,5 +56,10 @@ public class ProfileSettingsActivity extends AppCompatActivity {
 
         textProfileTitle.setText(String.format("%s %s", User.getInstance().getFname(), User.getInstance().getLname()));
 
+    }
+    @Override
+    public void onResume(){
+        super.onResume();
+        textProfileTitle.setText(String.format("%s %s", User.getInstance().getFname(), User.getInstance().getLname()));
     }
 }

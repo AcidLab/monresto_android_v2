@@ -2,9 +2,6 @@ package com.monresto.acidlabs.monresto.UI.Profile.Address;
 
 import android.app.Activity;
 import android.content.Intent;
-
-import com.monresto.acidlabs.monresto.Model.Address;
-
 import android.location.Geocoder;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
@@ -18,8 +15,8 @@ import android.widget.ProgressBar;
 import android.widget.Spinner;
 import android.widget.Toast;
 
+import com.monresto.acidlabs.monresto.Model.Address;
 import com.monresto.acidlabs.monresto.Model.City;
-import com.monresto.acidlabs.monresto.Model.User;
 import com.monresto.acidlabs.monresto.R;
 import com.monresto.acidlabs.monresto.Service.City.CityAsyncResponse;
 import com.monresto.acidlabs.monresto.Service.City.CityService;
@@ -36,7 +33,7 @@ import butterknife.ButterKnife;
 
 import static com.monresto.acidlabs.monresto.Config.REQUEST_CODE_MAP_INFO;
 
-public class NewAddressActivity extends AppCompatActivity implements CityAsyncResponse, UserAsyncResponse {
+public class EditAddressActivity extends AppCompatActivity implements CityAsyncResponse, UserAsyncResponse {
     @BindView(R.id.location_spinner)
     Spinner locationSpinner;
     @BindView(R.id.textAddress)
@@ -66,10 +63,17 @@ public class NewAddressActivity extends AppCompatActivity implements CityAsyncRe
         setContentView(R.layout.activity_address_new);
         ButterKnife.bind(this);
 
-        address = new Address();
         geocoder = new Geocoder(this);
 
+        Intent param = getIntent();
+        address = param.getExtras().getParcelable("address");
+        if(address==null)
+            address = new Address();
+
         Intent intent = new Intent(this, MapsActivity.class);
+        intent.putExtra("update", true);
+        intent.putExtra("lat", address.getLat());
+        intent.putExtra("lng", address.getLon());
         startActivityForResult(intent, REQUEST_CODE_MAP_INFO);
 
         buttonSubmitAddress.setOnClickListener(e -> {
@@ -80,7 +84,7 @@ public class NewAddressActivity extends AppCompatActivity implements CityAsyncRe
             address.setCityID(0);
 
             UserService userService = new UserService(this);
-            userService.addAddress(address);
+            userService.editAddress(address);
 
             progressBarAddAddress.setVisibility(View.VISIBLE);
             buttonSubmitAddress.setVisibility(View.GONE);
@@ -103,7 +107,14 @@ public class NewAddressActivity extends AppCompatActivity implements CityAsyncRe
         CityService cityService = new CityService(this);
         cityService.getCities();
 
-
+        textAddress.setText(address.getAdresse());
+        textStreet.setText(address.getRue());
+        textAppart.setText(address.getAppartement());
+        for(int i=0; i<adapter.getCount();i++){
+            if(adapter.getItem(i).equals(address.getEmplacement())){
+                locationSpinner.setSelection(i);
+            }
+        }
     }
 
     @Override

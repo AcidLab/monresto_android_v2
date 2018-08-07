@@ -54,6 +54,7 @@ public class MapsActivity extends FragmentActivity implements OnMapReadyCallback
         setContentView(R.layout.activity_maps);
         ButterKnife.bind(this);
 
+
         gpsTracker = new GPSTracker(this);
         geocoder = new Geocoder(getBaseContext());
 
@@ -66,21 +67,27 @@ public class MapsActivity extends FragmentActivity implements OnMapReadyCallback
         Button button = findViewById(R.id.buttonPickPosition);
         ImageView finishBtn = findViewById(R.id.buttonFinish);
 
-        button.setOnClickListener(e -> onBackPressed());
-        finishBtn.setOnClickListener(e -> onBackPressed());
+        button.setOnClickListener(e -> closeWithResults());
+        finishBtn.setOnClickListener(e -> closeWithResults());
     }
 
     @Override
     public void onMapReady(GoogleMap googleMap) {
         mMap = googleMap;
-        if (gpsTracker.canGetLocation()) {
-            LatLng position = new LatLng(gpsTracker.getLatitude(), gpsTracker.getLongitude());
+        Intent intent = getIntent();
+        boolean update = intent.getBooleanExtra("update", false);
+        if (update) {
+            this.lat = intent.getDoubleExtra("lat", 0);
+            this.lng = intent.getDoubleExtra("lng", 0);
+            LatLng position = new LatLng(this.lat, this.lng);
             mMap.animateCamera(CameraUpdateFactory.newLatLngZoom(position, 12));
+        }
 
+        else if(gpsTracker.canGetLocation()) {
+            LatLng position = new LatLng(gpsTracker.getLatitude(), gpsTracker.getLongitude());
             this.lat = position.latitude;
             this.lng = position.longitude;
         }
-
 
         mMap.setOnCameraIdleListener(() -> {
             try {
@@ -92,14 +99,13 @@ public class MapsActivity extends FragmentActivity implements OnMapReadyCallback
             } catch (IOException e) {
                 e.printStackTrace();
             }
-            if (text_address_position != null){
+            if (text_address_position != null) {
                 text_address_position.setText(title);
             }
         });
     }
 
-    @Override
-    public void onBackPressed() {
+    public void closeWithResults() {
         this.lat = mMap.getCameraPosition().target.latitude;
         this.lng = mMap.getCameraPosition().target.longitude;
 
@@ -107,6 +113,13 @@ public class MapsActivity extends FragmentActivity implements OnMapReadyCallback
         resultIntent.putExtra("lat", this.lat);
         resultIntent.putExtra("lon", this.lng);
         setResult(Activity.RESULT_OK, resultIntent);
+        finish();
+    }
+
+    @Override
+    public void onBackPressed() {
+        Intent resultIntent = new Intent();
+        setResult(Activity.RESULT_CANCELED, resultIntent);
         finish();
     }
 }
