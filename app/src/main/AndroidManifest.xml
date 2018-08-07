@@ -38,6 +38,10 @@
             android:name=".UI.FAQ.FAQAnswerActivity"
             android:excludeFromRecents="true"
             android:theme="@style/Theme.AppCompat.Light.Dialog" />
+        <activity android:name=".UI.Profile.Settings.EditProfileActivity" />
+        <activity android:name=".UI.Profile.Settings.AddressSettingsActivity" />
+        <activity android:name=".UI.Profile.Address.AddressDetailsActivity" />
+        <activity android:name=".UI.Profile.Address.EditAddressActivity" />
 
         <meta-data
             android:name="com.facebook.sdk.ApplicationId"

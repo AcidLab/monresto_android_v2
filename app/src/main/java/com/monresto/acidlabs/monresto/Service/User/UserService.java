@@ -192,6 +192,47 @@ public class UserService {
         queue.add(postRequest);
     }
 
+    public void updateProfile(User user){
+        RequestQueue queue = Volley.newRequestQueue(context);
+        String url = Config.server + "User/editUser.php";
+        StringRequest postRequest = new StringRequest(Request.Method.POST, url,
+                new Response.Listener<String>() {
+                    @Override
+                    public void onResponse(String response) {
+                        try {
+                            JSONObject responseJson = new JSONObject(response);
+                            if(responseJson.getInt("Status")==1){
+                                User.setInstance(user);
+                                ((UserAsyncResponse)context).onUserProfileUpdated();
+                            }
+                        } catch (JSONException e) {
+                            e.printStackTrace();
+                        }
+                    }
+                },
+                new Response.ErrorListener() {
+                    @Override
+                    public void onErrorResponse(VolleyError error) {
+                        Log.d("ERROR", "onErrorResponse: " + error.getMessage());
+                    }
+                }
+        ) {
+            @Override
+            protected Map<String, String> getParams() {
+                Map<String, String> params = new HashMap<>();
+                JSONObject userObject = User.profileJson(user);
+                String token = "kento";//FirebaseInstanceId.getInstance().getToken();
+                String signature = Utilities.md5(userObject.toString() + Config.sharedKey);
+
+                params.put("user", userObject.toString());
+                params.put("signature", signature);
+
+                return params;
+            }
+        };
+        queue.add(postRequest);
+    }
+
     public void facebookLogin(final String socialID, final String email, final String fname, final String lname, SharedPreferences sharedPref) {
         final int socialNetworkID = 1;
         final int deviceID = 1;
@@ -378,6 +419,51 @@ public class UserService {
         };
         queue.add(postRequest);
     }
+    public void editAddress(final Address address) {
+        RequestQueue queue = Volley.newRequestQueue(context);
+        String url = Config.server + "Address/editAddress.php";
+        final int userID = User.getInstance().getId();//49468
+        StringRequest postRequest = new StringRequest(Request.Method.POST, url,
+                new Response.Listener<String>() {
+                    @Override
+                    public void onResponse(String response) {
+                        System.out.println("response = [" + response + "]");
+                        try {
+                            JSONObject jsonResponse = new JSONObject(response);
+                            int status = jsonResponse.getInt("Status");
+                            ((UserAsyncResponse) (context)).onAddressAddResponse(status==1);
+                        } catch (JSONException e) {
+                            e.printStackTrace();
+                        }
+
+                    }
+                },
+                new Response.ErrorListener() {
+                    @Override
+                    public void onErrorResponse(VolleyError error) {
+                        // error
+                    }
+                }
+        ) {
+            @Override
+            protected Map<String, String> getParams() {
+                Map<String, String> params = new HashMap<>();
+                JSONObject jsonAddress = address.toJson();
+                try {
+                    jsonAddress.put("userID", userID);
+                } catch (JSONException e) {
+                    e.printStackTrace();
+                }
+                String signature = Utilities.md5(jsonAddress.toString() + Config.sharedKey);
+
+                params.put("Address", jsonAddress.toString());
+                params.put("signature", signature);
+
+                return params;
+            }
+        };
+        queue.add(postRequest);
+    }
 
     /**
      * Modify user info
@@ -493,7 +579,6 @@ public class UserService {
                     @Override
                     public void onResponse(String response) {
                         try {
-                            System.out.println("response = [" + response + "]");
                             JSONObject jsonResponse = new JSONObject(response);
                             JSONArray array = jsonResponse.getJSONArray("Order");
                             ArrayList<Order> orders = Order.makeListFromJson(array);
@@ -538,7 +623,6 @@ public class UserService {
                             JSONObject jsonResponse = new JSONObject(response);
                             JSONArray array = jsonResponse.getJSONArray("Order");
                             ArrayList<Order> orders = Order.makeListFromJson(array);
-
                             ((UserAsyncResponse) context).onPendingReceived(orders);
                         } catch (JSONException e) {
                             e.printStackTrace();

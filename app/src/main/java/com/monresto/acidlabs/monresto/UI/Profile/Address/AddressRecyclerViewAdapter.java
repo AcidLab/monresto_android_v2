@@ -1,8 +1,10 @@
 package com.monresto.acidlabs.monresto.UI.Profile.Address;
 
 import android.content.Context;
+import android.content.Intent;
 import android.graphics.Color;
 import android.support.annotation.NonNull;
+import android.support.constraint.ConstraintLayout;
 import android.support.v7.widget.RecyclerView;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -33,6 +35,8 @@ public class AddressRecyclerViewAdapter extends RecyclerView.Adapter<AddressRecy
     static class ViewHolder extends RecyclerView.ViewHolder {
         @BindView(R.id.address_title_item)
         TextView address_title_item;
+        @BindView(R.id.layoutAddressItem)
+        ConstraintLayout layoutAddressItem;
 
         ViewHolder(@NonNull View itemView) {
             super(itemView);
@@ -52,10 +56,13 @@ public class AddressRecyclerViewAdapter extends RecyclerView.Adapter<AddressRecy
     @Override
     public void onBindViewHolder(@NonNull ViewHolder viewHolder, int i) {
         Address address;
-        if (addresses != null && !addresses.isEmpty()) {
-            address = addresses.get(i);
-            viewHolder.address_title_item.setText(address.getAdresse());
-        }
+        address = addresses.get(i);
+        viewHolder.address_title_item.setText(address.getAdresse());
+        viewHolder.layoutAddressItem.setOnClickListener(e -> {
+            Intent intent = new Intent(context, EditAddressActivity.class);
+            intent.putExtra("address", address);
+            context.startActivity(intent);
+        });
     }
 
     @Override
