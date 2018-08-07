@@ -4,7 +4,7 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:background="@color/colorPrimaryDark">
+    android:background="@color/colorPrimary">
 
     <ImageView
         android:id="@+id/imageView6"
@@ -15,19 +15,6 @@
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent"
         app:srcCompat="@drawable/address_img" />
-
-    <View
-        android:id="@+id/divider_address"
-        android:layout_width="0dp"
-        android:layout_height="1dp"
-        android:layout_marginEnd="24dp"
-        android:layout_marginStart="24dp"
-        android:layout_marginTop="16dp"
-        android:background="#e1e1e1"
-        android:visibility="visible"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/imageView6" />
 
     <android.support.v4.widget.SwipeRefreshLayout
         android:id="@+id/swiper_address"
@@ -75,14 +62,12 @@
 
             <Button
                 android:id="@+id/buttonNewAddress"
-                style="@style/AppTheme.Rabek"
                 android:layout_width="0dp"
                 android:layout_height="0dp"
                 android:layout_marginBottom="4dp"
                 android:layout_marginEnd="24dp"
                 android:layout_marginStart="24dp"
                 android:layout_marginTop="4dp"
-                android:fontFamily="@font/googlesans_regular"
                 android:text="Ajouter une adresse"
                 android:textColor="@color/button_text_color"
                 android:textSize="14sp"
@@ -97,14 +82,13 @@
         android:id="@+id/address_pull_to_refresh"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_marginTop="4dp"
-        android:fontFamily="@font/googlesans_regular"
+        android:layout_marginTop="8dp"
         android:text="Tirer la liste en bas pour rafraichir"
         android:textSize="12sp"
         android:visibility="invisible"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintHorizontal_bias="0.497"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/divider_address" />
+        app:layout_constraintTop_toBottomOf="@+id/imageView6" />
 
 </android.support.constraint.ConstraintLayout>

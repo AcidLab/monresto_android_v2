@@ -4,7 +4,7 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:background="@color/colorPrimaryDark">
+    android:background="@color/colorPrimary">
 
     <LinearLayout
         android:id="@+id/linearLayout3"
@@ -57,7 +57,6 @@
                     android:layout_height="wrap_content"
                     android:layout_marginLeft="5dp"
                     android:layout_weight="1"
-                    android:fontFamily="@font/googlesans_regular"
                     android:gravity="center_vertical"
                     android:text="Avis" />
 
@@ -82,7 +81,6 @@
                     android:layout_height="wrap_content"
                     android:layout_marginLeft="5dp"
                     android:layout_weight="1"
-                    android:fontFamily="@font/googlesans_regular"
                     android:text="Prix livraison"
                     android:textSize="16dp"
                     android:textStyle="normal" />
@@ -114,7 +112,6 @@
         android:layout_height="wrap_content"
         android:layout_marginStart="20dp"
         android:layout_marginTop="16dp"
-        android:fontFamily="@font/googlesans_regular"
         android:text="Avis &amp; notes"
         android:textSize="17sp"
         app:layout_constraintStart_toStartOf="parent"

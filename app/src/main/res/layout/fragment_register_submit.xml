@@ -14,8 +14,7 @@
             android:layout_marginEnd="8dp"
             android:layout_marginStart="8dp"
             android:layout_marginTop="8dp"
-            android:text="TextView"
-            android:textSize="18sp" />
+            android:text="TextView"/>
 
         <TextView
             android:id="@+id/textEmailFinal"
@@ -24,8 +23,7 @@
             android:layout_marginTop="8dp"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:text="TextView"
-            android:textSize="18sp" />
+            android:text="TextView"/>
 
         <TextView
             android:id="@+id/textFnameFinal"
@@ -34,8 +32,7 @@
             android:layout_marginTop="8dp"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:text="TextView"
-            android:textSize="18sp" />
+            android:text="TextView"/>
 
         <TextView
             android:id="@+id/textLnameFinal"
@@ -44,8 +41,7 @@
             android:layout_marginTop="8dp"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:text="TextView"
-            android:textSize="18sp" />
+            android:text="TextView"/>
 
         <TextView
             android:id="@+id/textMobileFinal"
@@ -54,8 +50,7 @@
             android:layout_marginTop="8dp"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:text="TextView"
-            android:textSize="18sp" />
+            android:text="TextView"/>
 
         <TextView
             android:id="@+id/textFixFinal"
@@ -64,8 +59,7 @@
             android:layout_marginTop="8dp"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:text="TextView"
-            android:textSize="18sp" />
+            android:text="TextView"/>
 
         <TextView
             android:id="@+id/textAddressFinal"
@@ -74,8 +68,7 @@
             android:layout_marginTop="8dp"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:text="TextView"
-            android:textSize="18sp" />
+            android:text="TextView"/>
 
     </LinearLayout>
 </ScrollView>

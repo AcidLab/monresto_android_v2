@@ -20,10 +20,8 @@
         android:layout_width="337dp"
         android:layout_height="wrap_content"
         android:layout_marginTop="8dp"
-        android:fontFamily="@font/googlesans_regular"
         android:text="Une erreur est survenue, veuillez réessayer plus tard"
         android:textAlignment="center"
-        android:textSize="18sp"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/imageView8" />

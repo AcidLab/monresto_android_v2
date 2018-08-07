@@ -4,20 +4,42 @@
     <style name="AppTheme" parent="Theme.AppCompat.Light.NoActionBar">
         <!-- Customize your theme here. -->
         <item name="android:statusBarColor">@color/colorAccent</item>
-
-        <item name="colorPrimary">@color/colorPrimary</item>
-        <item name="colorPrimaryDark">@color/colorPrimaryDark</item>
         <item name="colorAccent">@color/colorAccent</item>
 
         <item name="android:windowContentTransitions">true</item>
 
-        <item name="android:textColorHint">@color/colorPrimaryDarkDisabled</item>
-        <item name="android:textColor">@color/colorPrimary</item>
+        <item name="android:textViewStyle">@style/GoogleSansTextView</item>
+        <item name="android:tabWidgetStyle">@style/tab_text</item>
+        <item name="android:buttonStyle">@style/DefaultButtonStyle</item>
+        <item name="editTextStyle">@style/DefaultEditText</item>
     </style>
 
-    <style name="AppTheme.AppBarOverlay" parent="ThemeOverlay.AppCompat.Dark.ActionBar" />
-    <style name="AppTheme.Rabek" parent="Widget.AppCompat.Button.Colored">
+    <style name="AppTheme.Dialog" parent="Theme.AppCompat.Light.Dialog">
+        <item name="colorAccent">@color/colorAccent</item>
+    </style>
+
+    <style name="GoogleSansTextView" parent="android:Widget.TextView">
+        <item name="android:fontFamily">@font/googlesans_regular</item>
+        <item name="android:textColorHint">@color/colorPrimaryDarkDisabled</item>
+        <item name="android:textColor">@color/colorPrimaryDark</item>
+        <item name="android:textSize">18sp</item>
+    </style>
+
+    <style name="DefaultButtonStyle" parent="@style/Widget.AppCompat.Button.Colored">
+        <item name="colorAccent">@color/colorAccent</item>
         <item name="android:textColor">@color/button_text_color</item>
+        <item name="android:fontFamily">@font/googlesans_regular</item>
+    </style>
+
+    <style name="BorderlessButtonStyle" parent="@style/Widget.AppCompat.Button.Borderless">
+        <item name="android:textColor">@color/colorPrimaryDark</item>
+        <item name="colorAccent">@color/colorAccent</item>
+        <item name="android:fontFamily">@font/googlesans_regular</item>
+    </style>
+
+    <style name="DefaultEditText" parent="android:Widget.EditText">
+        <item name="android:fontFamily">@font/googlesans_regular</item>
+        <item name="android:textSize">18sp</item>
     </style>
 
     <style name="tab_text" parent="@android:style/TextAppearance.Widget.TabWidget">
