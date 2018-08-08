@@ -1,0 +1,78 @@
+package com.monresto.acidlabs.monresto;
+
+import android.content.Context;
+import android.graphics.Color;
+import android.support.annotation.NonNull;
+import android.support.v7.widget.RecyclerView;
+import android.view.LayoutInflater;
+import android.view.View;
+import android.view.ViewGroup;
+import android.widget.Button;
+
+import com.monresto.acidlabs.monresto.Model.Speciality;
+
+import java.util.ArrayList;
+
+import butterknife.BindView;
+import butterknife.ButterKnife;
+
+public class FiltersRecyclerViewAdapter extends RecyclerView.Adapter<FiltersRecyclerViewAdapter.ViewHolder> {
+    private ArrayList mData;
+    private Context context;
+    private ViewHolder oldFilter;
+
+    public FiltersRecyclerViewAdapter(Context context) {
+        this.context = context;
+    }
+
+    static class ViewHolder extends RecyclerView.ViewHolder {
+        @BindView(R.id.filter)
+        Button filter;
+
+        ViewHolder(@NonNull View itemView) {
+            super(itemView);
+            ButterKnife.bind(this, itemView);
+        }
+    }
+
+    @NonNull
+    @Override
+    public ViewHolder onCreateViewHolder(@NonNull ViewGroup viewGroup, int i) {
+        View v;
+        v = LayoutInflater.from(context).inflate(R.layout.item_filter, viewGroup, false);
+
+        return new ViewHolder(v);
+    }
+
+    @Override
+    public void onBindViewHolder(@NonNull ViewHolder viewHolder, int i) {
+        viewHolder.setIsRecyclable(false);
+        viewHolder.filter.setText(((Speciality)mData.get(i)).getTitle());
+        viewHolder.filter.setOnClickListener(view -> {
+            viewHolder.filter.setBackgroundResource(R.drawable.button_bg_rounded_corners_selected);
+            viewHolder.filter.setTextColor(Color.WHITE);
+            ((MainActivity)context).searchWithFilters((Speciality)mData.get(i));
+
+            if(oldFilter != null){
+                oldFilter.filter.setBackgroundResource(R.drawable.button_bg_rounded_corners);
+                oldFilter.filter.setTextColor(Color.BLACK);
+            }
+
+            oldFilter = viewHolder;
+            oldFilter.setIsRecyclable(true);
+        });
+    }
+
+
+    @Override
+    public int getItemCount() {
+        if (mData == null)
+            return 0;
+        return mData.size();
+    }
+
+
+    public void setFilters(ArrayList<Speciality> specialities) {
+        mData = specialities;
+    }
+}

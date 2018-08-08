@@ -18,4 +18,5 @@ public class Speciality implements Serializable {
     public String getTitle() {
         return title;
     }
+
 }

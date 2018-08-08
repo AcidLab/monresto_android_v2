@@ -90,7 +90,9 @@ public class RestaurantDetailsActivity extends AppCompatActivity implements Rest
         // Assigning details to views
         Picasso.get().load(restaurant.getBackground()).into(storeBg);
         storeName.setText(restaurant.getName());
-        storeState.setText(restaurant.getState());
+        if (restaurant.getState().equals("open"))
+            storeState.setText("OUVERT");
+        else storeState.setText("FERMÉ");
 
         filledDishes = 0;
 

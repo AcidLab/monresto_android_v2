@@ -62,6 +62,8 @@ public class MainActivity extends AppCompatActivity implements RestaurantAsyncRe
     MaterialSearchBar searchBar;
     @BindView(R.id.stores_recyclerview)
     RecyclerView stores_recyclerview;
+    @BindView(R.id.filterRecylcerView)
+    RecyclerView filterRecylcerView;
     @BindView(R.id.restaurants_swiper)
     SwipeRefreshLayout restaurants_swiper;
     @BindView(R.id.status_restaurants)
@@ -129,6 +131,7 @@ public class MainActivity extends AppCompatActivity implements RestaurantAsyncRe
         service.getAll(gpsTracker.getLatitude(), gpsTracker.getLongitude());
         service.getSpecialities();
 
+        filterRecylcerView.setLayoutManager(new LinearLayoutManager(this,LinearLayoutManager.HORIZONTAL, false));
         stores_recyclerview.setLayoutManager(new LinearLayoutManager(this));
 
         home_profile_icon.setOnClickListener(view -> {
@@ -184,6 +187,9 @@ public class MainActivity extends AppCompatActivity implements RestaurantAsyncRe
     @Override
     public void onSpecialitiesReceived(ArrayList<Speciality> specialities) {
         this.specialities = specialities;
+        FiltersRecyclerViewAdapter filtersRecyclerViewAdapter = new FiltersRecyclerViewAdapter(this);
+        filterRecylcerView.setAdapter(filtersRecyclerViewAdapter);
+        filtersRecyclerViewAdapter.setFilters(specialities);
     }
 
     @Override
@@ -322,6 +328,16 @@ public class MainActivity extends AppCompatActivity implements RestaurantAsyncRe
             Toast.makeText(this, "Aucune donnée trouvée", Toast.LENGTH_SHORT).show(); //TODO: change this
     }
 
+    public void searchWithFilters(Speciality speciality) {
+        ArrayList<Restaurant> searchList = new ArrayList<>();
+        for (Restaurant restaurant : Monresto.getInstance().getRestaurants()) {
+            for(Speciality currSpeciality : restaurant.getSpecialities()) {
+                if (currSpeciality.getTitle().equals(speciality.getTitle()))
+                    searchList.add(restaurant);
+            }
+        }
+        populateRecyclerView(searchList);
+    }
     @Override
     public void onButtonClicked(int buttonCode) {
 
@@ -331,5 +347,8 @@ public class MainActivity extends AppCompatActivity implements RestaurantAsyncRe
         cart_quantity.setText(String.valueOf(ShoppingCart.getInstance().getItems().size()));
         cart_total.setText(String.valueOf(ShoppingCart.getInstance().getCartSubTotal()) + " TND");
     }
+
+
+
 
 }

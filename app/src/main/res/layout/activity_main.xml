@@ -14,6 +14,16 @@
         android:layout_alignParentTop="true"
         android:background="@color/button_text_color">
 
+        <View
+            android:id="@+id/divider_address3"
+            android:layout_width="0dp"
+            android:layout_height="1dp"
+            android:background="#e1e1e1"
+            android:visibility="visible"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@+id/filterRecylcerView" />
+
         <RelativeLayout
             android:id="@+id/linearLayout4"
             android:layout_width="wrap_content"
@@ -82,7 +92,6 @@
             android:id="@+id/constraintLayout"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:background="@drawable/dish_border"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintHorizontal_bias="0.0"
             app:layout_constraintStart_toStartOf="parent"
@@ -126,7 +135,7 @@
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintHorizontal_bias="0.0"
             app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toBottomOf="@+id/constraintLayout">
+            app:layout_constraintTop_toBottomOf="@+id/divider_address3">
 
             <android.support.v7.widget.RecyclerView
                 android:id="@+id/stores_recyclerview"
@@ -136,6 +145,14 @@
                 android:visibility="visible" />
 
         </android.support.v4.widget.SwipeRefreshLayout>
+
+        <android.support.v7.widget.RecyclerView
+            android:id="@+id/filterRecylcerView"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@+id/constraintLayout" />
 
         <FrameLayout
             android:id="@+id/cart_frame"
@@ -229,7 +246,7 @@
         android:layout_height="wrap_content"
         android:layout_alignParentTop="true"
         android:layout_centerHorizontal="true"
-        android:layout_marginTop="158dp"
+        android:layout_marginTop="204dp"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent" />
 
