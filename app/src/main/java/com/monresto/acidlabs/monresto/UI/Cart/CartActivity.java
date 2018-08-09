@@ -16,7 +16,9 @@ import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.ListView;
 import android.widget.TextView;
+import android.widget.Toast;
 
+import com.monresto.acidlabs.monresto.Config;
 import com.monresto.acidlabs.monresto.MainActivity;
 import com.monresto.acidlabs.monresto.Model.ShoppingCart;
 import com.monresto.acidlabs.monresto.Model.User;
@@ -60,11 +62,10 @@ public class CartActivity extends AppCompatActivity {
         cartItemAdapter = new CartItemRecyclerViewAdapter(this);
         cart_items_list.setAdapter(cartItemAdapter);
         orderBtn.setOnClickListener(e -> {
-            if(User.getInstance()==null){
+            if (User.getInstance() == null) {
                 Intent intent = new Intent(this, LoginActivity.class);
-                startActivity(intent);
-            }
-            else{
+                startActivityForResult(intent, Config.REQUEST_CODE_CHECKOUT);
+            } else {
                 //TODO: Checkout
             }
         });
@@ -88,13 +89,12 @@ public class CartActivity extends AppCompatActivity {
         cart_total.setText(String.valueOf(cart.getCartDelivery() + cart.getCartSubTotal()) + " DT");
 
         if (ShoppingCart.getInstance().getItems().isEmpty()) {
-            Utilities.statusChangerUnavailable(this,"Le panier est vide",cart_empty,cart_items_list);
+            Utilities.statusChangerUnavailable(this, "Le panier est vide", cart_empty, cart_items_list);
             cart_items_list.setVisibility(View.VISIBLE);
         } else cart_empty.setVisibility(View.INVISIBLE);
 
         cartItemAdapter.setCartItems(ShoppingCart.getInstance().getItems());
         cartItemAdapter.notifyDataSetChanged();
-
 
         /*AlertDialog alertDialog = new AlertDialog.Builder(FragmentCart.this.getContext()).create();
         alertDialog.setTitle("Alert");
@@ -111,6 +111,8 @@ public class CartActivity extends AppCompatActivity {
     @Override
     protected void onActivityResult(int requestCode, int resultCode, @Nullable Intent data) {
         super.onActivityResult(requestCode, resultCode, data);
-        
+        if (requestCode == Config.REQUEST_CODE_CHECKOUT){
+            Toast.makeText(this, "Call for checkout here", Toast.LENGTH_LONG).show();
+        }
     }
 }

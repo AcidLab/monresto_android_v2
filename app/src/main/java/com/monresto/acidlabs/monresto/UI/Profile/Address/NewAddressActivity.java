@@ -121,7 +121,7 @@ public class NewAddressActivity extends AppCompatActivity implements CityAsyncRe
                         if (addressList != null && !addressList.isEmpty()) {
                             currentAddress = addressList.get(0);
                             address.setPostalCode(currentAddress.getPostalCode());
-                            textAddress.setText(currentAddress.getFeatureName());
+                            textAddress.setText(currentAddress.getAddressLine(0));
                         }
 
                     } catch (IOException e) {

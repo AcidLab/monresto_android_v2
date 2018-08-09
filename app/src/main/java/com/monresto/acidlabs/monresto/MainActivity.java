@@ -6,6 +6,7 @@ import android.content.DialogInterface;
 import android.content.Intent;
 import android.content.SharedPreferences;
 import android.content.pm.PackageManager;
+import android.location.Geocoder;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
 import android.support.constraint.ConstraintLayout;
@@ -45,7 +46,9 @@ import com.monresto.acidlabs.monresto.UI.User.LoginActivity;
 import org.json.JSONException;
 import org.json.JSONObject;
 
+import java.io.IOException;
 import java.util.ArrayList;
+import java.util.List;
 
 import butterknife.BindView;
 import butterknife.ButterKnife;
@@ -76,6 +79,8 @@ public class MainActivity extends AppCompatActivity implements RestaurantAsyncRe
     TextView cart_quantity;
     @BindView(R.id.cart_total)
     TextView cart_total;
+    @BindView(R.id.deliveryLabel)
+    TextView deliveryLabel;
 
     private ArrayList<Restaurant> searchList;
     private ArrayList<Speciality> specialities;
@@ -131,7 +136,18 @@ public class MainActivity extends AppCompatActivity implements RestaurantAsyncRe
             }
         }
 
-        service.getAll(gpsTracker.getLatitude(), gpsTracker.getLongitude());
+        double lat = gpsTracker.getLatitude();
+        double lon = gpsTracker.getLongitude();
+        Geocoder geocoder = new Geocoder(this);
+        try {
+            List<android.location.Address> addresses = geocoder.getFromLocation(lat, lon, 1);
+            System.out.println("Address: "+addresses.get(0));
+            deliveryLabel.setText(addresses.get(0).getFeatureName());
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
+
+        service.getAll(lat, lon);
         service.getSpecialities();
 
         filterRecylcerView.setLayoutManager(new LinearLayoutManager(this,LinearLayoutManager.HORIZONTAL, false));
