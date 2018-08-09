@@ -262,13 +262,12 @@
 
                 <Button
                     android:id="@+id/add_to_cart"
-                    style="@style/Widget.AppCompat.Button.Colored"
+                    style="@style/DefaultButtonStyle"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:layout_weight="1"
                     android:fontFamily="@font/googlesans_medium"
                     android:text="Ajouter au panier"
-                    android:textColor="@color/colorPrimaryDark"
                     android:textSize="12sp" />
 
                 <Button
