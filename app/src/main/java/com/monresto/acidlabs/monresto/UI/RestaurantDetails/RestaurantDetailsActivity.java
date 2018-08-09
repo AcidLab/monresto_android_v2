@@ -26,6 +26,7 @@ import com.monresto.acidlabs.monresto.Model.Review;
 import com.monresto.acidlabs.monresto.Model.Speciality;
 import com.monresto.acidlabs.monresto.R;
 import com.monresto.acidlabs.monresto.RoundedTransformation;
+import com.monresto.acidlabs.monresto.UI.Cart.CartActivity;
 import com.monresto.acidlabs.monresto.UI.RestaurantDetails.Reviews.ReviewsAdapter;
 import com.monresto.acidlabs.monresto.Service.Restaurant.RestaurantAsyncResponse;
 import com.monresto.acidlabs.monresto.Service.Restaurant.RestaurantService;
@@ -124,7 +125,8 @@ public class RestaurantDetailsActivity extends AppCompatActivity implements Rest
         int id = item.getItemId();
 
         if (id == R.id.cart_btn) {
-            System.out.println("CART BUTTON PRESSED");
+            Intent intent = new Intent(this, CartActivity.class);
+            startActivity(intent);
             return true;
         }
 
