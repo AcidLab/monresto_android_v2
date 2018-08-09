@@ -98,7 +98,7 @@
             app:layout_constraintTop_toBottomOf="@+id/linearLayout4">
 
             <ImageView
-                android:id="@+id/imageView2"
+                android:id="@+id/filtersToggle"
                 android:layout_width="30dp"
                 android:layout_height="30dp"
                 android:layout_marginBottom="16dp"
@@ -117,7 +117,7 @@
                 android:layout_marginStart="8dp"
                 app:hint="Rechercher un restaurant"
                 app:layout_constraintBottom_toBottomOf="parent"
-                app:layout_constraintEnd_toStartOf="@+id/imageView2"
+                app:layout_constraintEnd_toStartOf="@+id/filtersToggle"
                 app:layout_constraintStart_toStartOf="parent"
                 app:layout_constraintTop_toTopOf="parent"
                 app:maxSuggestionsCount="10"
@@ -150,6 +150,7 @@
             android:id="@+id/filterRecylcerView"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
+            android:visibility="gone"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toBottomOf="@+id/constraintLayout" />
