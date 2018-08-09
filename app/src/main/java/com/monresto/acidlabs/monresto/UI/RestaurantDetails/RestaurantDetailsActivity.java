@@ -16,6 +16,7 @@ import android.widget.TextView;
 
 import butterknife.BindView;
 import butterknife.ButterKnife;
+import jp.wasabeef.picasso.transformations.RoundedCornersTransformation;
 
 import com.monresto.acidlabs.monresto.HackViewPager;
 import com.monresto.acidlabs.monresto.Model.Dish;
@@ -24,6 +25,7 @@ import com.monresto.acidlabs.monresto.Model.Restaurant;
 import com.monresto.acidlabs.monresto.Model.Review;
 import com.monresto.acidlabs.monresto.Model.Speciality;
 import com.monresto.acidlabs.monresto.R;
+import com.monresto.acidlabs.monresto.RoundedTransformation;
 import com.monresto.acidlabs.monresto.UI.RestaurantDetails.Reviews.ReviewsAdapter;
 import com.monresto.acidlabs.monresto.Service.Restaurant.RestaurantAsyncResponse;
 import com.monresto.acidlabs.monresto.Service.Restaurant.RestaurantService;
@@ -203,7 +205,6 @@ public class RestaurantDetailsActivity extends AppCompatActivity implements Rest
 
     @Override
     public void onReviewsReceived(ArrayList<Review> ReviewList) {
-        System.out.println("SPECIAL DEBUG: Reviews received, setting tabs...");
         ListView reviewsList = findViewById(R.id.listReviews);
         reviews = ReviewList;
 
