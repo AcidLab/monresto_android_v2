@@ -61,6 +61,8 @@ import static com.monresto.acidlabs.monresto.UI.Maps.MapsActivity.MY_PERMISSIONS
 public class MainActivity extends AppCompatActivity implements RestaurantAsyncResponse, UserAsyncResponse, SwipeRefreshLayout.OnRefreshListener, MaterialSearchBar.OnSearchActionListener {
     @BindView(R.id.home_profile_icon)
     ImageView home_profile_icon;
+    @BindView(R.id.filtersToggle)
+    ImageView filtersToggle;
     @BindView(R.id.searchBar)
     MaterialSearchBar searchBar;
     @BindView(R.id.stores_recyclerview)
@@ -150,6 +152,12 @@ public class MainActivity extends AppCompatActivity implements RestaurantAsyncRe
 
         filterRecylcerView.setLayoutManager(new LinearLayoutManager(this,LinearLayoutManager.HORIZONTAL, false));
         stores_recyclerview.setLayoutManager(new LinearLayoutManager(this));
+
+        filtersToggle.setOnClickListener(view -> {
+            if (filterRecylcerView.getVisibility() == View.VISIBLE)
+                filterRecylcerView.setVisibility(View.GONE);
+            else filterRecylcerView.setVisibility(View.VISIBLE);
+        });
 
         home_profile_icon.setOnClickListener(view -> {
             Intent intent;
