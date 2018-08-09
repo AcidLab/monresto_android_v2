@@ -94,6 +94,8 @@ public class MainActivity extends AppCompatActivity implements RestaurantAsyncRe
         firstResume = true;
         if (checkLocationPermission())
             init();
+        else
+            Toast.makeText(this, "Monresto a besoin de connaitre votre position pour pouvoir fonctionner", Toast.LENGTH_SHORT).show();
 
     }
 
@@ -124,7 +126,6 @@ public class MainActivity extends AppCompatActivity implements RestaurantAsyncRe
                         e.printStackTrace();
                     }
                 }
-
             }
         }
 

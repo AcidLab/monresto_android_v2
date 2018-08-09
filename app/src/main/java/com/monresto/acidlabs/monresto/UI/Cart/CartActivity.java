@@ -13,12 +13,15 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ImageView;
+import android.widget.LinearLayout;
 import android.widget.ListView;
 import android.widget.TextView;
 
 import com.monresto.acidlabs.monresto.MainActivity;
 import com.monresto.acidlabs.monresto.Model.ShoppingCart;
+import com.monresto.acidlabs.monresto.Model.User;
 import com.monresto.acidlabs.monresto.R;
+import com.monresto.acidlabs.monresto.UI.User.LoginActivity;
 import com.monresto.acidlabs.monresto.Utilities;
 
 import butterknife.BindView;
@@ -37,6 +40,8 @@ public class CartActivity extends AppCompatActivity {
     RecyclerView cart_items_list;
     @BindView(R.id.cart_empty)
     ConstraintLayout cart_empty;
+    @BindView(R.id.orderBtn)
+    LinearLayout orderBtn;
 
     private CartItemRecyclerViewAdapter cartItemAdapter;
 
@@ -54,6 +59,15 @@ public class CartActivity extends AppCompatActivity {
         cart_items_list.setLayoutManager(new LinearLayoutManager(this));
         cartItemAdapter = new CartItemRecyclerViewAdapter(this);
         cart_items_list.setAdapter(cartItemAdapter);
+        orderBtn.setOnClickListener(e -> {
+            if(User.getInstance()==null){
+                Intent intent = new Intent(this, LoginActivity.class);
+                startActivity(intent);
+            }
+            else{
+                //TODO: Checkout
+            }
+        });
 
     }
 
@@ -61,10 +75,9 @@ public class CartActivity extends AppCompatActivity {
     @Override
     protected void onResume() {
         super.onResume();
-        if ((getFragmentManager() != null)) {
+        if ((getSupportFragmentManager() != null)) {
             update();
         }
-
     }
 
 
@@ -95,4 +108,9 @@ public class CartActivity extends AppCompatActivity {
         alertDialog.show();*/
     }
 
+    @Override
+    protected void onActivityResult(int requestCode, int resultCode, @Nullable Intent data) {
+        super.onActivityResult(requestCode, resultCode, data);
+        
+    }
 }

@@ -58,10 +58,10 @@ public class RecyclerViewAdapter extends RecyclerView.Adapter<RecyclerViewAdapte
                 Pair<View, String> p2 = Pair.create((View)viewHolder.store_bg, "store_bg");
                 Pair<View, String> p3 = Pair.create((View)viewHolder.storeState, "storeState");
 
-                ActivityOptionsCompat options = ActivityOptionsCompat.
-                        makeSceneTransitionAnimation((Activity) context, p1, p2, p3);
+                //ActivityOptionsCompat options = ActivityOptionsCompat.
+                  //      makeSceneTransitionAnimation((Activity) context, p1, p2, p3);
 
-                context.startActivity(intent, options.toBundle());
+                context.startActivity(intent);//, options.toBundle());
             }
         });
 
@@ -71,8 +71,6 @@ public class RecyclerViewAdapter extends RecyclerView.Adapter<RecyclerViewAdapte
     @Override
     public void onBindViewHolder(@NonNull ViewHolder viewHolder, int i) {
         final Restaurant restaurantItem = restaurants.get(i);
-
-        System.out.println("STORE: " + restaurantItem.getName());
 
         // Set the view to fade in
         setFadeAnimation(viewHolder.itemView);
