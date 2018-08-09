@@ -87,6 +87,7 @@ public class MapsActivity extends FragmentActivity implements OnMapReadyCallback
             LatLng position = new LatLng(gpsTracker.getLatitude(), gpsTracker.getLongitude());
             this.lat = position.latitude;
             this.lng = position.longitude;
+            mMap.animateCamera(CameraUpdateFactory.newLatLngZoom(position, 12));
         }
 
         mMap.setOnCameraIdleListener(() -> {

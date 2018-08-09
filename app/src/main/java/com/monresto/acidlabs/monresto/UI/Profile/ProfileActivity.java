@@ -71,8 +71,10 @@ public class ProfileActivity extends AppCompatActivity implements UserAsyncRespo
         tabLayoutProfile.getTabAt(3).setIcon(R.drawable.icon_address);
 
         imageSettings.setOnClickListener(e -> {
-            Intent intent = new Intent(this, ProfileSettingsActivity.class);
-            startActivity(intent);
+            if(User.getInstance()!=null){
+                Intent intent = new Intent(this, ProfileSettingsActivity.class);
+                startActivity(intent);
+            }
         });
 
         UserService userService = new UserService(this);
@@ -80,7 +82,6 @@ public class ProfileActivity extends AppCompatActivity implements UserAsyncRespo
         userService.getHistory(User.getInstance().getId(), 1);
         userService.getFavoritesDishes(User.getInstance().getId());
     }
-
 
     @Override
     public void onPendingReceived(ArrayList<Order> orders) {
@@ -101,4 +102,10 @@ public class ProfileActivity extends AppCompatActivity implements UserAsyncRespo
         fragmentFavorites.updateList(dishes);
     }
 
+    @Override
+    public void onResume(){
+        super.onResume();
+        if(User.getInstance()==null)
+            finish();
+    }
 }

@@ -29,6 +29,7 @@ public class FragmentGotoItem extends Fragment {
     private String _label;
     private Drawable _drawable;
     private Class _class;
+    private View.OnClickListener _listener;
 
     @Nullable
     @Override
@@ -44,6 +45,9 @@ public class FragmentGotoItem extends Fragment {
         if(_class!=null){
             Intent intent = new Intent(getActivity(), _class);
             constraintLayout.setOnClickListener(e -> startActivity(intent));
+        }
+        if(_listener!=null){
+            constraintLayout.setOnClickListener(_listener);
         }
 
         return root;
@@ -61,6 +65,11 @@ public class FragmentGotoItem extends Fragment {
 
     public FragmentGotoItem setIntent(Class activity) {
         _class = activity;
+        return this;
+    }
+
+    public FragmentGotoItem setAction(View.OnClickListener listener) {
+        _listener = listener;
         return this;
     }
 }
