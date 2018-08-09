@@ -138,9 +138,9 @@ public class MainActivity extends AppCompatActivity implements RestaurantAsyncRe
         stores_recyclerview.setLayoutManager(new LinearLayoutManager(this));
 
         filtersToggle.setOnClickListener(view -> {
-            if (filterRecylcerView.getVisibility() == View.VISIBLE)
+            /*if (filterRecylcerView.getVisibility() == View.VISIBLE)
                 filterRecylcerView.setVisibility(View.GONE);
-            else filterRecylcerView.setVisibility(View.VISIBLE);
+            else filterRecylcerView.setVisibility(View.VISIBLE);*/
         });
 
         home_profile_icon.setOnClickListener(view -> {
