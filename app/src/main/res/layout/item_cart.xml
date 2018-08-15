@@ -9,8 +9,9 @@
     <ImageView
         android:id="@+id/cart_picture"
         android:layout_width="140dp"
-        android:layout_height="99dp"
+        android:layout_height="0dp"
         android:scaleType="centerCrop"
+        app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent" />
 
@@ -20,7 +21,7 @@
         android:layout_height="wrap_content"
         android:layout_marginEnd="16dp"
         android:layout_marginStart="8dp"
-        android:layout_marginTop="8dp"
+        android:layout_marginTop="4dp"
         android:ellipsize="end"
         android:text="Nom du plat"
         android:textAllCaps="true"
@@ -39,6 +40,19 @@
         app:srcCompat="@drawable/ic_close_grey_400_24dp" />
 
     <TextView
+        android:id="@+id/cart_quantity"
+        android:layout_width="0dp"
+        android:layout_height="wrap_content"
+        android:layout_marginEnd="8dp"
+        android:layout_marginStart="8dp"
+        android:text="Quantité"
+        android:textColor="@color/com_facebook_button_background_color_focused_disabled"
+        android:textSize="12sp"
+        app:layout_constraintEnd_toStartOf="@+id/cart_remove_btn"
+        app:layout_constraintStart_toEndOf="@+id/cart_picture"
+        app:layout_constraintTop_toBottomOf="@+id/cart_title" />
+
+    <TextView
         android:id="@+id/cart_option"
         android:layout_width="0dp"
         android:layout_height="wrap_content"
@@ -49,27 +63,29 @@
         android:textSize="12sp"
         app:layout_constraintEnd_toStartOf="@+id/cart_remove_btn"
         app:layout_constraintStart_toEndOf="@+id/cart_picture"
-        app:layout_constraintTop_toBottomOf="@+id/cart_title" />
+        app:layout_constraintTop_toBottomOf="@+id/cart_quantity" />
 
     <TextView
         android:id="@+id/cart_components"
         android:layout_width="0dp"
         android:layout_height="wrap_content"
+        android:layout_marginBottom="16dp"
         android:layout_marginEnd="8dp"
         android:layout_marginStart="8dp"
         android:text="Suppléments"
         android:textColor="@color/com_facebook_button_background_color_focused_disabled"
         android:textSize="12sp"
+        app:layout_constraintTop_toBottomOf="@+id/cart_option"
         app:layout_constraintEnd_toStartOf="@+id/cart_remove_btn"
-        app:layout_constraintStart_toEndOf="@+id/cart_picture"
-        app:layout_constraintTop_toBottomOf="@+id/cart_option" />
+        app:layout_constraintStart_toEndOf="@+id/cart_picture" />
 
     <TextView
         android:id="@+id/cart_price"
         android:layout_width="0dp"
         android:layout_height="wrap_content"
         android:layout_marginStart="8dp"
-        android:layout_marginTop="4dp"
+        android:layout_marginTop="2dp"
+        android:paddingBottom="4dp"
         android:text="Prix"
         android:textColor="@color/browser_actions_text_color"
         android:textSize="15sp"

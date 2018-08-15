@@ -97,17 +97,15 @@ public class ShoppingCart {
                 return;
         }
 
-        System.out.println("Added Dish: "+dish.getId());
-        for(Map.Entry<Dish, Options> E : items.entrySet()){
-            System.out.println("Dish ID: "+E.getKey().getId());
-        }
-
         if(items.containsKey(dish)){
+            System.out.println("Quantity received: " + quantity);
             items.get(dish).quantity+=quantity;
-            System.out.println("ShoppingCart.addToCart.containsKey");
         }
-        else
+        else {
+            System.out.println("Quantity received: " + quantity);
             items.put(dish, new Options(quantity, dimension, components));
+            items.get(dish).setQuantity(quantity);
+        }
     }
 
 
@@ -116,6 +114,12 @@ public class ShoppingCart {
             items.remove(dish);
         if(items.isEmpty())
             restoID=-1;
+    }
+
+    public int getCurrentRestaurant() {
+        if (getItems()!=null)
+            return getItems().keySet().iterator().next().getRestoID();
+        else return -1;
     }
 
     public JSONArray getOrdersJson() {
