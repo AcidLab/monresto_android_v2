@@ -1,4 +1,4 @@
-package com.monresto.acidlabs.monresto.UI.User;
+package com.monresto.acidlabs.monresto.UI.User.RegisterFragments;
 
 import android.os.Bundle;
 import android.support.annotation.NonNull;

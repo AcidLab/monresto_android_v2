@@ -102,8 +102,6 @@ public class NewAddressActivity extends AppCompatActivity implements CityAsyncRe
         cities = new ArrayList<>();
         CityService cityService = new CityService(this);
         cityService.getCities();
-
-
     }
 
     @Override

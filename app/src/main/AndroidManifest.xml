@@ -42,6 +42,8 @@
         <activity android:name=".UI.Profile.Settings.AddressSettingsActivity" />
         <activity android:name=".UI.Profile.Address.AddressDetailsActivity" />
         <activity android:name=".UI.Profile.Address.EditAddressActivity" />
+        <activity android:name=".UI.User.SelectAddressActivity" />
+        <activity android:name=".UI.Checkout.CheckoutActivity" />
 
         <meta-data
             android:name="com.facebook.sdk.ApplicationId"

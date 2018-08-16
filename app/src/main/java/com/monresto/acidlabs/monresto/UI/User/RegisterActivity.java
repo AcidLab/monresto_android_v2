@@ -1,20 +1,13 @@
 package com.monresto.acidlabs.monresto.UI.User;
 
-import android.annotation.SuppressLint;
 import android.app.Activity;
 import android.content.Intent;
 import android.location.Geocoder;
 import android.os.Bundle;
-import android.support.constraint.ConstraintLayout;
 import android.support.v4.view.ViewPager;
 import android.support.v7.app.AppCompatActivity;
 import android.view.KeyEvent;
-import android.view.MotionEvent;
-import android.view.View;
-import android.view.ViewGroup;
-import android.widget.ArrayAdapter;
 import android.widget.Button;
-import android.widget.LinearLayout;
 import android.widget.Toast;
 
 import com.monresto.acidlabs.monresto.Model.Address;
@@ -26,6 +19,10 @@ import com.monresto.acidlabs.monresto.Service.User.UserAsyncResponse;
 import com.monresto.acidlabs.monresto.Service.User.UserService;
 import com.monresto.acidlabs.monresto.UI.Maps.MapsActivity;
 import com.monresto.acidlabs.monresto.UI.Restaurants.ViewPagerAdapter;
+import com.monresto.acidlabs.monresto.UI.User.RegisterFragments.FragmentRegisterAddress;
+import com.monresto.acidlabs.monresto.UI.User.RegisterFragments.FragmentRegisterLoginInfo;
+import com.monresto.acidlabs.monresto.UI.User.RegisterFragments.FragmentRegisterPersonalInfo;
+import com.monresto.acidlabs.monresto.UI.User.RegisterFragments.FragmentRegisterSubmit;
 import com.monresto.acidlabs.monresto.Utilities;
 
 import java.io.IOException;

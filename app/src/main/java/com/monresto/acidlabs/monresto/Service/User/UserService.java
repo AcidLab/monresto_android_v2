@@ -694,7 +694,6 @@ public class UserService {
     }
 
 
-
     public void logout(){
         SharedPreferences sharedPreferences = context.getSharedPreferences("login_data", Context.MODE_PRIVATE);
         SharedPreferences.Editor editor = sharedPreferences.edit();

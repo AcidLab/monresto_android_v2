@@ -21,6 +21,7 @@ public class User {
     private String mobile;
     private String comment;
     private ArrayList<Address> addresses;
+    private Address selectedAddress;
 
     public User(int id, String email, String fname, String lname) {
         this.id = id;
@@ -187,6 +188,14 @@ public class User {
 
     public void setAddresses(ArrayList<Address> addresses) {
         this.addresses = addresses;
+    }
+
+    public Address getSelectedAddress() {
+        return selectedAddress;
+    }
+
+    public void setSelectedAddress(Address selectedAddress) {
+        this.selectedAddress = selectedAddress;
     }
 
     @Override
