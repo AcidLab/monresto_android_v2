@@ -141,8 +141,8 @@ public class MainActivity extends AppCompatActivity implements RestaurantAsyncRe
         Geocoder geocoder = new Geocoder(this);
         try {
             List<android.location.Address> addresses = geocoder.getFromLocation(lat, lon, 1);
-            System.out.println("Address: "+addresses.get(0));
-            deliveryLabel.setText(addresses.get(0).getFeatureName());
+            /*System.out.println("Address: "+addresses.get(0));
+            deliveryLabel.setText(addresses.get(0).getFeatureName());*/
         } catch (IOException e) {
             e.printStackTrace();
         }

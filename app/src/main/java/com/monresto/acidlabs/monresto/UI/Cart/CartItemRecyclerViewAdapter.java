@@ -39,6 +39,8 @@ public class CartItemRecyclerViewAdapter extends RecyclerView.Adapter<CartItemRe
         TextView cart_components;
         @BindView(R.id.cart_price)
         TextView cart_price;
+        @BindView(R.id.cart_quantity)
+        TextView cart_quantity;
         @BindView(R.id.cart_picture)
         ImageView cart_picture;
         @BindView(R.id.cart_remove_btn)
@@ -61,10 +63,10 @@ public class CartItemRecyclerViewAdapter extends RecyclerView.Adapter<CartItemRe
 
     @Override
     public void onBindViewHolder(@NonNull ViewHolder viewHolder, int position) {
-        System.out.println("position = [" + position + "]");
         Map.Entry<Dish, ShoppingCart.Options> item = (Map.Entry<Dish, ShoppingCart.Options>) mData.get(position);
 
         viewHolder.cart_title.setText(item.getKey().getTitle());
+        viewHolder.cart_quantity.setText("Quantité: " + item.getValue().getQuantity());
         if (item.getValue().getDimension() != null)
             viewHolder.cart_option.setText(item.getValue().getDimension().getTitle());
         else viewHolder.cart_option.setText("Pas d'options");

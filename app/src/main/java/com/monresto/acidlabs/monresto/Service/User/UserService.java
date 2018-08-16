@@ -615,7 +615,7 @@ public class UserService {
     public void getOrders(final int id) {
         //int _id = 49468;
         RequestQueue queue = Volley.newRequestQueue(context);
-        String url = Config.server + "User/pendingOrder.php";
+        String url = Config.server + "User/pendingOrderV2.php";
         StringRequest postRequest = new StringRequest(Request.Method.POST, url,
                 new Response.Listener<String>() {
                     @Override
