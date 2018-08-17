@@ -54,9 +54,9 @@ public class RecyclerViewAdapter extends RecyclerView.Adapter<RecyclerViewAdapte
                 // Pass data object in the bundle and populate details activity.
                 intent.putExtra("restaurant",restaurants.get(viewHolder.getAdapterPosition()));
 
-                Pair<View, String> p1 = Pair.create((View)viewHolder.storeName, "storeName");
-                Pair<View, String> p2 = Pair.create((View)viewHolder.store_bg, "store_bg");
-                Pair<View, String> p3 = Pair.create((View)viewHolder.storeState, "storeState");
+                //Pair<View, String> p1 = Pair.create((View)viewHolder.storeName, "storeName");
+                //Pair<View, String> p2 = Pair.create((View)viewHolder.store_bg, "store_bg");
+                //Pair<View, String> p3 = Pair.create((View)viewHolder.storeState, "storeState");
 
                 //ActivityOptionsCompat options = ActivityOptionsCompat.
                   //      makeSceneTransitionAnimation((Activity) context, p1, p2, p3);

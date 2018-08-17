@@ -16,13 +16,7 @@
         android:theme="@style/AppTheme">
         <activity
             android:name=".MainActivity"
-            android:configChanges="orientation|screenSize">
-            <intent-filter>
-                <action android:name="android.intent.action.MAIN" />
-
-                <category android:name="android.intent.category.LAUNCHER" />
-            </intent-filter>
-        </activity>
+            android:configChanges="orientation|screenSize"></activity>
         <activity android:name=".UI.HomeActivity" />
         <activity android:name=".UI.RestaurantDetails.RestaurantDetailsActivity" />
         <activity android:name=".UI.User.LoginActivity" />
@@ -41,10 +35,15 @@
             android:theme="@style/Theme.AppCompat.Light.Dialog" />
         <activity android:name=".UI.Profile.Settings.EditProfileActivity" />
         <activity android:name=".UI.Profile.Settings.AddressSettingsActivity" />
-        <activity android:name=".UI.Profile.Address.AddressDetailsActivity" />
         <activity android:name=".UI.Profile.Address.EditAddressActivity" />
         <activity android:name=".UI.User.SelectAddressActivity" />
-        <activity android:name=".UI.Checkout.CheckoutActivity" />
+        <activity android:name=".UI.Homepage.HomepageActivity">
+            <intent-filter>
+                <action android:name="android.intent.action.MAIN" />
+                <category android:name="android.intent.category.LAUNCHER" />
+            </intent-filter>
+
+        </activity>
 
         <meta-data
             android:name="com.facebook.sdk.ApplicationId"
@@ -55,7 +54,9 @@
 
         // Fixes google maps on Android P
         // TODO: Remove after google fixes this
-        <uses-library android:name="org.apache.http.legacy" android:required="false" />
+        <uses-library
+            android:name="org.apache.http.legacy"
+            android:required="false" />
 
 
     </application>
