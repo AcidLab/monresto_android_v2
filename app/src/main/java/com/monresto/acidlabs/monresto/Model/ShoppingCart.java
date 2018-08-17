@@ -1,5 +1,7 @@
 package com.monresto.acidlabs.monresto.Model;
 
+import com.monresto.acidlabs.monresto.Utilities;
+
 import org.json.JSONArray;
 import org.json.JSONException;
 import org.json.JSONObject;
@@ -39,6 +41,11 @@ public class ShoppingCart {
 
         public ArrayList<Dish.Component> getComponents() {
             return components;
+        }
+
+        @Override
+        public boolean equals(Object obj) {
+            return (obj != null && obj instanceof Options && ((Options) obj).quantity == this.quantity && ((Options) obj).dimension == this.dimension && ((Options) obj).components == this.components);
         }
     }
 
@@ -90,34 +97,43 @@ public class ShoppingCart {
     }
 
     public void addToCart(Dish dish, int quantity, Dish.Option dimension, ArrayList<Dish.Component> components) {
-        if(restoID==-1)
-            restoID=dish.getRestoID();
-        else{
-            if(dish.getRestoID()!=restoID)
+        if (restoID == -1)
+            restoID = dish.getRestoID();
+        else {
+            if (dish.getRestoID() != restoID)
                 return;
         }
+        Dish addedDish;
+        try {
+            addedDish = dish.clone();
+            StringBuilder compCode = new StringBuilder();
+            for(Dish.Component c : components){
+                for(Dish.Option o : c.getOptions())
+                    compCode.append(o.getId());
+            }
+            addedDish.setOptionsHash(Utilities.md5(""+dimension.getId()+compCode));
+            System.out.println("Dimension id: "+dimension.getId()+"  compCode: "+compCode+"  Hash: "+Utilities.md5(""+dimension.getId()+compCode));
+            if (items.containsKey(addedDish)) {
+                items.get(addedDish).quantity += quantity;
+            } else {
+                items.put(addedDish, new Options(quantity, dimension, components));
+            }
+        } catch (CloneNotSupportedException e) {
+            e.printStackTrace();
+        }
 
-        if(items.containsKey(dish)){
-            System.out.println("Quantity received: " + quantity);
-            items.get(dish).quantity+=quantity;
-        }
-        else {
-            System.out.println("Quantity received: " + quantity);
-            items.put(dish, new Options(quantity, dimension, components));
-            items.get(dish).setQuantity(quantity);
-        }
     }
 
 
     public void removeFromCart(Dish dish) {
         if (items.containsKey(dish))
             items.remove(dish);
-        if(items.isEmpty())
-            restoID=-1;
+        if (items.isEmpty())
+            restoID = -1;
     }
 
     public int getCurrentRestaurant() {
-        if (getItems()!=null)
+        if (getItems() != null)
             return getItems().keySet().iterator().next().getRestoID();
         else return -1;
     }
@@ -158,7 +174,6 @@ public class ShoppingCart {
         }
         return orders;
     }
-
 
 
 }

@@ -10,7 +10,7 @@ import org.json.JSONObject;
 import java.io.Serializable;
 import java.util.ArrayList;
 
-public class Dish implements Parcelable {
+public class Dish implements Parcelable, Cloneable {
     private int id;
     private String title;
     private String description;
@@ -23,6 +23,7 @@ public class Dish implements Parcelable {
     private String imagePath;
 
     private int restoID;
+    private String optionsHash;
 
     private boolean isBay;
     private String ingredient;
@@ -31,17 +32,17 @@ public class Dish implements Parcelable {
     private JSONArray paymentmethode;
     private int quantity;
 
-    private Dish(int id, String name, int quantity){
+    private Dish(int id, String name, int quantity) {
         this.id = id;
         this.title = name;
         this.quantity = quantity;
     }
 
-    public static Dish getOrderedDish(int id, String name, int quantity){
+    public static Dish getOrderedDish(int id, String name, int quantity) {
         return new Dish(id, name, quantity);
     }
 
-    public static class Option implements Serializable{
+    public static class Option implements Serializable {
         private int id;
         private String title;
         private double price;
@@ -125,6 +126,14 @@ public class Dish implements Parcelable {
         }
     }
 
+    /*public static Dish Copy(Dish dish) {
+        return new Dish(dish.id, dish.restoID, dish.title, dish.description, dish.price, dish.promotion, dish.tva, dish.isOrdered, dish.isFavorite, dish.isComposed, dish.imagePath);
+    }*/
+
+    public Dish clone() throws CloneNotSupportedException {
+        return (Dish) super.clone();
+    }
+
     public static Dish createFromJson(JSONObject obj) {
         return new Dish(obj.optInt("dishID"), obj.optInt("restoID"), obj.optString("title"), obj.optString("description"),
                 obj.optDouble("price"), obj.optString("promotion"), obj.optString("tva"),
@@ -176,7 +185,9 @@ public class Dish implements Parcelable {
         return isComposed;
     }
 
-    public void setFavorite(boolean favorite) { isFavorite = favorite; }
+    public void setFavorite(boolean favorite) {
+        isFavorite = favorite;
+    }
 
     public int getQuantity() {
         return quantity;
@@ -200,6 +211,14 @@ public class Dish implements Parcelable {
 
     public ArrayList<Component> getComponents() {
         return components;
+    }
+
+    public String getOptionsHash() {
+        return optionsHash;
+    }
+
+    public void setOptionsHash(String optionsHash) {
+        this.optionsHash = optionsHash;
     }
 
     @Override
@@ -255,13 +274,13 @@ public class Dish implements Parcelable {
 
     @Override
     public boolean equals(Object obj) {
-        return this == obj || obj != null && obj instanceof Dish && ((Dish) obj).getId() == id;
+        return this == obj || obj != null && obj instanceof Dish && ((Dish) obj).getId() == id && ((Dish) obj).getOptionsHash().equals(optionsHash);
     }
 
     @Override
     public int hashCode() {
         int hash = 3;
-        return  67 * hash + id;
+        return 67 * hash + id;
     }
 
 }
