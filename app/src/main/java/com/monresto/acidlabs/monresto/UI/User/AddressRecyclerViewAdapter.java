@@ -12,6 +12,7 @@ import android.view.ViewGroup;
 import android.widget.TextView;
 
 import com.monresto.acidlabs.monresto.Model.Address;
+import com.monresto.acidlabs.monresto.Model.Monresto;
 import com.monresto.acidlabs.monresto.R;
 import com.monresto.acidlabs.monresto.UI.Profile.Address.EditAddressActivity;
 
@@ -55,6 +56,7 @@ public class AddressRecyclerViewAdapter extends RecyclerView.Adapter<AddressRecy
         address = addresses.get(i);
         viewHolder.address_title_item.setText(address.getAdresse());
         viewHolder.layoutAddressItem.setOnClickListener(e -> {
+            Monresto.getInstance().setAddress(address);
             Intent intent = new Intent();
             intent.putExtra("address", address);
             ((SelectAddressActivity)context).setResult(Activity.RESULT_OK, intent);

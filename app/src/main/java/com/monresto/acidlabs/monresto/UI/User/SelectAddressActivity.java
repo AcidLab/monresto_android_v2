@@ -9,6 +9,7 @@ import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.view.View;
+import android.widget.ImageView;
 import android.widget.TextView;
 
 import com.monresto.acidlabs.monresto.Model.Address;
@@ -33,6 +34,8 @@ public class SelectAddressActivity extends AppCompatActivity implements UserAsyn
     ConstraintLayout status_address;
     @BindView(R.id.swiper_address)
     SwipeRefreshLayout swiper_address;
+    @BindView(R.id.btnClose)
+    ImageView btnClose;
 
     AddressRecyclerViewAdapter adapter;
     UserService userService;
@@ -50,6 +53,7 @@ public class SelectAddressActivity extends AppCompatActivity implements UserAsyn
         recyclerview_address.setLayoutManager(new LinearLayoutManager(this));
 
         userService.getAddress(User.getInstance().getId());
+        btnClose.setOnClickListener(e -> finish());
     }
 
     public void updateList(ArrayList<Address> addresses) {
@@ -68,7 +72,7 @@ public class SelectAddressActivity extends AppCompatActivity implements UserAsyn
 
     @Override
     public void onAddressListReceived(ArrayList<Address> addresses) {
-        updateList(addresses);
+        System.out.println("addresses = [" + addresses + "]");updateList(addresses);
     }
 
 

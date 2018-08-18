@@ -107,12 +107,12 @@ public class ShoppingCart {
         try {
             addedDish = dish.clone();
             StringBuilder compCode = new StringBuilder();
-            for(Dish.Component c : components){
-                for(Dish.Option o : c.getOptions())
-                    compCode.append(o.getId());
-            }
-            addedDish.setOptionsHash(Utilities.md5(""+dimension.getId()+compCode));
-            System.out.println("Dimension id: "+dimension.getId()+"  compCode: "+compCode+"  Hash: "+Utilities.md5(""+dimension.getId()+compCode));
+            if (components != null)
+                for (Dish.Component c : components) {
+                    for (Dish.Option o : c.getOptions())
+                        compCode.append(o.getId());
+                }
+            addedDish.setOptionsHash(Utilities.md5("" + (dimension != null ? String.valueOf(dimension.getId()) : "") + compCode));
             if (items.containsKey(addedDish)) {
                 items.get(addedDish).quantity += quantity;
             } else {

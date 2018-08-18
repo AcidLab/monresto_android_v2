@@ -1,5 +1,6 @@
 package com.monresto.acidlabs.monresto.UI.Checkout;
 
+import android.content.Intent;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
 import android.support.v7.app.AppCompatActivity;
@@ -8,6 +9,7 @@ import android.widget.ImageView;
 import android.widget.Spinner;
 import android.widget.TextView;
 
+import com.monresto.acidlabs.monresto.Model.Address;
 import com.monresto.acidlabs.monresto.Model.Monresto;
 import com.monresto.acidlabs.monresto.Model.PaymentMode;
 import com.monresto.acidlabs.monresto.Model.Restaurant;
@@ -15,6 +17,7 @@ import com.monresto.acidlabs.monresto.Model.ShoppingCart;
 import com.monresto.acidlabs.monresto.Model.User;
 import com.monresto.acidlabs.monresto.R;
 import com.monresto.acidlabs.monresto.Service.Restaurant.RestaurantService;
+import com.monresto.acidlabs.monresto.UI.User.SelectAddressActivity;
 
 import java.util.ArrayList;
 
@@ -24,7 +27,7 @@ import butterknife.ButterKnife;
 public class CheckoutActivity extends AppCompatActivity {
 
     @BindView(R.id.address)
-    TextView address;
+    TextView textAddress;
     @BindView(R.id.imageProfileBack)
     ImageView imageProfileBack;
     @BindView(R.id.paymentMethods)
@@ -36,6 +39,7 @@ public class CheckoutActivity extends AppCompatActivity {
     @BindView(R.id.cart_total)
     TextView cart_total;
 
+    private Address address;
 
     @Override
     protected void onCreate(@Nullable Bundle savedInstanceState) {
@@ -45,7 +49,12 @@ public class CheckoutActivity extends AppCompatActivity {
 
         ButterKnife.bind(this);
 
-        address.setText(User.getInstance().getAddresses().get(0).getAdresse());
+        address = Monresto.getInstance().getAddress();
+        textAddress.setText(address.getAdresse());
+        textAddress.setOnClickListener(e -> {
+            Intent intent = new Intent(this, SelectAddressActivity.class);
+            startActivity(intent);
+        });
         imageProfileBack.setOnClickListener(e -> {
             finish();
         });
@@ -63,5 +72,12 @@ public class CheckoutActivity extends AppCompatActivity {
         paymentMethods.setAdapter(adapter);
         //paymentMethods.setSelection(0);
 
+    }
+
+    @Override
+    public void onResume() {
+        super.onResume();
+        address = Monresto.getInstance().getAddress();
+        textAddress.setText(address.getAdresse());
     }
 }
