@@ -99,10 +99,8 @@ public class MainActivity extends AppCompatActivity implements RestaurantAsyncRe
         ButterKnife.bind(this);
         restaurants_swiper.setOnRefreshListener(this);
         firstResume = true;
-        if (checkLocationPermission())
-            init();
-        else
-            Toast.makeText(this, "Monresto a besoin de connaitre votre position pour pouvoir fonctionner", Toast.LENGTH_SHORT).show();
+
+        init();
 
     }
 
@@ -111,43 +109,15 @@ public class MainActivity extends AppCompatActivity implements RestaurantAsyncRe
         service = new RestaurantService(this);
         userService = new UserService(this);
 
-        SharedPreferences sharedPref = getSharedPreferences("login_data", Context.MODE_PRIVATE);
-        String savedLogin = sharedPref.getString("passwordLogin", null);
-        JSONObject loginObj;
-        if (savedLogin != null) {
-            try {
-                loginObj = new JSONObject(savedLogin);
-                userService.login(loginObj.getString("login"), loginObj.getString("password"), sharedPref);
-            } catch (JSONException e) {
-                e.printStackTrace();
-            }
-        } else {
-            AccessToken accessToken = AccessToken.getCurrentAccessToken();
-            if (accessToken != null && !accessToken.isExpired()) {
-                savedLogin = sharedPref.getString("fbLogin", null);
-                if (savedLogin != null) {
-                    try {
-                        loginObj = new JSONObject(savedLogin);
-                        User.setInstance(new User(loginObj.getInt("id"), loginObj.getString("email"), loginObj.getString("fname"), loginObj.getString("lname")));
-                    } catch (JSONException e) {
-                        e.printStackTrace();
-                    }
-                }
-            }
-        }
-
-        double lat = gpsTracker.getLatitude();
-        double lon = gpsTracker.getLongitude();
         Geocoder geocoder = new Geocoder(this);
         try {
-            List<android.location.Address> addresses = geocoder.getFromLocation(lat, lon, 1);
-            /*System.out.println("Address: "+addresses.get(0));
-            deliveryLabel.setText(addresses.get(0).getFeatureName());*/
+            List<android.location.Address> addresses = geocoder.getFromLocation(Monresto.getLat(), Monresto.getLon(), 1);
+            //deliveryLabel.setText(addresses.get(0).getFeatureName());
         } catch (IOException e) {
             e.printStackTrace();
         }
 
-        service.getAll(lat, lon);
+        service.getAll(Monresto.getLat(), Monresto.getLon());
         service.getSpecialities();
 
         filterRecylcerView.setLayoutManager(new LinearLayoutManager(this,LinearLayoutManager.HORIZONTAL, false));
@@ -222,24 +192,6 @@ public class MainActivity extends AppCompatActivity implements RestaurantAsyncRe
         Utilities.statusChanger(this,R.layout.fragment_breakdown, status_restaurants, restaurants_swiper);
     }
 
-    @Override
-    public void onUserLogin(User user) {
-        userService.getDetails(user.getId(), true);
-    }
-
-    @Override
-    public void onUserDetailsReceived(User user) {
-        userService.getAddress(User.getInstance().getId());
-
-    }
-
-
-    @Override
-    public void onAddressListReceived(ArrayList<Address> addresses) {
-        if (User.getInstance() != null)
-            User.getInstance().setAddresses(addresses);
-    }
-
     public void populateRecyclerView(ArrayList<Restaurant> restaurantList) {
         if (recyclerViewAdapter == null)
             recyclerViewAdapter = new RecyclerViewAdapter(this, restaurantList);
@@ -283,37 +235,6 @@ public class MainActivity extends AppCompatActivity implements RestaurantAsyncRe
     }
 
     //Location permission
-    public boolean checkLocationPermission() {
-        if (ContextCompat.checkSelfPermission(this,
-                android.Manifest.permission.ACCESS_FINE_LOCATION)
-                != PackageManager.PERMISSION_GRANTED) {
-
-            if (ActivityCompat.shouldShowRequestPermissionRationale(this,
-                    android.Manifest.permission.ACCESS_FINE_LOCATION)) {
-                new AlertDialog.Builder(this)
-                        .setTitle("Demande d'autorisation")
-                        .setMessage("Monresto a besoin de savoir votre position")
-                        .setPositiveButton("Accépter", new DialogInterface.OnClickListener() {
-                            @Override
-                            public void onClick(DialogInterface dialogInterface, int i) {
-                                //Prompt the user once explanation has been shown
-                                ActivityCompat.requestPermissions(MainActivity.this,
-                                        new String[]{android.Manifest.permission.ACCESS_FINE_LOCATION},
-                                        MY_PERMISSIONS_REQUEST_LOCATION);
-                            }
-                        })
-                        .create()
-                        .show();
-            } else {
-                ActivityCompat.requestPermissions(this,
-                        new String[]{android.Manifest.permission.ACCESS_FINE_LOCATION},
-                        MY_PERMISSIONS_REQUEST_LOCATION);
-            }
-            return false;
-        } else {
-            return true;
-        }
-    }
 
     @Override
     public void onRequestPermissionsResult(int requestCode, String permissions[], int[] grantResults) {

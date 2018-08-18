@@ -7,6 +7,9 @@ public class Monresto {
     private ArrayList<Restaurant> restaurants;
     private Address address;
 
+    private static double lat;
+    private static double lon;
+
     public static Monresto getInstance(){
         if(instance==null)
             instance = new Monresto();
@@ -39,5 +42,21 @@ public class Monresto {
 
     public void setAddress(Address address) {
         this.address = address;
+    }
+
+    public static double getLat() {
+        return lat;
+    }
+
+    public static void setLat(double lat) {
+        Monresto.lat = lat;
+    }
+
+    public static double getLon() {
+        return lon;
+    }
+
+    public static void setLon(double lon) {
+        Monresto.lon = lon;
     }
 }

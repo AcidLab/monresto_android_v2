@@ -37,10 +37,10 @@ public class RestaurantService {
         this.context = context;
     }
 
-    public void getAll(final double _lat, final double _lon) {
+    public void getAll(final double lat, final double lon) {
         //TODO: remove after tests
-        final double lat = 36.849109;
-        final double lon = 10.166124;
+        //final double lat = 36.849109;
+        //final double lon = 10.166124;
         //System.out.println("lat = [" + lat + "], lon = [" + lon + "]");
 
         final ArrayList<Restaurant> RestaurantList = new ArrayList<>();
@@ -167,7 +167,6 @@ public class RestaurantService {
             @Override
             protected Map<String, String> getParams() {
                 int userID = User.getInstance()==null ? 0 : User.getInstance().getId();
-
                 Map<String, String> params = new HashMap<>();
                 String signature = Utilities.md5("" + userID + restoID + menu.getId() + Config.sharedKey);
                 params.put("userID", String.valueOf(userID));

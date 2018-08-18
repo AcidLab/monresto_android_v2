@@ -1,29 +1,56 @@
 package com.monresto.acidlabs.monresto.UI.Homepage;
 
+import android.Manifest;
+import android.content.Context;
+import android.content.DialogInterface;
+import android.content.Intent;
+import android.content.SharedPreferences;
+import android.content.pm.PackageManager;
 import android.os.Bundle;
+import android.support.v4.app.ActivityCompat;
+import android.support.v4.content.ContextCompat;
+import android.support.v7.app.AlertDialog;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
+import android.widget.Toast;
 
+import com.facebook.AccessToken;
+import com.monresto.acidlabs.monresto.GPSTracker;
+import com.monresto.acidlabs.monresto.MainActivity;
+import com.monresto.acidlabs.monresto.Model.Address;
+import com.monresto.acidlabs.monresto.Model.Monresto;
+import com.monresto.acidlabs.monresto.Model.User;
 import com.monresto.acidlabs.monresto.R;
+import com.monresto.acidlabs.monresto.InternetCheck;
+import com.monresto.acidlabs.monresto.Service.User.UserAsyncResponse;
+import com.monresto.acidlabs.monresto.Service.User.UserService;
+import com.monresto.acidlabs.monresto.UI.User.SelectAddressActivity;
+
+import org.json.JSONException;
+import org.json.JSONObject;
 
 import java.util.ArrayList;
 
 import butterknife.BindView;
 import butterknife.ButterKnife;
 
-public class HomepageActivity extends AppCompatActivity {
+import static com.monresto.acidlabs.monresto.UI.Maps.MapsActivity.MY_PERMISSIONS_REQUEST_LOCATION;
+
+public class HomepageActivity extends AppCompatActivity implements UserAsyncResponse {
 
     @BindView(R.id.homepageRecycler)
     RecyclerView homepageRecycler;
 
     HomepageAdapter adapter;
 
+    GPSTracker gpsTracker;
+    UserService userService;
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_homepage);
-
         ButterKnife.bind(this);
 
         adapter = new HomepageAdapter(this);
@@ -36,6 +63,121 @@ public class HomepageActivity extends AppCompatActivity {
         adapter.setNews(news);
         adapter.notifyDataSetChanged();
 
+        userService = new UserService(this);
+
+        new InternetCheck(internet -> {
+            if (internet) {
+                if (!login())
+                    if (checkLocationPermission()) {
+                        init();
+                    } else
+                        Toast.makeText(this, "Monresto a besoin de connaitre votre position pour pouvoir fonctionner", Toast.LENGTH_SHORT).show();
+
+            } else
+                Toast.makeText(this, "Cnx Unavailable", Toast.LENGTH_SHORT).show(); //TODO
+        });
+    }
+
+    public void init() {
+        gpsTracker = new GPSTracker(this);
+        double lat = gpsTracker.getLatitude();
+        double lon = gpsTracker.getLongitude();
+        Monresto.setLat(lat);
+        Monresto.setLon(lon);
+    }
+
+    public boolean login() {
+        SharedPreferences sharedPref = getSharedPreferences("login_data", Context.MODE_PRIVATE);
+        String savedLogin = sharedPref.getString("passwordLogin", null);
+        JSONObject loginObj;
+        if (savedLogin != null) {
+            try {
+                loginObj = new JSONObject(savedLogin);
+                userService.login(loginObj.getString("login"), loginObj.getString("password"), sharedPref);
+            } catch (JSONException e) {
+                e.printStackTrace();
+            }
+        } else if (AccessToken.getCurrentAccessToken() != null && !AccessToken.getCurrentAccessToken().isExpired()) {
+            savedLogin = sharedPref.getString("fbLogin", null);
+            if (savedLogin != null) {
+                try {
+                    loginObj = new JSONObject(savedLogin);
+                    User.setInstance(new User(loginObj.getInt("id"), loginObj.getString("email"), loginObj.getString("fname"), loginObj.getString("lname")));
+                } catch (JSONException e) {
+                    e.printStackTrace();
+                }
+            }
+        } else {
+            return false;
+        }
+        return true;
+    }
+
+    public boolean checkLocationPermission() {
+        if (ContextCompat.checkSelfPermission(this,
+                android.Manifest.permission.ACCESS_FINE_LOCATION)
+                != PackageManager.PERMISSION_GRANTED) {
+
+            if (ActivityCompat.shouldShowRequestPermissionRationale(this,
+                    android.Manifest.permission.ACCESS_FINE_LOCATION)) {
+                new AlertDialog.Builder(this)
+                        .setTitle("Demande d'autorisation")
+                        .setMessage("Monresto a besoin de savoir votre position")
+                        .setPositiveButton("Accépter", new DialogInterface.OnClickListener() {
+                            @Override
+                            public void onClick(DialogInterface dialogInterface, int i) {
+                                //Prompt the user once explanation has been shown
+                                ActivityCompat.requestPermissions(HomepageActivity.this,
+                                        new String[]{android.Manifest.permission.ACCESS_FINE_LOCATION},
+                                        MY_PERMISSIONS_REQUEST_LOCATION);
+                            }
+                        })
+                        .create()
+                        .show();
+            } else {
+                ActivityCompat.requestPermissions(this,
+                        new String[]{android.Manifest.permission.ACCESS_FINE_LOCATION},
+                        MY_PERMISSIONS_REQUEST_LOCATION);
+            }
+            return false;
+        } else {
+            return true;
+        }
+    }
+
+    @Override
+    public void onRequestPermissionsResult(int requestCode, String permissions[], int[] grantResults) {
+        switch (requestCode) {
+            case MY_PERMISSIONS_REQUEST_LOCATION: {
+                if (grantResults.length > 0 && grantResults[0] == PackageManager.PERMISSION_GRANTED) {
+                    if (ContextCompat.checkSelfPermission(this, Manifest.permission.ACCESS_FINE_LOCATION) == PackageManager.PERMISSION_GRANTED) {
+                        init();
+                    }
+                }
+                break;
+            }
+            default:
+                break;
+        }
+    }
+
+
+    @Override
+    public void onUserLogin(User user) {
+        userService.getDetails(user.getId(), true);
+    }
+
+    @Override
+    public void onUserDetailsReceived(User user) {
+        userService.getAddress(User.getInstance().getId());
+    }
+
+    @Override
+    public void onAddressListReceived(ArrayList<Address> addresses) {
+        if (User.getInstance() != null)
+            User.getInstance().setAddresses(addresses);
+        Intent intent = new Intent(this, SelectAddressActivity.class);
+        startActivity(intent);
     }
 
 }
