@@ -8,6 +8,7 @@ import android.support.v7.widget.RecyclerView;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.view.animation.AlphaAnimation;
 import android.widget.ImageView;
 import android.widget.TextView;
 
@@ -28,6 +29,7 @@ public class HomepageEventsAdapter extends RecyclerView.Adapter<HomepageEventsAd
 
     private Context context;
     private ArrayList<HomepageEvent> events;
+    private final static int FADE_DURATION = 1000; //FADE_DURATION in milliseconds
 
     public HomepageEventsAdapter(Context context) {
         this.context = context;
@@ -61,6 +63,7 @@ public class HomepageEventsAdapter extends RecyclerView.Adapter<HomepageEventsAd
     @Override
     public void onBindViewHolder(@NonNull HomepageEventsAdapter.ViewHolder viewHolder, int i) {
         HomepageEvent event;
+        setFadeAnimation(viewHolder.itemView);
         if (events != null && !events.isEmpty()) {
             event = events.get(i);
             viewHolder.item_title.setText(event.getTitle());
@@ -83,6 +86,12 @@ public class HomepageEventsAdapter extends RecyclerView.Adapter<HomepageEventsAd
 
     public void setEvents(ArrayList<HomepageEvent> events) {
         this.events = events;
+    }
+
+    private void setFadeAnimation(View view) {
+        AlphaAnimation anim = new AlphaAnimation(0.0f, 1.0f);
+        anim.setDuration(FADE_DURATION);
+        view.startAnimation(anim);
     }
 
 }

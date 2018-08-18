@@ -9,16 +9,20 @@ import android.content.IntentSender;
 import android.content.SharedPreferences;
 import android.content.pm.PackageManager;
 import android.os.Bundle;
+import android.support.annotation.NonNull;
 import android.support.constraint.ConstraintLayout;
 import android.support.v4.app.ActivityCompat;
 import android.support.v4.content.ContextCompat;
+import android.support.v4.widget.SwipeRefreshLayout;
 import android.support.v7.app.AlertDialog;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.util.Log;
+import android.view.MotionEvent;
 import android.view.View;
 import android.widget.ImageView;
+import android.widget.TextView;
 import android.widget.Toast;
 
 import com.facebook.AccessToken;
@@ -72,6 +76,12 @@ public class HomepageActivity extends AppCompatActivity implements UserAsyncResp
     ImageView config_bg;
     @BindView(R.id.configContainer)
     ConstraintLayout configContainer;
+    @BindView(R.id.homepage_swiper)
+    SwipeRefreshLayout homepage_swiper;
+    @BindView(R.id.platsJour)
+    TextView platsJour;
+    @BindView(R.id.evenements)
+    TextView evenements;
 
     HomepageDishesAdapter Dishesadapter;
     HomepageEventsAdapter Eventsadapter;
@@ -97,6 +107,29 @@ public class HomepageActivity extends AppCompatActivity implements UserAsyncResp
         dishesRecycler.setAdapter(Dishesadapter);
         eventsRecycler.setLayoutManager(new LinearLayoutManager(this, LinearLayoutManager.HORIZONTAL, false));
         eventsRecycler.setAdapter(Eventsadapter);
+        dishesRecycler.addOnItemTouchListener(new RecyclerView.OnItemTouchListener() {
+            @Override
+            public boolean onInterceptTouchEvent(RecyclerView recyclerView, MotionEvent event) {
+                switch (event.getAction()) {
+                    case MotionEvent.ACTION_MOVE:
+                        homepage_swiper.setEnabled(false);
+                        break;
+                    case MotionEvent.ACTION_UP:
+                    case MotionEvent.ACTION_CANCEL:
+                        homepage_swiper.setEnabled(true);
+                        break;
+                }
+                return false;
+            }
+
+            @Override
+            public void onTouchEvent(@NonNull RecyclerView recyclerView, @NonNull MotionEvent motionEvent) {
+            }
+
+            @Override
+            public void onRequestDisallowInterceptTouchEvent(boolean b) {
+            }
+        });
 
         homepageService.getAll();
 
@@ -104,6 +137,8 @@ public class HomepageActivity extends AppCompatActivity implements UserAsyncResp
             Intent intent = new Intent(this, MainActivity.class);
             startActivity(intent);
         });
+
+        homepage_swiper.setOnRefreshListener(() -> homepageService.getAll());
 
         new InternetCheck(internet -> {
             if (internet) {
@@ -272,17 +307,26 @@ public class HomepageActivity extends AppCompatActivity implements UserAsyncResp
     @Override
     public void onHomepageConfigReceived(HomepageConfig config) {
         Picasso.get().load(config.getCover_image()).into(config_bg);
+        homepage_swiper.setRefreshing(false);
     }
 
     @Override
     public void onHomepageEventsReceived(ArrayList<HomepageEvent> events) {
         Eventsadapter.setEvents(events);
         Eventsadapter.notifyDataSetChanged();
+        homepage_swiper.setRefreshing(false);
+        if (events.isEmpty())
+            evenements.setVisibility(View.GONE);
+        else evenements.setVisibility(View.VISIBLE);
     }
 
     @Override
     public void onHomepageDishesReceived(ArrayList<HomepageDish> dishes) {
         Dishesadapter.setDishes(dishes);
         Dishesadapter.notifyDataSetChanged();
+        homepage_swiper.setRefreshing(false);
+        if(dishes.isEmpty())
+            platsJour.setVisibility(View.GONE);
+        else platsJour.setVisibility(View.VISIBLE);
     }
 }
