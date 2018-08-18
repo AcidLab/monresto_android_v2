@@ -9,6 +9,7 @@ import android.content.IntentSender;
 import android.content.SharedPreferences;
 import android.content.pm.PackageManager;
 import android.os.Bundle;
+import android.support.constraint.ConstraintLayout;
 import android.support.v4.app.ActivityCompat;
 import android.support.v4.content.ContextCompat;
 import android.support.v7.app.AlertDialog;
@@ -16,6 +17,8 @@ import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.util.Log;
+import android.view.View;
+import android.widget.ImageView;
 import android.widget.Toast;
 
 import com.facebook.AccessToken;
@@ -31,13 +34,19 @@ import com.google.android.gms.location.LocationSettingsStatusCodes;
 import com.monresto.acidlabs.monresto.GPSTracker;
 import com.monresto.acidlabs.monresto.MainActivity;
 import com.monresto.acidlabs.monresto.Model.Address;
+import com.monresto.acidlabs.monresto.Model.HomepageConfig;
+import com.monresto.acidlabs.monresto.Model.HomepageDish;
+import com.monresto.acidlabs.monresto.Model.HomepageEvent;
 import com.monresto.acidlabs.monresto.Model.Monresto;
 import com.monresto.acidlabs.monresto.Model.User;
 import com.monresto.acidlabs.monresto.R;
 import com.monresto.acidlabs.monresto.InternetCheck;
+import com.monresto.acidlabs.monresto.Service.Homepage.HomepageAsyncResponse;
+import com.monresto.acidlabs.monresto.Service.Homepage.HomepageService;
 import com.monresto.acidlabs.monresto.Service.User.UserAsyncResponse;
 import com.monresto.acidlabs.monresto.Service.User.UserService;
 import com.monresto.acidlabs.monresto.UI.User.SelectAddressActivity;
+import com.squareup.picasso.Picasso;
 
 import org.json.JSONException;
 import org.json.JSONObject;
@@ -53,16 +62,23 @@ import static com.monresto.acidlabs.monresto.Config.REQUEST_CODE_ASK_FOR_LOCATIO
 import static com.monresto.acidlabs.monresto.Config.REQUEST_CODE_MAP_INFO;
 import static com.monresto.acidlabs.monresto.UI.Maps.MapsActivity.MY_PERMISSIONS_REQUEST_LOCATION;
 
-public class HomepageActivity extends AppCompatActivity implements UserAsyncResponse {
+public class HomepageActivity extends AppCompatActivity implements UserAsyncResponse, HomepageAsyncResponse {
 
-    @BindView(R.id.homepageRecycler)
-    RecyclerView homepageRecycler;
+    @BindView(R.id.dishesRecycler)
+    RecyclerView dishesRecycler;
+    @BindView(R.id.eventsRecycler)
+    RecyclerView eventsRecycler;
+    @BindView(R.id.config_bg)
+    ImageView config_bg;
+    @BindView(R.id.configContainer)
+    ConstraintLayout configContainer;
 
-    HomepageAdapter adapter;
+    HomepageDishesAdapter Dishesadapter;
+    HomepageEventsAdapter Eventsadapter;
 
     GPSTracker gpsTracker;
     UserService userService;
-
+    HomepageService homepageService;
     //Request for location
 
     @Override
@@ -71,17 +87,23 @@ public class HomepageActivity extends AppCompatActivity implements UserAsyncResp
         setContentView(R.layout.activity_homepage);
         ButterKnife.bind(this);
 
-        adapter = new HomepageAdapter(this);
-
-        ArrayList<String> news = new ArrayList<>();
-        news.add("Découvrez les meilleurs restaurants");
-        news.add("Click me -> MainActivity");
-        homepageRecycler.setLayoutManager(new LinearLayoutManager(this));
-        homepageRecycler.setAdapter(adapter);
-        adapter.setNews(news);
-        adapter.notifyDataSetChanged();
+        Dishesadapter = new HomepageDishesAdapter(this);
+        Eventsadapter = new HomepageEventsAdapter(this);
 
         userService = new UserService(this);
+        homepageService = new HomepageService(this);
+
+        dishesRecycler.setLayoutManager(new LinearLayoutManager(this, LinearLayoutManager.HORIZONTAL, false));
+        dishesRecycler.setAdapter(Dishesadapter);
+        eventsRecycler.setLayoutManager(new LinearLayoutManager(this, LinearLayoutManager.HORIZONTAL, false));
+        eventsRecycler.setAdapter(Eventsadapter);
+
+        homepageService.getAll();
+
+        configContainer.setOnClickListener(view -> {
+            Intent intent = new Intent(this, MainActivity.class);
+            startActivity(intent);
+        });
 
         new InternetCheck(internet -> {
             if (internet) {
@@ -245,5 +267,22 @@ public class HomepageActivity extends AppCompatActivity implements UserAsyncResp
                 }
             }
         }
+    }
+
+    @Override
+    public void onHomepageConfigReceived(HomepageConfig config) {
+        Picasso.get().load(config.getCover_image()).into(config_bg);
+    }
+
+    @Override
+    public void onHomepageEventsReceived(ArrayList<HomepageEvent> events) {
+        Eventsadapter.setEvents(events);
+        Eventsadapter.notifyDataSetChanged();
+    }
+
+    @Override
+    public void onHomepageDishesReceived(ArrayList<HomepageDish> dishes) {
+        Dishesadapter.setDishes(dishes);
+        Dishesadapter.notifyDataSetChanged();
     }
 }

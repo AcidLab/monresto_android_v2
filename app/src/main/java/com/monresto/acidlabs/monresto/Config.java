@@ -7,5 +7,6 @@ public class Config {
     public static final int REQUEST_CODE_ASK_FOR_LOCATION = 4;
 
     public static final String server = "https://www.monresto.net/ws/v3/";
+    public static final String acidlabsServer = "http://www.monresto.acidlabs.co/";
     public static final String sharedKey = "&aAs6w@GVbW52!qo$lm";
 }
