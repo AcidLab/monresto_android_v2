@@ -45,6 +45,7 @@ import com.monresto.acidlabs.monresto.Service.Homepage.HomepageAsyncResponse;
 import com.monresto.acidlabs.monresto.Service.Homepage.HomepageService;
 import com.monresto.acidlabs.monresto.Service.User.UserAsyncResponse;
 import com.monresto.acidlabs.monresto.Service.User.UserService;
+import com.monresto.acidlabs.monresto.UI.User.LoginActivity;
 import com.monresto.acidlabs.monresto.UI.User.SelectAddressActivity;
 import com.squareup.picasso.Picasso;
 
@@ -105,6 +106,12 @@ public class HomepageActivity extends AppCompatActivity implements UserAsyncResp
             startActivity(intent);
         });
 
+        if(checkLocationPermission())
+            checkInternet();
+
+    }
+
+    public void checkInternet(){
         new InternetCheck(internet -> {
             if (internet) {
                 if (!login())
@@ -112,7 +119,6 @@ public class HomepageActivity extends AppCompatActivity implements UserAsyncResp
             } else
                 Toast.makeText(this, "Cnx Unavailable", Toast.LENGTH_SHORT).show(); //TODO
         });
-
     }
 
     public void init() {
@@ -188,7 +194,11 @@ public class HomepageActivity extends AppCompatActivity implements UserAsyncResp
             case MY_PERMISSIONS_REQUEST_LOCATION: {
                 if (grantResults.length > 0 && grantResults[0] == PackageManager.PERMISSION_GRANTED) {
                     if (ContextCompat.checkSelfPermission(this, Manifest.permission.ACCESS_FINE_LOCATION) == PackageManager.PERMISSION_GRANTED) {
-                        init();
+                        checkInternet();
+                    }
+                    else{
+                        Intent intent = new Intent(this, LoginActivity.class);
+                        startActivity(intent);
                     }
                 }
                 break;
