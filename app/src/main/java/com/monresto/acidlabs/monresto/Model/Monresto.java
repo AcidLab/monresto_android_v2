@@ -9,6 +9,7 @@ public class Monresto {
 
     private static double lat;
     private static double lon;
+    public static boolean locationChanged;
 
     public static Monresto getInstance(){
         if(instance==null)

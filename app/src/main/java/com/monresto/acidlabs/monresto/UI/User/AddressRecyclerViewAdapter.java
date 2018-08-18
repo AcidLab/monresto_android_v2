@@ -61,6 +61,7 @@ public class AddressRecyclerViewAdapter extends RecyclerView.Adapter<AddressRecy
             intent.putExtra("address", address);
             Monresto.setLat(address.getLat());
             Monresto.setLon(address.getLon());
+            Monresto.locationChanged = true;
             ((SelectAddressActivity)context).setResult(Activity.RESULT_OK, intent);
             ((SelectAddressActivity)context).finish();
         });

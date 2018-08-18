@@ -18,6 +18,7 @@ import com.facebook.GraphRequest;
 import com.facebook.GraphResponse;
 import com.facebook.login.LoginResult;
 import com.facebook.login.widget.LoginButton;
+import com.monresto.acidlabs.monresto.Model.Address;
 import com.monresto.acidlabs.monresto.Model.User;
 import com.monresto.acidlabs.monresto.R;
 import com.monresto.acidlabs.monresto.Service.User.UserAsyncResponse;
@@ -26,6 +27,7 @@ import com.monresto.acidlabs.monresto.Service.User.UserService;
 import org.json.JSONException;
 import org.json.JSONObject;
 
+import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.Objects;
 
@@ -102,9 +104,17 @@ public class LoginActivity extends AppCompatActivity implements UserAsyncRespons
 
     @Override
     public void onUserDetailsReceived(User user) {
-        finish();
+        userService.getAddress(User.getInstance().getId());
     }
 
+    @Override
+    public void onAddressListReceived(ArrayList<Address> addresses) {
+        if (User.getInstance() != null)
+            User.getInstance().setAddresses(addresses);
+        Intent intent = new Intent(this, SelectAddressActivity.class);
+        startActivity(intent);
+        finish();
+    }
     @Override
     public void oncheckLoginDispoReceived(boolean isDispo) {
 

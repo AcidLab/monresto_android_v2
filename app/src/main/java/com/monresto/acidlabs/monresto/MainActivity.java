@@ -206,7 +206,7 @@ public class MainActivity extends AppCompatActivity implements RestaurantAsyncRe
 
     @Override
     public void onRefresh() {
-        service.getAll(gpsTracker.getLatitude(), gpsTracker.getLongitude());
+        service.getAll(Monresto.getLat(), Monresto.getLon());
         restaurants_swiper.setRefreshing(false);
     }
 
@@ -228,30 +228,15 @@ public class MainActivity extends AppCompatActivity implements RestaurantAsyncRe
         if (firstResume)
             firstResume = false;
         else {
-            updateHomeCart();
-            /*
-            Utilities.statusChanger(this,R.layout.fragment_loading, status_restaurants, restaurants_swiper);
-            onRefresh();
-            */
-        }
-    }
-
-    //Location permission
-
-    @Override
-    public void onRequestPermissionsResult(int requestCode, String permissions[], int[] grantResults) {
-        switch (requestCode) {
-            case MY_PERMISSIONS_REQUEST_LOCATION: {
-                if (grantResults.length > 0 && grantResults[0] == PackageManager.PERMISSION_GRANTED) {
-                    if (ContextCompat.checkSelfPermission(this, Manifest.permission.ACCESS_FINE_LOCATION) == PackageManager.PERMISSION_GRANTED) {
-                        init();
-                    }
-                }
-                break;
+            if(Monresto.locationChanged){
+                Monresto.locationChanged = false;
+                service.getAll(Monresto.getLat(), Monresto.getLon());
             }
-            default:
-                break;
+            updateHomeCart();
+            /*Utilities.statusChanger(this,R.layout.fragment_loading, status_restaurants, restaurants_swiper);
+              onRefresh();*/
         }
+
     }
 
     @Override

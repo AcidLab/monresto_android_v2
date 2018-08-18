@@ -147,7 +147,6 @@ public class HomepageActivity extends AppCompatActivity implements UserAsyncResp
     }
 
     public void checkInternet(){
-
         new InternetCheck(internet -> {
             if (internet) {
                 if (!login())
