@@ -101,6 +101,7 @@ public class MainActivity extends AppCompatActivity implements RestaurantAsyncRe
         restaurants_swiper.setOnRefreshListener(this);
         firstResume = true;
 
+        //TODO: Fix line 116
         init();
 
     }
@@ -113,7 +114,7 @@ public class MainActivity extends AppCompatActivity implements RestaurantAsyncRe
         Geocoder geocoder = new Geocoder(this);
         try {
             List<android.location.Address> addresses = geocoder.getFromLocation(Monresto.getLat(), Monresto.getLon(), 1);
-            deliveryLabel.setText(addresses.get(0).getFeatureName());
+            //deliveryLabel.setText(addresses.get(0).getFeatureName());
         } catch (IOException e) {
             e.printStackTrace();
         }

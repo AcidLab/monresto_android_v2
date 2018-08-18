@@ -1,9 +1,11 @@
 package com.monresto.acidlabs.monresto.UI.Homepage;
 
 import android.Manifest;
+import android.app.Activity;
 import android.content.Context;
 import android.content.DialogInterface;
 import android.content.Intent;
+import android.content.IntentSender;
 import android.content.SharedPreferences;
 import android.content.pm.PackageManager;
 import android.os.Bundle;
@@ -13,9 +15,19 @@ import android.support.v7.app.AlertDialog;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
+import android.util.Log;
 import android.widget.Toast;
 
 import com.facebook.AccessToken;
+import com.google.android.gms.common.api.GoogleApiClient;
+import com.google.android.gms.common.api.PendingResult;
+import com.google.android.gms.common.api.ResultCallback;
+import com.google.android.gms.common.api.Status;
+import com.google.android.gms.location.LocationRequest;
+import com.google.android.gms.location.LocationServices;
+import com.google.android.gms.location.LocationSettingsRequest;
+import com.google.android.gms.location.LocationSettingsResult;
+import com.google.android.gms.location.LocationSettingsStatusCodes;
 import com.monresto.acidlabs.monresto.GPSTracker;
 import com.monresto.acidlabs.monresto.MainActivity;
 import com.monresto.acidlabs.monresto.Model.Address;
@@ -30,11 +42,15 @@ import com.monresto.acidlabs.monresto.UI.User.SelectAddressActivity;
 import org.json.JSONException;
 import org.json.JSONObject;
 
+import java.io.IOException;
 import java.util.ArrayList;
+import java.util.List;
 
 import butterknife.BindView;
 import butterknife.ButterKnife;
 
+import static com.monresto.acidlabs.monresto.Config.REQUEST_CODE_ASK_FOR_LOCATION;
+import static com.monresto.acidlabs.monresto.Config.REQUEST_CODE_MAP_INFO;
 import static com.monresto.acidlabs.monresto.UI.Maps.MapsActivity.MY_PERMISSIONS_REQUEST_LOCATION;
 
 public class HomepageActivity extends AppCompatActivity implements UserAsyncResponse {
@@ -46,6 +62,8 @@ public class HomepageActivity extends AppCompatActivity implements UserAsyncResp
 
     GPSTracker gpsTracker;
     UserService userService;
+
+    //Request for location
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -68,14 +86,11 @@ public class HomepageActivity extends AppCompatActivity implements UserAsyncResp
         new InternetCheck(internet -> {
             if (internet) {
                 if (!login())
-                    if (checkLocationPermission()) {
-                        init();
-                    } else
-                        Toast.makeText(this, "Monresto a besoin de connaitre votre position pour pouvoir fonctionner", Toast.LENGTH_SHORT).show();
-
+                    displayLocationSettingsRequest(this);
             } else
                 Toast.makeText(this, "Cnx Unavailable", Toast.LENGTH_SHORT).show(); //TODO
         });
+
     }
 
     public void init() {
@@ -180,4 +195,55 @@ public class HomepageActivity extends AppCompatActivity implements UserAsyncResp
         startActivity(intent);
     }
 
+
+    private void displayLocationSettingsRequest(Context context) {
+        GoogleApiClient googleApiClient = new GoogleApiClient.Builder(context)
+                .addApi(LocationServices.API).build();
+        googleApiClient.connect();
+
+        LocationRequest locationRequest = LocationRequest.create();
+        locationRequest.setPriority(LocationRequest.PRIORITY_HIGH_ACCURACY);
+        locationRequest.setInterval(10000);
+        locationRequest.setFastestInterval(10000 / 2);
+
+        LocationSettingsRequest.Builder builder = new LocationSettingsRequest.Builder().addLocationRequest(locationRequest);
+        builder.setAlwaysShow(true);
+
+        PendingResult<LocationSettingsResult> result = LocationServices.SettingsApi.checkLocationSettings(googleApiClient, builder.build());
+        result.setResultCallback(new ResultCallback<LocationSettingsResult>() {
+            @Override
+            public void onResult(LocationSettingsResult result) {
+                final Status status = result.getStatus();
+                switch (status.getStatusCode()) {
+                    case LocationSettingsStatusCodes.SUCCESS:
+                        init();
+                        break;
+                    case LocationSettingsStatusCodes.RESOLUTION_REQUIRED:
+                        try {
+                            // Show the dialog by calling startResolutionForResult(), and check the result
+                            // in onActivityResult().
+                            status.startResolutionForResult(HomepageActivity.this, REQUEST_CODE_ASK_FOR_LOCATION);
+                        } catch (IntentSender.SendIntentException e) {
+                        }
+                        break;
+                    case LocationSettingsStatusCodes.SETTINGS_CHANGE_UNAVAILABLE:
+                        Toast.makeText(HomepageActivity.this, "TODO no permission", Toast.LENGTH_LONG).show();
+                        break;
+                }
+            }
+        });
+    }
+
+    @Override
+    public void onActivityResult(int requestCode, int resultCode, Intent data) {
+        super.onActivityResult(requestCode, resultCode, data);
+        switch (requestCode) {
+            case (REQUEST_CODE_ASK_FOR_LOCATION): {
+                if (resultCode == Activity.RESULT_OK) {
+                    init();
+                    break;
+                }
+            }
+        }
+    }
 }
