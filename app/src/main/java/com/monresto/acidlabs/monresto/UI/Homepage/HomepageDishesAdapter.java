@@ -4,10 +4,12 @@ import android.content.Context;
 import android.content.Intent;
 import android.support.annotation.NonNull;
 import android.support.constraint.ConstraintLayout;
+import android.support.v7.widget.CardView;
 import android.support.v7.widget.RecyclerView;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.view.animation.AlphaAnimation;
 import android.widget.ImageView;
 import android.widget.TextView;
 
@@ -27,6 +29,7 @@ public class HomepageDishesAdapter extends RecyclerView.Adapter<HomepageDishesAd
 
     private Context context;
     private ArrayList<HomepageDish> dishes;
+    private final static int FADE_DURATION = 1000; //FADE_DURATION in milliseconds
 
     public HomepageDishesAdapter(Context context) {
         this.context = context;
@@ -39,6 +42,8 @@ public class HomepageDishesAdapter extends RecyclerView.Adapter<HomepageDishesAd
         TextView item_label;
         @BindView(R.id.item_bg)
         ImageView item_bg;
+        @BindView(R.id.cardViewBg)
+        CardView cardViewBg;
         @BindView(R.id.itemContainer)
         ConstraintLayout itemContainer;
 
@@ -60,6 +65,10 @@ public class HomepageDishesAdapter extends RecyclerView.Adapter<HomepageDishesAd
     @Override
     public void onBindViewHolder(@NonNull HomepageDishesAdapter.ViewHolder viewHolder, int i) {
         HomepageDish dish;
+        setFadeAnimation(viewHolder.itemView);
+
+        /*if(dishes != null && dishes.size()>1)
+            viewHolder.cardViewBg.setLayoutParams(new ConstraintLayout.LayoutParams(viewHolder.cardViewBg.getMeasuredWidth() - 20, viewHolder.cardViewBg.getMeasuredHeight()));*/
         if (dishes != null && !dishes.isEmpty()) {
             dish = dishes.get(i);
             viewHolder.item_title.setText(dish.getTitle());
@@ -83,5 +92,12 @@ public class HomepageDishesAdapter extends RecyclerView.Adapter<HomepageDishesAd
     public void setDishes(ArrayList<HomepageDish> dishes) {
         this.dishes = dishes;
     }
+
+    private void setFadeAnimation(View view) {
+        AlphaAnimation anim = new AlphaAnimation(0.0f, 1.0f);
+        anim.setDuration(FADE_DURATION);
+        view.startAnimation(anim);
+    }
+
 
 }

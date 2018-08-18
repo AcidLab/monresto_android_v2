@@ -10,7 +10,7 @@
         android:id="@+id/linearLayout4"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:background="@drawable/shadow_bottom"
+        android:background="@drawable/dish_border"
         android:gravity="bottom"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintHorizontal_bias="0.0"
@@ -68,7 +68,8 @@
 
     </RelativeLayout>
 
-    <ScrollView
+    <android.support.v4.widget.SwipeRefreshLayout
+        android:id="@+id/homepage_swiper"
         android:layout_width="0dp"
         android:layout_height="0dp"
         app:layout_constraintBottom_toBottomOf="parent"
@@ -76,114 +77,120 @@
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/linearLayout4">
 
-        <LinearLayout
+        <ScrollView
             android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:orientation="vertical">
+            android:layout_height="match_parent">
 
-            <android.support.constraint.ConstraintLayout
-                android:id="@+id/configContainer"
+            <LinearLayout
                 android:layout_width="match_parent"
-                android:layout_height="match_parent"
-                tools:layout_editor_absoluteX="8dp"
-                tools:layout_editor_absoluteY="60dp">
+                android:layout_height="wrap_content"
+                android:orientation="vertical">
 
-                <android.support.v7.widget.CardView
-                    android:id="@+id/cardViewBg"
-                    android:layout_width="0dp"
-                    android:layout_height="270dp"
-                    android:background="@drawable/card_shadow"
-                    app:cardCornerRadius="20dp"
-                    app:cardElevation="8dp"
-                    app:cardPreventCornerOverlap="true"
-                    app:cardUseCompatPadding="true"
-                    app:layout_constraintEnd_toEndOf="parent"
-                    app:layout_constraintStart_toStartOf="parent"
-                    app:layout_constraintTop_toTopOf="parent">
+                <android.support.constraint.ConstraintLayout
+                    android:id="@+id/configContainer"
+                    android:layout_width="match_parent"
+                    android:layout_height="match_parent"
+                    tools:layout_editor_absoluteX="8dp"
+                    tools:layout_editor_absoluteY="60dp">
 
-                    <android.support.constraint.ConstraintLayout
-                        android:id="@+id/cardViewLayout"
-                        android:layout_width="match_parent"
-                        android:layout_height="match_parent">
+                    <android.support.v7.widget.CardView
+                        android:id="@+id/cardViewBg"
+                        android:layout_width="0dp"
+                        android:layout_height="270dp"
+                        android:background="@drawable/card_shadow"
+                        app:cardCornerRadius="20dp"
+                        app:cardElevation="8dp"
+                        app:cardPreventCornerOverlap="true"
+                        app:cardUseCompatPadding="true"
+                        app:layout_constraintEnd_toEndOf="parent"
+                        app:layout_constraintStart_toStartOf="parent"
+                        app:layout_constraintTop_toTopOf="parent">
 
-                        <ImageView
-                            android:id="@+id/config_bg"
+                        <android.support.constraint.ConstraintLayout
+                            android:id="@+id/cardViewLayout"
                             android:layout_width="match_parent"
-                            android:layout_height="match_parent"
-                            android:foreground="@drawable/homepage_overlay"
-                            android:foregroundGravity="top|center"
-                            android:scaleType="centerCrop" />
+                            android:layout_height="match_parent">
 
-                        <TextView
-                            android:id="@+id/config_title"
-                            android:layout_width="0dp"
-                            android:layout_height="wrap_content"
-                            android:layout_marginEnd="16dp"
-                            android:layout_marginStart="16dp"
-                            android:text="Découvrez les meilleurs restaurants"
-                            android:textColor="@color/dish_title"
-                            android:textSize="24sp"
-                            android:textStyle="bold"
-                            android:transitionName="storeName"
-                            app:layout_constraintEnd_toEndOf="parent"
-                            app:layout_constraintHorizontal_bias="1.0"
-                            app:layout_constraintStart_toStartOf="@+id/cardViewLayout"
-                            app:layout_constraintTop_toBottomOf="@+id/item_label" />
+                            <ImageView
+                                android:id="@+id/config_bg"
+                                android:layout_width="match_parent"
+                                android:layout_height="match_parent"
+                                android:foreground="@drawable/homepage_overlay"
+                                android:foregroundGravity="top|center"
+                                android:scaleType="centerCrop" />
 
-                        <TextView
-                            android:id="@+id/item_label"
-                            android:layout_width="0dp"
-                            android:layout_height="wrap_content"
-                            android:layout_marginEnd="16dp"
-                            android:layout_marginStart="16dp"
-                            android:layout_marginTop="12dp"
-                            android:text="NOUS LIVRONS"
-                            android:textAllCaps="true"
-                            android:textColor="@color/browser_actions_title_color"
-                            android:textSize="14sp"
-                            app:layout_constraintEnd_toEndOf="parent"
-                            app:layout_constraintStart_toStartOf="parent"
-                            app:layout_constraintTop_toTopOf="parent" />
+                            <TextView
+                                android:id="@+id/config_title"
+                                android:layout_width="0dp"
+                                android:layout_height="wrap_content"
+                                android:layout_marginEnd="16dp"
+                                android:layout_marginStart="16dp"
+                                android:ellipsize="end"
+                                android:maxLines="2"
+                                android:text="Découvrez les meilleurs restaurants"
+                                android:textColor="@color/dish_title"
+                                android:textSize="24sp"
+                                android:textStyle="bold"
+                                android:transitionName="storeName"
+                                app:layout_constraintEnd_toEndOf="parent"
+                                app:layout_constraintHorizontal_bias="1.0"
+                                app:layout_constraintStart_toStartOf="@+id/cardViewLayout"
+                                app:layout_constraintTop_toBottomOf="@+id/item_label" />
 
-                    </android.support.constraint.ConstraintLayout>
+                            <TextView
+                                android:id="@+id/item_label"
+                                android:layout_width="0dp"
+                                android:layout_height="wrap_content"
+                                android:layout_marginEnd="16dp"
+                                android:layout_marginStart="16dp"
+                                android:layout_marginTop="12dp"
+                                android:text="NOUS LIVRONS"
+                                android:textAllCaps="true"
+                                android:textColor="@color/browser_actions_title_color"
+                                android:textSize="14sp"
+                                app:layout_constraintEnd_toEndOf="parent"
+                                app:layout_constraintStart_toStartOf="parent"
+                                app:layout_constraintTop_toTopOf="parent" />
 
-                </android.support.v7.widget.CardView>
-            </android.support.constraint.ConstraintLayout>
+                        </android.support.constraint.ConstraintLayout>
 
-            <TextView
-                android:id="@+id/textView20"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:layout_marginEnd="20dp"
-                android:layout_marginStart="20dp"
-                android:fontFamily="@font/googlesans_bold"
-                android:text="Plats du jour"
-                android:textColor="@color/dish_title"
-                android:textSize="20sp" />
+                    </android.support.v7.widget.CardView>
+                </android.support.constraint.ConstraintLayout>
 
-            <android.support.v7.widget.RecyclerView
-                android:id="@+id/dishesRecycler"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content">
+                <TextView
+                    android:id="@+id/platsJour"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_marginEnd="20dp"
+                    android:layout_marginStart="20dp"
+                    android:fontFamily="@font/googlesans_bold"
+                    android:text="Plats du jour"
+                    android:textColor="@color/dish_title"
+                    android:textSize="20sp" />
 
-            </android.support.v7.widget.RecyclerView>
+                <android.support.v7.widget.RecyclerView
+                    android:id="@+id/dishesRecycler"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content">
 
-            <TextView
-                android:id="@+id/textView21"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:layout_marginEnd="20dp"
-                android:layout_marginStart="20dp"
-                android:fontFamily="@font/googlesans_bold"
-                android:text="Événements"
-                android:textColor="@color/dish_title"
-                android:textSize="20sp" />
+                </android.support.v7.widget.RecyclerView>
 
-            <android.support.v7.widget.RecyclerView
-                android:id="@+id/eventsRecycler"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content" />
-        </LinearLayout>
-    </ScrollView>
+                <TextView
+                    android:id="@+id/evenements"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_marginEnd="20dp"
+                    android:layout_marginStart="20dp"
+                    android:fontFamily="@font/googlesans_bold"
+                    android:text="Événements"
+                    android:textColor="@color/dish_title"
+                    android:textSize="20sp" />
 
+                <android.support.v7.widget.RecyclerView
+                    android:id="@+id/eventsRecycler"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content" />
+            </LinearLayout>
+        </ScrollView>
+    </android.support.v4.widget.SwipeRefreshLayout>
 </android.support.constraint.ConstraintLayout>
