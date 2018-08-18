@@ -42,6 +42,7 @@ import com.monresto.acidlabs.monresto.UI.Cart.CartActivity;
 import com.monresto.acidlabs.monresto.UI.Profile.ProfileActivity;
 import com.monresto.acidlabs.monresto.UI.Restaurants.RecyclerViewAdapter;
 import com.monresto.acidlabs.monresto.UI.User.LoginActivity;
+import com.monresto.acidlabs.monresto.UI.User.SelectAddressActivity;
 
 import org.json.JSONException;
 import org.json.JSONObject;
@@ -112,7 +113,7 @@ public class MainActivity extends AppCompatActivity implements RestaurantAsyncRe
         Geocoder geocoder = new Geocoder(this);
         try {
             List<android.location.Address> addresses = geocoder.getFromLocation(Monresto.getLat(), Monresto.getLon(), 1);
-            //deliveryLabel.setText(addresses.get(0).getFeatureName());
+            deliveryLabel.setText(addresses.get(0).getFeatureName());
         } catch (IOException e) {
             e.printStackTrace();
         }
@@ -295,6 +296,22 @@ public class MainActivity extends AppCompatActivity implements RestaurantAsyncRe
     }
 
 
+    @Override
+    public void onUserLogin(User user) {
+        userService.getDetails(user.getId(), true);
+    }
 
+    @Override
+    public void onUserDetailsReceived(User user) {
+        userService.getAddress(User.getInstance().getId());
+    }
+
+    @Override
+    public void onAddressListReceived(ArrayList<Address> addresses) {
+        if (User.getInstance() != null)
+            User.getInstance().setAddresses(addresses);
+        Intent intent = new Intent(this, SelectAddressActivity.class);
+        startActivity(intent);
+    }
 
 }
