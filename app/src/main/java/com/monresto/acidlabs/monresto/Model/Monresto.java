@@ -7,12 +7,14 @@ public class Monresto {
     private ArrayList<Restaurant> restaurants;
     private Address address;
 
-    private static double lat;
-    private static double lon;
+    private static double lat = 0;
+    private static double lon = 0;
     public static boolean locationChanged;
 
-    public static Monresto getInstance(){
-        if(instance==null)
+    public static boolean loginPending = false;
+
+    public static Monresto getInstance() {
+        if (instance == null)
             instance = new Monresto();
         return instance;
     }
@@ -21,9 +23,9 @@ public class Monresto {
         return restaurants;
     }
 
-    public Restaurant findRestaurant(int id){
-        for(Restaurant R : restaurants){
-            if(R.getId()==id)
+    public Restaurant findRestaurant(int id) {
+        for (Restaurant R : restaurants) {
+            if (R.getId() == id)
                 return R;
         }
         return null;
@@ -34,9 +36,9 @@ public class Monresto {
     }
 
     public Address getAddress() {
-        if(User.getInstance()==null)
+        if (User.getInstance() == null)
             return null;
-        if(address==null)
+        if (address == null)
             address = User.getInstance().getAddresses().get(0);
         return address;
     }

@@ -35,6 +35,7 @@ import com.google.android.gms.location.LocationServices;
 import com.google.android.gms.location.LocationSettingsRequest;
 import com.google.android.gms.location.LocationSettingsResult;
 import com.google.android.gms.location.LocationSettingsStatusCodes;
+import com.monresto.acidlabs.monresto.Config;
 import com.monresto.acidlabs.monresto.GPSTracker;
 import com.monresto.acidlabs.monresto.MainActivity;
 import com.monresto.acidlabs.monresto.Model.Address;
@@ -49,6 +50,7 @@ import com.monresto.acidlabs.monresto.Service.Homepage.HomepageAsyncResponse;
 import com.monresto.acidlabs.monresto.Service.Homepage.HomepageService;
 import com.monresto.acidlabs.monresto.Service.User.UserAsyncResponse;
 import com.monresto.acidlabs.monresto.Service.User.UserService;
+import com.monresto.acidlabs.monresto.UI.Maps.MapsActivity;
 import com.monresto.acidlabs.monresto.UI.User.LoginActivity;
 import com.monresto.acidlabs.monresto.UI.User.SelectAddressActivity;
 import com.squareup.picasso.Picasso;
@@ -63,8 +65,10 @@ import java.util.List;
 import butterknife.BindView;
 import butterknife.ButterKnife;
 
+import static com.monresto.acidlabs.monresto.Config.REQUEST_CODE_ADRESS_SELECT;
 import static com.monresto.acidlabs.monresto.Config.REQUEST_CODE_ASK_FOR_LOCATION;
 import static com.monresto.acidlabs.monresto.Config.REQUEST_CODE_MAP_INFO;
+import static com.monresto.acidlabs.monresto.Model.Monresto.loginPending;
 import static com.monresto.acidlabs.monresto.UI.Maps.MapsActivity.MY_PERMISSIONS_REQUEST_LOCATION;
 
 public class HomepageActivity extends AppCompatActivity implements UserAsyncResponse, HomepageAsyncResponse {
@@ -135,18 +139,31 @@ public class HomepageActivity extends AppCompatActivity implements UserAsyncResp
         homepageService.getAll();
 
         configContainer.setOnClickListener(view -> {
-            Intent intent = new Intent(this, MainActivity.class);
-            startActivity(intent);
+            if(loginPending){
+                Toast.makeText(this, "En cours de connexion, veuillez patienter", Toast.LENGTH_SHORT).show();
+                return;
+            }
+            Intent intent;
+            if (User.getInstance() == null) {
+                intent = new Intent(this, MapsActivity.class);
+                intent.putExtra("update_position", true);
+                startActivityForResult(intent, Config.REQUEST_CODE_POSITION_SELECT);
+            }
+            else{
+                intent = new Intent(this, SelectAddressActivity.class);
+                startActivityForResult(intent, Config.REQUEST_CODE_ADRESS_SELECT);
+            }
+
         });
 
         homepage_swiper.setOnRefreshListener(() -> homepageService.getAll());
 
-        if(checkLocationPermission())
+        if (checkLocationPermission())
             checkInternet();
 
     }
 
-    public void checkInternet(){
+    public void checkInternet() {
         new InternetCheck(internet -> {
             if (internet) {
                 if (!login())
@@ -230,8 +247,7 @@ public class HomepageActivity extends AppCompatActivity implements UserAsyncResp
                 if (grantResults.length > 0 && grantResults[0] == PackageManager.PERMISSION_GRANTED) {
                     if (ContextCompat.checkSelfPermission(this, Manifest.permission.ACCESS_FINE_LOCATION) == PackageManager.PERMISSION_GRANTED) {
                         checkInternet();
-                    }
-                    else{
+                    } else {
                         Intent intent = new Intent(this, LoginActivity.class);
                         startActivity(intent);
                     }
@@ -258,8 +274,6 @@ public class HomepageActivity extends AppCompatActivity implements UserAsyncResp
     public void onAddressListReceived(ArrayList<Address> addresses) {
         if (User.getInstance() != null)
             User.getInstance().setAddresses(addresses);
-        Intent intent = new Intent(this, SelectAddressActivity.class);
-        startActivity(intent);
     }
 
 
@@ -305,12 +319,26 @@ public class HomepageActivity extends AppCompatActivity implements UserAsyncResp
     public void onActivityResult(int requestCode, int resultCode, Intent data) {
         super.onActivityResult(requestCode, resultCode, data);
         switch (requestCode) {
-            case (REQUEST_CODE_ASK_FOR_LOCATION): {
+            case (Config.REQUEST_CODE_ASK_FOR_LOCATION): {
                 if (resultCode == Activity.RESULT_OK) {
                     init();
-                    break;
                 }
             }
+            break;
+            case (Config.REQUEST_CODE_POSITION_SELECT): {
+                if (resultCode == Activity.RESULT_OK) {
+                    Intent intent = new Intent(this, MainActivity.class);
+                    startActivity(intent);
+                }
+            }
+            break;
+            case (Config.REQUEST_CODE_ADRESS_SELECT): {
+                if (resultCode == Activity.RESULT_OK) {
+                    Intent intent = new Intent(this, MainActivity.class);
+                    startActivity(intent);
+                }
+            }
+            break;
         }
     }
 
@@ -340,7 +368,7 @@ public class HomepageActivity extends AppCompatActivity implements UserAsyncResp
         Dishesadapter.setDishes(dishes);
         Dishesadapter.notifyDataSetChanged();
         homepage_swiper.setRefreshing(false);
-        if(dishes.isEmpty()) {
+        if (dishes.isEmpty()) {
             platsJour.setVisibility(View.GONE);
             dishesRecycler.setVisibility(View.GONE);
         } else {

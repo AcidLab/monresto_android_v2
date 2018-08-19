@@ -24,6 +24,7 @@ import com.google.android.gms.maps.model.BitmapDescriptorFactory;
 import com.google.android.gms.maps.model.LatLng;
 import com.google.android.gms.maps.model.MarkerOptions;
 import com.monresto.acidlabs.monresto.GPSTracker;
+import com.monresto.acidlabs.monresto.Model.Monresto;
 import com.monresto.acidlabs.monresto.R;
 
 import java.io.IOException;
@@ -47,6 +48,7 @@ public class MapsActivity extends FragmentActivity implements OnMapReadyCallback
     TextView text_address_position;
 
     List<Address> addresses;
+    private boolean updatePosition;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -69,6 +71,9 @@ public class MapsActivity extends FragmentActivity implements OnMapReadyCallback
 
         button.setOnClickListener(e -> closeWithResults());
         finishBtn.setOnClickListener(e -> closeWithResults());
+
+        Intent intent = getIntent();
+        updatePosition = intent.getBooleanExtra("update_position", false);
     }
 
     @Override
@@ -107,13 +112,19 @@ public class MapsActivity extends FragmentActivity implements OnMapReadyCallback
     }
 
     public void closeWithResults() {
-        this.lat = mMap.getCameraPosition().target.latitude;
-        this.lng = mMap.getCameraPosition().target.longitude;
+        lat = mMap.getCameraPosition().target.latitude;
+        lng = mMap.getCameraPosition().target.longitude;
 
         Intent resultIntent = new Intent();
-        resultIntent.putExtra("lat", this.lat);
-        resultIntent.putExtra("lon", this.lng);
+        resultIntent.putExtra("lat", lat);
+        resultIntent.putExtra("lon", lng);
         setResult(Activity.RESULT_OK, resultIntent);
+
+        if(updatePosition){
+            Monresto.setLat(lat);
+            Monresto.setLon(lng);
+        }
+
         finish();
     }
 

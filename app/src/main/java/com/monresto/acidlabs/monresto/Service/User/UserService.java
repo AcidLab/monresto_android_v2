@@ -32,6 +32,8 @@ import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.Map;
 
+import static com.monresto.acidlabs.monresto.Model.Monresto.loginPending;
+
 //TODO: get Firebase token
 
 public class UserService {
@@ -144,6 +146,7 @@ public class UserService {
     public void login(final String login, final String password, SharedPreferences sharedPref) {
         RequestQueue queue = Volley.newRequestQueue(context);
         String url = Config.server + "User/Login.php";
+        loginPending = true;
         StringRequest postRequest = new StringRequest(Request.Method.POST, url,
                 new Response.Listener<String>() {
                     @Override
@@ -163,6 +166,7 @@ public class UserService {
                                 }
                                 ((UserAsyncResponse) context).onUserLogin(user);
                             }
+                            loginPending = false;
                         } catch (JSONException e) {
                             e.printStackTrace();
                         }
@@ -193,7 +197,7 @@ public class UserService {
         queue.add(postRequest);
     }
 
-    public void updateProfile(User user){
+    public void updateProfile(User user) {
         RequestQueue queue = Volley.newRequestQueue(context);
         String url = Config.server + "User/editUser.php";
         StringRequest postRequest = new StringRequest(Request.Method.POST, url,
@@ -202,9 +206,9 @@ public class UserService {
                     public void onResponse(String response) {
                         try {
                             JSONObject responseJson = new JSONObject(response);
-                            if(responseJson.getInt("Status")==1){
+                            if (responseJson.getInt("Status") == 1) {
                                 User.setInstance(user);
-                                ((UserAsyncResponse)context).onUserProfileUpdated();
+                                ((UserAsyncResponse) context).onUserProfileUpdated();
                             }
                         } catch (JSONException e) {
                             e.printStackTrace();
@@ -338,7 +342,7 @@ public class UserService {
         queue.add(postRequest);
     }
 
-    public void getAddress(final int id){
+    public void getAddress(final int id) {
         RequestQueue queue = Volley.newRequestQueue(context);
         String url = Config.server + "User/address.php";
         StringRequest postRequest = new StringRequest(Request.Method.POST, url,
@@ -387,7 +391,7 @@ public class UserService {
                         try {
                             JSONObject jsonResponse = new JSONObject(response);
                             int status = jsonResponse.getInt("Status");
-                            ((UserAsyncResponse) (context)).onAddressAddResponse(status==1);
+                            ((UserAsyncResponse) (context)).onAddressAddResponse(status == 1);
                         } catch (JSONException e) {
                             e.printStackTrace();
                         }
@@ -420,6 +424,7 @@ public class UserService {
         };
         queue.add(postRequest);
     }
+
     public void editAddress(final Address address) {
         RequestQueue queue = Volley.newRequestQueue(context);
         String url = Config.server + "Address/editAddress.php";
@@ -432,7 +437,7 @@ public class UserService {
                         try {
                             JSONObject jsonResponse = new JSONObject(response);
                             int status = jsonResponse.getInt("Status");
-                            ((UserAsyncResponse) (context)).onAddressAddResponse(status==1);
+                            ((UserAsyncResponse) (context)).onAddressAddResponse(status == 1);
                         } catch (JSONException e) {
                             e.printStackTrace();
                         }
@@ -469,7 +474,7 @@ public class UserService {
     /**
      * Modify user info
      */
-    public void modifyInfo(User user){
+    public void modifyInfo(User user) {
         final JSONArray addressesArray = new JSONArray();
         /*for (Address A : addresses) {
             addressesArray.put(A.toJson());
@@ -650,7 +655,7 @@ public class UserService {
         queue.add(postRequest);
     }
 
-    public void getFavoritesDishes(final int id){
+    public void getFavoritesDishes(final int id) {
         ArrayList<Dish> dishesList = new ArrayList<>();
 
         RequestQueue queue = Volley.newRequestQueue(context);
@@ -694,7 +699,7 @@ public class UserService {
     }
 
 
-    public void logout(){
+    public void logout() {
         SharedPreferences sharedPreferences = context.getSharedPreferences("login_data", Context.MODE_PRIVATE);
         SharedPreferences.Editor editor = sharedPreferences.edit();
         editor.clear();

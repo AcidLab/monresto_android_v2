@@ -36,7 +36,9 @@
         <activity android:name=".UI.Profile.Settings.EditProfileActivity" />
         <activity android:name=".UI.Profile.Settings.AddressSettingsActivity" />
         <activity android:name=".UI.Profile.Address.EditAddressActivity" />
-        <activity android:name=".UI.User.SelectAddressActivity" />
+        <activity android:name=".UI.User.SelectAddressActivity"
+            android:excludeFromRecents="true"
+            android:theme="@style/Theme.AppCompat.Light.Dialog" />
         <activity android:name=".UI.Homepage.HomepageActivity">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />

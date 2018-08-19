@@ -116,11 +116,15 @@ public class MainActivity extends AppCompatActivity implements RestaurantAsyncRe
         gpsTracker = new GPSTracker(this);
         service = new RestaurantService(this);
         userService = new UserService(this);
-
+        List<android.location.Address> addresses = new ArrayList<>();
         Geocoder geocoder = new Geocoder(this);
         try {
-            List<android.location.Address> addresses = geocoder.getFromLocation(Monresto.getLat(), Monresto.getLon(), 1);
-            //deliveryLabel.setText(addresses.get(0).getFeatureName());
+            addresses = geocoder.getFromLocation(Monresto.getLat(), Monresto.getLon(), 3);
+            if(!(addresses.get(0)==null))
+                deliveryLabel.setText(addresses.get(0).getFeatureName());
+            else
+                deliveryLabel.setText("Adresse inconnue");
+
         } catch (IOException e) {
             e.printStackTrace();
         }
