@@ -317,6 +317,7 @@ public class HomepageActivity extends AppCompatActivity implements UserAsyncResp
     @Override
     public void onHomepageConfigReceived(HomepageConfig config) {
         Picasso.get().load(config.getCover_image()).into(config_bg);
+        HomepageConfig.setInstance(config);
         homepage_swiper.setRefreshing(false);
     }
 

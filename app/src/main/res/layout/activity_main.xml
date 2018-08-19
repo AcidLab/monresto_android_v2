@@ -229,7 +229,7 @@
         </FrameLayout>
 
         <ImageView
-            android:id="@+id/imageView5"
+            android:id="@+id/couffin"
             android:layout_width="178dp"
             android:layout_height="73dp"
             android:scaleType="fitEnd"

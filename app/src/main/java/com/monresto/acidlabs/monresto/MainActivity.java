@@ -28,6 +28,7 @@ import com.google.android.gms.location.FusedLocationProviderClient;
 import com.mancj.materialsearchbar.MaterialSearchBar;
 import com.monresto.acidlabs.monresto.Model.Address;
 import com.monresto.acidlabs.monresto.Model.Dish;
+import com.monresto.acidlabs.monresto.Model.HomepageConfig;
 import com.monresto.acidlabs.monresto.Model.Menu;
 import com.monresto.acidlabs.monresto.Model.Monresto;
 import com.monresto.acidlabs.monresto.Model.Restaurant;
@@ -43,6 +44,7 @@ import com.monresto.acidlabs.monresto.UI.Profile.ProfileActivity;
 import com.monresto.acidlabs.monresto.UI.Restaurants.RecyclerViewAdapter;
 import com.monresto.acidlabs.monresto.UI.User.LoginActivity;
 import com.monresto.acidlabs.monresto.UI.User.SelectAddressActivity;
+import com.squareup.picasso.Picasso;
 
 import org.json.JSONException;
 import org.json.JSONObject;
@@ -62,6 +64,8 @@ import static com.monresto.acidlabs.monresto.UI.Maps.MapsActivity.MY_PERMISSIONS
 public class MainActivity extends AppCompatActivity implements RestaurantAsyncResponse, UserAsyncResponse, SwipeRefreshLayout.OnRefreshListener, MaterialSearchBar.OnSearchActionListener {
     @BindView(R.id.home_profile_icon)
     ImageView home_profile_icon;
+    @BindView(R.id.couffin)
+    ImageView couffin;
     @BindView(R.id.filtersToggle)
     ImageView filtersToggle;
     @BindView(R.id.searchBar)
@@ -119,6 +123,8 @@ public class MainActivity extends AppCompatActivity implements RestaurantAsyncRe
             e.printStackTrace();
         }
 
+        Picasso.get().load(HomepageConfig.getInstance().getBusket_image()).into(couffin);
+
         service.getAll(Monresto.getLat(), Monresto.getLon());
         service.getSpecialities();
 
@@ -144,6 +150,12 @@ public class MainActivity extends AppCompatActivity implements RestaurantAsyncRe
         searchBar.setOnSearchActionListener(this);
 
         cart_frame.setOnClickListener(view -> {
+            Intent intent;
+            intent = new Intent(this, CartActivity.class);
+
+            startActivity(intent);
+        });
+        couffin.setOnClickListener(view -> {
             Intent intent;
             intent = new Intent(this, CartActivity.class);
 

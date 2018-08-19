@@ -1,11 +1,19 @@
 package com.monresto.acidlabs.monresto.Model;
 
 public class HomepageConfig {
+    private static HomepageConfig instance;
     private int id;
     private String cover_image;
     private String busket_image;
     private String created_at;
     private String updated_at;
+
+    public static HomepageConfig getInstance(){
+        return instance;
+    }
+    public static void setInstance(HomepageConfig insta) {
+        instance = insta;
+    }
 
     public HomepageConfig(int id, String cover_image, String busket_image, String created_at, String updated_at) {
         this.id = id;
