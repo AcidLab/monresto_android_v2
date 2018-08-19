@@ -28,7 +28,7 @@
                 android:id="@+id/item_bg"
                 android:layout_width="match_parent"
                 android:layout_height="match_parent"
-                android:foreground="@drawable/homepage_overlay"
+                android:foreground="@drawable/homepage_overlay_dish"
                 android:foregroundGravity="top|center"
                 android:scaleType="centerCrop"
                 app:layout_constraintBottom_toBottomOf="parent"
@@ -40,34 +40,38 @@
                 android:id="@+id/item_title"
                 android:layout_width="0dp"
                 android:layout_height="wrap_content"
+                android:layout_marginBottom="8dp"
                 android:layout_marginEnd="16dp"
                 android:layout_marginStart="16dp"
                 android:ellipsize="end"
+                android:fontFamily="@font/googlesans_bold"
                 android:maxLines="2"
                 android:text="Découvrez les meilleurs restaurants"
-                android:textColor="@color/dish_title"
-                android:textSize="24sp"
+                android:textColor="@color/colorPrimary"
+                android:textSize="32sp"
                 android:textStyle="bold"
                 android:transitionName="storeName"
+                app:layout_constraintBottom_toTopOf="@+id/item_label"
                 app:layout_constraintEnd_toEndOf="parent"
                 app:layout_constraintHorizontal_bias="1.0"
-                app:layout_constraintStart_toStartOf="@+id/cardViewLayout"
-                app:layout_constraintTop_toBottomOf="@+id/item_label" />
+                app:layout_constraintStart_toStartOf="@+id/cardViewLayout" />
 
             <TextView
                 android:id="@+id/item_label"
                 android:layout_width="0dp"
                 android:layout_height="wrap_content"
+                android:layout_marginBottom="32dp"
                 android:layout_marginEnd="16dp"
                 android:layout_marginStart="16dp"
-                android:layout_marginTop="12dp"
+                android:ellipsize="end"
+                android:maxLines="1"
                 android:text="NOUS LIVRONS"
                 android:textAllCaps="true"
-                android:textColor="@color/browser_actions_title_color"
-                android:textSize="14sp"
+                android:textColor="@color/colorPrimary"
+                android:textSize="24sp"
+                app:layout_constraintBottom_toBottomOf="@+id/item_bg"
                 app:layout_constraintEnd_toEndOf="parent"
-                app:layout_constraintStart_toStartOf="parent"
-                app:layout_constraintTop_toTopOf="parent" />
+                app:layout_constraintStart_toStartOf="parent" />
 
         </android.support.constraint.ConstraintLayout>
 

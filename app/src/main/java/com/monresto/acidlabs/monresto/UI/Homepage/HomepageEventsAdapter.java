@@ -42,6 +42,8 @@ public class HomepageEventsAdapter extends RecyclerView.Adapter<HomepageEventsAd
         TextView item_label;
         @BindView(R.id.item_bg)
         ImageView item_bg;
+        @BindView(R.id.restoBg)
+        ImageView restoBg;
         @BindView(R.id.itemContainer)
         ConstraintLayout itemContainer;
 
@@ -55,7 +57,7 @@ public class HomepageEventsAdapter extends RecyclerView.Adapter<HomepageEventsAd
     @Override
     public HomepageEventsAdapter.ViewHolder onCreateViewHolder(@NonNull ViewGroup viewGroup, int i) {
         View v;
-        v = LayoutInflater.from(context).inflate(R.layout.item_homepage, viewGroup, false);
+        v = LayoutInflater.from(context).inflate(R.layout.item_homepage_event, viewGroup, false);
 
         return new HomepageEventsAdapter.ViewHolder(v);
     }
@@ -69,6 +71,7 @@ public class HomepageEventsAdapter extends RecyclerView.Adapter<HomepageEventsAd
             viewHolder.item_title.setText(event.getTitle());
             viewHolder.item_label.setText(event.getLabel());
             Picasso.get().load(event.getImage()).into(viewHolder.item_bg);
+            Picasso.get().load(event.getRestoIcon()).into(viewHolder.restoBg);
             viewHolder.itemContainer.setOnClickListener(e -> {
                 //TODO open dish activity
                 /*Intent intent = new Intent(context, MainActivity.class);

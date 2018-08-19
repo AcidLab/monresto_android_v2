@@ -52,7 +52,7 @@ public class HomepageService {
                         ArrayList<HomepageEvent> events = new ArrayList<>();
                         for (int i=0; i<eventsJSON.length(); i++) {
                             JSONObject event = eventsJSON.getJSONObject(i);
-                            events.add(new HomepageEvent(event.optInt("id"), event.optString("label"), event.optString("title"), event.getString("image"), event.optInt("restoID"), event.optString("display_date"),event.getString("created_at"), event.optString("updated_at")));
+                            events.add(new HomepageEvent(event.optInt("id"), event.optString("label"), event.optString("title"), event.getString("image"), event.optInt("restoID"), event.getString("restoIcon"), event.optString("display_date"),event.getString("created_at"), event.optString("updated_at")));
                         }
                         ((HomepageAsyncResponse)context).onHomepageEventsReceived(events);
                     } catch (JSONException e) {

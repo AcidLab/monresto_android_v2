@@ -57,7 +57,7 @@ public class HomepageDishesAdapter extends RecyclerView.Adapter<HomepageDishesAd
     @Override
     public HomepageDishesAdapter.ViewHolder onCreateViewHolder(@NonNull ViewGroup viewGroup, int i) {
         View v;
-        v = LayoutInflater.from(context).inflate(R.layout.item_homepage, viewGroup, false);
+        v = LayoutInflater.from(context).inflate(R.layout.item_homepage_dish, viewGroup, false);
 
         return new HomepageDishesAdapter.ViewHolder(v);
     }

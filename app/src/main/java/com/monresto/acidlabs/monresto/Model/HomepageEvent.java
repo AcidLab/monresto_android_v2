@@ -6,16 +6,18 @@ public class HomepageEvent {
     private String title;
     private String image;
     private int restoID;
+    private String restoIcon;
     private String display_date;
     private String created_at;
     private String updated_at;
 
-    public HomepageEvent(int id, String label, String title, String image, int restoID, String display_date, String created_at, String updated_at) {
+    public HomepageEvent(int id, String label, String title, String image, int restoID, String restoIcon, String display_date, String created_at, String updated_at) {
         this.id = id;
         this.label = label;
         this.title = title;
         this.image = image;
         this.restoID = restoID;
+        this.restoIcon = restoIcon;
         this.display_date = display_date;
         this.created_at = created_at;
         this.updated_at = updated_at;
@@ -83,5 +85,13 @@ public class HomepageEvent {
 
     public void setUpdated_at(String updated_at) {
         this.updated_at = updated_at;
+    }
+
+    public String getRestoIcon() {
+        return restoIcon;
+    }
+
+    public void setRestoIcon(String restoIcon) {
+        this.restoIcon = restoIcon;
     }
 }
