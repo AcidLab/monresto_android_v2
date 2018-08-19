@@ -64,6 +64,8 @@ import static com.monresto.acidlabs.monresto.UI.Maps.MapsActivity.MY_PERMISSIONS
 public class MainActivity extends AppCompatActivity implements RestaurantAsyncResponse, UserAsyncResponse, SwipeRefreshLayout.OnRefreshListener, MaterialSearchBar.OnSearchActionListener {
     @BindView(R.id.home_profile_icon)
     ImageView home_profile_icon;
+    @BindView(R.id.home_close)
+    ImageView home_close;
     @BindView(R.id.couffin)
     ImageView couffin;
     @BindView(R.id.filtersToggle)
@@ -162,6 +164,9 @@ public class MainActivity extends AppCompatActivity implements RestaurantAsyncRe
             startActivity(intent);
         });
 
+        home_close.setOnClickListener(view -> {
+            finish();
+        });
     }
 
     @Override
@@ -224,14 +229,16 @@ public class MainActivity extends AppCompatActivity implements RestaurantAsyncRe
 
     @Override
     public void onBackPressed() {
-
+        finish();
+        /*
+        //// SCROLL TO TOP, APPARENTLY NOT LIKED BY EVERYONE...
         LinearLayoutManager layoutManager = (LinearLayoutManager) stores_recyclerview.getLayoutManager();
         assert layoutManager != null;
         if (layoutManager.findFirstCompletelyVisibleItemPosition() == 0) {
             super.onBackPressed();
         } else {
             stores_recyclerview.smoothScrollToPosition(0);
-        }
+        }*/
     }
 
     @Override

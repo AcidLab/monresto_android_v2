@@ -326,9 +326,13 @@ public class HomepageActivity extends AppCompatActivity implements UserAsyncResp
         Eventsadapter.setEvents(events);
         Eventsadapter.notifyDataSetChanged();
         homepage_swiper.setRefreshing(false);
-        if (events.isEmpty())
+        if (events.isEmpty()) {
             evenements.setVisibility(View.GONE);
-        else evenements.setVisibility(View.VISIBLE);
+            eventsRecycler.setVisibility(View.GONE);
+        } else {
+            evenements.setVisibility(View.VISIBLE);
+            eventsRecycler.setVisibility(View.VISIBLE);
+        }
     }
 
     @Override
@@ -336,8 +340,12 @@ public class HomepageActivity extends AppCompatActivity implements UserAsyncResp
         Dishesadapter.setDishes(dishes);
         Dishesadapter.notifyDataSetChanged();
         homepage_swiper.setRefreshing(false);
-        if(dishes.isEmpty())
+        if(dishes.isEmpty()) {
             platsJour.setVisibility(View.GONE);
-        else platsJour.setVisibility(View.VISIBLE);
+            dishesRecycler.setVisibility(View.GONE);
+        } else {
+            platsJour.setVisibility(View.VISIBLE);
+            dishesRecycler.setVisibility(View.VISIBLE);
+        }
     }
 }
