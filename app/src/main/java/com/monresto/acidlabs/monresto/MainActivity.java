@@ -68,14 +68,9 @@ public class MainActivity extends AppCompatActivity implements RestaurantAsyncRe
     ImageView home_close;
     @BindView(R.id.couffin)
     ImageView couffin;
-    @BindView(R.id.filtersToggle)
-    ImageView filtersToggle;
-    @BindView(R.id.searchBar)
-    MaterialSearchBar searchBar;
+
     @BindView(R.id.stores_recyclerview)
     RecyclerView stores_recyclerview;
-    @BindView(R.id.filterRecylcerView)
-    RecyclerView filterRecylcerView;
     @BindView(R.id.restaurants_swiper)
     SwipeRefreshLayout restaurants_swiper;
     @BindView(R.id.status_restaurants)
@@ -105,9 +100,9 @@ public class MainActivity extends AppCompatActivity implements RestaurantAsyncRe
 
         ButterKnife.bind(this);
         restaurants_swiper.setOnRefreshListener(this);
+        stores_recyclerview.setNestedScrollingEnabled(false);
         firstResume = true;
 
-        //TODO: Fix line 116
         init();
 
     }
@@ -120,8 +115,8 @@ public class MainActivity extends AppCompatActivity implements RestaurantAsyncRe
         Geocoder geocoder = new Geocoder(this);
         try {
             addresses = geocoder.getFromLocation(Monresto.getLat(), Monresto.getLon(), 3);
-            if(!(addresses.get(0)==null))
-                deliveryLabel.setText(addresses.get(0).getFeatureName());
+            if (!(addresses.get(0) == null))
+                deliveryLabel.setText(addresses.get(0).getLocality());
             else
                 deliveryLabel.setText("Adresse inconnue");
 
@@ -134,14 +129,15 @@ public class MainActivity extends AppCompatActivity implements RestaurantAsyncRe
         service.getAll(Monresto.getLat(), Monresto.getLon());
         service.getSpecialities();
 
-        filterRecylcerView.setLayoutManager(new LinearLayoutManager(this,LinearLayoutManager.HORIZONTAL, false));
+        //TODO
+        //filterRecylcerView.setLayoutManager(new LinearLayoutManager(this, LinearLayoutManager.HORIZONTAL, false));
         stores_recyclerview.setLayoutManager(new LinearLayoutManager(this));
 
-        filtersToggle.setOnClickListener(view -> {
+        //filtersToggle.setOnClickListener(view -> {
             /*if (filterRecylcerView.getVisibility() == View.VISIBLE)
                 filterRecylcerView.setVisibility(View.GONE);
             else filterRecylcerView.setVisibility(View.VISIBLE);*/
-        });
+        //});
 
         home_profile_icon.setOnClickListener(view -> {
             Intent intent;
@@ -152,8 +148,6 @@ public class MainActivity extends AppCompatActivity implements RestaurantAsyncRe
 
             startActivity(intent);
         });
-
-        searchBar.setOnSearchActionListener(this);
 
         cart_frame.setOnClickListener(view -> {
             Intent intent;
@@ -181,7 +175,7 @@ public class MainActivity extends AppCompatActivity implements RestaurantAsyncRe
             status_restaurants.setVisibility(View.INVISIBLE);
             populateRecyclerView(restaurantList);
         } else {
-            Utilities.statusChangerUnavailable(this,"Aucun restaurant trouvé", status_restaurants, restaurants_swiper);
+            Utilities.statusChangerUnavailable(this, "Aucun restaurant trouvé", status_restaurants, restaurants_swiper);
         }
     }
 
@@ -206,13 +200,18 @@ public class MainActivity extends AppCompatActivity implements RestaurantAsyncRe
     public void onSpecialitiesReceived(ArrayList<Speciality> specialities) {
         this.specialities = specialities;
         FiltersRecyclerViewAdapter filtersRecyclerViewAdapter = new FiltersRecyclerViewAdapter(this);
-        filterRecylcerView.setAdapter(filtersRecyclerViewAdapter);
-        filtersRecyclerViewAdapter.setFilters(specialities);
+        //TODO
+        //recyclerViewAdapter.
+        //filterRecylcerView.setAdapter(filtersRecyclerViewAdapter);
+        //filtersRecyclerViewAdapter.setFilters(specialities);
+        if (recyclerViewAdapter == null)
+            recyclerViewAdapter = new RecyclerViewAdapter(this);
+        recyclerViewAdapter.setSpecialities(specialities);
     }
 
     @Override
     public void onServerDown() {
-        Utilities.statusChanger(this,R.layout.fragment_breakdown, status_restaurants, restaurants_swiper);
+        Utilities.statusChanger(this, R.layout.fragment_breakdown, status_restaurants, restaurants_swiper);
     }
 
     public void populateRecyclerView(ArrayList<Restaurant> restaurantList) {
@@ -224,7 +223,6 @@ public class MainActivity extends AppCompatActivity implements RestaurantAsyncRe
         recyclerViewAdapter.notifyDataSetChanged();
 
     }
-
     @Override
     public void onRefresh() {
         service.getAll(Monresto.getLat(), Monresto.getLon());
@@ -251,7 +249,7 @@ public class MainActivity extends AppCompatActivity implements RestaurantAsyncRe
         if (firstResume)
             firstResume = false;
         else {
-            if(Monresto.locationChanged){
+            if (Monresto.locationChanged) {
                 Monresto.locationChanged = false;
                 service.getAll(Monresto.getLat(), Monresto.getLon());
             }
@@ -264,7 +262,7 @@ public class MainActivity extends AppCompatActivity implements RestaurantAsyncRe
 
     @Override
     public void onSearchStateChanged(boolean enabled) {
-        if(!enabled)
+        if (!enabled)
             onRefresh();
     }
 
@@ -276,24 +274,28 @@ public class MainActivity extends AppCompatActivity implements RestaurantAsyncRe
                 searchList.add(restaurant);
             }
         }
-        if(!searchList.isEmpty()){
+        if (!searchList.isEmpty()) {
             populateRecyclerView(searchList);
             Utilities.hideKeyboard(this);
-        }
-        else
+        } else
             Toast.makeText(this, "Aucune donnée trouvée", Toast.LENGTH_SHORT).show(); //TODO: change this
     }
 
     public void searchWithFilters(Speciality speciality) {
         ArrayList<Restaurant> searchList = new ArrayList<>();
         for (Restaurant restaurant : Monresto.getInstance().getRestaurants()) {
-            for(Speciality currSpeciality : restaurant.getSpecialities()) {
+            for (Speciality currSpeciality : restaurant.getSpecialities()) {
                 if (currSpeciality.getTitle().equals(speciality.getTitle()))
                     searchList.add(restaurant);
             }
         }
         populateRecyclerView(searchList);
     }
+
+    public void resetRecyclerView() {
+        populateRecyclerView(Monresto.getInstance().getRestaurants());
+    }
+
     @Override
     public void onButtonClicked(int buttonCode) {
 

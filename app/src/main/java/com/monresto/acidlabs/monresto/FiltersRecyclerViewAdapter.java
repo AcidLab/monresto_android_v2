@@ -20,6 +20,7 @@ public class FiltersRecyclerViewAdapter extends RecyclerView.Adapter<FiltersRecy
     private ArrayList mData;
     private Context context;
     private ViewHolder oldFilter;
+    private int currentSpeciality = 0;
 
     public FiltersRecyclerViewAdapter(Context context) {
         this.context = context;
@@ -47,19 +48,22 @@ public class FiltersRecyclerViewAdapter extends RecyclerView.Adapter<FiltersRecy
     @Override
     public void onBindViewHolder(@NonNull ViewHolder viewHolder, int i) {
         viewHolder.setIsRecyclable(false);
-        viewHolder.filter.setText(((Speciality)mData.get(i)).getTitle());
+        viewHolder.filter.setText(((Speciality) mData.get(i)).getTitle());
         viewHolder.filter.setOnClickListener(view -> {
             viewHolder.filter.setBackgroundResource(R.drawable.button_bg_rounded_corners_selected);
             viewHolder.filter.setTextColor(Color.WHITE);
-            ((MainActivity)context).searchWithFilters((Speciality)mData.get(i));
+            if (viewHolder.equals(oldFilter))
+                ((MainActivity) context).resetRecyclerView();
+            else
+                ((MainActivity) context).searchWithFilters((Speciality) mData.get(i));
 
-            if(oldFilter != null){
+            if (oldFilter != null) {
                 oldFilter.filter.setBackgroundResource(R.drawable.button_bg_rounded_corners);
                 oldFilter.filter.setTextColor(Color.BLACK);
             }
-
             oldFilter = viewHolder;
             oldFilter.setIsRecyclable(true);
+
         });
     }
 
@@ -74,5 +78,9 @@ public class FiltersRecyclerViewAdapter extends RecyclerView.Adapter<FiltersRecy
 
     public void setFilters(ArrayList<Speciality> specialities) {
         mData = specialities;
+    }
+
+    public void setCurrentSpeciality(int currentSpeciality) {
+        this.currentSpeciality = currentSpeciality;
     }
 }
