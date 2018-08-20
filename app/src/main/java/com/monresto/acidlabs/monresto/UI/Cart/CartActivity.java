@@ -61,9 +61,10 @@ public class CartActivity extends AppCompatActivity {
                 Intent intent = new Intent(this, LoginActivity.class);
                 startActivityForResult(intent, Config.REQUEST_CODE_CHECKOUT);
             } else {
-                if(ShoppingCart.getInstance().getCartSubTotal() < 15) {
-                    System.out.println("TEST LOL");
-
+                if(ShoppingCart.getInstance().isEmpty()){
+                    Toast.makeText(this,"Votre panier est vide", Toast.LENGTH_LONG).show();
+                }
+                else if(ShoppingCart.getInstance().getCartSubTotal() < 15 ) {
                     Toast.makeText(this,"Votre panier est inférieur à 15DT", Toast.LENGTH_LONG).show();
                 } else {
                     System.out.println("TEST");
@@ -94,7 +95,7 @@ public class CartActivity extends AppCompatActivity {
         cart_delivery.setText(String.valueOf(cart.getCartDelivery()) + " DT");
         cart_total.setText(String.valueOf(cart.getCartDelivery() + cart.getCartSubTotal()) + " DT");
 
-        if (ShoppingCart.getInstance().getItems().isEmpty()) {
+        if (ShoppingCart.getInstance().isEmpty()) {
             Utilities.statusChangerUnavailable(this, "Le panier est vide", cart_empty, cart_items_list);
             cart_items_list.setVisibility(View.VISIBLE);
         } else cart_empty.setVisibility(View.INVISIBLE);

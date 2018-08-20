@@ -76,6 +76,7 @@ public class EditAddressActivity extends AppCompatActivity implements CityAsyncR
         intent.putExtra("lng", address.getLon());
         startActivityForResult(intent, REQUEST_CODE_MAP_INFO);
 
+        buttonSubmitAddress.setText("Enregistrer");
         buttonSubmitAddress.setOnClickListener(e -> {
             address.setAdresse(textAddress.getText().toString());
             address.setEmplacement(locationSpinner.getSelectedItem().toString());

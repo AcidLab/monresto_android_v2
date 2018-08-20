@@ -35,6 +35,9 @@ public class ProfileActivity extends AppCompatActivity implements UserAsyncRespo
     @BindView(R.id.imageProfileSettings)
     ImageView imageSettings;
 
+    @BindView(R.id.buttonBack)
+    ImageView buttonBack;
+
     FragmentAddress fragmentAddress;
 
     ViewPagerAdapter adapter;
@@ -69,6 +72,8 @@ public class ProfileActivity extends AppCompatActivity implements UserAsyncRespo
         tabLayoutProfile.getTabAt(1).setIcon(R.drawable.icon_history);
         tabLayoutProfile.getTabAt(2).setIcon(R.drawable.icon_dishes);
         tabLayoutProfile.getTabAt(3).setIcon(R.drawable.icon_address);
+
+        buttonBack.setOnClickListener(e -> finish());
 
         imageSettings.setOnClickListener(e -> {
             if(User.getInstance()!=null){

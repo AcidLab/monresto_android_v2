@@ -140,7 +140,7 @@ public class HomepageActivity extends AppCompatActivity implements UserAsyncResp
 
         configContainer.setOnClickListener(view -> {
             if(loginPending){
-                Toast.makeText(this, "En cours de connexion, veuillez patienter", Toast.LENGTH_SHORT).show();
+                Toast.makeText(this, "Connexion en cours.. veuillez patienter", Toast.LENGTH_SHORT).show();
                 return;
             }
             Intent intent;

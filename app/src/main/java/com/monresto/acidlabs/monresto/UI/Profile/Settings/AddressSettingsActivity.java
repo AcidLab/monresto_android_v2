@@ -1,6 +1,7 @@
 package com.monresto.acidlabs.monresto.UI.Profile.Settings;
 
 import android.content.Intent;
+import android.media.Image;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
 import android.support.constraint.ConstraintLayout;
@@ -10,6 +11,7 @@ import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.view.View;
 import android.widget.Button;
+import android.widget.ImageView;
 import android.widget.TextView;
 
 import com.monresto.acidlabs.monresto.Model.Address;
@@ -39,6 +41,8 @@ public class AddressSettingsActivity extends AppCompatActivity implements UserAs
     SwipeRefreshLayout swiper_address;
     @BindView(R.id.buttonNewAddress)
     Button buttonNewAddress;
+    @BindView(R.id.buttonBack)
+    ImageView buttonBack;
 
     AddressRecyclerViewAdapter adapter;
     
@@ -54,6 +58,7 @@ public class AddressSettingsActivity extends AppCompatActivity implements UserAs
         adapter = new AddressRecyclerViewAdapter(this);
         recyclerview_address.setLayoutManager(new LinearLayoutManager(this));
 
+        buttonBack.setOnClickListener(e -> finish());
         buttonNewAddress.setOnClickListener(e -> {
             Intent intent = new Intent(this, NewAddressActivity.class);
             startActivity(intent);

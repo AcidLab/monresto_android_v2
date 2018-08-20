@@ -175,5 +175,8 @@ public class ShoppingCart {
         return orders;
     }
 
+    public boolean isEmpty(){
+        return items.isEmpty();
+    }
 
 }
