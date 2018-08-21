@@ -17,7 +17,6 @@ public class Order {
     private ArrayList<Dish> Dishes;
 
     public Order(int orderID, String orderDate, String status, double orderPrice, int restoID, String restoName, String restoImagePath, ArrayList<Dish> dishes) {
-        System.out.println("orderID = [" + orderID + "], orderDate = [" + orderDate + "], status = [" + status + "], orderPrice = [" + orderPrice + "], restoID = [" + restoID + "], restoName = [" + restoName + "], restoImagePath = [" + restoImagePath + "], dishes = [" + dishes + "]");
         this.orderID = orderID;
         this.orderDate = orderDate;
         this.status = status;
@@ -34,6 +33,7 @@ public class Order {
         for (int i = 0; i < array.length(); i++) {
             JSONObject obj = array.getJSONObject(i);
             JSONArray dishes = obj.getJSONArray("Dishes");
+            dishesList = new ArrayList<>();
             for (int j = 0; j < dishes.length(); j++) {
                 JSONObject dishObj = dishes.getJSONObject(j);
                 dishesList.add(Dish.getOrderedDish(dishObj.optInt("dishID"), dishObj.optString("dishName"), dishObj.optInt("dishQuantity")));
@@ -85,5 +85,10 @@ public class Order {
                 dishNames += ", " + D.getQuantity() + " " + D.getTitle();
         }
         return dishNames;
+    }
+
+    @Override
+    public String toString(){
+        return("orderID = [" + orderID + "], orderDate = [" + orderDate + "], status = [" + status + "], orderPrice = [" + orderPrice + "], restoID = [" + restoID + "], restoName = [" + restoName + "], restoImagePath = [" + restoImagePath + "], dishes_size = [" + Dishes.size() + "]");
     }
 }

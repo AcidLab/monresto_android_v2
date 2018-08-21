@@ -147,12 +147,14 @@ public class ShoppingCart {
 
             actualItem = new JSONObject();
             try {
-                actualItem.put("productID", dish.getId());
+                actualItem.put("dishID", dish.getId());
                 actualItem.put("quantity", options.quantity);
-                if (options.dimension != null)
-                    actualItem.put("dimensionID", String.valueOf(options.dimension.getId()));
+                actualItem.put("dimensionID", options.dimension != null ? String.valueOf(options.dimension.getId()) : "");
+                actualItem.put("comment", "");
+
                 if (options.components != null) {
                     JSONArray componentsJson = new JSONArray();
+
                     JSONObject actualComponent;
                     for (Dish.Component component : options.components) {
                         actualComponent = new JSONObject();
@@ -163,6 +165,8 @@ public class ShoppingCart {
                             optionObject.put("optionID", option.getId());
                             optionsJson.put(optionObject);
                         }
+                        actualComponent.put("Options", optionsJson);
+                        componentsJson.put(actualComponent);
                     }
                     actualItem.put("Components", componentsJson);
                 }

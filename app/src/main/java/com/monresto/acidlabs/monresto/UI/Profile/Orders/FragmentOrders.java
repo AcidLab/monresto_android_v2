@@ -63,6 +63,7 @@ public class FragmentOrders extends Fragment implements SwipeRefreshLayout.OnRef
             swiper.setVisibility(View.VISIBLE);
             currentStatus.setVisibility(View.INVISIBLE);
         }
+
     }
 
     @Override

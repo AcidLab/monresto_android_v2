@@ -52,9 +52,7 @@ public class UserService {
                     public void onResponse(String response) {
                         try {
                             JSONObject jsonResponse = new JSONObject(response);
-                            System.out.println(response);
                             int status = jsonResponse.getInt("Status");
-                            System.out.println(status);
                             boolean isDispo = true;
                             if (status != 1)
                                 isDispo = false;
@@ -433,7 +431,6 @@ public class UserService {
                 new Response.Listener<String>() {
                     @Override
                     public void onResponse(String response) {
-                        System.out.println("response = [" + response + "]");
                         try {
                             JSONObject jsonResponse = new JSONObject(response);
                             int status = jsonResponse.getInt("Status");
@@ -523,19 +520,18 @@ public class UserService {
     }
 
     //Not finished
-    public void submitOrders(final int userID, final int addressID, final int partnerID) {
-        //TODO: return if user is null
+    public void submitOrders(final int userID, final int addressID, final int restoID, final int paymentID, final int optionOrderID, final int deliveryTime) {
         //TODO: correct missing assignments (?type, ?numtransm, ?optionOrderID, time, date, promo)
         final JSONArray orders = ShoppingCart.getInstance().getOrdersJson();
-        final int paymentID = 1; //Only payment accepted for now
+        System.out.println("ORDERS JSON: "+orders.toString());
         final int type = 0;
         final JSONArray voucher = new JSONArray();
         final int numtrans = 0;
-        final int optionOrderID = 1;
-        final String time = "";
-        final String date = "";
+        final String time = String.valueOf(deliveryTime);
+        final String hour = "0145";
         final int promo = 0;
-        final String signature = Utilities.md5("" + userID + addressID + partnerID + paymentID + type + numtrans + optionOrderID + time + date + promo + Config.sharedKey);
+
+        final String signature = Utilities.md5("" + userID + addressID + restoID + orders.toString() + paymentID + type + "[]" + numtrans + optionOrderID + time + hour + Config.sharedKey);
 
         RequestQueue queue = Volley.newRequestQueue(context);
         String url = Config.server + "User/purchaseOrder.php";
@@ -543,7 +539,7 @@ public class UserService {
                 new Response.Listener<String>() {
                     @Override
                     public void onResponse(String response) {
-
+                        System.out.println("response = [" + response + "]");
                     }
                 },
                 new Response.ErrorListener() {
@@ -559,15 +555,18 @@ public class UserService {
 
                 params.put("userID", String.valueOf(userID));
                 params.put("addressID", String.valueOf(addressID));
-                params.put("partnerID", String.valueOf(partnerID));
+                params.put("restoID", String.valueOf(restoID));
+                params.put("orders", orders.toString());
                 params.put("paymentID", String.valueOf(paymentID));
                 params.put("type", String.valueOf(type));
                 params.put("numtrans", String.valueOf(numtrans));
+                params.put("Voucher", "[]");
                 params.put("optionOrderID", String.valueOf(optionOrderID));
                 params.put("time", String.valueOf(time));
-                params.put("date", String.valueOf(date));
-                params.put("promo", String.valueOf(promo));
+                params.put("hour", String.valueOf(hour));
                 params.put("signature", signature);
+
+                System.out.println("Params: "+params);
 
                 return params;
             }
@@ -618,7 +617,6 @@ public class UserService {
     }
 
     public void getOrders(final int id) {
-        //int _id = 49468;
         RequestQueue queue = Volley.newRequestQueue(context);
         String url = Config.server + "User/pendingOrderV2.php";
         StringRequest postRequest = new StringRequest(Request.Method.POST, url,

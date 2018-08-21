@@ -21,6 +21,8 @@ import com.monresto.acidlabs.monresto.UI.Checkout.CheckoutActivity;
 import com.monresto.acidlabs.monresto.UI.User.LoginActivity;
 import com.monresto.acidlabs.monresto.Utilities;
 
+import java.text.DecimalFormat;
+
 import butterknife.BindView;
 import butterknife.ButterKnife;
 
@@ -64,10 +66,9 @@ public class CartActivity extends AppCompatActivity {
                 if(ShoppingCart.getInstance().isEmpty()){
                     Toast.makeText(this,"Votre panier est vide", Toast.LENGTH_LONG).show();
                 }
-                else if(ShoppingCart.getInstance().getCartSubTotal() < 15 ) {
+                else if(ShoppingCart.getInstance().getCartSubTotal() < 15 ) { //TODO
                     Toast.makeText(this,"Votre panier est inférieur à 15DT", Toast.LENGTH_LONG).show();
                 } else {
-                    System.out.println("TEST");
                     Intent intent = new Intent(this, CheckoutActivity.class);
                     intent.putExtra("sub-total",ShoppingCart.getInstance().getCartSubTotal());
                     intent.putExtra("delivery",ShoppingCart.getInstance().getCartDelivery());
@@ -91,9 +92,10 @@ public class CartActivity extends AppCompatActivity {
 
     public void update() {
         ShoppingCart cart = ShoppingCart.getInstance();
-        cart_subtotal.setText(String.valueOf(cart.getCartSubTotal()) + " DT");
-        cart_delivery.setText(String.valueOf(cart.getCartDelivery()) + " DT");
-        cart_total.setText(String.valueOf(cart.getCartDelivery() + cart.getCartSubTotal()) + " DT");
+        DecimalFormat dec = new DecimalFormat("#0.00");
+        cart_subtotal.setText(dec.format(cart.getCartSubTotal()) + " DT");
+        cart_delivery.setText(dec.format(cart.getCartDelivery()) + " DT");
+        cart_total.setText(dec.format(cart.getCartDelivery() + cart.getCartSubTotal()) + " DT");
 
         if (ShoppingCart.getInstance().isEmpty()) {
             Utilities.statusChangerUnavailable(this, "Le panier est vide", cart_empty, cart_items_list);

@@ -20,7 +20,6 @@ public class FiltersRecyclerViewAdapter extends RecyclerView.Adapter<FiltersRecy
     private ArrayList mData;
     private Context context;
     private ViewHolder oldFilter;
-    private int currentSpeciality = 0;
 
     public FiltersRecyclerViewAdapter(Context context) {
         this.context = context;
@@ -75,12 +74,8 @@ public class FiltersRecyclerViewAdapter extends RecyclerView.Adapter<FiltersRecy
         return mData.size();
     }
 
-
     public void setFilters(ArrayList<Speciality> specialities) {
         mData = specialities;
     }
 
-    public void setCurrentSpeciality(int currentSpeciality) {
-        this.currentSpeciality = currentSpeciality;
-    }
 }

@@ -86,31 +86,27 @@ public class OrderRecyclerViewAdapter extends RecyclerView.Adapter<OrderRecycler
     }
 
     @Override
-    public void onBindViewHolder(@NonNull ViewHolder viewHolder, int i) {
+        public void onBindViewHolder(@NonNull ViewHolder viewHolder, int i) {
         String dishes = "";
         Order order;
-        if (orders != null && !orders.isEmpty()) {
-            order = orders.get(i);
-            for (int j = 0; j < orders.size(); j++) {
-                dishes = order.getDishesString();
-            }
-            viewHolder.textRestoName.setText(Utilities.decodeUTF(order.getRestoName()));
-            viewHolder.textOrderDish.setText(Utilities.decodeUTF(dishes));
-            viewHolder.textOrderTotal.setText(String.format("%sDT", String.valueOf(order.getOrderPrice())));
-            Picasso.get().load(order.getRestoImagePath()).transform(new RoundedTransformation(80, 0)).into(viewHolder.imageViewLogo);
+        order = orders.get(orders.size()-(i+1));
+        dishes = order.getDishesString();
+        viewHolder.textRestoName.setText(Utilities.decodeUTF(order.getRestoName()));
+        viewHolder.textOrderDish.setText(Utilities.decodeUTF(dishes));
+        viewHolder.textOrderTotal.setText(String.format("%sDT", String.valueOf(order.getOrderPrice())));
+        Picasso.get().load(order.getRestoImagePath()).transform(new RoundedTransformation(80, 0)).into(viewHolder.imageViewLogo);
 
-            int status = 0;
-            switch (order.getStatus()) {
-                default:
-                    status = 0;
-                    break;
-            }
-            for (int j = 0; j < 5; j++) {
-                if(j>status)
-                    viewHolder.pending_images[j].setColorFilter(Color.LTGRAY);
-                else
-                    viewHolder.pending_images[j].setColorFilter(Color.parseColor("#33b998"));
-            }
+        int status = 0;
+        switch (order.getStatus()) {
+            default:
+                status = 0;
+                break;
+        }
+        for (int j = 0; j < 5; j++) {
+            if (j > status)
+                viewHolder.pending_images[j].setColorFilter(Color.LTGRAY);
+            else
+                viewHolder.pending_images[j].setColorFilter(Color.parseColor("#33b998"));
         }
     }
 

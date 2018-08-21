@@ -184,4 +184,15 @@
     <string-array name="default_city_array">
         <item>Tunis</item>
     </string-array>
+
+    <string-array name="purchase_unavailable_options">
+        <item>Le restaurant choisit un article équivalent</item>
+        <item>Annuler cet article</item>
+        <item>Annuler toute la commande</item>
+    </string-array>
+    <string-array name="delivery_time_options">
+        <item>Au plus tôt</item>
+        <item>Plus tard</item>
+        <item>Demain</item>
+    </string-array>
 </resources>
