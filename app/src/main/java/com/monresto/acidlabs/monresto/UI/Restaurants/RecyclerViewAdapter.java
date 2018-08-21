@@ -99,7 +99,7 @@ public class RecyclerViewAdapter extends RecyclerView.Adapter<RecyclerView.ViewH
                     ((HolderItem) viewHolder).restaurant_delivery.setText(String.valueOf(restaurantItem.getEstimatedTime()) + "'");
                     ((HolderItem) viewHolder).restaurantItem.setOnClickListener(e -> {
                         Intent intent = new Intent(context, RestaurantDetailsActivity.class);
-                        intent.putExtra("restaurant", restaurants.get(viewHolder.getAdapterPosition()));
+                        intent.putExtra("restaurant", restaurantItem);
 
                         context.startActivity(intent);
                     });
