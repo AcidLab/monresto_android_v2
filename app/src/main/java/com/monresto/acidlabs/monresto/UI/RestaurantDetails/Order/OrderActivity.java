@@ -1,6 +1,7 @@
 package com.monresto.acidlabs.monresto.UI.RestaurantDetails.Order;
 
 import android.content.Intent;
+import android.media.Image;
 import android.os.Bundle;
 import android.support.design.widget.CollapsingToolbarLayout;
 import android.support.v7.app.AppCompatActivity;
@@ -66,6 +67,8 @@ public class OrderActivity extends AppCompatActivity implements RestaurantAsyncR
     Button cancel_order;
     @BindView(R.id.add_to_cart)
     Button add_to_cart;
+    @BindView(R.id.btnClose)
+    ImageView btnClose;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -96,24 +99,17 @@ public class OrderActivity extends AppCompatActivity implements RestaurantAsyncR
             }
         });
 
-        dish_quantity_reduce.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View view) {
-                if (Integer.valueOf(dish_quantity.getText().toString()) > 1) {
-                    updateTotalOnQuantityChanged(currentQuantity - 1);
-                    dish_quantity.setText(Integer.toString(currentQuantity));
-                }
+        dish_quantity_reduce.setOnClickListener(view -> {
+            if (Integer.valueOf(dish_quantity.getText().toString()) > 1) {
+                updateTotalOnQuantityChanged(currentQuantity - 1);
+                dish_quantity.setText(Integer.toString(currentQuantity));
             }
         });
 
         total_order.setText(String.valueOf(dish.getPrice()));
 
-        cancel_order.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View view) {
-                finish();
-            }
-        });
+        btnClose.setOnClickListener(view -> finish());
+        cancel_order.setOnClickListener(view -> finish());
 
         dish_quantity.addTextChangedListener(new TextWatcher() {
             @Override

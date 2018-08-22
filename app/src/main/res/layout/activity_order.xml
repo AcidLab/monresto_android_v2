@@ -4,7 +4,7 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:background="@drawable/bg">
+    android:background="@color/colorPrimary">
 
 
     <android.support.constraint.ConstraintLayout
@@ -17,7 +17,7 @@
         app:layout_constraintTop_toTopOf="parent">
 
         <ImageView
-            android:id="@+id/imageCloseProfileSettings"
+            android:id="@+id/btnClose"
             android:layout_width="32dp"
             android:layout_height="32dp"
             android:layout_marginBottom="8dp"

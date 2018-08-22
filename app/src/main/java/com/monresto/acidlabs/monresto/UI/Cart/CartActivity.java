@@ -63,16 +63,15 @@ public class CartActivity extends AppCompatActivity {
                 Intent intent = new Intent(this, LoginActivity.class);
                 startActivityForResult(intent, Config.REQUEST_CODE_CHECKOUT);
             } else {
-                if(ShoppingCart.getInstance().isEmpty()){
-                    Toast.makeText(this,"Votre panier est vide", Toast.LENGTH_LONG).show();
-                }
-                else if(ShoppingCart.getInstance().getCartSubTotal() < 15 ) { //TODO
-                    Toast.makeText(this,"Votre panier est inférieur à 15DT", Toast.LENGTH_LONG).show();
+                if (ShoppingCart.getInstance().isEmpty()) {
+                    Toast.makeText(this, "Votre panier est vide", Toast.LENGTH_LONG).show();
+                } else if (ShoppingCart.getInstance().getCartSubTotal() < ShoppingCart.getInstance().getMinCartTotal()) {
+                    Toast.makeText(this, "Votre panier est inférieur à " + ShoppingCart.getInstance().getMinCartTotal() + " DT", Toast.LENGTH_LONG).show();
                 } else {
                     Intent intent = new Intent(this, CheckoutActivity.class);
-                    intent.putExtra("sub-total",ShoppingCart.getInstance().getCartSubTotal());
-                    intent.putExtra("delivery",ShoppingCart.getInstance().getCartDelivery());
-                    intent.putExtra("total",ShoppingCart.getInstance().getCartSubTotal() + ShoppingCart.getInstance().getCartDelivery());
+                    intent.putExtra("sub-total", ShoppingCart.getInstance().getCartSubTotal());
+                    intent.putExtra("delivery", ShoppingCart.getInstance().getCartDelivery());
+                    intent.putExtra("total", ShoppingCart.getInstance().getCartSubTotal() + ShoppingCart.getInstance().getCartDelivery());
                     startActivity(intent);
                 }
             }
@@ -120,7 +119,7 @@ public class CartActivity extends AppCompatActivity {
     @Override
     protected void onActivityResult(int requestCode, int resultCode, @Nullable Intent data) {
         super.onActivityResult(requestCode, resultCode, data);
-        if (requestCode == Config.REQUEST_CODE_CHECKOUT){
+        if (requestCode == Config.REQUEST_CODE_CHECKOUT) {
             Toast.makeText(this, "Call for checkout here", Toast.LENGTH_LONG).show();
         }
     }

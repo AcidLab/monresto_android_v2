@@ -15,6 +15,7 @@ public class ShoppingCart {
 
     private static ShoppingCart instance;
     private int restoID;
+    private double minCartTotal;
 
     public class Options {
         private int quantity;
@@ -75,7 +76,7 @@ public class ShoppingCart {
             Dish cle = entry.getKey();
             Options valeur = entry.getValue();
 
-            if (valeur.getDimension() != null)
+            if (valeur.getDimension() != null && valeur.getDimension().getPrice()!=0)
                 subTotal += valeur.getDimension().getPrice();
             else subTotal += cle.getPrice();
 
@@ -97,8 +98,13 @@ public class ShoppingCart {
     }
 
     public void addToCart(Dish dish, int quantity, Dish.Option dimension, ArrayList<Dish.Component> components) {
-        if (restoID == -1)
+        if (restoID == -1){
             restoID = dish.getRestoID();
+            for(Restaurant R : Monresto.getInstance().getRestaurants()){
+                if(R.getId()==restoID)
+                    minCartTotal = R.getMinimalPrice();
+            }
+        }
         else {
             if (dish.getRestoID() != restoID)
                 return;
@@ -183,4 +189,7 @@ public class ShoppingCart {
         return items.isEmpty();
     }
 
+    public double getMinCartTotal() {
+        return minCartTotal;
+    }
 }
