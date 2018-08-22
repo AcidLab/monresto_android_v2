@@ -1,17 +1,12 @@
 package com.monresto.acidlabs.monresto.UI.Restaurants;
 
-import android.app.Activity;
 import android.content.Context;
 import android.content.Intent;
-import android.graphics.Color;
 import android.support.annotation.NonNull;
 import android.support.constraint.ConstraintLayout;
-import android.support.v4.app.ActivityOptionsCompat;
-import android.support.v7.widget.CardView;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.support.v7.widget.RecyclerView.ViewHolder;
-import android.support.v4.util.Pair;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -25,15 +20,11 @@ import com.monresto.acidlabs.monresto.FiltersRecyclerViewAdapter;
 import com.monresto.acidlabs.monresto.Model.Restaurant;
 import com.monresto.acidlabs.monresto.Model.Speciality;
 import com.monresto.acidlabs.monresto.R;
-import com.monresto.acidlabs.monresto.RoundedTransformation;
 import com.monresto.acidlabs.monresto.UI.RestaurantDetails.RestaurantDetailsActivity;
 import com.squareup.picasso.Picasso;
 
-import java.lang.reflect.Array;
 import java.util.ArrayList;
 import java.util.List;
-
-import jp.wasabeef.picasso.transformations.ColorFilterTransformation;
 
 public class RecyclerViewAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder> {
     private static final int TYPE_HEADER = 0;
@@ -86,7 +77,7 @@ public class RecyclerViewAdapter extends RecyclerView.Adapter<RecyclerView.ViewH
             final Restaurant restaurantItem = restaurants.get(i-1);
             setFadeAnimation(viewHolder.itemView);
 
-            Picasso.get().load(restaurantItem.getBackground()).fit().transform(new ColorFilterTransformation(Color.argb(120, 0, 0, 0))).into(((HolderItem) viewHolder).store_bg, new com.squareup.picasso.Callback() {
+            Picasso.get().load(restaurantItem.getBackground()).fit().into(((HolderItem) viewHolder).store_bg, new com.squareup.picasso.Callback() {
                 @Override
                 public void onSuccess() {
                     ((HolderItem) viewHolder).storeName.setText(restaurantItem.getName());

@@ -1,6 +1,5 @@
 package com.monresto.acidlabs.monresto.UI.RestaurantDetails;
 
-import android.annotation.SuppressLint;
 import android.os.Bundle;
 import android.support.annotation.NonNull;
 import android.support.annotation.Nullable;
@@ -18,8 +17,6 @@ import android.widget.TextView;
 import com.monresto.acidlabs.monresto.Model.Restaurant;
 import com.monresto.acidlabs.monresto.Model.Review;
 import com.monresto.acidlabs.monresto.R;
-import com.monresto.acidlabs.monresto.Service.Restaurant.RestaurantAsyncResponse;
-import com.monresto.acidlabs.monresto.Service.Review.ReviewAsyncResponse;
 import com.monresto.acidlabs.monresto.Service.Review.ReviewService;
 import com.monresto.acidlabs.monresto.UI.RestaurantDetails.Reviews.ReviewsAdapter;
 import com.monresto.acidlabs.monresto.Utilities;
@@ -30,7 +27,6 @@ import java.util.ArrayList;
 import butterknife.BindView;
 import butterknife.ButterKnife;
 
-@SuppressLint("ValidFragment")
 public class FragmentRestaurantDetails extends Fragment {
 
     @BindView(R.id.dish_bg_id)
@@ -41,9 +37,8 @@ public class FragmentRestaurantDetails extends Fragment {
     RatingBar ratingBar;
     @BindView(R.id.delivery_id)
     TextView delivery_price;
-    @BindView(R.id.listReviews)
+
     RecyclerView listReviews;
-    @BindView(R.id.reviewsStatus)
     ConstraintLayout reviewsStatus;
 
     Restaurant restaurant;
@@ -56,6 +51,9 @@ public class FragmentRestaurantDetails extends Fragment {
         View v = inflater.inflate(R.layout.fragment_restaurant_details, container,false);
 
         ButterKnife.bind(this, v);
+        listReviews = v.findViewById(R.id.listReviews);
+        reviewsStatus = v.findViewById(R.id.reviewsStatus);
+
         if (getArguments() != null) {
             restaurant = (Restaurant) getArguments().get("restaurant");
         }

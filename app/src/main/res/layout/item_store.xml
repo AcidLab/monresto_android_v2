@@ -28,8 +28,9 @@
                 android:id="@+id/store_bg"
                 android:layout_width="match_parent"
                 android:layout_height="match_parent"
-                android:transitionName="store_bg"
-                android:scaleType="fitXY" />
+                android:scaleType="fitXY"
+                android:tint="@color/com_facebook_button_background_color_disabled"
+                android:tintMode="multiply" />
 
             <TextView
                 android:id="@+id/storeState"
