@@ -114,11 +114,15 @@ public class MainActivity extends AppCompatActivity implements RestaurantAsyncRe
         List<android.location.Address> addresses;
         Geocoder geocoder = new Geocoder(this);
         try {
-            addresses = geocoder.getFromLocation(Monresto.getLat(), Monresto.getLon(), 3);
-            if (addresses != null && !addresses.isEmpty())
-                deliveryLabel.setText(addresses.get(0).getLocality());
-            else
-                deliveryLabel.setText("Adresse inconnue");
+            if(User.getInstance()!=null && User.getInstance().getSelectedAddress()!=null)
+                deliveryLabel.setText(User.getInstance().getSelectedAddress().getAdresse());
+            else{
+                addresses = geocoder.getFromLocation(Monresto.getLat(), Monresto.getLon(), 3);
+                if (addresses != null && !addresses.isEmpty())
+                    deliveryLabel.setText(addresses.get(0).getLocality());
+                else
+                    deliveryLabel.setText("Adresse inconnue");
+            }
 
         } catch (IOException e) {
             e.printStackTrace();

@@ -1,6 +1,7 @@
 package com.monresto.acidlabs.monresto.Service.Review;
 
 import android.content.Context;
+import android.support.v4.app.Fragment;
 import android.util.Log;
 
 import com.android.volley.Request;
@@ -24,10 +25,16 @@ import java.util.Map;
 
 public class ReviewService {
     private Context context;
+    private Fragment fragment;
     private ArrayList<Review> ReviewList;
 
     public ReviewService(Context context) {
         this.context = context;
+        ReviewList = new ArrayList<>();
+    }
+
+    public ReviewService(Fragment fragment) {
+        this.fragment = fragment;
         ReviewList = new ArrayList<>();
     }
 
@@ -38,8 +45,7 @@ public class ReviewService {
         RequestQueue queue = Volley.newRequestQueue(context);
         String url = Config.server + "Review/reviews.php";
         StringRequest postRequest = new StringRequest(Request.Method.POST, url,
-                new Response.Listener<String>()
-                {
+                new Response.Listener<String>() {
                     @Override
                     public void onResponse(String response) {
                         try {
@@ -50,14 +56,17 @@ public class ReviewService {
                                 obj = resto.getJSONObject(i);
                                 ReviewList.add(Review.createFromJson(obj));
                             }
-                            ((ReviewAsyncResponse) context).onReviewsReceived(ReviewList);
+                            if (context != null)
+                                ((ReviewAsyncResponse) context).onReviewsReceived(ReviewList);
+                            else if (fragment != null)
+                                ((ReviewAsyncResponse) fragment).onReviewsReceived(ReviewList);
+
                         } catch (JSONException e) {
                             e.printStackTrace();
                         }
                     }
                 },
-                new Response.ErrorListener()
-                {
+                new Response.ErrorListener() {
                     @Override
                     public void onErrorResponse(VolleyError error) {
                         // error
@@ -65,9 +74,8 @@ public class ReviewService {
                 }
         ) {
             @Override
-            protected Map<String, String> getParams()
-            {
-                Map<String, String>  params = new HashMap<>();
+            protected Map<String, String> getParams() {
+                Map<String, String> params = new HashMap<>();
                 String signature = Utilities.md5("" + id + Config.sharedKey);
                 params.put("restoID", String.valueOf(id));
                 params.put("signature", signature);
