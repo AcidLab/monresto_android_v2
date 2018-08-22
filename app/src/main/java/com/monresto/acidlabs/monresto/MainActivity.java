@@ -111,11 +111,11 @@ public class MainActivity extends AppCompatActivity implements RestaurantAsyncRe
         gpsTracker = new GPSTracker(this);
         service = new RestaurantService(this);
         userService = new UserService(this);
-        List<android.location.Address> addresses = new ArrayList<>();
+        List<android.location.Address> addresses;
         Geocoder geocoder = new Geocoder(this);
         try {
             addresses = geocoder.getFromLocation(Monresto.getLat(), Monresto.getLon(), 3);
-            if (!(addresses.get(0) == null))
+            if (addresses != null && !addresses.isEmpty())
                 deliveryLabel.setText(addresses.get(0).getLocality());
             else
                 deliveryLabel.setText("Adresse inconnue");
@@ -223,6 +223,7 @@ public class MainActivity extends AppCompatActivity implements RestaurantAsyncRe
         recyclerViewAdapter.notifyDataSetChanged();
 
     }
+
     @Override
     public void onRefresh() {
         service.getAll(Monresto.getLat(), Monresto.getLon());
