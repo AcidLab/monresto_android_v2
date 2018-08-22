@@ -101,6 +101,17 @@
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/linearLayout3" />
 
+    <include
+        android:id="@+id/reviewsStatus"
+        layout="@layout/fragment_loading"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="8dp"
+        android:visibility="visible"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="@+id/listReviews" />
+
     <android.support.v7.widget.RecyclerView
         android:id="@+id/listReviews"
         android:layout_width="0dp"
@@ -112,6 +123,7 @@
         android:fadeScrollbars="true"
         android:scrollbars="vertical"
         android:verticalScrollbarPosition="right"
+        android:visibility="invisible"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintHorizontal_bias="0.615"

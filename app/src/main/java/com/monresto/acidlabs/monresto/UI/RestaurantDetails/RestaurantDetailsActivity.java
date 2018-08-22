@@ -4,6 +4,7 @@ import android.content.Intent;
 import android.support.design.widget.FloatingActionButton;
 import android.support.design.widget.Snackbar;
 import android.support.design.widget.TabLayout;
+import android.support.v4.app.Fragment;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.support.v7.widget.LinearLayoutManager;
@@ -64,13 +65,10 @@ public class RestaurantDetailsActivity extends AppCompatActivity implements Rest
     CharSequence Titles[];
 
     RestaurantService service;
-    ReviewService reviewService;
 
     HashMap<Menu, ArrayList<Dish>> dishes = new HashMap<Menu, ArrayList<Dish>>();
 
     Restaurant restaurant;
-    ArrayList<Review> reviews;
-
     int filledDishes; // Used for stability and improvements
 
     @Override
@@ -109,7 +107,7 @@ public class RestaurantDetailsActivity extends AppCompatActivity implements Rest
 
 
     void setUpTabs() {
-        adapter = new RestaurantDetailsPager(this.getSupportFragmentManager(), Titles, Titles.length, restaurant, dishes, reviews);
+        adapter = new RestaurantDetailsPager(this.getSupportFragmentManager(), Titles, restaurant, dishes);
         pager.setAdapter(adapter);
         tabs.setupWithViewPager(pager);
     }
@@ -182,12 +180,7 @@ public class RestaurantDetailsActivity extends AppCompatActivity implements Rest
 
         filledDishes++;
 
-        if (filledDishes == MenusList.size() - 1) {
-            System.out.println("SPECIAL DEBUG: Getting reviews for the restaurant...");
-            reviewService = new ReviewService(this);
-            reviewService.getAll(restaurant.getId());
-        }
-
+        setUpTabs();
     }
 
     @Override
@@ -207,7 +200,8 @@ public class RestaurantDetailsActivity extends AppCompatActivity implements Rest
 
     @Override
     public void onReviewsReceived(ArrayList<Review> ReviewList) {
-        reviews = ReviewList;
-        setUpTabs();
+        System.out.println("SPECIAL DEBUG: Reviews received...");
+        FragmentRestaurantDetails fragment = (FragmentRestaurantDetails) adapter.getItem(0);
+        fragment.loadReviews(ReviewList);
     }
 }

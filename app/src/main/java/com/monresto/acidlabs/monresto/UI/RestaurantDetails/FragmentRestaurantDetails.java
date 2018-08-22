@@ -4,6 +4,7 @@ import android.annotation.SuppressLint;
 import android.os.Bundle;
 import android.support.annotation.NonNull;
 import android.support.annotation.Nullable;
+import android.support.constraint.ConstraintLayout;
 import android.support.v4.app.Fragment;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
@@ -21,6 +22,7 @@ import com.monresto.acidlabs.monresto.Service.Restaurant.RestaurantAsyncResponse
 import com.monresto.acidlabs.monresto.Service.Review.ReviewAsyncResponse;
 import com.monresto.acidlabs.monresto.Service.Review.ReviewService;
 import com.monresto.acidlabs.monresto.UI.RestaurantDetails.Reviews.ReviewsAdapter;
+import com.monresto.acidlabs.monresto.Utilities;
 import com.squareup.picasso.Picasso;
 
 import java.util.ArrayList;
@@ -41,9 +43,12 @@ public class FragmentRestaurantDetails extends Fragment {
     TextView delivery_price;
     @BindView(R.id.listReviews)
     RecyclerView listReviews;
+    @BindView(R.id.reviewsStatus)
+    ConstraintLayout reviewsStatus;
 
-    ArrayList<Review> reviews;
     Restaurant restaurant;
+    ReviewService reviewService;
+    ReviewsAdapter reviewsAdapter;
 
     @Nullable
     @Override
@@ -53,16 +58,18 @@ public class FragmentRestaurantDetails extends Fragment {
         ButterKnife.bind(this, v);
         if (getArguments() != null) {
             restaurant = (Restaurant) getArguments().get("restaurant");
-            reviews = (ArrayList<Review>) getArguments().get("reviews");
         }
 
-        // Assigning values
-        ReviewsAdapter reviewsAdapter = new ReviewsAdapter(getContext());
+        // Preparing reviews recyclerView
+        reviewsAdapter = new ReviewsAdapter(getActivity());
         listReviews.setLayoutManager(new LinearLayoutManager(getActivity()));
         listReviews.setAdapter(reviewsAdapter);
-        reviewsAdapter.setReviews(reviews);
-        reviewsAdapter.notifyDataSetChanged();
 
+        // Reviews service call
+        reviewService = new ReviewService(getActivity());
+        reviewService.getAll(restaurant.getId());
+
+        // Assigning values
         Picasso.get().load(restaurant.getImage()).into(dish_bg);
 
         ratingBar.setRating((float)restaurant.getRate());
@@ -79,4 +86,16 @@ public class FragmentRestaurantDetails extends Fragment {
         super.onCreate(savedInstanceState);
     }
 
+    public void loadReviews(ArrayList<Review> ReviewList) {
+        System.out.println("SPECIAL DEBUG: Loading Reviews...");
+        if(ReviewList.isEmpty())
+            Utilities.statusChangerUnavailable(getActivity(),"Il n'y a aucun avis",reviewsStatus,listReviews);
+        else {
+            reviewsStatus.setVisibility(View.INVISIBLE);
+            listReviews.setVisibility(View.VISIBLE);
+
+            reviewsAdapter.setReviews(ReviewList);
+            reviewsAdapter.notifyDataSetChanged();
+        }
+    }
 }
