@@ -6,6 +6,8 @@ import android.support.design.widget.Snackbar;
 import android.support.design.widget.TabLayout;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
+import android.support.v7.widget.LinearLayoutManager;
+import android.support.v7.widget.RecyclerView;
 import android.support.v7.widget.Toolbar;
 import android.view.MenuItem;
 import android.view.View;
@@ -180,8 +182,6 @@ public class RestaurantDetailsActivity extends AppCompatActivity implements Rest
 
         filledDishes++;
 
-        setUpTabs();
-
         if (filledDishes == MenusList.size() - 1) {
             System.out.println("SPECIAL DEBUG: Getting reviews for the restaurant...");
             reviewService = new ReviewService(this);
@@ -207,13 +207,7 @@ public class RestaurantDetailsActivity extends AppCompatActivity implements Rest
 
     @Override
     public void onReviewsReceived(ArrayList<Review> ReviewList) {
-        ListView reviewsList = findViewById(R.id.listReviews);
         reviews = ReviewList;
-
-        ReviewsAdapter reviewsAdapter = new ReviewsAdapter(reviews, this);
-        if (reviewsList != null) {
-            reviewsList.setAdapter(reviewsAdapter);
-            //Utilities.setListViewHeightBasedOnChildren(reviewsList);
-        }
+        setUpTabs();
     }
 }

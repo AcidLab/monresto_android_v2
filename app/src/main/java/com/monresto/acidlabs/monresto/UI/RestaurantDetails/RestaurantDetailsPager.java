@@ -21,7 +21,7 @@ public class RestaurantDetailsPager extends FragmentStatePagerAdapter {
     CharSequence Titles[]; // This will Store the Titles of the Tabs which are Going to be passed when ViewPagerAdapter is created
     int NumbOfTabs; // Store the number of tabs, this will also be passed when the ViewPagerAdapter is created
     Restaurant restaurant;
-    HashMap<Menu, ArrayList<Dish>> dishes = new HashMap<Menu, ArrayList<Dish>>();
+    HashMap<Menu, ArrayList<Dish>> dishes;
     ArrayList<Review> reviews;
 
     // Build a Constructor and assign the passed Values to appropriate values in the class

@@ -119,7 +119,6 @@ public class HomepageActivity extends AppCompatActivity implements UserAsyncResp
                     case MotionEvent.ACTION_MOVE:
                         homepage_swiper.setEnabled(false);
                         break;
-                    case MotionEvent.ACTION_UP:
                     case MotionEvent.ACTION_CANCEL:
                         homepage_swiper.setEnabled(true);
                         break;
@@ -135,7 +134,28 @@ public class HomepageActivity extends AppCompatActivity implements UserAsyncResp
             public void onRequestDisallowInterceptTouchEvent(boolean b) {
             }
         });
+        eventsRecycler.addOnItemTouchListener(new RecyclerView.OnItemTouchListener() {
+            @Override
+            public boolean onInterceptTouchEvent(RecyclerView recyclerView, MotionEvent event) {
+                switch (event.getAction()) {
+                    case MotionEvent.ACTION_MOVE:
+                        homepage_swiper.setEnabled(false);
+                        break;
+                    case MotionEvent.ACTION_CANCEL:
+                        homepage_swiper.setEnabled(true);
+                        break;
+                }
+                return false;
+            }
 
+            @Override
+            public void onTouchEvent(@NonNull RecyclerView recyclerView, @NonNull MotionEvent motionEvent) {
+            }
+
+            @Override
+            public void onRequestDisallowInterceptTouchEvent(boolean b) {
+            }
+        });
         homepageService.getAll();
 
         configContainer.setOnClickListener(view -> {

@@ -46,7 +46,7 @@
                 <RatingBar
                     android:id="@+id/ratingBar"
                     style="@style/Base.Widget.AppCompat.RatingBar.Small"
-                    android:layout_width="125dp"
+                    android:layout_width="112dp"
                     android:layout_height="wrap_content"
                     android:layout_weight="1"
                     android:numStars="5" />
@@ -101,21 +101,23 @@
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/linearLayout3" />
 
-    <ListView
+    <android.support.v7.widget.RecyclerView
         android:id="@+id/listReviews"
         android:layout_width="0dp"
-        android:layout_height="186dp"
+        android:layout_height="0dp"
+        android:layout_marginBottom="8dp"
         android:layout_marginLeft="20dp"
         android:layout_marginRight="20dp"
-        android:layout_marginTop="20dp"
+        android:layout_marginTop="16dp"
         android:fadeScrollbars="true"
         android:scrollbars="vertical"
         android:verticalScrollbarPosition="right"
+        app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintHorizontal_bias="0.615"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/textView6">
 
-    </ListView>
+    </android.support.v7.widget.RecyclerView>
 
 </android.support.constraint.ConstraintLayout>

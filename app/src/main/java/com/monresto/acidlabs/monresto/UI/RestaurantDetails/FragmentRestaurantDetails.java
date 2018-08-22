@@ -5,6 +5,8 @@ import android.os.Bundle;
 import android.support.annotation.NonNull;
 import android.support.annotation.Nullable;
 import android.support.v4.app.Fragment;
+import android.support.v7.widget.LinearLayoutManager;
+import android.support.v7.widget.RecyclerView;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -18,40 +20,49 @@ import com.monresto.acidlabs.monresto.R;
 import com.monresto.acidlabs.monresto.Service.Restaurant.RestaurantAsyncResponse;
 import com.monresto.acidlabs.monresto.Service.Review.ReviewAsyncResponse;
 import com.monresto.acidlabs.monresto.Service.Review.ReviewService;
+import com.monresto.acidlabs.monresto.UI.RestaurantDetails.Reviews.ReviewsAdapter;
 import com.squareup.picasso.Picasso;
 
 import java.util.ArrayList;
 
 import butterknife.BindView;
+import butterknife.ButterKnife;
 
 @SuppressLint("ValidFragment")
 public class FragmentRestaurantDetails extends Fragment {
 
-    Restaurant restaurant;
+    @BindView(R.id.dish_bg_id)
     ImageView dish_bg;
+    @BindView(R.id.rating_id)
     TextView rating;
+    @BindView(R.id.ratingBar)
     RatingBar ratingBar;
-    TextView price;
+    @BindView(R.id.delivery_id)
     TextView delivery_price;
+    @BindView(R.id.listReviews)
+    RecyclerView listReviews;
+
     ArrayList<Review> reviews;
+    Restaurant restaurant;
 
     @Nullable
     @Override
     public View onCreateView(@NonNull LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
         View v = inflater.inflate(R.layout.fragment_restaurant_details, container,false);
 
+        ButterKnife.bind(this, v);
         if (getArguments() != null) {
             restaurant = (Restaurant) getArguments().get("restaurant");
             reviews = (ArrayList<Review>) getArguments().get("reviews");
         }
 
-        // Binding views
-        dish_bg = v.findViewById(R.id.dish_bg_id);
-        rating = v.findViewById(R.id.rating_id);
-        delivery_price = v.findViewById(R.id.delivery_id);
-        ratingBar = v.findViewById(R.id.ratingBar);
-
         // Assigning values
+        ReviewsAdapter reviewsAdapter = new ReviewsAdapter(getContext());
+        listReviews.setLayoutManager(new LinearLayoutManager(getActivity()));
+        listReviews.setAdapter(reviewsAdapter);
+        reviewsAdapter.setReviews(reviews);
+        reviewsAdapter.notifyDataSetChanged();
+
         Picasso.get().load(restaurant.getImage()).into(dish_bg);
 
         ratingBar.setRating((float)restaurant.getRate());

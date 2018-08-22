@@ -1,64 +1,64 @@
 package com.monresto.acidlabs.monresto.UI.RestaurantDetails.Reviews;
 
-import android.annotation.SuppressLint;
 import android.content.Context;
+import android.support.annotation.NonNull;
+import android.support.v7.widget.RecyclerView;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
-import android.widget.BaseAdapter;
-import android.widget.ImageView;
 import android.widget.RatingBar;
 import android.widget.TextView;
 
 import com.monresto.acidlabs.monresto.Model.Review;
 import com.monresto.acidlabs.monresto.R;
-import com.squareup.picasso.Picasso;
 
 import java.util.ArrayList;
 
 import butterknife.BindView;
+import butterknife.ButterKnife;
 
-public class ReviewsAdapter extends BaseAdapter {
-    private int nbReviews;
+public class ReviewsAdapter extends RecyclerView.Adapter<ReviewsAdapter.ViewHolder> {
     private Context context;
     private ArrayList<Review> reviews;
-    TextView name;
-    RatingBar ratingBar;
 
-    public ReviewsAdapter (ArrayList<Review> ReviewList, Context context) {
-        reviews = ReviewList;
-        nbReviews = reviews.size();
+    public ReviewsAdapter (Context context) {
         this.context = context;
     }
 
+    static class ViewHolder extends RecyclerView.ViewHolder {
+        @BindView(R.id.rating_name)
+        TextView name;
+        @BindView(R.id.ratingBar)
+        RatingBar ratingBar;
+
+        ViewHolder(@NonNull View itemView) {
+            super(itemView);
+            ButterKnife.bind(this, itemView);
+        }
+    }
+
+    @NonNull
     @Override
-    public int getCount() {
-        return nbReviews;
+    public ReviewsAdapter.ViewHolder onCreateViewHolder(@NonNull ViewGroup viewGroup, int i) {
+        View v;
+        v = LayoutInflater.from(context).inflate(R.layout.item_review, viewGroup, false);
+        return new ViewHolder(v);
     }
 
     @Override
-    public Object getItem(int i) {
-        return null;
+    public void onBindViewHolder(@NonNull ReviewsAdapter.ViewHolder viewHolder, int i) {
+        Review review = reviews.get(i);
+        viewHolder.name.setText(review.getClientname());
+        viewHolder.ratingBar.setRating((float)review.getNote());
+        viewHolder.ratingBar.setIsIndicator(true);
     }
 
     @Override
-    public long getItemId(int i) {
-        return 0;
+    public int getItemCount() {
+        return reviews.size();
     }
 
-    @SuppressLint({"ViewHolder", "InflateParams"})
-    @Override
-    public View getView(int i, View view, ViewGroup viewGroup) {
-        view = LayoutInflater.from(context).inflate(R.layout.item_review, null);
-
-        name = view.findViewById(R.id.rating_name);
-        name.setText(reviews.get(i).getClientname());
-
-        ratingBar = view.findViewById(R.id.ratingBar);
-
-        ratingBar.setRating((float)reviews.get(i).getNote());
-        ratingBar.setIsIndicator(true);
-
-        return view;
+    public void setReviews(ArrayList<Review> reviews) {
+        this.reviews = reviews;
     }
 }
