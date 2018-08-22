@@ -138,10 +138,11 @@ public class OrderActivity extends AppCompatActivity implements RestaurantAsyncR
             @Override
             public void onClick(View view) {
                 ArrayList<Dish.Component> components = new ArrayList<>();
-                ArrayList<Dish.Option> options = new ArrayList<>();
+                ArrayList<Dish.Option> options;
 
                 if (componentsLists != null)
                     for (int i = 0; i < componentsLists.size(); i++) {
+                        options = new ArrayList<>();
                         ComponentsAdapter componentsAdapterTemp = (ComponentsAdapter) componentsLists.get(i).getAdapter();
 
                         for (int j = 0; j < componentsAdapterTemp.getCheckedItemsPositions().size(); j++)
@@ -152,10 +153,9 @@ public class OrderActivity extends AppCompatActivity implements RestaurantAsyncR
 
                 if (optionsAdapter != null)
                     ShoppingCart.getInstance().addToCart(dish, Integer.valueOf(dish_quantity.getText().toString()), optionsAdapter.getItem(optionsAdapter.getSelectedItem()), components);
-                else ShoppingCart.getInstance().addToCart(dish, Integer.valueOf(dish_quantity.getText().toString()), null, components);
+                else
+                    ShoppingCart.getInstance().addToCart(dish, Integer.valueOf(dish_quantity.getText().toString()), null, components);
 
-
-                System.out.println("SPECIAL DEBUG: Items added to cart !");
                 finish();
             }
         });
