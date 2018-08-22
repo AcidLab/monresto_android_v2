@@ -43,7 +43,7 @@ import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 
-public class RestaurantDetailsActivity extends AppCompatActivity implements RestaurantAsyncResponse, ReviewAsyncResponse {
+public class RestaurantDetailsActivity extends AppCompatActivity implements RestaurantAsyncResponse {
 
     @BindView(R.id.toolbar)
     Toolbar toolbar;
@@ -198,10 +198,4 @@ public class RestaurantDetailsActivity extends AppCompatActivity implements Rest
 
     }
 
-    @Override
-    public void onReviewsReceived(ArrayList<Review> ReviewList) {
-        System.out.println("SPECIAL DEBUG: Reviews received...");
-        FragmentRestaurantDetails fragment = (FragmentRestaurantDetails) adapter.getItem(0);
-        fragment.loadReviews(ReviewList);
-    }
 }

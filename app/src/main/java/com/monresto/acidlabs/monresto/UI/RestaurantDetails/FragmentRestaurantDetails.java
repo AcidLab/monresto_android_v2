@@ -17,6 +17,7 @@ import android.widget.TextView;
 import com.monresto.acidlabs.monresto.Model.Restaurant;
 import com.monresto.acidlabs.monresto.Model.Review;
 import com.monresto.acidlabs.monresto.R;
+import com.monresto.acidlabs.monresto.Service.Review.ReviewAsyncResponse;
 import com.monresto.acidlabs.monresto.Service.Review.ReviewService;
 import com.monresto.acidlabs.monresto.UI.RestaurantDetails.Reviews.ReviewsAdapter;
 import com.monresto.acidlabs.monresto.Utilities;
@@ -27,7 +28,7 @@ import java.util.ArrayList;
 import butterknife.BindView;
 import butterknife.ButterKnife;
 
-public class FragmentRestaurantDetails extends Fragment {
+public class FragmentRestaurantDetails extends Fragment implements ReviewAsyncResponse {
 
     @BindView(R.id.dish_bg_id)
     ImageView dish_bg;
@@ -64,7 +65,7 @@ public class FragmentRestaurantDetails extends Fragment {
         listReviews.setAdapter(reviewsAdapter);
 
         // Reviews service call
-        reviewService = new ReviewService(getActivity());
+        reviewService = new ReviewService(this);
         reviewService.getAll(restaurant.getId());
 
         // Assigning values
@@ -83,9 +84,9 @@ public class FragmentRestaurantDetails extends Fragment {
     public void onCreate(@Nullable Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
     }
-
-    public void loadReviews(ArrayList<Review> ReviewList) {
-        System.out.println("SPECIAL DEBUG: Loading Reviews...");
+    
+    @Override
+    public void onReviewsReceived(ArrayList<Review> ReviewList) {
         if(ReviewList.isEmpty())
             Utilities.statusChangerUnavailable(getActivity(),"Il n'y a aucun avis",reviewsStatus,listReviews);
         else {

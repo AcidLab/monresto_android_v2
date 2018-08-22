@@ -22,7 +22,6 @@ public class RestaurantDetailsPager extends FragmentStatePagerAdapter {
     private int NumbOfTabs; // Store the number of tabs, this will also be passed when the ViewPagerAdapter is created
     private Restaurant restaurant;
     private HashMap<Menu, ArrayList<Dish>> dishes;
-    private int firstTabCreated;
     private FragmentRestaurantDetails firstTab;
 
     // Build a Constructor and assign the passed Values to appropriate values in the class
@@ -32,7 +31,6 @@ public class RestaurantDetailsPager extends FragmentStatePagerAdapter {
         this.Titles = mTitles;
         this.NumbOfTabs = mTitles.length;
         this.dishes = dishes;
-        this.firstTabCreated = 0;
     }
 
     //This method return the fragment for every position in the View Pager
@@ -40,15 +38,11 @@ public class RestaurantDetailsPager extends FragmentStatePagerAdapter {
     public Fragment getItem(int position) {
         if (position == 0) // if the position is 0 we are returning the First tab
         {
-            if(firstTab == null) {
-                firstTab = new FragmentRestaurantDetails();
-                Bundle firstTabBundle = new Bundle();
-                firstTabBundle.putParcelable("restaurant", restaurant);
-                firstTab.setArguments(firstTabBundle);
-                firstTabCreated = 1;
-                return firstTab;
-            }
-            else return firstTab;
+            firstTab = new FragmentRestaurantDetails();
+            Bundle firstTabBundle = new Bundle();
+            firstTabBundle.putParcelable("restaurant", restaurant);
+            firstTab.setArguments(firstTabBundle);
+            return firstTab;
         } else              // Tabs reserved for dishes
         {
             FragmentDish otherTab = null;

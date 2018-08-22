@@ -42,7 +42,7 @@ public class ReviewService {
      * @param id Restaurant id
      */
     public void getAll(final int id) {
-        RequestQueue queue = Volley.newRequestQueue(context);
+        RequestQueue queue = Volley.newRequestQueue(fragment.getContext());
         String url = Config.server + "Review/reviews.php";
         StringRequest postRequest = new StringRequest(Request.Method.POST, url,
                 new Response.Listener<String>() {
