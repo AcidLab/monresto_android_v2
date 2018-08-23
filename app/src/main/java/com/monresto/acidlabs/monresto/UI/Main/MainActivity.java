@@ -3,6 +3,7 @@ package com.monresto.acidlabs.monresto.UI.Main;
 import android.content.Intent;
 import android.location.Geocoder;
 import android.os.Bundle;
+import android.support.annotation.Nullable;
 import android.support.constraint.ConstraintLayout;
 import android.support.v4.widget.SwipeRefreshLayout;
 import android.support.v7.app.AppCompatActivity;
@@ -17,6 +18,7 @@ import android.widget.Toast;
 
 import com.google.android.gms.location.FusedLocationProviderClient;
 import com.mancj.materialsearchbar.MaterialSearchBar;
+import com.monresto.acidlabs.monresto.Config;
 import com.monresto.acidlabs.monresto.GPSTracker;
 import com.monresto.acidlabs.monresto.Model.Address;
 import com.monresto.acidlabs.monresto.Model.HomepageConfig;
@@ -345,4 +347,14 @@ public class MainActivity extends AppCompatActivity implements RestaurantAsyncRe
         startActivity(intent);
     }
 
+    @Override
+    protected void onActivityResult(int requestCode, int resultCode, @Nullable Intent data) {
+        super.onActivityResult(requestCode, resultCode, data);
+        if(resultCode == RESULT_OK){
+            if(requestCode == Config.REQUEST_CODE_FILTER_SELECT && data !=null) {
+                int filter = data.getIntExtra("filter", 0);
+                searchWithFilter(filter);
+            }
+        }
+    }
 }

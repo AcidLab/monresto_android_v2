@@ -55,11 +55,30 @@ public class FilterRecyclerViewAdapter extends RecyclerView.Adapter<FilterRecycl
         Filter filter = filters.get(i);
 
         viewHolder.filter.setText(filter.getTitle());
+
         //TODO
         switch (filter.getType()) {
             case Monresto.FILTER_NOTE: {
                 viewHolder.filter.setOnClickListener(view -> {
-
+                    ((FilterActivity)context).sendFilter(Monresto.FILTER_NOTE);
+                });
+            }
+            break;
+            case Monresto.FILTER_OPEN: {
+                viewHolder.filter.setOnClickListener(view -> {
+                    ((FilterActivity)context).sendFilter(Monresto.FILTER_OPEN);
+                });
+            }
+            break;
+            case Monresto.FILTER_TIME: {
+                viewHolder.filter.setOnClickListener(view -> {
+                    ((FilterActivity)context).sendFilter(Monresto.FILTER_TIME);
+                });
+            }
+            break;
+            case Monresto.FILTER_PROMO: {
+                viewHolder.filter.setOnClickListener(view -> {
+                    ((FilterActivity)context).sendFilter(Monresto.FILTER_PROMO);
                 });
             }
             break;

@@ -44,6 +44,7 @@
 
         </activity>
         <activity android:name=".UI.Main.MainActivity" />
+        <activity android:name=".UI.Main.FilterActivity" />
 
         <meta-data
             android:name="com.facebook.sdk.ApplicationId"

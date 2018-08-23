@@ -6,6 +6,7 @@ public class Config {
     public static final int REQUEST_CODE_ADRESS_SELECT = 3;
     public static final int REQUEST_CODE_ASK_FOR_LOCATION = 4;
     public static final int REQUEST_CODE_POSITION_SELECT = 5;
+    public static final int REQUEST_CODE_FILTER_SELECT = 6;
 
     public static final String server = "https://www.monresto.net/ws/v3/";
     public static final String acidlabsServer = "http://www.monresto.acidlabs.co/";
