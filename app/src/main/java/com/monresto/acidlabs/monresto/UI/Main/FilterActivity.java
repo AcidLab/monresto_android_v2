@@ -8,6 +8,7 @@ import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.view.Window;
 import android.widget.ImageView;
+import android.widget.LinearLayout;
 
 import com.monresto.acidlabs.monresto.Model.Filter;
 import com.monresto.acidlabs.monresto.R;
@@ -18,19 +19,15 @@ import butterknife.ButterKnife;
 public class FilterActivity extends AppCompatActivity {
     FilterRecyclerViewAdapter adapter;
 
-    //TODO
-    @BindView(R.id.recyclerview_address)
+    @BindView(R.id.recyclerView)
     RecyclerView recyclerView;
-    @BindView(R.id.btnClose)
-    ImageView btnClose;
 
     @Override
     protected void onCreate(@Nullable Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         supportRequestWindowFeature(Window.FEATURE_NO_TITLE);
 
-        //TODO
-        //setContentView(R.layout.activity_filter);
+        setContentView(R.layout.activity_sorting);
         ButterKnife.bind(this);
 
         int width = (int) (getResources().getDisplayMetrics().widthPixels * 0.9);
@@ -39,9 +36,8 @@ public class FilterActivity extends AppCompatActivity {
 
         adapter = new FilterRecyclerViewAdapter(this);
         adapter.setFilters(Filter.getFilters());
-        recyclerView.setLayoutManager(new LinearLayoutManager(this));
+        recyclerView.setLayoutManager(new LinearLayoutManager(this, LinearLayout.HORIZONTAL, false));
         recyclerView.setAdapter(adapter);
-        btnClose.setOnClickListener(e -> finish());
     }
 
     void sendFilter(int filter){

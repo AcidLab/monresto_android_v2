@@ -30,13 +30,14 @@ public class Filter implements Serializable {
         return type;
     }
 
+    // TODO 
     public static ArrayList<Filter> getFilters() {
         if (filters == null) {
             filters = new ArrayList<>();
             filters.add(new Filter("Note", null, Monresto.FILTER_NOTE));
             filters.add(new Filter("Ouvert", null, Monresto.FILTER_OPEN));
             filters.add(new Filter("Promotion", null, Monresto.FILTER_PROMO));
-            filters.add(new Filter("Tempsde livraison", null, Monresto.FILTER_TIME));
+            filters.add(new Filter("Temps de livraison", null, Monresto.FILTER_TIME));
         }
         return filters;
     }

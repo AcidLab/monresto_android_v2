@@ -3,11 +3,14 @@ package com.monresto.acidlabs.monresto.UI.Main;
 import android.content.Context;
 import android.graphics.Color;
 import android.support.annotation.NonNull;
+import android.support.constraint.ConstraintLayout;
 import android.support.v7.widget.RecyclerView;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.Button;
+import android.widget.ImageView;
+import android.widget.TextView;
 
 import com.monresto.acidlabs.monresto.Model.Filter;
 import com.monresto.acidlabs.monresto.Model.Monresto;
@@ -29,9 +32,12 @@ public class FilterRecyclerViewAdapter extends RecyclerView.Adapter<FilterRecycl
     }
 
     static class ViewHolder extends RecyclerView.ViewHolder {
-        //TODO
-        @BindView(R.id.filter)
-        Button filter;
+        @BindView(R.id.sortName)
+        TextView sortName;
+        @BindView(R.id.sortPic)
+        ImageView sortPic;
+        @BindView(R.id.sortContainer)
+        ConstraintLayout sortContainer;
 
         ViewHolder(@NonNull View itemView) {
             super(itemView);
@@ -43,8 +49,7 @@ public class FilterRecyclerViewAdapter extends RecyclerView.Adapter<FilterRecycl
     @Override
     public ViewHolder onCreateViewHolder(@NonNull ViewGroup viewGroup, int i) {
         View v;
-        //TODO
-        v = LayoutInflater.from(context).inflate(R.layout.item_filter, viewGroup, false);
+        v = LayoutInflater.from(context).inflate(R.layout.item_sort, viewGroup, false);
 
         return new ViewHolder(v);
     }
@@ -54,30 +59,30 @@ public class FilterRecyclerViewAdapter extends RecyclerView.Adapter<FilterRecycl
         viewHolder.setIsRecyclable(false);
         Filter filter = filters.get(i);
 
-        viewHolder.filter.setText(filter.getTitle());
+        viewHolder.sortName.setText(filter.getTitle());
+        viewHolder.sortPic.setImageDrawable(filter.getIcon());
 
-        //TODO
         switch (filter.getType()) {
             case Monresto.FILTER_NOTE: {
-                viewHolder.filter.setOnClickListener(view -> {
+                viewHolder.sortContainer.setOnClickListener(view -> {
                     ((FilterActivity)context).sendFilter(Monresto.FILTER_NOTE);
                 });
             }
             break;
             case Monresto.FILTER_OPEN: {
-                viewHolder.filter.setOnClickListener(view -> {
+                viewHolder.sortContainer.setOnClickListener(view -> {
                     ((FilterActivity)context).sendFilter(Monresto.FILTER_OPEN);
                 });
             }
             break;
             case Monresto.FILTER_TIME: {
-                viewHolder.filter.setOnClickListener(view -> {
+                viewHolder.sortContainer.setOnClickListener(view -> {
                     ((FilterActivity)context).sendFilter(Monresto.FILTER_TIME);
                 });
             }
             break;
             case Monresto.FILTER_PROMO: {
-                viewHolder.filter.setOnClickListener(view -> {
+                viewHolder.sortContainer.setOnClickListener(view -> {
                     ((FilterActivity)context).sendFilter(Monresto.FILTER_PROMO);
                 });
             }
