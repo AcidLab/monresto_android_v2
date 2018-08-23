@@ -1,7 +1,5 @@
 package com.monresto.acidlabs.monresto.Model;
 
-import android.graphics.drawable.Drawable;
-
 import com.monresto.acidlabs.monresto.R;
 
 import java.io.Serializable;
