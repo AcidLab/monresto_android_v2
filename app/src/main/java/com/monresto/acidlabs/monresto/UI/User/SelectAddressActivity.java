@@ -88,7 +88,7 @@ public class SelectAddressActivity extends AppCompatActivity implements UserAsyn
 
     @Override
     public void onAddressListReceived(ArrayList<Address> addresses) {
-        System.out.println("addresses = [" + addresses + "]");updateList(addresses);
+        updateList(addresses);
     }
 
 

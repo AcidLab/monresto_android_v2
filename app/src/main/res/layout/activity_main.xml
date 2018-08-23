@@ -67,35 +67,46 @@
                     app:layout_constraintTop_toTopOf="parent"
                     app:srcCompat="@drawable/ic_close_black_48dp" />
 
-                <TextView
-                    android:id="@+id/textView3"
+                <LinearLayout
+                    android:id="@+id/change_address_container"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:layout_marginEnd="16dp"
+                    android:layout_marginEnd="8dp"
                     android:layout_marginTop="4dp"
-                    android:fontFamily="@font/googlesans_regular"
-                    android:text="LIVREZ À"
-                    android:textAlignment="textEnd"
-                    android:textAllCaps="true"
-                    android:textColor="@color/colorAccent"
-                    android:textSize="12sp"
+                    android:orientation="vertical"
                     app:layout_constraintEnd_toStartOf="@+id/home_close"
-                    app:layout_constraintTop_toTopOf="parent" />
+                    app:layout_constraintTop_toTopOf="parent">
 
-                <TextView
-                    android:id="@+id/deliveryLabel"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:layout_marginBottom="4dp"
-                    android:layout_marginEnd="16dp"
-                    android:fontFamily="@font/googlesans_bold"
-                    android:text="Cité Ennasr"
-                    android:textAlignment="textEnd"
-                    android:textSize="16sp"
-                    android:textStyle="bold"
-                    app:layout_constraintBottom_toBottomOf="parent"
-                    app:layout_constraintEnd_toStartOf="@+id/home_close"
-                    app:layout_constraintTop_toBottomOf="@+id/textView3" />
+                    <TextView
+                        android:id="@+id/textView3"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:layout_marginEnd="16dp"
+                        android:layout_marginTop="4dp"
+                        android:fontFamily="@font/googlesans_regular"
+                        android:text="LIVREZ À"
+                        android:textAlignment="textEnd"
+                        android:textAllCaps="true"
+                        android:textColor="@color/colorAccent"
+                        android:textSize="12sp"
+                        app:layout_constraintEnd_toStartOf="@+id/home_close"
+                        app:layout_constraintTop_toTopOf="parent" />
+
+                    <TextView
+                        android:id="@+id/deliveryLabel"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:layout_marginBottom="4dp"
+                        android:layout_marginEnd="16dp"
+                        android:fontFamily="@font/googlesans_bold"
+                        android:text="Cité Ennasr"
+                        android:textAlignment="textEnd"
+                        android:textSize="16sp"
+                        android:textStyle="bold"
+                        app:layout_constraintBottom_toBottomOf="parent"
+                        app:layout_constraintEnd_toStartOf="@+id/home_close"
+                        app:layout_constraintTop_toBottomOf="@+id/textView3" />
+                </LinearLayout>
 
             </android.support.constraint.ConstraintLayout>
 

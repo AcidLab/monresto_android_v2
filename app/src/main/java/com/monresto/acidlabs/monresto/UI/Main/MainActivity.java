@@ -11,6 +11,7 @@ import android.support.v7.widget.RecyclerView;
 import android.view.View;
 import android.widget.FrameLayout;
 import android.widget.ImageView;
+import android.widget.LinearLayout;
 import android.widget.TextView;
 import android.widget.Toast;
 
@@ -68,6 +69,8 @@ public class MainActivity extends AppCompatActivity implements RestaurantAsyncRe
     TextView cart_total;
     @BindView(R.id.deliveryLabel)
     TextView deliveryLabel;
+    @BindView(R.id.change_address_container)
+    LinearLayout change_address_container;
 
     private ArrayList<Restaurant> searchList;
     private ArrayList<Speciality> specialities;
@@ -77,6 +80,7 @@ public class MainActivity extends AppCompatActivity implements RestaurantAsyncRe
     private RestaurantService service;
     private RecyclerViewAdapter recyclerViewAdapter;
     GPSTracker gpsTracker;
+    Geocoder geocoder;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -97,7 +101,7 @@ public class MainActivity extends AppCompatActivity implements RestaurantAsyncRe
         service = new RestaurantService(this);
         userService = new UserService(this);
         List<android.location.Address> addresses;
-        Geocoder geocoder = new Geocoder(this);
+        geocoder = new Geocoder(this);
         try {
             if (User.getInstance() != null && User.getInstance().getSelectedAddress() != null)
                 deliveryLabel.setText(User.getInstance().getSelectedAddress().getAdresse());
@@ -118,16 +122,19 @@ public class MainActivity extends AppCompatActivity implements RestaurantAsyncRe
         service.getAll(Monresto.getLat(), Monresto.getLon());
         service.getSpecialities();
 
-        //TODO
-        //filterRecylcerView.setLayoutManager(new LinearLayoutManager(this, LinearLayoutManager.HORIZONTAL, false));
         stores_recyclerview.setLayoutManager(new LinearLayoutManager(this));
 
+        //TODO
         //filtersToggle.setOnClickListener(view -> {
             /*if (filterRecylcerView.getVisibility() == View.VISIBLE)
                 filterRecylcerView.setVisibility(View.GONE);
             else filterRecylcerView.setVisibility(View.VISIBLE);*/
         //});
 
+        change_address_container.setOnClickListener(e -> {
+            Intent intent = new Intent(this, SelectAddressActivity.class);
+            startActivity(intent);
+        });
         home_profile_icon.setOnClickListener(view -> {
             Intent intent;
             if (User.getInstance() == null)
@@ -221,10 +228,25 @@ public class MainActivity extends AppCompatActivity implements RestaurantAsyncRe
             if (Monresto.locationChanged) {
                 Monresto.locationChanged = false;
                 service.getAll(Monresto.getLat(), Monresto.getLon());
+
+                List<android.location.Address> addresses;
+                geocoder = new Geocoder(this);
+                try {
+                    if (User.getInstance() != null && User.getInstance().getSelectedAddress() != null)
+                        deliveryLabel.setText(User.getInstance().getSelectedAddress().getAdresse());
+                    else {
+                        addresses = geocoder.getFromLocation(Monresto.getLat(), Monresto.getLon(), 3);
+                        if (addresses != null && !addresses.isEmpty())
+                            deliveryLabel.setText(addresses.get(0).getLocality());
+                        else
+                            deliveryLabel.setText("Adresse inconnue");
+                    }
+
+                } catch (IOException e) {
+                    e.printStackTrace();
+                }
             }
             updateHomeCart();
-            /*Utilities.statusChanger(this,R.layout.fragment_loading, status_restaurants, restaurants_swiper);
-              onRefresh();*/
         }
 
     }

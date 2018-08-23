@@ -63,7 +63,7 @@ public class CheckoutActivity extends AppCompatActivity {
 
         ButterKnife.bind(this);
 
-        address = Monresto.getInstance().getAddress();
+        address = User.getInstance().getSelectedAddress();
         textAddress.setText(address.getAdresse());
         textAddress.setOnClickListener(e -> {
             Intent intent = new Intent(this, SelectAddressActivity.class);
@@ -85,7 +85,7 @@ public class CheckoutActivity extends AppCompatActivity {
         int orderOptionID = getItemIdByType(paymentMethods, TYPE_UNAVAILABLE_OPTION);
         int deliveryTime = getItemIdByType(paymentMethods, TYPE_DELIVERY_DATE);
         orderBtn.setOnClickListener(e -> {
-            userService.submitOrders(User.getInstance().getId(), Monresto.getInstance().getAddress().getId(), ShoppingCart.getInstance().getCurrentRestaurant(), paymentMethod, orderOptionID, deliveryTime);
+            userService.submitOrders(User.getInstance().getId(), User.getInstance().getSelectedAddress().getId(), ShoppingCart.getInstance().getCurrentRestaurant(), paymentMethod, orderOptionID, deliveryTime);
         });
 
     }
@@ -134,7 +134,7 @@ public class CheckoutActivity extends AppCompatActivity {
     @Override
     public void onResume() {
         super.onResume();
-        address = Monresto.getInstance().getAddress();
+        address = User.getInstance().getSelectedAddress();
         textAddress.setText(address.getAdresse());
     }
 }

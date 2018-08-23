@@ -9,15 +9,15 @@ public class Monresto {
     public final static int FILTER_TIME = 4;
     public final static int FILTER_NOTE = 5;
 
+    private static double lat = 0;
+    private static double lon = 0;
+
+    public static boolean locationChanged;
+    public static boolean loginPending = false;
+
     private static Monresto instance;
     private ArrayList<Restaurant> restaurants;
     private Address address;
-
-    private static double lat = 0;
-    private static double lon = 0;
-    public static boolean locationChanged;
-
-    public static boolean loginPending = false;
 
     public static Monresto getInstance() {
         if (instance == null)
@@ -39,14 +39,6 @@ public class Monresto {
 
     public void setRestaurants(ArrayList<Restaurant> restaurants) {
         this.restaurants = restaurants;
-    }
-
-    public Address getAddress() {
-        if (User.getInstance() == null)
-            return null;
-        if (address == null)
-            address = User.getInstance().getAddresses().get(0);
-        return address;
     }
 
     public void setAddress(Address address) {
