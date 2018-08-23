@@ -30,6 +30,7 @@ import java.util.List;
 public class RecyclerViewAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder> {
     private static final int TYPE_HEADER = 0;
     private static final int TYPE_ITEM = 1;
+    private static final int TYPE_EMPTY = 2;
 
     private Context context;
     private List<Restaurant> restaurants;
@@ -52,7 +53,7 @@ public class RecyclerViewAdapter extends RecyclerView.Adapter<RecyclerView.ViewH
         View v;
         final ViewHolder viewHolder;
         if (viewType == TYPE_HEADER) {
-            if(header==null){
+            if (header == null) {
                 v = LayoutInflater.from(context).inflate(R.layout.item_restaurants_header, viewGroup, false);
                 header = new HolderHeader(v);
                 ((HolderHeader) header).setSearchBarContext(context);
@@ -62,8 +63,11 @@ public class RecyclerViewAdapter extends RecyclerView.Adapter<RecyclerView.ViewH
             viewHolder = header;
 
 
-        } else {
+        } else if (viewType == TYPE_ITEM) {
             v = LayoutInflater.from(context).inflate(R.layout.item_store, viewGroup, false);
+            viewHolder = new HolderItem(v);
+        } else {
+            v = LayoutInflater.from(context).inflate(R.layout.fragment_unavailable, viewGroup, false);
             viewHolder = new HolderItem(v);
         }
 
@@ -73,7 +77,7 @@ public class RecyclerViewAdapter extends RecyclerView.Adapter<RecyclerView.ViewH
     @Override
     public void onBindViewHolder(@NonNull ViewHolder viewHolder, int i) {
         if (viewHolder.getItemViewType() == TYPE_ITEM) {
-            final Restaurant restaurantItem = restaurants.get(i-1);
+            final Restaurant restaurantItem = restaurants.get(i - 1);
             setFadeAnimation(viewHolder.itemView);
 
             Picasso.get().load(restaurantItem.getBackground()).fit().into(((HolderItem) viewHolder).store_bg, new com.squareup.picasso.Callback() {
@@ -100,16 +104,18 @@ public class RecyclerViewAdapter extends RecyclerView.Adapter<RecyclerView.ViewH
 
                 }
             });
-        }else{
-            ((HolderHeader)viewHolder).filtersToggle.setOnClickListener(e -> {
+        } else if (viewHolder.getItemViewType() == TYPE_HEADER) {
+            ((HolderHeader) viewHolder).filtersToggle.setOnClickListener(e -> {
                 Intent intent = new Intent(context, FilterActivity.class);
-                ((MainActivity)context).startActivityForResult(intent, Config.REQUEST_CODE_FILTER_SELECT);
+                ((MainActivity) context).startActivityForResult(intent, Config.REQUEST_CODE_FILTER_SELECT);
             });
         }
     }
 
     @Override
     public int getItemCount() {
+        if(restaurants.isEmpty())
+            return 2;
         return restaurants.size() + 1;
     }
 
@@ -117,6 +123,9 @@ public class RecyclerViewAdapter extends RecyclerView.Adapter<RecyclerView.ViewH
     public int getItemViewType(int position) {
         if (position == 0)
             return TYPE_HEADER;
+
+        if (restaurants.isEmpty() && position == 1)
+            return TYPE_EMPTY;
 
         return TYPE_ITEM;
     }
