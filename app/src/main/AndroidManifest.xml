@@ -44,7 +44,9 @@
 
         </activity>
         <activity android:name=".UI.Main.MainActivity" />
-        <activity android:name=".UI.Main.FilterActivity" />
+        <activity android:name=".UI.Main.FilterActivity"
+            android:excludeFromRecents="true"
+            android:theme="@style/Theme.AppCompat.Light.Dialog"/>
 
         <meta-data
             android:name="com.facebook.sdk.ApplicationId"

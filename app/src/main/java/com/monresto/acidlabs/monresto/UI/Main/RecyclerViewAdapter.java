@@ -101,7 +101,8 @@ public class RecyclerViewAdapter extends RecyclerView.Adapter<RecyclerView.ViewH
             });
         }else{
             ((HolderHeader)viewHolder).filtersToggle.setOnClickListener(e -> {
-                ((MainActivity)context).searchWithFilter(Monresto.FILTER_TIME);
+                Intent intent = new Intent(context, FilterActivity.class);
+                context.startActivity(intent);
             });
         }
     }

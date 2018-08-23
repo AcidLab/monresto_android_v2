@@ -60,7 +60,7 @@ public class FilterRecyclerViewAdapter extends RecyclerView.Adapter<FilterRecycl
         Filter filter = filters.get(i);
 
         viewHolder.sortName.setText(filter.getTitle());
-        viewHolder.sortPic.setImageDrawable(filter.getIcon());
+        viewHolder.sortPic.setImageResource(filter.getIcon());
 
         switch (filter.getType()) {
             case Monresto.FILTER_NOTE: {

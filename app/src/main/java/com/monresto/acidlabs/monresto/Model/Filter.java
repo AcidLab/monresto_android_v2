@@ -2,17 +2,19 @@ package com.monresto.acidlabs.monresto.Model;
 
 import android.graphics.drawable.Drawable;
 
+import com.monresto.acidlabs.monresto.R;
+
 import java.io.Serializable;
 import java.util.ArrayList;
 
 public class Filter implements Serializable {
     private String title;
-    private Drawable icon;
+    private int icon;
     private int type;
 
     private static ArrayList<Filter> filters;
 
-    private Filter(String title, Drawable icon, int type) {
+    private Filter(String title, int icon, int type) {
         this.title = title;
         this.icon = icon;
         this.type = type;
@@ -22,7 +24,7 @@ public class Filter implements Serializable {
         return title;
     }
 
-    public Drawable getIcon() {
+    public int getIcon() {
         return icon;
     }
 
@@ -30,14 +32,13 @@ public class Filter implements Serializable {
         return type;
     }
 
-    // TODO 
     public static ArrayList<Filter> getFilters() {
         if (filters == null) {
             filters = new ArrayList<>();
-            filters.add(new Filter("Note", null, Monresto.FILTER_NOTE));
-            filters.add(new Filter("Ouvert", null, Monresto.FILTER_OPEN));
-            filters.add(new Filter("Promotion", null, Monresto.FILTER_PROMO));
-            filters.add(new Filter("Temps de livraison", null, Monresto.FILTER_TIME));
+            filters.add(new Filter("Note", R.drawable.rate, Monresto.FILTER_NOTE));
+            filters.add(new Filter("Ouvert", R.drawable.open, Monresto.FILTER_OPEN));
+            filters.add(new Filter("Promotion", R.drawable.prom, Monresto.FILTER_PROMO));
+            filters.add(new Filter("Temps de livraison", R.drawable.time, Monresto.FILTER_TIME));
         }
         return filters;
     }
