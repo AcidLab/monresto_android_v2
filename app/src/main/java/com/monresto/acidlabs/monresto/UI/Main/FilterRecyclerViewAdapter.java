@@ -1,4 +1,4 @@
-package com.monresto.acidlabs.monresto;
+package com.monresto.acidlabs.monresto.UI.Main;
 
 import android.content.Context;
 import android.graphics.Color;
@@ -9,23 +9,27 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.Button;
 
+import com.monresto.acidlabs.monresto.Model.Filter;
+import com.monresto.acidlabs.monresto.Model.Monresto;
 import com.monresto.acidlabs.monresto.Model.Speciality;
+import com.monresto.acidlabs.monresto.R;
 
 import java.util.ArrayList;
 
 import butterknife.BindView;
 import butterknife.ButterKnife;
 
-public class FiltersRecyclerViewAdapter extends RecyclerView.Adapter<FiltersRecyclerViewAdapter.ViewHolder> {
-    private ArrayList mData;
+public class FilterRecyclerViewAdapter extends RecyclerView.Adapter<FilterRecyclerViewAdapter.ViewHolder> {
+    private ArrayList<Filter> filters;
     private Context context;
     private ViewHolder oldFilter;
 
-    public FiltersRecyclerViewAdapter(Context context) {
+    public FilterRecyclerViewAdapter(Context context) {
         this.context = context;
     }
 
     static class ViewHolder extends RecyclerView.ViewHolder {
+        //TODO
         @BindView(R.id.filter)
         Button filter;
 
@@ -39,6 +43,7 @@ public class FiltersRecyclerViewAdapter extends RecyclerView.Adapter<FiltersRecy
     @Override
     public ViewHolder onCreateViewHolder(@NonNull ViewGroup viewGroup, int i) {
         View v;
+        //TODO
         v = LayoutInflater.from(context).inflate(R.layout.item_filter, viewGroup, false);
 
         return new ViewHolder(v);
@@ -47,35 +52,30 @@ public class FiltersRecyclerViewAdapter extends RecyclerView.Adapter<FiltersRecy
     @Override
     public void onBindViewHolder(@NonNull ViewHolder viewHolder, int i) {
         viewHolder.setIsRecyclable(false);
-        viewHolder.filter.setText(((Speciality) mData.get(i)).getTitle());
-        viewHolder.filter.setOnClickListener(view -> {
-            viewHolder.filter.setBackgroundResource(R.drawable.button_bg_rounded_corners_selected);
-            viewHolder.filter.setTextColor(Color.WHITE);
-            if (viewHolder.equals(oldFilter))
-                ((MainActivity) context).resetRecyclerView();
-            else
-                ((MainActivity) context).searchWithFilters((Speciality) mData.get(i));
+        Filter filter = filters.get(i);
 
-            if (oldFilter != null) {
-                oldFilter.filter.setBackgroundResource(R.drawable.button_bg_rounded_corners);
-                oldFilter.filter.setTextColor(Color.BLACK);
+        viewHolder.filter.setText(filter.getTitle());
+        //TODO
+        switch (filter.getType()) {
+            case Monresto.FILTER_NOTE: {
+                viewHolder.filter.setOnClickListener(view -> {
+
+                });
             }
-            oldFilter = viewHolder;
-            oldFilter.setIsRecyclable(true);
-
-        });
+            break;
+        }
     }
 
 
     @Override
     public int getItemCount() {
-        if (mData == null)
+        if (filters == null)
             return 0;
-        return mData.size();
+        return filters.size();
     }
 
-    public void setFilters(ArrayList<Speciality> specialities) {
-        mData = specialities;
+    public void setFilters(ArrayList<Filter> filters) {
+        this.filters = filters;
     }
 
 }

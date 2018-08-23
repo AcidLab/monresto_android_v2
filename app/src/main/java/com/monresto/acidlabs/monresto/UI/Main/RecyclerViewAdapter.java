@@ -1,4 +1,4 @@
-package com.monresto.acidlabs.monresto.UI.Restaurants;
+package com.monresto.acidlabs.monresto.UI.Main;
 
 import android.content.Context;
 import android.content.Intent;
@@ -16,7 +16,7 @@ import android.widget.RatingBar;
 import android.widget.TextView;
 
 import com.mancj.materialsearchbar.MaterialSearchBar;
-import com.monresto.acidlabs.monresto.FiltersRecyclerViewAdapter;
+import com.monresto.acidlabs.monresto.Model.Monresto;
 import com.monresto.acidlabs.monresto.Model.Restaurant;
 import com.monresto.acidlabs.monresto.Model.Speciality;
 import com.monresto.acidlabs.monresto.R;
@@ -34,8 +34,6 @@ public class RecyclerViewAdapter extends RecyclerView.Adapter<RecyclerView.ViewH
     private List<Restaurant> restaurants;
     private final static int FADE_DURATION = 1000; //FADE_DURATION in milliseconds
     private ArrayList<Speciality> specialities;
-    private int currentSpec = 0;
-    private boolean filterInit = false;
     ViewHolder header;
 
     public RecyclerViewAdapter(Context context) {
@@ -101,6 +99,10 @@ public class RecyclerViewAdapter extends RecyclerView.Adapter<RecyclerView.ViewH
 
                 }
             });
+        }else{
+            ((HolderHeader)viewHolder).filtersToggle.setOnClickListener(e -> {
+                ((MainActivity)context).searchWithFilter(Monresto.FILTER_TIME);
+            });
         }
     }
 
@@ -142,13 +144,14 @@ public class RecyclerViewAdapter extends RecyclerView.Adapter<RecyclerView.ViewH
         MaterialSearchBar searchBar;
         RecyclerView filterRecylcerView;
         ArrayList<Speciality> specialities;
-        FiltersRecyclerViewAdapter filtersRecyclerViewAdapter;
+        SpecialityRecyclerViewAdapter specialityRecyclerViewAdapter;
 
         HolderHeader(@NonNull View itemView) {
             super(itemView);
             filtersToggle = itemView.findViewById(R.id.filtersToggle);
             searchBar = itemView.findViewById(R.id.searchBar);
             filterRecylcerView = itemView.findViewById(R.id.filterRecylcerView);
+
         }
 
         void setSearchBarContext(Context context) {
@@ -157,13 +160,13 @@ public class RecyclerViewAdapter extends RecyclerView.Adapter<RecyclerView.ViewH
 
         void initFilterRecyclerView(Context context) {
             filterRecylcerView.setLayoutManager(new LinearLayoutManager(context, LinearLayoutManager.HORIZONTAL, false));
-            filtersRecyclerViewAdapter = new FiltersRecyclerViewAdapter(context);
-            filterRecylcerView.setAdapter(filtersRecyclerViewAdapter);
+            specialityRecyclerViewAdapter = new SpecialityRecyclerViewAdapter(context);
+            filterRecylcerView.setAdapter(specialityRecyclerViewAdapter);
         }
 
         void setSpecialities(ArrayList<Speciality> specialities) {
             this.specialities = specialities;
-            filtersRecyclerViewAdapter.setFilters(specialities);
+            specialityRecyclerViewAdapter.setFilters(specialities);
         }
 
     }

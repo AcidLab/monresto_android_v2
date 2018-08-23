@@ -3,6 +3,12 @@ package com.monresto.acidlabs.monresto.Model;
 import java.util.ArrayList;
 
 public class Monresto {
+    public final static int FILTER_PRICE = 1;
+    public final static int FILTER_OPEN = 2;
+    public final static int FILTER_PROMO = 3;
+    public final static int FILTER_TIME = 4;
+    public final static int FILTER_NOTE = 5;
+
     private static Monresto instance;
     private ArrayList<Restaurant> restaurants;
     private Address address;

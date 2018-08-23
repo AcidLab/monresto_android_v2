@@ -1,7 +1,6 @@
 package com.monresto.acidlabs.monresto.UI.Homepage;
 
 import android.content.Context;
-import android.content.Intent;
 import android.support.annotation.NonNull;
 import android.support.constraint.ConstraintLayout;
 import android.support.v7.widget.RecyclerView;
@@ -12,9 +11,6 @@ import android.view.animation.AlphaAnimation;
 import android.widget.ImageView;
 import android.widget.TextView;
 
-import com.monresto.acidlabs.monresto.MainActivity;
-import com.monresto.acidlabs.monresto.Model.HomepageConfig;
-import com.monresto.acidlabs.monresto.Model.HomepageDish;
 import com.monresto.acidlabs.monresto.Model.HomepageEvent;
 import com.monresto.acidlabs.monresto.R;
 import com.squareup.picasso.Picasso;

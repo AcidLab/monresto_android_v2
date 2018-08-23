@@ -12,6 +12,8 @@ import android.widget.ListAdapter;
 import android.widget.ListView;
 import android.widget.TextView;
 
+import com.monresto.acidlabs.monresto.Model.Restaurant;
+
 import org.json.JSONArray;
 import org.json.JSONException;
 import org.json.JSONObject;
@@ -20,6 +22,9 @@ import java.io.UnsupportedEncodingException;
 import java.math.BigInteger;
 import java.security.MessageDigest;
 import java.security.NoSuchAlgorithmException;
+import java.util.ArrayList;
+import java.util.Comparator;
+import java.util.function.Predicate;
 
 public class Utilities {
     public static String md5(String pass) {
@@ -101,7 +106,7 @@ public class Utilities {
 
     // Use this only for Loading or Breakdown alerts
     public static void statusChanger(Context context, int resource, ViewGroup statusContainer, ViewGroup listContainer) {
-        LayoutInflater inflater = (LayoutInflater)context.getSystemService(Context.LAYOUT_INFLATER_SERVICE);
+        LayoutInflater inflater = (LayoutInflater) context.getSystemService(Context.LAYOUT_INFLATER_SERVICE);
         View layout = inflater.inflate(resource, statusContainer, false);
 
         statusContainer.removeAllViews();
@@ -113,7 +118,7 @@ public class Utilities {
 
     // Use this only for Unavailability alerts (+Custom message)
     public static void statusChangerUnavailable(Context context, String message, ViewGroup statusContainer, ViewGroup listContainer) {
-        LayoutInflater inflater = (LayoutInflater)context.getSystemService(Context.LAYOUT_INFLATER_SERVICE);
+        LayoutInflater inflater = (LayoutInflater) context.getSystemService(Context.LAYOUT_INFLATER_SERVICE);
         View layout = inflater.inflate(R.layout.fragment_unavailable, statusContainer, false);
 
         TextView unavailable_msg = layout.findViewById(R.id.unavailable_msg);
@@ -125,4 +130,6 @@ public class Utilities {
         listContainer.setVisibility(View.INVISIBLE);
         statusContainer.setVisibility(View.VISIBLE);
     }
+
+
 }

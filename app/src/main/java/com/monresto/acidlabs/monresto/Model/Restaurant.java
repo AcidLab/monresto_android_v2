@@ -2,6 +2,7 @@ package com.monresto.acidlabs.monresto.Model;
 
 import android.os.Parcel;
 import android.os.Parcelable;
+import android.support.v7.util.SortedList;
 import android.util.Log;
 
 import org.json.JSONArray;
@@ -10,6 +11,9 @@ import org.json.JSONObject;
 
 import java.io.Serializable;
 import java.util.ArrayList;
+import java.util.Collections;
+import java.util.Comparator;
+import java.util.function.Predicate;
 
 public class Restaurant implements Parcelable {
     private int id;
@@ -298,5 +302,32 @@ public class Restaurant implements Parcelable {
         nbrAvis = in.readInt();
         specialities = in.readArrayList(Speciality.class.getClassLoader());
         paymentModes = in.readArrayList(PaymentMode.class.getClassLoader());
+    }
+
+    public static ArrayList<Restaurant> sort(ArrayList<Restaurant> restaurants, Comparator<? super Restaurant> c) {
+        ArrayList<Restaurant> sort_restaurants = new ArrayList<>(restaurants);
+        //Collections.sort(sort_restaurants, (e1, e2) -> e1.getRate() > e2.getRate() ? -1 : 1);
+        Collections.sort(sort_restaurants, c);
+        return sort_restaurants;
+    }
+
+    public static ArrayList<Restaurant> sortByTime(ArrayList<Restaurant> restaurants) {
+        ArrayList<Restaurant> sort_restaurants = new ArrayList<>(restaurants);
+
+        boolean sort = false;
+        Restaurant temp;
+
+        while (!sort) {
+            for (int i = 0; i < sort_restaurants.size() - 1; i++) {
+                if (sort_restaurants.get(i).getEstimatedTime() > sort_restaurants.get(i + 1).getEstimatedTime()) {
+                    temp = sort_restaurants.get(i);
+                    sort_restaurants.set(i, sort_restaurants.get(i + 1));
+                    sort_restaurants.set(i + 1, temp);
+                    sort = true;
+                }
+            }
+        }
+
+        return sort_restaurants;
     }
 }

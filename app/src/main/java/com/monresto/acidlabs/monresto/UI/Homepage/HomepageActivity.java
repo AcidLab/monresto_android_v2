@@ -18,7 +18,6 @@ import android.support.v7.app.AlertDialog;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
-import android.util.Log;
 import android.view.MotionEvent;
 import android.view.View;
 import android.widget.ImageView;
@@ -37,7 +36,6 @@ import com.google.android.gms.location.LocationSettingsResult;
 import com.google.android.gms.location.LocationSettingsStatusCodes;
 import com.monresto.acidlabs.monresto.Config;
 import com.monresto.acidlabs.monresto.GPSTracker;
-import com.monresto.acidlabs.monresto.MainActivity;
 import com.monresto.acidlabs.monresto.Model.Address;
 import com.monresto.acidlabs.monresto.Model.HomepageConfig;
 import com.monresto.acidlabs.monresto.Model.HomepageDish;
@@ -50,6 +48,7 @@ import com.monresto.acidlabs.monresto.Service.Homepage.HomepageAsyncResponse;
 import com.monresto.acidlabs.monresto.Service.Homepage.HomepageService;
 import com.monresto.acidlabs.monresto.Service.User.UserAsyncResponse;
 import com.monresto.acidlabs.monresto.Service.User.UserService;
+import com.monresto.acidlabs.monresto.UI.Main.MainActivity;
 import com.monresto.acidlabs.monresto.UI.Maps.MapsActivity;
 import com.monresto.acidlabs.monresto.UI.User.LoginActivity;
 import com.monresto.acidlabs.monresto.UI.User.SelectAddressActivity;
@@ -58,16 +57,12 @@ import com.squareup.picasso.Picasso;
 import org.json.JSONException;
 import org.json.JSONObject;
 
-import java.io.IOException;
 import java.util.ArrayList;
-import java.util.List;
 
 import butterknife.BindView;
 import butterknife.ButterKnife;
 
-import static com.monresto.acidlabs.monresto.Config.REQUEST_CODE_ADRESS_SELECT;
 import static com.monresto.acidlabs.monresto.Config.REQUEST_CODE_ASK_FOR_LOCATION;
-import static com.monresto.acidlabs.monresto.Config.REQUEST_CODE_MAP_INFO;
 import static com.monresto.acidlabs.monresto.Model.Monresto.loginPending;
 import static com.monresto.acidlabs.monresto.UI.Maps.MapsActivity.MY_PERMISSIONS_REQUEST_LOCATION;
 

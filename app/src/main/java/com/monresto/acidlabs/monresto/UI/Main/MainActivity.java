@@ -1,19 +1,10 @@
-package com.monresto.acidlabs.monresto;
+package com.monresto.acidlabs.monresto.UI.Main;
 
-import android.Manifest;
-import android.content.Context;
-import android.content.DialogInterface;
 import android.content.Intent;
-import android.content.SharedPreferences;
-import android.content.pm.PackageManager;
 import android.location.Geocoder;
 import android.os.Bundle;
-import android.support.annotation.Nullable;
 import android.support.constraint.ConstraintLayout;
-import android.support.v4.app.ActivityCompat;
-import android.support.v4.content.ContextCompat;
 import android.support.v4.widget.SwipeRefreshLayout;
-import android.support.v7.app.AlertDialog;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
@@ -23,31 +14,27 @@ import android.widget.ImageView;
 import android.widget.TextView;
 import android.widget.Toast;
 
-import com.facebook.AccessToken;
 import com.google.android.gms.location.FusedLocationProviderClient;
 import com.mancj.materialsearchbar.MaterialSearchBar;
+import com.monresto.acidlabs.monresto.GPSTracker;
 import com.monresto.acidlabs.monresto.Model.Address;
-import com.monresto.acidlabs.monresto.Model.Dish;
 import com.monresto.acidlabs.monresto.Model.HomepageConfig;
-import com.monresto.acidlabs.monresto.Model.Menu;
 import com.monresto.acidlabs.monresto.Model.Monresto;
 import com.monresto.acidlabs.monresto.Model.Restaurant;
 import com.monresto.acidlabs.monresto.Model.ShoppingCart;
 import com.monresto.acidlabs.monresto.Model.Speciality;
 import com.monresto.acidlabs.monresto.Model.User;
+import com.monresto.acidlabs.monresto.R;
 import com.monresto.acidlabs.monresto.Service.Restaurant.RestaurantAsyncResponse;
 import com.monresto.acidlabs.monresto.Service.Restaurant.RestaurantService;
 import com.monresto.acidlabs.monresto.Service.User.UserAsyncResponse;
 import com.monresto.acidlabs.monresto.Service.User.UserService;
 import com.monresto.acidlabs.monresto.UI.Cart.CartActivity;
 import com.monresto.acidlabs.monresto.UI.Profile.ProfileActivity;
-import com.monresto.acidlabs.monresto.UI.Restaurants.RecyclerViewAdapter;
 import com.monresto.acidlabs.monresto.UI.User.LoginActivity;
 import com.monresto.acidlabs.monresto.UI.User.SelectAddressActivity;
+import com.monresto.acidlabs.monresto.Utilities;
 import com.squareup.picasso.Picasso;
-
-import org.json.JSONException;
-import org.json.JSONObject;
 
 import java.io.IOException;
 import java.util.ArrayList;
@@ -55,8 +42,6 @@ import java.util.List;
 
 import butterknife.BindView;
 import butterknife.ButterKnife;
-
-import static com.monresto.acidlabs.monresto.UI.Maps.MapsActivity.MY_PERMISSIONS_REQUEST_LOCATION;
 
 
 //Testing fetch information from api
@@ -114,9 +99,9 @@ public class MainActivity extends AppCompatActivity implements RestaurantAsyncRe
         List<android.location.Address> addresses;
         Geocoder geocoder = new Geocoder(this);
         try {
-            if(User.getInstance()!=null && User.getInstance().getSelectedAddress()!=null)
+            if (User.getInstance() != null && User.getInstance().getSelectedAddress() != null)
                 deliveryLabel.setText(User.getInstance().getSelectedAddress().getAdresse());
-            else{
+            else {
                 addresses = geocoder.getFromLocation(Monresto.getLat(), Monresto.getLon(), 3);
                 if (addresses != null && !addresses.isEmpty())
                     deliveryLabel.setText(addresses.get(0).getLocality());
@@ -185,29 +170,8 @@ public class MainActivity extends AppCompatActivity implements RestaurantAsyncRe
 
 
     @Override
-    public void onMenusReceived(ArrayList<Menu> menus) {
-
-    }
-
-
-    @Override
-    public void onDishesReceived(ArrayList<Dish> dishes, Menu menu) {
-
-    }
-
-    @Override
-    public void onComposedDishReceived(Dish dish) {
-
-    }
-
-    @Override
     public void onSpecialitiesReceived(ArrayList<Speciality> specialities) {
         this.specialities = specialities;
-        FiltersRecyclerViewAdapter filtersRecyclerViewAdapter = new FiltersRecyclerViewAdapter(this);
-        //TODO
-        //recyclerViewAdapter.
-        //filterRecylcerView.setAdapter(filtersRecyclerViewAdapter);
-        //filtersRecyclerViewAdapter.setFilters(specialities);
         if (recyclerViewAdapter == null)
             recyclerViewAdapter = new RecyclerViewAdapter(this);
         recyclerViewAdapter.setSpecialities(specialities);
@@ -286,13 +250,42 @@ public class MainActivity extends AppCompatActivity implements RestaurantAsyncRe
             Toast.makeText(this, "Aucune donnée trouvée", Toast.LENGTH_SHORT).show(); //TODO: change this
     }
 
-    public void searchWithFilters(Speciality speciality) {
+    public void searchWithSpeciality(Speciality speciality) {
         ArrayList<Restaurant> searchList = new ArrayList<>();
         for (Restaurant restaurant : Monresto.getInstance().getRestaurants()) {
             for (Speciality currSpeciality : restaurant.getSpecialities()) {
                 if (currSpeciality.getTitle().equals(speciality.getTitle()))
                     searchList.add(restaurant);
             }
+        }
+        populateRecyclerView(searchList);
+    }
+
+    public void searchWithFilter(int filter) {
+        ArrayList<Restaurant> searchList = new ArrayList<>();
+        switch (filter) {
+            case Monresto.FILTER_OPEN: {
+                for (Restaurant restaurant : Monresto.getInstance().getRestaurants()) {
+                    if (restaurant.getState().equals("OPEN"))
+                        searchList.add(restaurant);
+                }
+            }
+            break;
+            case Monresto.FILTER_PROMO: {
+                for (Restaurant restaurant : Monresto.getInstance().getRestaurants()) {
+                    if (restaurant.getWithPromotion() != 0)
+                        searchList.add(restaurant);
+                }
+            }
+            break;
+            case Monresto.FILTER_NOTE: {
+                searchList = Restaurant.sort(Monresto.getInstance().getRestaurants(), (e1, e2) -> e1.getRate() > e2.getRate() ? -1 : 1);
+            }
+            break;
+            case Monresto.FILTER_TIME: {
+                searchList = Restaurant.sort(Monresto.getInstance().getRestaurants(), (e1, e2) -> e1.getEstimatedTime() - e2.getEstimatedTime());
+            }
+            break;
         }
         populateRecyclerView(searchList);
     }

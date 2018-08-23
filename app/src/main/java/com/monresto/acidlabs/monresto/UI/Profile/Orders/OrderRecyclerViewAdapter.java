@@ -1,14 +1,8 @@
 package com.monresto.acidlabs.monresto.UI.Profile.Orders;
 
-import android.app.Activity;
 import android.content.Context;
-import android.content.Intent;
 import android.graphics.Color;
-import android.graphics.PorterDuff;
 import android.support.annotation.NonNull;
-import android.support.constraint.ConstraintLayout;
-import android.support.v4.app.ActivityOptionsCompat;
-import android.support.v4.util.Pair;
 import android.support.v7.widget.RecyclerView;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -17,15 +11,12 @@ import android.widget.ImageView;
 import android.widget.TextView;
 
 import com.monresto.acidlabs.monresto.Model.Order;
-import com.monresto.acidlabs.monresto.Model.Restaurant;
 import com.monresto.acidlabs.monresto.R;
 import com.monresto.acidlabs.monresto.RoundedTransformation;
-import com.monresto.acidlabs.monresto.UI.Restaurants.RecyclerViewAdapter;
 import com.monresto.acidlabs.monresto.Utilities;
 import com.squareup.picasso.Picasso;
 
 import java.util.ArrayList;
-import java.util.List;
 
 import butterknife.BindView;
 import butterknife.ButterKnife;
