@@ -31,7 +31,7 @@ public class FilterActivity extends AppCompatActivity {
         ButterKnife.bind(this);
 
         int width = (int) (getResources().getDisplayMetrics().widthPixels * 0.9);
-        int height = (int) (getResources().getDisplayMetrics().heightPixels * 0.28);
+        int height = (int) (getResources().getDisplayMetrics().heightPixels * 0.3);
         getWindow().setLayout(width, height);
 
         adapter = new FilterRecyclerViewAdapter(this);
@@ -43,7 +43,7 @@ public class FilterActivity extends AppCompatActivity {
     void sendFilter(int filter){
         Intent intent = new Intent();
         intent.putExtra("filter", filter);
-        setResult(RESULT_OK);
+        setResult(RESULT_OK, intent);
         finish();
     }
 }

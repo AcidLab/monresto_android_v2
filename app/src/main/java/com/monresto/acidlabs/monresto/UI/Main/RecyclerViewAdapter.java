@@ -16,6 +16,7 @@ import android.widget.RatingBar;
 import android.widget.TextView;
 
 import com.mancj.materialsearchbar.MaterialSearchBar;
+import com.monresto.acidlabs.monresto.Config;
 import com.monresto.acidlabs.monresto.Model.Monresto;
 import com.monresto.acidlabs.monresto.Model.Restaurant;
 import com.monresto.acidlabs.monresto.Model.Speciality;
@@ -102,7 +103,7 @@ public class RecyclerViewAdapter extends RecyclerView.Adapter<RecyclerView.ViewH
         }else{
             ((HolderHeader)viewHolder).filtersToggle.setOnClickListener(e -> {
                 Intent intent = new Intent(context, FilterActivity.class);
-                context.startActivity(intent);
+                ((MainActivity)context).startActivityForResult(intent, Config.REQUEST_CODE_FILTER_SELECT);
             });
         }
     }
