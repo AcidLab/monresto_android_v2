@@ -148,12 +148,16 @@ public class OrderActivity extends AppCompatActivity implements RestaurantAsyncR
                         components.add(new Dish.Component(dish.getComponents().get(i).getId(), dish.getComponents().get(i).getName(), dish.getComponents().get(i).getNumberChoice(), dish.getComponents().get(i).getNumberChoiceMax(), options));
                     }
 
+                boolean added;
                 if (optionsAdapter != null)
-                    ShoppingCart.getInstance().addToCart(dish, Integer.valueOf(dish_quantity.getText().toString()), optionsAdapter.getItem(optionsAdapter.getSelectedItem()), components);
+                    added = ShoppingCart.getInstance().addToCart(dish, Integer.valueOf(dish_quantity.getText().toString()), optionsAdapter.getItem(optionsAdapter.getSelectedItem()), components);
                 else
-                    ShoppingCart.getInstance().addToCart(dish, Integer.valueOf(dish_quantity.getText().toString()), null, components);
+                    added = ShoppingCart.getInstance().addToCart(dish, Integer.valueOf(dish_quantity.getText().toString()), null, components);
 
-                Toast.makeText(OrderActivity.this, "Ajouté: "+Integer.valueOf(dish_quantity.getText().toString())+" "+dish.getTitle(), Toast.LENGTH_LONG).show();
+                if (added)
+                    Toast.makeText(OrderActivity.this, "Ajouté: " + Integer.valueOf(dish_quantity.getText().toString()) + " " + dish.getTitle(), Toast.LENGTH_LONG).show();
+                else
+                    Toast.makeText(OrderActivity.this, "Veuillez valider votre panier avant de commander d'un autre restaurant", Toast.LENGTH_LONG).show();
 
                 finish();
             }

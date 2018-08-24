@@ -76,7 +76,7 @@ public class ShoppingCart {
             Dish cle = entry.getKey();
             Options valeur = entry.getValue();
 
-            if (valeur.getDimension() != null && valeur.getDimension().getPrice()!=0)
+            if (valeur.getDimension() != null && valeur.getDimension().getPrice() != 0)
                 subTotal += valeur.getDimension().getPrice();
             else subTotal += cle.getPrice();
 
@@ -97,17 +97,16 @@ public class ShoppingCart {
         } else return (0);
     }
 
-    public void addToCart(Dish dish, int quantity, Dish.Option dimension, ArrayList<Dish.Component> components) {
-        if (restoID == -1){
+    public boolean addToCart(Dish dish, int quantity, Dish.Option dimension, ArrayList<Dish.Component> components) {
+        if (restoID == -1) {
             restoID = dish.getRestoID();
-            for(Restaurant R : Monresto.getInstance().getRestaurants()){
-                if(R.getId()==restoID)
+            for (Restaurant R : Monresto.getInstance().getRestaurants()) {
+                if (R.getId() == restoID)
                     minCartTotal = R.getMinimalPrice();
             }
-        }
-        else {
+        } else {
             if (dish.getRestoID() != restoID)
-                return;
+                return false;
         }
         Dish addedDish;
         try {
@@ -127,7 +126,7 @@ public class ShoppingCart {
         } catch (CloneNotSupportedException e) {
             e.printStackTrace();
         }
-
+        return true;
     }
 
 
@@ -185,7 +184,7 @@ public class ShoppingCart {
         return orders;
     }
 
-    public boolean isEmpty(){
+    public boolean isEmpty() {
         return items.isEmpty();
     }
 
