@@ -224,9 +224,10 @@ public class MainActivity extends AppCompatActivity implements RestaurantAsyncRe
     @Override
     protected void onResume() {
         super.onResume();
-        if (firstResume)
+        if (firstResume) {
             firstResume = false;
-        else {
+            Monresto.locationChanged = false;
+        } else {
             if (Monresto.locationChanged) {
                 Monresto.locationChanged = false;
                 service.getAll(Monresto.getLat(), Monresto.getLon());
@@ -350,8 +351,8 @@ public class MainActivity extends AppCompatActivity implements RestaurantAsyncRe
     @Override
     protected void onActivityResult(int requestCode, int resultCode, @Nullable Intent data) {
         super.onActivityResult(requestCode, resultCode, data);
-        if(resultCode == RESULT_OK){
-            if(requestCode == Config.REQUEST_CODE_FILTER_SELECT && data !=null) {
+        if (resultCode == RESULT_OK) {
+            if (requestCode == Config.REQUEST_CODE_FILTER_SELECT && data != null) {
                 int filter = data.getIntExtra("filter", 0);
                 searchWithFilter(filter);
             }

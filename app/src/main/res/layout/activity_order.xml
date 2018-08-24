@@ -187,6 +187,7 @@
                 android:layout_marginStart="16dp"
                 android:layout_marginTop="9dp"
                 android:ems="10"
+                android:hint="Ajoutez vos préférences"
                 android:inputType="textMultiLine"
                 android:scrollbars="vertical"
                 app:layout_constraintEnd_toEndOf="parent"

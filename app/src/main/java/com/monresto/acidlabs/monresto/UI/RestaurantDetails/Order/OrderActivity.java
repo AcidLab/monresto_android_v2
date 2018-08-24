@@ -15,6 +15,7 @@ import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.ListView;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import com.monresto.acidlabs.monresto.Model.Dish;
 import com.monresto.acidlabs.monresto.Model.Menu;
@@ -151,6 +152,8 @@ public class OrderActivity extends AppCompatActivity implements RestaurantAsyncR
                     ShoppingCart.getInstance().addToCart(dish, Integer.valueOf(dish_quantity.getText().toString()), optionsAdapter.getItem(optionsAdapter.getSelectedItem()), components);
                 else
                     ShoppingCart.getInstance().addToCart(dish, Integer.valueOf(dish_quantity.getText().toString()), null, components);
+
+                Toast.makeText(OrderActivity.this, "Ajouté: "+Integer.valueOf(dish_quantity.getText().toString())+" "+dish.getTitle(), Toast.LENGTH_LONG).show();
 
                 finish();
             }
