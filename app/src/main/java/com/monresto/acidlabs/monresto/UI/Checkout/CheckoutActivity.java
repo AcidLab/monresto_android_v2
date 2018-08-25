@@ -21,7 +21,9 @@ import com.monresto.acidlabs.monresto.Model.ShoppingCart;
 import com.monresto.acidlabs.monresto.Model.User;
 import com.monresto.acidlabs.monresto.R;
 import com.monresto.acidlabs.monresto.RadioListAdapter;
+import com.monresto.acidlabs.monresto.Service.User.UserAsyncResponse;
 import com.monresto.acidlabs.monresto.Service.User.UserService;
+import com.monresto.acidlabs.monresto.UI.Profile.ProfileActivity;
 import com.monresto.acidlabs.monresto.UI.User.SelectAddressActivity;
 
 import java.text.DecimalFormat;
@@ -32,7 +34,7 @@ import java.util.Objects;
 import butterknife.BindView;
 import butterknife.ButterKnife;
 
-public class CheckoutActivity extends AppCompatActivity {
+public class CheckoutActivity extends AppCompatActivity implements UserAsyncResponse {
     @BindView(R.id.address)
     TextView textAddress;
     @BindView(R.id.imageProfileBack)
@@ -136,5 +138,12 @@ public class CheckoutActivity extends AppCompatActivity {
         super.onResume();
         address = User.getInstance().getSelectedAddress();
         textAddress.setText(address.getAdresse());
+    }
+
+    @Override
+    public void onSubmitOrder(boolean success){
+        Intent intent = new Intent(this, ProfileActivity.class);
+        startActivity(intent);
+        finish();
     }
 }

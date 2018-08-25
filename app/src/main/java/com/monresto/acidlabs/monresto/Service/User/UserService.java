@@ -519,11 +519,9 @@ public class UserService {
         queue.add(postRequest);
     }
 
-    //Not finished
     public void submitOrders(final int userID, final int addressID, final int restoID, final int paymentID, final int optionOrderID, final int deliveryTime) {
-        //TODO: correct missing assignments (?type, ?numtransm, ?optionOrderID, time, date, promo)
         final JSONArray orders = ShoppingCart.getInstance().getOrdersJson();
-        System.out.println("ORDERS JSON: "+orders.toString());
+        System.out.println("ORDERS JSON: " + orders.toString());
         final int type = 0;
         final JSONArray voucher = new JSONArray();
         final int numtrans = 0;
@@ -539,7 +537,16 @@ public class UserService {
                 new Response.Listener<String>() {
                     @Override
                     public void onResponse(String response) {
-                        System.out.println("response = [" + response + "]");
+                        try {
+                            JSONObject responseJson = new JSONObject(response);
+                            if (responseJson.getInt("Status") == 1)
+                                ((UserAsyncResponse) context).onSubmitOrder(true);
+                            else
+                                ((UserAsyncResponse) context).onSubmitOrder(false);
+
+                        } catch (JSONException e) {
+                            e.printStackTrace();
+                        }
                     }
                 },
                 new Response.ErrorListener() {
@@ -566,7 +573,7 @@ public class UserService {
                 params.put("hour", String.valueOf(hour));
                 params.put("signature", signature);
 
-                System.out.println("Params: "+params);
+                System.out.println("Params: " + params);
 
                 return params;
             }
