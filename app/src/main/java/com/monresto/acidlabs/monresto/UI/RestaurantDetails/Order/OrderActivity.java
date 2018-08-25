@@ -29,6 +29,7 @@ import com.monresto.acidlabs.monresto.Utilities;
 import com.squareup.picasso.Callback;
 import com.squareup.picasso.Picasso;
 
+import java.text.DecimalFormat;
 import java.util.ArrayList;
 
 import butterknife.BindView;
@@ -89,7 +90,10 @@ public class OrderActivity extends AppCompatActivity implements RestaurantAsyncR
         dish_name.setText(Utilities.decodeUTF(dish.getTitle()));
         if (Double.isNaN(dish.getPrice()))
             dish_price.setText("Choisissez parmi les options");
-        else dish_price.setText("Prix: " + String.valueOf(dish.getPrice()) + " DT");
+        else {
+            DecimalFormat dec = new DecimalFormat("#0.00");
+            dish_price.setText(dec.format(dish.getPrice()) + " DT");
+        }
         dish_description.setText(Utilities.decodeUTF(dish.getDescription()));
 
         dish_quantity_add.setOnClickListener(new View.OnClickListener() {

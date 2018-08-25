@@ -14,6 +14,7 @@ import com.monresto.acidlabs.monresto.Model.ShoppingCart;
 import com.monresto.acidlabs.monresto.R;
 import com.squareup.picasso.Picasso;
 
+import java.text.DecimalFormat;
 import java.util.ArrayList;
 import java.util.Map;
 
@@ -86,7 +87,8 @@ public class CartItemRecyclerViewAdapter extends RecyclerView.Adapter<CartItemRe
         double price = 0;
         price = (item.getKey().getPrice()+compPrice)*item.getValue().getQuantity();
 
-        viewHolder.cart_price.setText(String.valueOf(price) + " DT");
+        DecimalFormat dec = new DecimalFormat("#0.00");
+        viewHolder.cart_price.setText(dec.format(price) + " DT");
         viewHolder.cart_remove_btn.setOnClickListener(view -> {
             ShoppingCart.getInstance().removeFromCart(item.getKey());
             mData.remove(mData.get(position));

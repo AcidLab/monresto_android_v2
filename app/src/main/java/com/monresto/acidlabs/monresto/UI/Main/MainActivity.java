@@ -40,6 +40,7 @@ import com.monresto.acidlabs.monresto.Utilities;
 import com.squareup.picasso.Picasso;
 
 import java.io.IOException;
+import java.text.DecimalFormat;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -326,7 +327,9 @@ public class MainActivity extends AppCompatActivity implements RestaurantAsyncRe
 
     public void updateHomeCart() {
         cart_quantity.setText(String.valueOf(ShoppingCart.getInstance().getItems().size()));
-        cart_total.setText(String.valueOf(ShoppingCart.getInstance().getCartSubTotal()) + " TND");
+
+        DecimalFormat dec = new DecimalFormat("#0.00");
+        cart_total.setText(dec.format(ShoppingCart.getInstance().getCartSubTotal()) + " TND");
     }
 
 
