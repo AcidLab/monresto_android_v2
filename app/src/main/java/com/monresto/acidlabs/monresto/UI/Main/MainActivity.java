@@ -329,7 +329,7 @@ public class MainActivity extends AppCompatActivity implements RestaurantAsyncRe
         cart_quantity.setText(String.valueOf(ShoppingCart.getInstance().getItems().size()));
 
         DecimalFormat dec = new DecimalFormat("#0.00");
-        cart_total.setText(dec.format(ShoppingCart.getInstance().getCartSubTotal()) + " TND");
+        cart_total.setText(dec.format(ShoppingCart.getInstance().getCartSubTotal()) + " DT");
     }
 
 

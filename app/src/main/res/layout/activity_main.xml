@@ -167,7 +167,7 @@
                     android:layout_marginBottom="2dp"
                     android:layout_marginStart="8dp"
                     android:fontFamily="@font/googlesans_regular"
-                    android:text="0.00 TND"
+                    android:text="0.00 DT"
                     android:textColor="@color/button_text_color"
                     android:textSize="18sp"
                     app:layout_constraintBottom_toBottomOf="@+id/textView13"
