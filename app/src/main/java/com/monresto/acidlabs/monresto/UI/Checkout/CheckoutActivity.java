@@ -13,6 +13,7 @@ import android.widget.LinearLayout;
 import android.widget.Spinner;
 import android.widget.TextView;
 
+import com.dd.processbutton.iml.ActionProcessButton;
 import com.monresto.acidlabs.monresto.Model.Address;
 import com.monresto.acidlabs.monresto.Model.Monresto;
 import com.monresto.acidlabs.monresto.Model.PaymentMode;
@@ -51,6 +52,8 @@ public class CheckoutActivity extends AppCompatActivity implements UserAsyncResp
     RecyclerView paymentItemUnavailable;
     @BindView(R.id.deliveryDate)
     RecyclerView deliveryDate;
+    @BindView(R.id.orderLoading)
+    ActionProcessButton orderLoading;
 
     private Address address;
     private UserService userService;
@@ -65,6 +68,8 @@ public class CheckoutActivity extends AppCompatActivity implements UserAsyncResp
 
         ButterKnife.bind(this);
 
+        orderLoading.setMode(ActionProcessButton.Mode.ENDLESS);
+        orderLoading.setProgress(0);
         address = User.getInstance().getSelectedAddress();
         textAddress.setText(address.getAdresse());
         textAddress.setOnClickListener(e -> {
@@ -86,7 +91,8 @@ public class CheckoutActivity extends AppCompatActivity implements UserAsyncResp
         int paymentMethod = getItemIdByType(paymentMethods, TYPE_PAYMENT_MODE);
         int orderOptionID = getItemIdByType(paymentMethods, TYPE_UNAVAILABLE_OPTION);
         int deliveryTime = getItemIdByType(paymentMethods, TYPE_DELIVERY_DATE);
-        orderBtn.setOnClickListener(e -> {
+        orderLoading.setOnClickListener(e -> {
+            orderLoading.setProgress(1);
             userService.submitOrders(User.getInstance().getId(), User.getInstance().getSelectedAddress().getId(), ShoppingCart.getInstance().getCurrentRestaurant(), paymentMethod, orderOptionID, deliveryTime);
         });
 
@@ -142,6 +148,7 @@ public class CheckoutActivity extends AppCompatActivity implements UserAsyncResp
 
     @Override
     public void onSubmitOrder(boolean success){
+        orderLoading.setProgress(100);
         Intent intent = new Intent(this, ProfileActivity.class);
         startActivity(intent);
         finish();
