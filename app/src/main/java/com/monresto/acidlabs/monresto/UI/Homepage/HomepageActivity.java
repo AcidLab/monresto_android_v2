@@ -50,6 +50,7 @@ import com.monresto.acidlabs.monresto.Service.User.UserAsyncResponse;
 import com.monresto.acidlabs.monresto.Service.User.UserService;
 import com.monresto.acidlabs.monresto.UI.Main.MainActivity;
 import com.monresto.acidlabs.monresto.UI.Maps.MapsActivity;
+import com.monresto.acidlabs.monresto.UI.Profile.ProfileActivity;
 import com.monresto.acidlabs.monresto.UI.User.LoginActivity;
 import com.monresto.acidlabs.monresto.UI.User.SelectAddressActivity;
 import com.squareup.picasso.Picasso;
@@ -74,6 +75,8 @@ public class HomepageActivity extends AppCompatActivity implements UserAsyncResp
     RecyclerView eventsRecycler;
     @BindView(R.id.config_bg)
     ImageView config_bg;
+    @BindView(R.id.home_profile_icon)
+    ImageView home_profile_icon;
     @BindView(R.id.configContainer)
     ConstraintLayout configContainer;
     @BindView(R.id.homepage_swiper)
@@ -153,6 +156,16 @@ public class HomepageActivity extends AppCompatActivity implements UserAsyncResp
         });
         homepageService.getAll();
 
+        home_profile_icon.setOnClickListener(e -> {
+            if(User.getInstance()==null){
+                Intent intent = new Intent(this, LoginActivity.class);
+                startActivity(intent);
+            }
+            else{
+                Intent intent = new Intent(this, ProfileActivity.class);
+                startActivity(intent);
+            }
+        });
         configContainer.setOnClickListener(view -> {
             if(loginPending){
                 Toast.makeText(this, "Connexion en cours.. veuillez patienter", Toast.LENGTH_SHORT).show();

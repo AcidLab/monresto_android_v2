@@ -64,6 +64,9 @@ public class ShoppingCart {
     public Map<Dish, Options> getItems() {
         return items;
     }
+    public int getCount() {
+        return items.size();
+    }
 
 
     public void addToCart(Dish dish) {

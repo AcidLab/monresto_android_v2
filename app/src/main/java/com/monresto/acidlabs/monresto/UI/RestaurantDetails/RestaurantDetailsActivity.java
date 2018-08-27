@@ -1,47 +1,35 @@
 package com.monresto.acidlabs.monresto.UI.RestaurantDetails;
 
 import android.content.Intent;
-import android.support.design.widget.FloatingActionButton;
-import android.support.design.widget.Snackbar;
-import android.support.design.widget.TabLayout;
-import android.support.v4.app.Fragment;
-import android.support.v7.app.AppCompatActivity;
+import android.graphics.drawable.LayerDrawable;
 import android.os.Bundle;
-import android.support.v7.widget.LinearLayoutManager;
-import android.support.v7.widget.RecyclerView;
+import android.support.design.widget.TabLayout;
+import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.Toolbar;
 import android.view.MenuItem;
-import android.view.View;
-import android.view.Window;
 import android.widget.ImageView;
-import android.widget.ListView;
 import android.widget.TextView;
 
-import butterknife.BindView;
-import butterknife.ButterKnife;
-import jp.wasabeef.picasso.transformations.RoundedCornersTransformation;
-
+import com.monresto.acidlabs.monresto.BadgeCountChangeListener;
 import com.monresto.acidlabs.monresto.HackViewPager;
 import com.monresto.acidlabs.monresto.Model.Dish;
 import com.monresto.acidlabs.monresto.Model.Menu;
 import com.monresto.acidlabs.monresto.Model.Restaurant;
-import com.monresto.acidlabs.monresto.Model.Review;
+import com.monresto.acidlabs.monresto.Model.ShoppingCart;
 import com.monresto.acidlabs.monresto.Model.Speciality;
 import com.monresto.acidlabs.monresto.R;
-import com.monresto.acidlabs.monresto.RoundedTransformation;
-import com.monresto.acidlabs.monresto.UI.Cart.CartActivity;
-import com.monresto.acidlabs.monresto.UI.RestaurantDetails.Reviews.ReviewsAdapter;
 import com.monresto.acidlabs.monresto.Service.Restaurant.RestaurantAsyncResponse;
 import com.monresto.acidlabs.monresto.Service.Restaurant.RestaurantService;
-import com.monresto.acidlabs.monresto.Service.Review.ReviewAsyncResponse;
-import com.monresto.acidlabs.monresto.Service.Review.ReviewService;
+import com.monresto.acidlabs.monresto.UI.Cart.CartActivity;
 import com.monresto.acidlabs.monresto.Utilities;
 import com.squareup.picasso.Picasso;
-
 
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
+
+import butterknife.BindView;
+import butterknife.ButterKnife;
 
 public class RestaurantDetailsActivity extends AppCompatActivity implements RestaurantAsyncResponse {
 
@@ -71,6 +59,7 @@ public class RestaurantDetailsActivity extends AppCompatActivity implements Rest
     Restaurant restaurant;
     int filledDishes; // Used for stability and improvements
 
+    BadgeCountChangeListener badgeCountChangeListener;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -117,6 +106,12 @@ public class RestaurantDetailsActivity extends AppCompatActivity implements Rest
     public boolean onCreateOptionsMenu(android.view.Menu menu) {
         // Inflate the menu; this adds items to the action bar if it is present.
         getMenuInflater().inflate(R.menu.menu, menu);
+        badgeCountChangeListener = () -> {
+            MenuItem itemCart = menu.findItem(R.id.cart_btn);
+            LayerDrawable icon = (LayerDrawable) itemCart.getIcon();
+            Utilities.setBadgeCount(this, icon, String.valueOf(ShoppingCart.getInstance().getCount()));
+        };
+
         return super.onCreateOptionsMenu(menu);
     }
 
@@ -146,7 +141,6 @@ public class RestaurantDetailsActivity extends AppCompatActivity implements Rest
 
     @Override
     public void onMenusReceived(ArrayList<Menu> menus) {
-        System.out.println("SPECIAL DEBUG: Menus received !");
 
         MenusList = new ArrayList<>();
         MenusList.add("Informations");
@@ -155,10 +149,7 @@ public class RestaurantDetailsActivity extends AppCompatActivity implements Rest
             dishes.put(menus.get(j), null);
 
             MenusList.add(Utilities.decodeUTF(menus.get(j).getTitle()));
-
             // Generate dishes according to menu
-            System.out.println("SPECIAL DEBUG: Menu added to tab, getting dishes...");
-
             service.getDishes(restaurant.getId(), menus.get(j));
         }
 
@@ -198,4 +189,10 @@ public class RestaurantDetailsActivity extends AppCompatActivity implements Rest
 
     }
 
+    @Override
+    protected void onResume() {
+        super.onResume();
+        if(badgeCountChangeListener!=null)
+            badgeCountChangeListener.onBadgeCountChanged();
+    }
 }
