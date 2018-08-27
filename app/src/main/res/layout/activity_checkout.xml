@@ -127,7 +127,10 @@
             app:pb_colorNormal="@color/colorAccent"
             app:pb_colorPressed="@color/material_deep_teal_50"
             app:pb_colorProgress="@color/material_deep_teal_50"
+            app:pb_colorError="@color/red_btn_bg_color"
+            app:pb_colorComplete="@color/success_stroke_color"
             app:pb_textComplete="Terminé !"
+            app:pb_textError="Une erreur s'est produite"
             app:pb_textProgress="Veuillez patientez..." />
 
     </android.support.constraint.ConstraintLayout>
