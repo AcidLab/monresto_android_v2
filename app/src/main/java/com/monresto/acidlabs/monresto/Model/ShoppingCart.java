@@ -191,6 +191,10 @@ public class ShoppingCart {
         return items.isEmpty();
     }
 
+    public void clear() {
+        items.clear();
+    }
+
     public double getMinCartTotal() {
         return minCartTotal;
     }

@@ -148,9 +148,14 @@ public class CheckoutActivity extends AppCompatActivity implements UserAsyncResp
 
     @Override
     public void onSubmitOrder(boolean success){
-        orderLoading.setProgress(100);
-        Intent intent = new Intent(this, ProfileActivity.class);
-        startActivity(intent);
-        finish();
+        if(success){
+            Intent intent = new Intent(this, ProfileActivity.class);
+            startActivity(intent);
+            ShoppingCart.getInstance().clear();
+            finish();
+        }
+        else{
+            orderLoading.setProgress(-1);
+        }
     }
 }

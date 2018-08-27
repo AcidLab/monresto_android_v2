@@ -521,7 +521,6 @@ public class UserService {
 
     public void submitOrders(final int userID, final int addressID, final int restoID, final int paymentID, final int optionOrderID, final int deliveryTime) {
         final JSONArray orders = ShoppingCart.getInstance().getOrdersJson();
-        System.out.println("ORDERS JSON: " + orders.toString());
         final int type = 0;
         final JSONArray voucher = new JSONArray();
         final int numtrans = 0;
