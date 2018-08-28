@@ -1,28 +1,37 @@
 package com.monresto.acidlabs.monresto.UI.Main;
 
 import android.content.Context;
+import android.content.DialogInterface;
 import android.content.Intent;
+import android.content.SharedPreferences;
+import android.graphics.Color;
 import android.os.Parcel;
 import android.os.Parcelable;
 import android.support.annotation.NonNull;
 import android.support.constraint.ConstraintLayout;
+import android.support.v7.app.AlertDialog;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.support.v7.widget.RecyclerView.ViewHolder;
+import android.text.InputType;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.view.animation.AlphaAnimation;
+import android.widget.EditText;
 import android.widget.ImageView;
 import android.widget.RatingBar;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import com.mancj.materialsearchbar.MaterialSearchBar;
 import com.monresto.acidlabs.monresto.Config;
 import com.monresto.acidlabs.monresto.Model.Monresto;
 import com.monresto.acidlabs.monresto.Model.Restaurant;
+import com.monresto.acidlabs.monresto.Model.ShoppingCart;
 import com.monresto.acidlabs.monresto.Model.Speciality;
 import com.monresto.acidlabs.monresto.R;
+import com.monresto.acidlabs.monresto.UI.Main.PromptActivity;
 import com.monresto.acidlabs.monresto.UI.RestaurantDetails.RestaurantDetailsActivity;
 import com.squareup.picasso.Picasso;
 
@@ -94,10 +103,33 @@ public class RecyclerViewAdapter extends RecyclerView.Adapter<RecyclerView.ViewH
                     ((HolderItem) viewHolder).ratingBar.setIsIndicator(true);
                     ((HolderItem) viewHolder).restaurant_delivery.setText(String.valueOf(restaurantItem.getEstimatedTime()) + "'");
                     ((HolderItem) viewHolder).restaurantItem.setOnClickListener(e -> {
-                        Intent intent = new Intent(context, RestaurantDetailsActivity.class);
-                        intent.putExtra("restaurant", restaurantItem);
+                        if (!ShoppingCart.getInstance().isEmpty() && ShoppingCart.getInstance().getRestoID() != restaurantItem.getId()) {
+                            AlertDialog.Builder builder = new AlertDialog.Builder(context);
+                            builder.setTitle("Vider le panier et changer de restaurant ?");
 
-                        context.startActivity(intent);
+                            builder.setPositiveButton("OK", (dialog, which) -> {
+                                ShoppingCart.getInstance().clear();
+                                SharedPreferences sharedPreferences = context.getSharedPreferences("itemsList", Context.MODE_PRIVATE);
+                                SharedPreferences.Editor editor = sharedPreferences.edit();
+                                editor.clear();
+                                editor.apply();
+                                Intent intent = new Intent(context, RestaurantDetailsActivity.class);
+                                intent.putExtra("restaurant", restaurantItem);
+                                context.startActivity(intent);
+                            });
+                            builder.setNegativeButton("Annuler", (dialog, which) -> dialog.cancel());
+
+                            AlertDialog dialog = builder.create();
+                            dialog.setOnShowListener(arg0 -> {
+                                dialog.getButton(AlertDialog.BUTTON_POSITIVE).setTextColor(Color.GREEN);
+                                dialog.getButton(AlertDialog.BUTTON_NEGATIVE).setTextColor(Color.GREEN);
+                            });
+                            dialog.show();
+                        } else {
+                            Intent intent = new Intent(context, RestaurantDetailsActivity.class);
+                            intent.putExtra("restaurant", restaurantItem);
+                            context.startActivity(intent);
+                        }
                     });
                 }
 
@@ -116,7 +148,7 @@ public class RecyclerViewAdapter extends RecyclerView.Adapter<RecyclerView.ViewH
 
     @Override
     public int getItemCount() {
-        if(restaurants.isEmpty())
+        if (restaurants.isEmpty())
             return 2;
         return restaurants.size() + 1;
     }

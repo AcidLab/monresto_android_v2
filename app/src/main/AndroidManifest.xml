@@ -33,7 +33,8 @@
         <activity android:name=".UI.Profile.Settings.EditProfileActivity" />
         <activity android:name=".UI.Profile.Settings.AddressSettingsActivity" />
         <activity android:name=".UI.Profile.Address.EditAddressActivity" />
-        <activity android:name=".UI.User.SelectAddressActivity"
+        <activity
+            android:name=".UI.User.SelectAddressActivity"
             android:excludeFromRecents="true"
             android:theme="@style/Theme.AppCompat.Light.Dialog" />
         <activity android:name=".UI.Homepage.HomepageActivity">
@@ -44,9 +45,14 @@
 
         </activity>
         <activity android:name=".UI.Main.MainActivity" />
-        <activity android:name=".UI.Main.FilterActivity"
+        <activity
+            android:name=".UI.Main.FilterActivity"
             android:excludeFromRecents="true"
-            android:theme="@style/Theme.AppCompat.Light.Dialog"/>
+            android:theme="@style/Theme.AppCompat.Light.Dialog" />
+        <activity
+            android:name=".UI.Main.PromptActivity"
+            android:excludeFromRecents="true"
+            android:theme="@style/Theme.AppCompat.Light.Dialog" />
 
         <meta-data
             android:name="com.facebook.sdk.ApplicationId"

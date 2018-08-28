@@ -1,6 +1,7 @@
 package com.monresto.acidlabs.monresto.UI.Cart;
 
 import android.content.Context;
+import android.content.SharedPreferences;
 import android.support.annotation.NonNull;
 import android.support.v7.widget.RecyclerView;
 import android.view.LayoutInflater;
@@ -93,6 +94,10 @@ public class CartItemRecyclerViewAdapter extends RecyclerView.Adapter<CartItemRe
             ShoppingCart.getInstance().removeFromCart(item.getKey());
             mData.remove(mData.get(position));
             ((CartActivity) context).update();
+            SharedPreferences sharedPreferences = context.getSharedPreferences("itemsList", Context.MODE_PRIVATE);
+            SharedPreferences.Editor editor = sharedPreferences.edit();
+            editor.clear();
+            editor.apply();
         });
     }
 

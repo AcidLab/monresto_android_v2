@@ -178,7 +178,7 @@ public class MainActivity extends AppCompatActivity implements RestaurantAsyncRe
                 if (sharedPreferences.contains("items")) {
                     serialItems = sharedPreferences.getString("items", "");
                     ShoppingCart shoppingCart = (ShoppingCart) ObjectSerializer.deserialize(serialItems);
-                    
+
                     if(shoppingCart!=null && Monresto.getInstance().findRestaurant(shoppingCart.getRestoID())!=null){
                         ShoppingCart.setInstance((ShoppingCart) ObjectSerializer.deserialize(serialItems));
                         updateHomeCart();

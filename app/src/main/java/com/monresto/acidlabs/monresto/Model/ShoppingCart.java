@@ -199,6 +199,7 @@ public class ShoppingCart implements Serializable {
 
     public void clear() {
         items.clear();
+        restoID = -1;
     }
 
     public double getMinCartTotal() {

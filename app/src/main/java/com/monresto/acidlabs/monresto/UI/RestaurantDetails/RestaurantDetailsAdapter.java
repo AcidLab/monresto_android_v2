@@ -15,6 +15,8 @@ import android.widget.Toast;
 
 import com.monresto.acidlabs.monresto.Model.Dish;
 import com.monresto.acidlabs.monresto.R;
+import com.monresto.acidlabs.monresto.RoundedCornersTransform;
+import com.monresto.acidlabs.monresto.RoundedTransformation;
 import com.monresto.acidlabs.monresto.Service.Restaurant.RestaurantService;
 import com.monresto.acidlabs.monresto.UI.RestaurantDetails.Order.OrderActivity;
 import com.monresto.acidlabs.monresto.Utilities;
@@ -24,6 +26,7 @@ import java.util.ArrayList;
 
 import butterknife.BindView;
 import butterknife.ButterKnife;
+import jp.wasabeef.picasso.transformations.RoundedCornersTransformation;
 
 public class RestaurantDetailsAdapter extends RecyclerView.Adapter<RestaurantDetailsAdapter.ViewHolder> {
 
