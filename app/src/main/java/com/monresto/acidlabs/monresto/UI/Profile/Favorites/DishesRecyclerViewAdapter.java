@@ -2,6 +2,7 @@ package com.monresto.acidlabs.monresto.UI.Profile.Favorites;
 
 import android.content.Context;
 import android.content.Intent;
+import android.os.Parcelable;
 import android.support.annotation.NonNull;
 import android.support.constraint.ConstraintLayout;
 import android.support.v7.widget.RecyclerView;
@@ -93,7 +94,7 @@ public class DishesRecyclerViewAdapter extends RecyclerView.Adapter<DishesRecycl
 
             viewHolder.constraintLayout.setOnClickListener(e -> {
                 Intent intent = new Intent(context, OrderActivity.class);
-                intent.putExtra("dish", dish);
+                intent.putExtra("dish", (Parcelable) dish);
                 context.startActivity(intent);
             });
 

@@ -1,6 +1,8 @@
 package com.monresto.acidlabs.monresto.UI.Main;
 
+import android.content.Context;
 import android.content.Intent;
+import android.content.SharedPreferences;
 import android.location.Geocoder;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
@@ -27,6 +29,7 @@ import com.monresto.acidlabs.monresto.Model.Restaurant;
 import com.monresto.acidlabs.monresto.Model.ShoppingCart;
 import com.monresto.acidlabs.monresto.Model.Speciality;
 import com.monresto.acidlabs.monresto.Model.User;
+import com.monresto.acidlabs.monresto.ObjectSerializer;
 import com.monresto.acidlabs.monresto.R;
 import com.monresto.acidlabs.monresto.Service.Restaurant.RestaurantAsyncResponse;
 import com.monresto.acidlabs.monresto.Service.Restaurant.RestaurantService;
@@ -84,6 +87,7 @@ public class MainActivity extends AppCompatActivity implements RestaurantAsyncRe
     private RecyclerViewAdapter recyclerViewAdapter;
     GPSTracker gpsTracker;
     Geocoder geocoder;
+    boolean list_init = false;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -105,6 +109,7 @@ public class MainActivity extends AppCompatActivity implements RestaurantAsyncRe
         userService = new UserService(this);
         List<android.location.Address> addresses;
         geocoder = new Geocoder(this);
+
         try {
             if (User.getInstance() != null && User.getInstance().getSelectedAddress() != null)
                 deliveryLabel.setText(User.getInstance().getSelectedAddress().getAdresse());
@@ -127,13 +132,6 @@ public class MainActivity extends AppCompatActivity implements RestaurantAsyncRe
 
         stores_recyclerview.setLayoutManager(new LinearLayoutManager(this));
 
-        //TODO
-        //filtersToggle.setOnClickListener(view -> {
-            /*if (filterRecylcerView.getVisibility() == View.VISIBLE)
-                filterRecylcerView.setVisibility(View.GONE);
-            else filterRecylcerView.setVisibility(View.VISIBLE);*/
-        //});
-
         change_address_container.setOnClickListener(e -> {
             Intent intent = new Intent(this, SelectAddressActivity.class);
             startActivity(intent);
@@ -147,7 +145,6 @@ public class MainActivity extends AppCompatActivity implements RestaurantAsyncRe
 
             startActivity(intent);
         });
-
         cart_frame.setOnClickListener(view -> {
             Intent intent;
             intent = new Intent(this, CartActivity.class);
@@ -160,10 +157,10 @@ public class MainActivity extends AppCompatActivity implements RestaurantAsyncRe
 
             startActivity(intent);
         });
-
         home_close.setOnClickListener(view -> {
             finish();
         });
+
     }
 
     @Override
@@ -173,6 +170,23 @@ public class MainActivity extends AppCompatActivity implements RestaurantAsyncRe
             restaurants_swiper.setVisibility(View.VISIBLE);
             status_restaurants.setVisibility(View.INVISIBLE);
             populateRecyclerView(restaurantList);
+
+            if(!list_init){
+                //Load saved shopping cart
+                SharedPreferences sharedPreferences = getSharedPreferences("itemsList", Context.MODE_PRIVATE);
+                String serialItems;
+                if (sharedPreferences.contains("items")) {
+                    serialItems = sharedPreferences.getString("items", "");
+                    ShoppingCart shoppingCart = (ShoppingCart) ObjectSerializer.deserialize(serialItems);
+                    
+                    if(shoppingCart!=null && Monresto.getInstance().findRestaurant(shoppingCart.getRestoID())!=null){
+                        ShoppingCart.setInstance((ShoppingCart) ObjectSerializer.deserialize(serialItems));
+                        updateHomeCart();
+                    }
+
+                }
+                list_init = true;
+            }
         } else {
             Utilities.statusChangerUnavailable(this, "Aucun restaurant trouvé", status_restaurants, restaurants_swiper);
         }

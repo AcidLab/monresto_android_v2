@@ -6,18 +6,19 @@ import org.json.JSONArray;
 import org.json.JSONException;
 import org.json.JSONObject;
 
+import java.io.Serializable;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.Map;
 
-public class ShoppingCart {
+public class ShoppingCart implements Serializable {
     private HashMap<Dish, Options> items;
 
     private static ShoppingCart instance;
     private int restoID;
     private double minCartTotal;
 
-    public class Options {
+    public class Options implements Serializable{
         private int quantity;
         private Dish.Option dimension;
         private ArrayList<Dish.Component> components;
@@ -61,9 +62,14 @@ public class ShoppingCart {
         return instance;
     }
 
+    public static void setInstance(ShoppingCart shoppingCart) {
+        instance = shoppingCart;
+    }
+
     public Map<Dish, Options> getItems() {
         return items;
     }
+
     public int getCount() {
         return items.size();
     }
@@ -197,5 +203,9 @@ public class ShoppingCart {
 
     public double getMinCartTotal() {
         return minCartTotal;
+    }
+
+    public int getRestoID() {
+        return restoID;
     }
 }

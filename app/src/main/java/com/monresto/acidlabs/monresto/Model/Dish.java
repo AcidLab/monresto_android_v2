@@ -10,7 +10,7 @@ import org.json.JSONObject;
 import java.io.Serializable;
 import java.util.ArrayList;
 
-public class Dish implements Parcelable, Cloneable {
+public class Dish implements Parcelable, Cloneable, Serializable {
     private int id;
     private String title;
     private String description;

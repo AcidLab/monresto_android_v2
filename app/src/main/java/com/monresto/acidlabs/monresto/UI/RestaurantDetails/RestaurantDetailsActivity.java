@@ -90,7 +90,6 @@ public class RestaurantDetailsActivity extends AppCompatActivity implements Rest
 
         // Get menus
         service = new RestaurantService(this);
-        System.out.println("SPECIAL DEBUG: Getting menus...");
         service.getMenus(restaurant.getId());
     }
 
@@ -111,6 +110,7 @@ public class RestaurantDetailsActivity extends AppCompatActivity implements Rest
             LayerDrawable icon = (LayerDrawable) itemCart.getIcon();
             Utilities.setBadgeCount(this, icon, String.valueOf(ShoppingCart.getInstance().getCount()));
         };
+        badgeCountChangeListener.onBadgeCountChanged();
 
         return super.onCreateOptionsMenu(menu);
     }

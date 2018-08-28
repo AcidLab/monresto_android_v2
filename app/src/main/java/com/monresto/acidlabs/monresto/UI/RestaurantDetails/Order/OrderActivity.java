@@ -1,6 +1,8 @@
 package com.monresto.acidlabs.monresto.UI.RestaurantDetails.Order;
 
+import android.content.Context;
 import android.content.Intent;
+import android.content.SharedPreferences;
 import android.media.Image;
 import android.os.Bundle;
 import android.support.design.widget.CollapsingToolbarLayout;
@@ -22,6 +24,7 @@ import com.monresto.acidlabs.monresto.Model.Menu;
 import com.monresto.acidlabs.monresto.Model.Restaurant;
 import com.monresto.acidlabs.monresto.Model.ShoppingCart;
 import com.monresto.acidlabs.monresto.Model.Speciality;
+import com.monresto.acidlabs.monresto.ObjectSerializer;
 import com.monresto.acidlabs.monresto.R;
 import com.monresto.acidlabs.monresto.Service.Restaurant.RestaurantAsyncResponse;
 import com.monresto.acidlabs.monresto.Service.Restaurant.RestaurantService;
@@ -29,6 +32,8 @@ import com.monresto.acidlabs.monresto.Utilities;
 import com.squareup.picasso.Callback;
 import com.squareup.picasso.Picasso;
 
+import java.io.IOException;
+import java.io.Serializable;
 import java.text.DecimalFormat;
 import java.util.ArrayList;
 
@@ -135,36 +140,41 @@ public class OrderActivity extends AppCompatActivity implements RestaurantAsyncR
             }
         });
 
-        add_to_cart.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View view) {
-                ArrayList<Dish.Component> components = new ArrayList<>();
-                ArrayList<Dish.Option> options;
+        add_to_cart.setOnClickListener(view -> {
+            ArrayList<Dish.Component> components = new ArrayList<>();
+            ArrayList<Dish.Option> options;
 
-                if (componentsLists != null)
-                    for (int i = 0; i < componentsLists.size(); i++) {
-                        options = new ArrayList<>();
-                        ComponentsAdapter componentsAdapterTemp = (ComponentsAdapter) componentsLists.get(i).getAdapter();
+            if (componentsLists != null)
+                for (int i12 = 0; i12 < componentsLists.size(); i12++) {
+                    options = new ArrayList<>();
+                    ComponentsAdapter componentsAdapterTemp = (ComponentsAdapter) componentsLists.get(i12).getAdapter();
 
-                        for (int j = 0; j < componentsAdapterTemp.getCheckedItemsPositions().size(); j++)
-                            options.add(componentsAdapterTemp.getItem(componentsAdapterTemp.getCheckedItemsPositions().get(j)));
+                    for (int j = 0; j < componentsAdapterTemp.getCheckedItemsPositions().size(); j++)
+                        options.add(componentsAdapterTemp.getItem(componentsAdapterTemp.getCheckedItemsPositions().get(j)));
 
-                        components.add(new Dish.Component(dish.getComponents().get(i).getId(), dish.getComponents().get(i).getName(), dish.getComponents().get(i).getNumberChoice(), dish.getComponents().get(i).getNumberChoiceMax(), options));
-                    }
+                    components.add(new Dish.Component(dish.getComponents().get(i12).getId(), dish.getComponents().get(i12).getName(), dish.getComponents().get(i12).getNumberChoice(), dish.getComponents().get(i12).getNumberChoiceMax(), options));
+                }
 
-                boolean added;
-                if (optionsAdapter != null)
-                    added = ShoppingCart.getInstance().addToCart(dish, Integer.valueOf(dish_quantity.getText().toString()), optionsAdapter.getItem(optionsAdapter.getSelectedItem()), components);
-                else
-                    added = ShoppingCart.getInstance().addToCart(dish, Integer.valueOf(dish_quantity.getText().toString()), null, components);
+            boolean added;
+            if (optionsAdapter != null)
+                added = ShoppingCart.getInstance().addToCart(dish, Integer.valueOf(dish_quantity.getText().toString()), optionsAdapter.getItem(optionsAdapter.getSelectedItem()), components);
+            else
+                added = ShoppingCart.getInstance().addToCart(dish, Integer.valueOf(dish_quantity.getText().toString()), null, components);
 
-                if (added)
-                    Toast.makeText(OrderActivity.this, "Ajouté: " + Integer.valueOf(dish_quantity.getText().toString()) + " " + dish.getTitle(), Toast.LENGTH_LONG).show();
-                else
-                    Toast.makeText(OrderActivity.this, "Veuillez valider votre panier avant de commander d'un autre restaurant", Toast.LENGTH_LONG).show();
+            if (added)
+                Toast.makeText(OrderActivity.this, "Ajouté: " + Integer.valueOf(dish_quantity.getText().toString()) + " " + dish.getTitle(), Toast.LENGTH_LONG).show();
+            else
+                Toast.makeText(OrderActivity.this, "Veuillez valider votre panier avant de commander d'un autre restaurant", Toast.LENGTH_LONG).show();
 
-                finish();
-            }
+            SharedPreferences sharedPreferences = getSharedPreferences("itemsList", Context.MODE_PRIVATE);
+            SharedPreferences.Editor editor = sharedPreferences.edit();
+            editor.clear();
+
+            String pos = ObjectSerializer.serialize(ShoppingCart.getInstance());
+            editor.putString("items", pos);
+
+            editor.apply();
+            finish();
         });
 
         final ImageView img = new ImageView(this);
