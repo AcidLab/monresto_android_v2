@@ -5,6 +5,7 @@ import android.content.DialogInterface;
 import android.content.Intent;
 import android.content.SharedPreferences;
 import android.graphics.Color;
+import android.graphics.Typeface;
 import android.os.Parcel;
 import android.os.Parcelable;
 import android.support.annotation.NonNull;
@@ -186,6 +187,7 @@ public class RecyclerViewAdapter extends RecyclerView.Adapter<RecyclerView.ViewH
     public static class HolderHeader extends ViewHolder {
         ImageView filtersToggle;
         MaterialSearchBar searchBar;
+        TextView searchPlaceHolder;
         RecyclerView filterRecylcerView;
         ArrayList<Speciality> specialities;
         SpecialityRecyclerViewAdapter specialityRecyclerViewAdapter;
@@ -196,10 +198,15 @@ public class RecyclerViewAdapter extends RecyclerView.Adapter<RecyclerView.ViewH
             searchBar = itemView.findViewById(R.id.searchBar);
             filterRecylcerView = itemView.findViewById(R.id.filterRecylcerView);
 
+            searchPlaceHolder = itemView.findViewById(R.id.mt_placeholder);
+
+
         }
 
         void setSearchBarContext(Context context) {
             searchBar.setOnSearchActionListener((MaterialSearchBar.OnSearchActionListener) context);
+            searchPlaceHolder.setTextColor(Color.parseColor("#cdcdcd"));
+            searchPlaceHolder.setTextAppearance(context, R.style.DefaultTextView);
         }
 
         void initFilterRecyclerView(Context context) {

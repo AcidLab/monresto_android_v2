@@ -19,7 +19,7 @@
         android:layout_width="0dp"
         android:layout_height="60dp"
         android:layout_marginStart="8dp"
-        app:hint="Rechercher un restaurant"
+        app:hint="Rechercher"
         app:layout_constraintEnd_toStartOf="@+id/filtersToggle"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent"

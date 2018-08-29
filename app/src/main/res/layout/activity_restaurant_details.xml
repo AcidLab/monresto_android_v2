@@ -66,6 +66,7 @@
                 android:layout_height="170dp"
                 android:gravity="top"
                 android:minHeight="42dp"
+                android:paddingTop="8dp"
                 app:layout_collapseMode="pin"
                 app:popupTheme="@style/ThemeOverlay.AppCompat.Light"
                 app:titleMarginTop="15dp" />
