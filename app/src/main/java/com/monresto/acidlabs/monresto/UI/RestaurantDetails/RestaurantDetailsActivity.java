@@ -7,6 +7,8 @@ import android.support.design.widget.TabLayout;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.Toolbar;
 import android.view.MenuItem;
+import android.view.View;
+import android.widget.Button;
 import android.widget.ImageView;
 import android.widget.TextView;
 
@@ -143,7 +145,7 @@ public class RestaurantDetailsActivity extends AppCompatActivity implements Rest
     public void onMenusReceived(ArrayList<Menu> menus) {
 
         MenusList = new ArrayList<>();
-        MenusList.add("Informations");
+        MenusList.add("INFORMATIONS");
 
         for (int j = 0; j < menus.size(); j++) {
             dishes.put(menus.get(j), null);
@@ -154,6 +156,10 @@ public class RestaurantDetailsActivity extends AppCompatActivity implements Rest
         }
 
         Titles = MenusList.toArray(new CharSequence[MenusList.size()]);
+        Button button = new Button(this);
+        button.setOnClickListener(view -> {
+
+        });
     }
 
     @Override

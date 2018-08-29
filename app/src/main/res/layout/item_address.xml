@@ -7,28 +7,18 @@
     android:layout_height="wrap_content"
     android:background="@color/colorPrimary">
 
-    <ImageView
-        android:id="@+id/imageView7"
-        android:layout_width="39dp"
-        android:layout_height="30dp"
-        android:layout_marginBottom="8dp"
-        android:layout_marginStart="8dp"
-        android:layout_marginTop="8dp"
-        app:layout_constraintBottom_toBottomOf="parent"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toTopOf="parent"
-        app:srcCompat="@drawable/business_100" />
-
     <TextView
         android:id="@+id/address_title_item"
         android:layout_width="0dp"
         android:layout_height="wrap_content"
+        android:layout_marginBottom="10dp"
         android:layout_marginEnd="8dp"
         android:layout_marginStart="16dp"
+        android:layout_marginTop="10dp"
         android:text="Local MonResto"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toStartOf="@+id/imageView9"
-        app:layout_constraintStart_toEndOf="@+id/imageView7"
+        app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent" />
 
     <ImageView
@@ -45,8 +35,8 @@
         android:id="@+id/divider_address2"
         android:layout_width="0dp"
         android:layout_height="1dp"
-        android:layout_marginEnd="24dp"
-        android:layout_marginStart="24dp"
+        android:layout_marginEnd="16dp"
+        android:layout_marginStart="16dp"
         android:background="#e1e1e1"
         android:visibility="visible"
         app:layout_constraintBottom_toBottomOf="parent"

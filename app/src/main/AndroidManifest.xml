@@ -36,7 +36,7 @@
         <activity
             android:name=".UI.User.SelectAddressActivity"
             android:excludeFromRecents="true"
-            android:theme="@style/Theme.AppCompat.Light.Dialog" />
+            android:theme="@style/RoundedDialog" />
         <activity android:name=".UI.Homepage.HomepageActivity">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
@@ -48,12 +48,7 @@
         <activity
             android:name=".UI.Main.FilterActivity"
             android:excludeFromRecents="true"
-            android:theme="@style/Theme.AppCompat.Light.Dialog" />
-        <activity
-            android:name=".UI.Main.PromptActivity"
-            android:excludeFromRecents="true"
-            android:theme="@style/Theme.AppCompat.Light.Dialog" />
-
+            android:theme="@style/RoundedDialog" />
         <meta-data
             android:name="com.facebook.sdk.ApplicationId"
             android:value="@string/facebook_app_id" />
@@ -61,8 +56,8 @@
             android:name="com.google.android.geo.API_KEY"
             android:value="@string/google_maps_key" />
 
-        // Fixes google maps on Android P
-        // TODO: Remove after google fixes this
+        <!-- Fixes google maps on Android P
+         TODO: Remove after google fixes this -->
         <uses-library
             android:name="org.apache.http.legacy"
             android:required="false" />

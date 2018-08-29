@@ -31,7 +31,6 @@ import com.monresto.acidlabs.monresto.Model.Restaurant;
 import com.monresto.acidlabs.monresto.Model.ShoppingCart;
 import com.monresto.acidlabs.monresto.Model.Speciality;
 import com.monresto.acidlabs.monresto.R;
-import com.monresto.acidlabs.monresto.UI.Main.PromptActivity;
 import com.monresto.acidlabs.monresto.UI.RestaurantDetails.RestaurantDetailsActivity;
 import com.squareup.picasso.Picasso;
 
@@ -121,8 +120,8 @@ public class RecyclerViewAdapter extends RecyclerView.Adapter<RecyclerView.ViewH
 
                             AlertDialog dialog = builder.create();
                             dialog.setOnShowListener(arg0 -> {
-                                dialog.getButton(AlertDialog.BUTTON_POSITIVE).setTextColor(Color.GREEN);
-                                dialog.getButton(AlertDialog.BUTTON_NEGATIVE).setTextColor(Color.GREEN);
+                                dialog.getButton(AlertDialog.BUTTON_POSITIVE).setTextColor(Color.parseColor("#33b998"));
+                                dialog.getButton(AlertDialog.BUTTON_NEGATIVE).setTextColor(Color.parseColor("#33b998"));
                             });
                             dialog.show();
                         } else {
