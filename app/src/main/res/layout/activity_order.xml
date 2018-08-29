@@ -46,8 +46,13 @@
     <android.support.v4.widget.NestedScrollView
         android:layout_width="match_parent"
         android:layout_height="0dp"
+        android:layout_marginBottom="8dp"
+        android:layout_marginEnd="8dp"
+        android:layout_marginStart="8dp"
+        android:background="@drawable/shadow_233038"
+        android:paddingBottom="8dp"
         android:scaleType="centerCrop"
-        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintBottom_toTopOf="@+id/constraintLayout4"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/constraintLayout2"
@@ -233,98 +238,110 @@
                 </ListView>
             </LinearLayout>
 
-            <View
-                android:id="@+id/separator_order"
-                android:layout_width="0dp"
-                android:layout_height="1dp"
-                android:layout_marginEnd="8dp"
-                android:layout_marginStart="8dp"
-                android:layout_marginTop="24dp"
-                android:background="@android:color/darker_gray"
-                android:visibility="visible"
-                app:layout_constraintEnd_toEndOf="parent"
-                app:layout_constraintStart_toStartOf="parent"
-                app:layout_constraintTop_toBottomOf="@+id/lists_container" />
-
-            <LinearLayout
-                android:id="@+id/linearLayout5"
-                android:layout_width="0dp"
-                android:layout_height="wrap_content"
-                android:layout_marginBottom="16dp"
-                android:layout_marginEnd="16dp"
-                android:layout_marginStart="16dp"
-                android:layout_marginTop="32dp"
-                android:gravity="center_vertical"
-                android:orientation="horizontal"
-                app:layout_constraintBottom_toBottomOf="parent"
-                app:layout_constraintEnd_toEndOf="parent"
-                app:layout_constraintStart_toStartOf="parent"
-                app:layout_constraintTop_toBottomOf="@+id/textView5">
-
-                <Button
-                    android:id="@+id/add_to_cart"
-                    style="@style/DefaultButtonStyle"
-                    android:layout_width="wrap_content"
-                    android:layout_height="36dp"
-                    android:layout_marginEnd="4dp"
-                    android:layout_weight="1"
-                    android:fontFamily="@font/googlesans_medium"
-                    android:text="Ajouter au panier"
-                    android:textSize="12sp" />
-
-                <Button
-                    android:id="@+id/cancel_order"
-                    android:layout_width="wrap_content"
-                    android:layout_height="36dp"
-                    android:layout_marginStart="4dp"
-                    android:layout_weight="1"
-                    android:autoText="false"
-                    android:fontFamily="@font/googlesans_medium"
-                    android:text="Annuler"
-                    android:textSize="12sp" />
-            </LinearLayout>
-
-            <TextView
-                android:id="@+id/textView5"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_marginStart="16dp"
-                android:layout_marginTop="8dp"
-                android:text="TOTAL :"
-                android:textAllCaps="true"
-                android:textColor="@color/material_blue_grey_95"
-                app:layout_constraintStart_toStartOf="parent"
-                app:layout_constraintTop_toBottomOf="@+id/separator_order" />
-
-            <TextView
-                android:id="@+id/total_order"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_marginEnd="8dp"
-                android:layout_marginTop="8dp"
-                android:text="0"
-                android:textAlignment="textEnd"
-                android:textAllCaps="true"
-                android:textColor="@color/material_blue_grey_95"
-                app:layout_constraintEnd_toStartOf="@+id/textView9"
-                app:layout_constraintTop_toBottomOf="@+id/separator_order" />
-
-            <TextView
-                android:id="@+id/textView9"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_marginEnd="16dp"
-                android:layout_marginTop="8dp"
-                android:text=" DT"
-                android:textAlignment="textEnd"
-                android:textAllCaps="true"
-                android:textColor="@color/material_blue_grey_95"
-                app:layout_constraintEnd_toEndOf="parent"
-                app:layout_constraintTop_toBottomOf="@+id/separator_order" />
-
         </android.support.constraint.ConstraintLayout>
 
 
     </android.support.v4.widget.NestedScrollView>
+
+    <android.support.constraint.ConstraintLayout
+        android:id="@+id/constraintLayout4"
+        android:layout_width="match_parent"
+        android:layout_height="110dp"
+        android:layout_marginBottom="8dp"
+        android:layout_marginEnd="8dp"
+        android:layout_marginStart="8dp"
+        android:background="@drawable/shadow_233038"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent">
+
+        <LinearLayout
+            android:id="@+id/linearLayout5"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginBottom="16dp"
+            android:layout_marginEnd="16dp"
+            android:layout_marginStart="16dp"
+            android:layout_marginTop="32dp"
+            android:gravity="center_vertical"
+            android:orientation="horizontal"
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@+id/textView5">
+
+            <Button
+                android:id="@+id/add_to_cart"
+                style="@style/DefaultButtonStyle"
+                android:layout_width="wrap_content"
+                android:layout_height="36dp"
+                android:layout_marginEnd="4dp"
+                android:layout_weight="1"
+                android:fontFamily="@font/googlesans_medium"
+                android:text="Ajouter au panier"
+                android:textSize="12sp" />
+
+            <Button
+                android:id="@+id/cancel_order"
+                android:layout_width="wrap_content"
+                android:layout_height="36dp"
+                android:layout_marginStart="4dp"
+                android:layout_weight="1"
+                android:fontFamily="@font/googlesans_medium"
+                android:text="Annuler"
+                android:textSize="12sp" />
+        </LinearLayout>
+
+        <View
+            android:id="@+id/separator_order"
+            android:layout_width="0dp"
+            android:layout_height="1dp"
+            android:layout_marginEnd="8dp"
+            android:layout_marginStart="8dp"
+            android:layout_marginTop="8dp"
+            android:background="@android:color/darker_gray"
+            android:visibility="visible"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@id/textView16" />
+
+        <TextView
+            android:id="@+id/textView16"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginStart="16dp"
+            android:layout_marginTop="8dp"
+            android:text="TOTAL :"
+            android:textAllCaps="true"
+            android:textColor="@color/material_blue_grey_95"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toTopOf="parent" />
+
+        <TextView
+            android:id="@+id/total_order"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginEnd="4dp"
+            android:layout_marginTop="8dp"
+            android:text="0"
+            android:textAlignment="textEnd"
+            android:textAllCaps="true"
+            android:textColor="@color/material_blue_grey_95"
+            app:layout_constraintEnd_toStartOf="@+id/textView22"
+            app:layout_constraintTop_toTopOf="parent" />
+
+        <TextView
+            android:id="@+id/textView22"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginEnd="16dp"
+            android:layout_marginTop="8dp"
+            android:text=" DT"
+            android:textAlignment="textEnd"
+            android:textAllCaps="true"
+            android:textColor="@color/material_blue_grey_95"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintTop_toTopOf="parent" />
+    </android.support.constraint.ConstraintLayout>
 
 </android.support.constraint.ConstraintLayout>
