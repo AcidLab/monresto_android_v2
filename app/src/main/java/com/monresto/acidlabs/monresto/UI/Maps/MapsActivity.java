@@ -50,6 +50,8 @@ public class MapsActivity extends FragmentActivity implements OnMapReadyCallback
     List<Address> addresses;
     private boolean updatePosition;
 
+    LatLng[] latlng = new LatLng[2];
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);

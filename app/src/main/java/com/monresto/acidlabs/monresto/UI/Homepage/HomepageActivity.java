@@ -48,6 +48,7 @@ import com.monresto.acidlabs.monresto.Service.Homepage.HomepageAsyncResponse;
 import com.monresto.acidlabs.monresto.Service.Homepage.HomepageService;
 import com.monresto.acidlabs.monresto.Service.User.UserAsyncResponse;
 import com.monresto.acidlabs.monresto.Service.User.UserService;
+import com.monresto.acidlabs.monresto.UI.Delivery.DeliveryMapActivity;
 import com.monresto.acidlabs.monresto.UI.Main.MainActivity;
 import com.monresto.acidlabs.monresto.UI.Maps.MapsActivity;
 import com.monresto.acidlabs.monresto.UI.Profile.ProfileActivity;
@@ -99,6 +100,9 @@ public class HomepageActivity extends AppCompatActivity implements UserAsyncResp
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_homepage);
         ButterKnife.bind(this);
+
+        //Intent i = new Intent(this, DeliveryMapActivity.class);
+        //startActivity(i);
 
         Dishesadapter = new HomepageDishesAdapter(this);
         Eventsadapter = new HomepageEventsAdapter(this);

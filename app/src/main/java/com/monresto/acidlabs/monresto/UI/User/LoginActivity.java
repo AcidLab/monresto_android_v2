@@ -111,8 +111,8 @@ public class LoginActivity extends AppCompatActivity implements UserAsyncRespons
     public void onAddressListReceived(ArrayList<Address> addresses) {
         if (User.getInstance() != null)
             User.getInstance().setAddresses(addresses);
-        Intent intent = new Intent(this, SelectAddressActivity.class);
-        startActivity(intent);
+        //Intent intent = new Intent(this, SelectAddressActivity.class);
+        //startActivity(intent);
         finish();
     }
     @Override

@@ -18,7 +18,7 @@ public class ShoppingCart implements Serializable {
     private int restoID;
     private double minCartTotal;
 
-    public class Options implements Serializable{
+    public class Options implements Serializable {
         private int quantity;
         private Dish.Option dimension;
         private ArrayList<Dish.Component> components;
@@ -80,22 +80,24 @@ public class ShoppingCart implements Serializable {
     }
 
     public double getCartSubTotal() {
-        double subTotal = 0;
+        double dishPrice = 0, subTotal = 0;
         for (Map.Entry<Dish, Options> entry : getItems().entrySet()) {
             Dish cle = entry.getKey();
             Options valeur = entry.getValue();
+            dishPrice = 0;
 
             if (valeur.getDimension() != null && valeur.getDimension().getPrice() != 0)
-                subTotal += valeur.getDimension().getPrice();
-            else subTotal += cle.getPrice();
+                dishPrice += valeur.getDimension().getPrice();
+            else dishPrice += cle.getPrice();
 
             for (Dish.Component component : valeur.getComponents()) {
                 for (Dish.Option option : component.getOptions()) {
-                    subTotal += option.getPrice();
+                    dishPrice += option.getPrice();
                 }
             }
 
-            subTotal *= valeur.quantity;
+            dishPrice *= valeur.quantity;
+            subTotal+=dishPrice;
         }
         return subTotal;
     }

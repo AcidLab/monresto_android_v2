@@ -3,6 +3,7 @@ package com.monresto.acidlabs.monresto.UI.Profile.Address;
 import android.app.Activity;
 import android.content.Intent;
 
+import com.google.android.gms.maps.model.LatLng;
 import com.monresto.acidlabs.monresto.Model.Address;
 
 import android.location.Geocoder;
