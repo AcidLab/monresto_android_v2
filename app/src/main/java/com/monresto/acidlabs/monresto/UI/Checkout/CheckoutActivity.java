@@ -88,12 +88,15 @@ public class CheckoutActivity extends AppCompatActivity implements UserAsyncResp
         initRecyclerViews();
 
         userService = new UserService(this);
-        int paymentMethod = getItemIdByType(paymentMethods, TYPE_PAYMENT_MODE);
-        int orderOptionID = getItemIdByType(paymentMethods, TYPE_UNAVAILABLE_OPTION);
-        int deliveryTime = getItemIdByType(paymentMethods, TYPE_DELIVERY_DATE);
+
         orderLoading.setOnClickListener(e -> {
+            int paymentMethod = getItemIdByType(paymentMethods, TYPE_PAYMENT_MODE);
+            int orderOptionID = getItemIdByType(paymentItemUnavailable, TYPE_UNAVAILABLE_OPTION);
+            int deliveryTime = getItemIdByType(deliveryDate, TYPE_DELIVERY_DATE);
+
             orderLoading.setProgress(1);
             userService.submitOrders(User.getInstance().getId(), User.getInstance().getSelectedAddress().getId(), ShoppingCart.getInstance().getCurrentRestaurant(), paymentMethod, orderOptionID, deliveryTime);
+            //onSubmitOrder(true, 89551);
         });
 
     }
@@ -101,14 +104,10 @@ public class CheckoutActivity extends AppCompatActivity implements UserAsyncResp
     void initRecyclerViews() {
         RadioListAdapter radioListAdapter;
         CharSequence[] subjects;
+
         //1
-        ArrayList<PaymentMode> paymentModes = Monresto.getInstance().findRestaurant(ShoppingCart.getInstance().getCurrentRestaurant()).getPaymentModes();
-        ArrayList<CharSequence> paymentModesString = new ArrayList<>();
-
-        for (int i = 0; i < paymentModes.size(); i++)
-            paymentModesString.add(paymentModes.get(i).getTitle());
-
-        radioListAdapter = new RadioListAdapter(paymentModesString, this);
+        subjects = getResources().getStringArray(R.array.payment_methods);
+        radioListAdapter = new RadioListAdapter(new ArrayList<CharSequence>(Arrays.asList(subjects)), this);
         paymentMethods.setLayoutManager(new LinearLayoutManager(this));
         paymentMethods.setAdapter(radioListAdapter);
 
@@ -147,14 +146,26 @@ public class CheckoutActivity extends AppCompatActivity implements UserAsyncResp
     }
 
     @Override
-    public void onSubmitOrder(boolean success){
-        if(success){
+    public void onSubmitOrder(boolean success) {
+        if (success) {
             Intent intent = new Intent(this, ProfileActivity.class);
             startActivity(intent);
             ShoppingCart.getInstance().clear();
             finish();
+        } else {
+            orderLoading.setProgress(-1);
         }
-        else{
+    }
+
+    @Override
+    public void onSubmitOrder(boolean success, int orderID) {
+        if (success) {
+            Intent intent = new Intent(this, PaymentActivity.class);
+            intent.putExtra("orderID", orderID);
+            startActivity(intent);
+            ShoppingCart.getInstance().clear();
+            finish();
+        } else {
             orderLoading.setProgress(-1);
         }
     }

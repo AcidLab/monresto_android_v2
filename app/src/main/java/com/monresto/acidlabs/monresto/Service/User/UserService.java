@@ -529,16 +529,27 @@ public class UserService {
         final String signature = Utilities.md5("" + userID + addressID + restoID + orders.toString() + paymentID + type + "[]" + numtrans + optionOrderID + time + hour + Config.sharedKey);
 
         RequestQueue queue = Volley.newRequestQueue(context);
-        String url = Config.server + "User/purchaseOrder.php";
+
+        String url = "";
+
+        url = Config.server + "User/purchaseOrder.php";
+
         StringRequest postRequest = new StringRequest(Request.Method.POST, url,
                 new Response.Listener<String>() {
                     @Override
                     public void onResponse(String response) {
                         try {
+                            System.out.println("response = [" + response + "]");
                             JSONObject responseJson = new JSONObject(response);
-                            if (responseJson.getInt("Status") == 1)
-                                ((UserAsyncResponse) context).onSubmitOrder(true);
-                            else
+                            if (responseJson.getInt("Status") == 1) {
+                                if (paymentID == 1) {
+                                    int orderID = responseJson.getInt("orderID");
+                                    ((UserAsyncResponse) context).onSubmitOrder(true, orderID);
+
+                                } else {
+                                    ((UserAsyncResponse) context).onSubmitOrder(true);
+                                }
+                            } else
                                 ((UserAsyncResponse) context).onSubmitOrder(false);
 
                         } catch (JSONException e) {
@@ -546,11 +557,8 @@ public class UserService {
                         }
                     }
                 },
-                new Response.ErrorListener() {
-                    @Override
-                    public void onErrorResponse(VolleyError error) {
-                        // error
-                    }
+                error -> {
+                    // error
                 }
         ) {
             @Override

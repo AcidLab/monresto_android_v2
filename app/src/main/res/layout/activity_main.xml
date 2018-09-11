@@ -133,6 +133,17 @@
 
         </android.support.v4.widget.SwipeRefreshLayout>
 
+        <ImageView
+            android:id="@+id/couffin"
+            android:layout_width="178dp"
+            android:layout_height="73dp"
+            android:layout_marginBottom="24dp"
+            android:scaleType="fitCenter"
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:srcCompat="@drawable/couffin" />
+
         <FrameLayout
             android:id="@+id/cart_frame"
             android:layout_width="0dp"
@@ -206,15 +217,6 @@
                     app:layout_constraintTop_toTopOf="@+id/delivery_holder2" />
             </android.support.constraint.ConstraintLayout>
         </FrameLayout>
-
-        <ImageView
-            android:id="@+id/couffin"
-            android:layout_width="178dp"
-            android:layout_height="73dp"
-            android:scaleType="fitEnd"
-            app:layout_constraintBottom_toTopOf="@+id/cart_frame"
-            app:layout_constraintStart_toStartOf="parent"
-            app:srcCompat="@drawable/couffin" />
 
     </android.support.constraint.ConstraintLayout>
 

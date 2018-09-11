@@ -18,4 +18,5 @@ public interface UserAsyncResponse {
     default void onAddressAddResponse(boolean success){}
     default void onFavoriteDishesReceived(ArrayList<Dish> dishes){}
     default void onSubmitOrder(boolean success){}
+    default void onSubmitOrder(boolean success, int orderID){}
 }
