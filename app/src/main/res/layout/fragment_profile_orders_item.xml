@@ -30,6 +30,7 @@
             android:layout_weight="8"
             android:fontFamily="@font/googlesans_bold"
             android:text="Ordered dish name"
+            android:textSize="16sp"
             android:textStyle="bold" />
     </LinearLayout>
 
@@ -43,54 +44,42 @@
         app:layout_constraintTop_toBottomOf="@+id/linearLayout9">
 
 
-        <android.support.v7.widget.CardView
-            android:id="@+id/cardView"
+        <android.support.constraint.ConstraintLayout
             android:layout_width="0dp"
-            android:layout_height="wrap_content"
-            android:layout_marginBottom="8dp"
-            android:layout_marginEnd="8dp"
-            android:layout_marginTop="8dp"
-            app:cardBackgroundColor="@color/card_hint_color"
-            app:cardCornerRadius="16dp"
-            app:cardUseCompatPadding="true"
+            android:layout_height="match_parent"
             app:layout_constraintBottom_toBottomOf="parent"
             app:layout_constraintEnd_toStartOf="@+id/separator"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toTopOf="parent">
 
-            <android.support.constraint.ConstraintLayout
-                android:layout_width="match_parent"
-                android:layout_height="match_parent">
+            <ImageView
+                android:id="@+id/imageView14"
+                android:layout_width="wrap_content"
+                android:layout_height="72dp"
+                android:layout_marginBottom="8dp"
+                android:layout_marginTop="8dp"
+                app:layout_constraintBottom_toTopOf="@id/textRestoName"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toTopOf="parent"
+                app:srcCompat="@drawable/resto_icon" />
 
-                <ImageView
-                    android:id="@+id/imageView14"
-                    android:layout_width="wrap_content"
-                    android:layout_height="48dp"
-                    android:layout_marginBottom="8dp"
-                    android:layout_marginTop="8dp"
-                    app:layout_constraintBottom_toTopOf="@id/textRestoName"
-                    app:layout_constraintEnd_toEndOf="parent"
-                    app:layout_constraintStart_toStartOf="parent"
-                    app:layout_constraintTop_toTopOf="parent"
-                    app:srcCompat="@drawable/resto_icon" />
-
-                <TextView
-                    android:id="@+id/textRestoName"
-                    android:layout_width="0dp"
-                    android:layout_height="wrap_content"
-                    android:layout_marginBottom="8dp"
-                    android:layout_marginEnd="8dp"
-                    android:layout_marginStart="8dp"
-                    android:layout_marginTop="6dp"
-                    android:text="Resto"
-                    android:textAlignment="center"
-                    android:textSize="14sp"
-                    app:layout_constraintBottom_toBottomOf="parent"
-                    app:layout_constraintEnd_toEndOf="parent"
-                    app:layout_constraintStart_toStartOf="parent"
-                    app:layout_constraintTop_toBottomOf="@+id/imageView14" />
-            </android.support.constraint.ConstraintLayout>
-        </android.support.v7.widget.CardView>
+            <TextView
+                android:id="@+id/textRestoName"
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_marginBottom="8dp"
+                android:layout_marginEnd="8dp"
+                android:layout_marginStart="8dp"
+                android:layout_marginTop="6dp"
+                android:text="Resto"
+                android:textAlignment="center"
+                android:textSize="14sp"
+                app:layout_constraintBottom_toBottomOf="parent"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toBottomOf="@+id/imageView14" />
+        </android.support.constraint.ConstraintLayout>
 
         <View
             android:id="@+id/separator"
@@ -104,53 +93,42 @@
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toTopOf="parent" />
 
-        <android.support.v7.widget.CardView
+
+        <android.support.constraint.ConstraintLayout
             android:layout_width="0dp"
-            android:layout_height="wrap_content"
-            android:layout_marginBottom="8dp"
-            android:layout_marginStart="8dp"
-            android:layout_marginTop="8dp"
-            app:cardBackgroundColor="@color/new_teal"
-            app:cardCornerRadius="16dp"
-            app:cardUseCompatPadding="true"
+            android:layout_height="match_parent"
             app:layout_constraintBottom_toBottomOf="parent"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toEndOf="@id/separator"
             app:layout_constraintTop_toTopOf="parent">
 
-            <android.support.constraint.ConstraintLayout
-                android:layout_width="match_parent"
-                android:layout_height="match_parent">
+            <ImageView
+                android:id="@+id/imageView15"
+                android:layout_width="wrap_content"
+                android:layout_height="72dp"
+                android:layout_marginBottom="8dp"
+                android:layout_marginTop="8dp"
+                app:layout_constraintBottom_toTopOf="@id/textOrderTotal"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toTopOf="parent"
+                app:srcCompat="@drawable/money" />
 
-                <ImageView
-                    android:id="@+id/imageView15"
-                    android:layout_width="wrap_content"
-                    android:layout_height="48dp"
-                    android:layout_marginBottom="8dp"
-                    android:layout_marginTop="8dp"
-                    app:layout_constraintBottom_toTopOf="@id/textOrderTotal"
-                    app:layout_constraintEnd_toEndOf="parent"
-                    app:layout_constraintStart_toStartOf="parent"
-                    app:layout_constraintTop_toTopOf="parent"
-                    app:srcCompat="@drawable/money" />
-
-                <TextView
-                    android:id="@+id/textOrderTotal"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:layout_marginBottom="8dp"
-                    android:layout_marginEnd="8dp"
-                    android:layout_marginStart="8dp"
-                    android:layout_marginTop="6dp"
-                    android:text="Total"
-                    android:textSize="14sp"
-                    app:layout_constraintBottom_toBottomOf="parent"
-                    app:layout_constraintEnd_toEndOf="parent"
-                    app:layout_constraintStart_toStartOf="parent"
-                    app:layout_constraintTop_toBottomOf="@+id/imageView15" />
-            </android.support.constraint.ConstraintLayout>
-        </android.support.v7.widget.CardView>
-
+            <TextView
+                android:id="@+id/textOrderTotal"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginBottom="8dp"
+                android:layout_marginEnd="8dp"
+                android:layout_marginStart="8dp"
+                android:layout_marginTop="6dp"
+                android:text="Total"
+                android:textSize="14sp"
+                app:layout_constraintBottom_toBottomOf="parent"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toBottomOf="@+id/imageView15" />
+        </android.support.constraint.ConstraintLayout>
     </android.support.constraint.ConstraintLayout>
 
     <View
@@ -158,8 +136,8 @@
         android:layout_width="match_parent"
         android:layout_height="1dp"
         android:layout_marginTop="8dp"
-        android:visibility="visible"
         android:background="#e1e1e1"
+        android:visibility="visible"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@id/layoutCards" />
@@ -170,7 +148,7 @@
         android:layout_height="wrap_content"
         android:layout_marginEnd="24dp"
         android:layout_marginStart="24dp"
-        android:layout_marginTop="12dp"
+        android:layout_marginTop="8dp"
         android:orientation="horizontal"
         android:paddingEnd="6dp"
         android:paddingStart="6dp"
@@ -183,7 +161,8 @@
             android:id="@+id/pending_status_1"
             android:layout_width="62dp"
             android:layout_height="62dp"
-            android:layout_margin="6dp"
+            android:layout_marginEnd="6dp"
+            android:layout_marginStart="6dp"
             android:layout_weight="1"
             android:adjustViewBounds="false"
             app:srcCompat="@drawable/pending_en_attante" />
@@ -192,7 +171,8 @@
             android:id="@+id/pending_status_2"
             android:layout_width="62dp"
             android:layout_height="62dp"
-            android:layout_margin="6dp"
+            android:layout_marginEnd="6dp"
+            android:layout_marginStart="6dp"
             android:layout_weight="1"
             android:adjustViewBounds="false"
             app:srcCompat="@drawable/pending_en_cours" />
@@ -201,7 +181,8 @@
             android:id="@+id/pending_status_3"
             android:layout_width="62dp"
             android:layout_height="62dp"
-            android:layout_margin="6dp"
+            android:layout_marginEnd="6dp"
+            android:layout_marginStart="6dp"
             android:layout_weight="1"
             app:srcCompat="@drawable/pending_arrive_resto" />
 
@@ -209,7 +190,8 @@
             android:id="@+id/pending_status_4"
             android:layout_width="62dp"
             android:layout_height="62dp"
-            android:layout_margin="6dp"
+            android:layout_marginEnd="6dp"
+            android:layout_marginStart="6dp"
             android:layout_weight="1"
             app:srcCompat="@drawable/pending_pickup_resto" />
 
@@ -217,7 +199,8 @@
             android:id="@+id/pending_status_5"
             android:layout_width="62dp"
             android:layout_height="62dp"
-            android:layout_margin="6dp"
+            android:layout_marginEnd="6dp"
+            android:layout_marginStart="6dp"
             android:layout_weight="1"
             app:srcCompat="@drawable/pending_arrive_client" />
     </LinearLayout>
@@ -241,8 +224,8 @@
         android:layout_width="match_parent"
         android:layout_height="1dp"
         android:layout_marginTop="8dp"
-        android:visibility="visible"
         android:background="#e1e1e1"
+        android:visibility="visible"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@id/textOrderStatus" />

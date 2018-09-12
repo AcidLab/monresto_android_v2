@@ -54,13 +54,14 @@ public class SpecialityRecyclerViewAdapter extends RecyclerView.Adapter<Speciali
             viewHolder.filter.setTextColor(Color.WHITE);
             if (viewHolder.equals(oldFilter))
                 ((MainActivity) context).resetRecyclerView();
-            else
+            else{
                 ((MainActivity) context).searchWithSpeciality((Speciality) mData.get(i));
-
-            if (oldFilter != null) {
-                oldFilter.filter.setBackgroundResource(R.drawable.button_bg_rounded_corners);
-                oldFilter.filter.setTextColor(Color.BLACK);
+                if (oldFilter != null) {
+                    oldFilter.filter.setBackgroundResource(R.drawable.button_bg_rounded_corners);
+                    oldFilter.filter.setTextColor(Color.BLACK);
+                }
             }
+
             oldFilter = viewHolder;
             oldFilter.setIsRecyclable(true);
 

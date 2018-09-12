@@ -113,6 +113,9 @@ public class OrderRecyclerViewAdapter extends RecyclerView.Adapter<OrderRecycler
         Picasso.get().load(order.getRestoImagePath()).transform(new RoundedTransformation(80, 0)).into(viewHolder.imageViewLogo);
 
         switch (order.getStatus()) {
+            case "EN_ATTENTE":
+                viewHolder.status = 0;
+                break;
             default:
                 viewHolder.status = 0;
                 break;
@@ -126,6 +129,8 @@ public class OrderRecyclerViewAdapter extends RecyclerView.Adapter<OrderRecycler
             else
                 Picasso.get().load(viewHolder.pending_images[j][1]).into(viewHolder.pending_views[j]);
         }
+
+        viewHolder.textOrderStatus.setText(order.getStatus().replace("_", " "));
     }
 
     @Override

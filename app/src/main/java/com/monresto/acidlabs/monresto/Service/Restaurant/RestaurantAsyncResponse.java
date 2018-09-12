@@ -15,4 +15,5 @@ public interface RestaurantAsyncResponse {
     default void onComposedDishReceived(Dish dish){};
     default void onSpecialitiesReceived(ArrayList<Speciality> specialities){};
     default void onServerDown(){};
+    default void onServerHighDemand(){};
 }

@@ -208,6 +208,11 @@ public class MainActivity extends AppCompatActivity implements RestaurantAsyncRe
         Utilities.statusChanger(this, R.layout.fragment_breakdown, status_restaurants, restaurants_swiper);
     }
 
+    @Override
+    public void onServerHighDemand() {
+        Utilities.statusChanger(this, R.layout.fragment_highdemand, status_restaurants, restaurants_swiper);
+    }
+
     public void populateRecyclerView(ArrayList<Restaurant> restaurantList) {
         if (recyclerViewAdapter == null)
             recyclerViewAdapter = new RecyclerViewAdapter(this, restaurantList);
@@ -248,6 +253,7 @@ public class MainActivity extends AppCompatActivity implements RestaurantAsyncRe
             if (Monresto.locationChanged) {
                 Monresto.locationChanged = false;
                 service.getAll(Monresto.getLat(), Monresto.getLon());
+                service.getSpecialities();
 
                 List<android.location.Address> addresses;
                 geocoder = new Geocoder(this);

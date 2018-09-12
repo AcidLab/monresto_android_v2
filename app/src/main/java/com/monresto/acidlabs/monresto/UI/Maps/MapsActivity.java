@@ -26,6 +26,7 @@ import com.google.android.gms.maps.model.MarkerOptions;
 import com.monresto.acidlabs.monresto.GPSTracker;
 import com.monresto.acidlabs.monresto.Model.Monresto;
 import com.monresto.acidlabs.monresto.R;
+import com.monresto.acidlabs.monresto.UI.Homepage.HomepageActivity;
 
 import java.io.IOException;
 import java.util.ArrayList;
@@ -90,8 +91,14 @@ public class MapsActivity extends FragmentActivity implements OnMapReadyCallback
             mMap.animateCamera(CameraUpdateFactory.newLatLngZoom(position, 12));
         }
 
-        else if(gpsTracker.canGetLocation()) {
+        else if(checkLocationPermission() && gpsTracker.canGetLocation()) {
             LatLng position = new LatLng(gpsTracker.getLatitude(), gpsTracker.getLongitude());
+            this.lat = position.latitude;
+            this.lng = position.longitude;
+            mMap.animateCamera(CameraUpdateFactory.newLatLngZoom(position, 12));
+        }
+        else{
+            LatLng position = new LatLng(36.8624, 10.1955);
             this.lat = position.latitude;
             this.lng = position.longitude;
             mMap.animateCamera(CameraUpdateFactory.newLatLngZoom(position, 12));
@@ -135,5 +142,37 @@ public class MapsActivity extends FragmentActivity implements OnMapReadyCallback
         Intent resultIntent = new Intent();
         setResult(Activity.RESULT_CANCELED, resultIntent);
         finish();
+    }
+
+    public boolean checkLocationPermission() {
+        if (ContextCompat.checkSelfPermission(this,
+                android.Manifest.permission.ACCESS_FINE_LOCATION)
+                != PackageManager.PERMISSION_GRANTED) {
+
+            if (ActivityCompat.shouldShowRequestPermissionRationale(this,
+                    android.Manifest.permission.ACCESS_FINE_LOCATION)) {
+                new AlertDialog.Builder(this)
+                        .setTitle("Demande d'autorisation")
+                        .setMessage("Monresto a besoin de savoir votre position")
+                        .setPositiveButton("Accépter", new DialogInterface.OnClickListener() {
+                            @Override
+                            public void onClick(DialogInterface dialogInterface, int i) {
+                                //Prompt the user once explanation has been shown
+                                ActivityCompat.requestPermissions(MapsActivity.this,
+                                        new String[]{android.Manifest.permission.ACCESS_FINE_LOCATION},
+                                        MY_PERMISSIONS_REQUEST_LOCATION);
+                            }
+                        })
+                        .create()
+                        .show();
+            } else {
+                ActivityCompat.requestPermissions(this,
+                        new String[]{android.Manifest.permission.ACCESS_FINE_LOCATION},
+                        MY_PERMISSIONS_REQUEST_LOCATION);
+            }
+            return false;
+        } else {
+            return true;
+        }
     }
 }

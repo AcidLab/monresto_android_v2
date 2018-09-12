@@ -87,7 +87,8 @@ public class CheckoutActivity extends AppCompatActivity implements UserAsyncResp
             int deliveryTime = getItemIdByType(((FragmentDelivery)adapter.getItem(0)).getDeliveryDate(), TYPE_DELIVERY_DATE);
 
             orderLoading.setProgress(1);
-            userService.submitOrders(User.getInstance().getId(), User.getInstance().getSelectedAddress().getId(), ShoppingCart.getInstance().getCurrentRestaurant(), paymentMethod, orderOptionID, deliveryTime);
+            if(User.getInstance()!=null)
+                userService.submitOrders(User.getInstance().getId(), User.getInstance().getSelectedAddress().getId(), ShoppingCart.getInstance().getCurrentRestaurant(), paymentMethod, orderOptionID, deliveryTime);
             //onSubmitOrder(true, 89551);
         });
 

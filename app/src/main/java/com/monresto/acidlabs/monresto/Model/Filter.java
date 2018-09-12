@@ -33,10 +33,10 @@ public class Filter implements Serializable {
     public static ArrayList<Filter> getFilters() {
         if (filters == null) {
             filters = new ArrayList<>();
+            filters.add(new Filter("Temps de livraison", R.drawable.time, Monresto.FILTER_TIME));
+            filters.add(new Filter("Promotion", R.drawable.prom, Monresto.FILTER_PROMO));
             filters.add(new Filter("Note", R.drawable.rate, Monresto.FILTER_NOTE));
             filters.add(new Filter("Ouvert", R.drawable.open, Monresto.FILTER_OPEN));
-            filters.add(new Filter("Promotion", R.drawable.prom, Monresto.FILTER_PROMO));
-            filters.add(new Filter("Temps de livraison", R.drawable.time, Monresto.FILTER_TIME));
         }
         return filters;
     }
