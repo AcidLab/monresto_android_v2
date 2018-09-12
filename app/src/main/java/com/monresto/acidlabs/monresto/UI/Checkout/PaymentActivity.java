@@ -4,13 +4,9 @@ import android.os.Bundle;
 import android.support.annotation.Nullable;
 import android.support.v7.app.AppCompatActivity;
 import android.webkit.WebView;
-import android.widget.Button;
 import android.widget.ImageView;
 
-import com.monresto.acidlabs.monresto.Base64;
 import com.monresto.acidlabs.monresto.R;
-
-import java.io.UnsupportedEncodingException;
 
 import butterknife.BindView;
 import butterknife.ButterKnife;

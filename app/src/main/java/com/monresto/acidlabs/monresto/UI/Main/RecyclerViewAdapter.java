@@ -99,9 +99,8 @@ public class RecyclerViewAdapter extends RecyclerView.Adapter<RecyclerView.ViewH
                     if (restaurantItem.getState().equals("open"))
                         ((HolderItem) viewHolder).storeState.setText("OUVERT");
                     else ((HolderItem) viewHolder).storeState.setText("FERMÉ");
-                    ((HolderItem) viewHolder).ratingBar.setRating((float) restaurantItem.getRate());
-                    ((HolderItem) viewHolder).ratingBar.setIsIndicator(true);
-                    ((HolderItem) viewHolder).restaurant_delivery.setText(String.valueOf(restaurantItem.getEstimatedTime()) + "'");
+                    ((HolderItem) viewHolder).item_store_rating.setText(String.valueOf((int)(restaurantItem.getRate()*20))+"%");
+                    ((HolderItem) viewHolder).restaurant_delivery.setText(String.valueOf(restaurantItem.getEstimatedTime()) + "\nMin");
                     ((HolderItem) viewHolder).restaurantItem.setOnClickListener(e -> {
                         if (!ShoppingCart.getInstance().isEmpty() && ShoppingCart.getInstance().getRestoID() != restaurantItem.getId()) {
                             AlertDialog.Builder builder = new AlertDialog.Builder(context);
@@ -170,7 +169,7 @@ public class RecyclerViewAdapter extends RecyclerView.Adapter<RecyclerView.ViewH
         ImageView store_bg;
         TextView restaurant_delivery;
         ConstraintLayout restaurantItem;
-        RatingBar ratingBar;
+        TextView item_store_rating;
 
         HolderItem(@NonNull View itemView) {
             super(itemView);
@@ -180,7 +179,7 @@ public class RecyclerViewAdapter extends RecyclerView.Adapter<RecyclerView.ViewH
             restaurant_delivery = itemView.findViewById(R.id.restaurant_delivery);
             store_bg = itemView.findViewById(R.id.store_bg);
             restaurantItem = itemView.findViewById(R.id.restaurant_id);
-            ratingBar = itemView.findViewById(R.id.item_store_rating);
+            item_store_rating = itemView.findViewById(R.id.item_store_rating);
         }
     }
 
