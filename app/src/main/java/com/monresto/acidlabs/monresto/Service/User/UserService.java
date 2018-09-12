@@ -72,6 +72,7 @@ public class UserService {
                 Map<String, String> params = new HashMap<>();
                 String token = FirebaseInstanceId.getInstance().getToken();
 
+
                 String signature = Utilities.md5(email + login + Config.sharedKey);
                 params.put("login", login);
                 params.put("email", email);

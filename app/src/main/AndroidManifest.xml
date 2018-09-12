@@ -50,6 +50,7 @@
             android:excludeFromRecents="true"
             android:theme="@style/RoundedDialog" />
         <activity android:name=".UI.Delivery.DeliveryMapActivity" />
+        <activity android:name=".UI.Checkout.PaymentActivity" />
 
         <meta-data
             android:name="com.facebook.sdk.ApplicationId"

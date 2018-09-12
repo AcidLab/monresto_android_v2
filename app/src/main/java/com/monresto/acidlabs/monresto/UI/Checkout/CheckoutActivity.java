@@ -4,6 +4,7 @@ import android.content.Intent;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
 import android.support.constraint.ConstraintLayout;
+import android.support.v4.view.ViewPager;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
@@ -25,6 +26,7 @@ import com.monresto.acidlabs.monresto.RadioListAdapter;
 import com.monresto.acidlabs.monresto.Service.User.UserAsyncResponse;
 import com.monresto.acidlabs.monresto.Service.User.UserService;
 import com.monresto.acidlabs.monresto.UI.Profile.ProfileActivity;
+import com.monresto.acidlabs.monresto.UI.Restaurants.ViewPagerAdapter;
 import com.monresto.acidlabs.monresto.UI.User.SelectAddressActivity;
 
 import java.text.DecimalFormat;
@@ -36,29 +38,24 @@ import butterknife.BindView;
 import butterknife.ButterKnife;
 
 public class CheckoutActivity extends AppCompatActivity implements UserAsyncResponse {
-    @BindView(R.id.address)
-    TextView textAddress;
     @BindView(R.id.imageProfileBack)
     ImageView imageProfileBack;
-    @BindView(R.id.paymentMethods)
-    RecyclerView paymentMethods;
     @BindView(R.id.cart_delivery)
     TextView cart_delivery;
     @BindView(R.id.cart_total)
     TextView cart_total;
     @BindView(R.id.orderBtn)
     ConstraintLayout orderBtn;
-    @BindView(R.id.paymentItemUnavailable)
-    RecyclerView paymentItemUnavailable;
-    @BindView(R.id.deliveryDate)
-    RecyclerView deliveryDate;
     @BindView(R.id.orderLoading)
     ActionProcessButton orderLoading;
+    @BindView(R.id.view_pager)
+    ViewPager view_pager;
 
     private Address address;
     private UserService userService;
 
     private final int TYPE_PAYMENT_MODE = 1, TYPE_UNAVAILABLE_OPTION = 2, TYPE_DELIVERY_DATE = 3;
+    private ViewPagerAdapter adapter;
 
     @Override
     protected void onCreate(@Nullable Bundle savedInstanceState) {
@@ -70,12 +67,7 @@ public class CheckoutActivity extends AppCompatActivity implements UserAsyncResp
 
         orderLoading.setMode(ActionProcessButton.Mode.ENDLESS);
         orderLoading.setProgress(0);
-        address = User.getInstance().getSelectedAddress();
-        textAddress.setText(address.getAdresse());
-        textAddress.setOnClickListener(e -> {
-            Intent intent = new Intent(this, SelectAddressActivity.class);
-            startActivity(intent);
-        });
+
 
         imageProfileBack.setOnClickListener(e -> {
             finish();
@@ -85,44 +77,27 @@ public class CheckoutActivity extends AppCompatActivity implements UserAsyncResp
         DecimalFormat dec = new DecimalFormat("#0.00");
         cart_total.setText(String.valueOf(dec.format(getIntent().getExtras().getDouble("total"))) + " DT");
 
-        initRecyclerViews();
+        //initRecyclerViews();
 
         userService = new UserService(this);
 
         orderLoading.setOnClickListener(e -> {
-            int paymentMethod = getItemIdByType(paymentMethods, TYPE_PAYMENT_MODE);
-            int orderOptionID = getItemIdByType(paymentItemUnavailable, TYPE_UNAVAILABLE_OPTION);
-            int deliveryTime = getItemIdByType(deliveryDate, TYPE_DELIVERY_DATE);
+            int paymentMethod = getItemIdByType(((FragmentDelivery)adapter.getItem(0)).getPaymentMethods(), TYPE_PAYMENT_MODE);
+            int orderOptionID = getItemIdByType(((FragmentDelivery)adapter.getItem(0)).getItemUnavailable(), TYPE_UNAVAILABLE_OPTION);
+            int deliveryTime = getItemIdByType(((FragmentDelivery)adapter.getItem(0)).getDeliveryDate(), TYPE_DELIVERY_DATE);
 
             orderLoading.setProgress(1);
             userService.submitOrders(User.getInstance().getId(), User.getInstance().getSelectedAddress().getId(), ShoppingCart.getInstance().getCurrentRestaurant(), paymentMethod, orderOptionID, deliveryTime);
             //onSubmitOrder(true, 89551);
         });
 
+        adapter = new ViewPagerAdapter(getSupportFragmentManager());
+        adapter.AddFragment(new FragmentDelivery(), "Delivery");
+        view_pager.setAdapter(adapter);
+
     }
 
-    void initRecyclerViews() {
-        RadioListAdapter radioListAdapter;
-        CharSequence[] subjects;
 
-        //1
-        subjects = getResources().getStringArray(R.array.payment_methods);
-        radioListAdapter = new RadioListAdapter(new ArrayList<CharSequence>(Arrays.asList(subjects)), this);
-        paymentMethods.setLayoutManager(new LinearLayoutManager(this));
-        paymentMethods.setAdapter(radioListAdapter);
-
-        //2
-        subjects = getResources().getStringArray(R.array.purchase_unavailable_options);
-        radioListAdapter = new RadioListAdapter(new ArrayList<CharSequence>(Arrays.asList(subjects)), this);
-        paymentItemUnavailable.setLayoutManager(new LinearLayoutManager(this));
-        paymentItemUnavailable.setAdapter(radioListAdapter);
-
-        //3
-        subjects = getResources().getStringArray(R.array.delivery_time_options);
-        radioListAdapter = new RadioListAdapter(new ArrayList<CharSequence>(Arrays.asList(subjects)), this);
-        deliveryDate.setLayoutManager(new LinearLayoutManager(this));
-        deliveryDate.setAdapter(radioListAdapter);
-    }
 
     int getItemIdByType(RecyclerView view, int type) {
         int option = ((RadioListAdapter) (Objects.requireNonNull(view.getAdapter()))).getSelectedItem();
@@ -141,8 +116,8 @@ public class CheckoutActivity extends AppCompatActivity implements UserAsyncResp
     @Override
     public void onResume() {
         super.onResume();
-        address = User.getInstance().getSelectedAddress();
-        textAddress.setText(address.getAdresse());
+        //address = User.getInstance().getSelectedAddress();
+        //textAddress.setText(address.getAdresse());
     }
 
     @Override

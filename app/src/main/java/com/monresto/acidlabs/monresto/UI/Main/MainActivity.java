@@ -36,6 +36,7 @@ import com.monresto.acidlabs.monresto.Service.Restaurant.RestaurantService;
 import com.monresto.acidlabs.monresto.Service.User.UserAsyncResponse;
 import com.monresto.acidlabs.monresto.Service.User.UserService;
 import com.monresto.acidlabs.monresto.UI.Cart.CartActivity;
+import com.monresto.acidlabs.monresto.UI.Homepage.HomepageActivity;
 import com.monresto.acidlabs.monresto.UI.Profile.ProfileActivity;
 import com.monresto.acidlabs.monresto.UI.User.LoginActivity;
 import com.monresto.acidlabs.monresto.UI.User.SelectAddressActivity;
@@ -125,7 +126,8 @@ public class MainActivity extends AppCompatActivity implements RestaurantAsyncRe
             e.printStackTrace();
         }
 
-        Picasso.get().load(HomepageConfig.getInstance().getBusket_image()).into(couffin);
+        if(HomepageConfig.getInstance()!=null)
+            Picasso.get().load(HomepageConfig.getInstance().getBusket_image()).into(couffin);
 
         service.getAll(Monresto.getLat(), Monresto.getLon());
         service.getSpecialities();
