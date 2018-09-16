@@ -1,15 +1,20 @@
 <?xml version="1.0" encoding="utf-8"?>
-<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+<android.support.v4.widget.NestedScrollView xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
     android:layout_width="match_parent"
-    android:layout_height="wrap_content"
-    android:orientation="vertical">
+    android:layout_height="wrap_content">
+<android.support.constraint.ConstraintLayout
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content">
 
     <LinearLayout
+        android:id="@+id/linearLayout11"
         android:layout_width="match_parent"
-        android:layout_height="match_parent"
+        android:layout_height="wrap_content"
         android:orientation="vertical"
         android:paddingBottom="10dp"
-        android:paddingTop="10dp">
+        android:paddingTop="10dp"
+        app:layout_constraintTop_toTopOf="parent">
 
         <TextView
             android:id="@+id/textView14"
@@ -23,6 +28,7 @@
             android:id="@+id/address"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
+            android:layout_marginStart="5dp"
             android:layout_marginTop="6dp"
             android:layout_weight="1"
             android:text="El mnihla, Tunis"
@@ -31,12 +37,16 @@
     </LinearLayout>
 
     <LinearLayout
+        android:id="@+id/linearLayout14"
         android:layout_width="match_parent"
-        android:layout_height="match_parent"
+        android:layout_height="wrap_content"
         android:gravity="center_vertical"
         android:orientation="vertical"
         android:paddingBottom="10dp"
-        android:paddingTop="10dp">
+        android:paddingTop="10dp"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/linearLayout11">
 
         <TextView
             android:id="@+id/textView17"
@@ -51,6 +61,7 @@
             android:id="@+id/paymentMethods"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
+            android:layout_marginStart="5dp"
             android:layout_marginTop="8dp"
             android:layout_weight="1"
             android:isScrollContainer="false"
@@ -59,12 +70,14 @@
     </LinearLayout>
 
     <LinearLayout
+        android:id="@+id/linearLayout8"
         android:layout_width="match_parent"
-        android:layout_height="match_parent"
+        android:layout_height="wrap_content"
         android:gravity="center_vertical"
         android:orientation="vertical"
         android:paddingBottom="10dp"
-        android:paddingTop="10dp">
+        android:paddingTop="10dp"
+        app:layout_constraintTop_toBottomOf="@+id/linearLayout14">
 
         <TextView
             android:id="@+id/textView18"
@@ -79,23 +92,26 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_marginEnd="16dp"
+            android:layout_marginStart="5dp"
             android:layout_marginTop="6dp"
             android:layout_weight="1"
             android:ems="10"
             android:hint="Code"
             android:inputType="number"
-            android:textAlignment="textEnd"
+            android:textAlignment="textStart"
             android:textSize="16sp" />
 
     </LinearLayout>
 
     <LinearLayout
+        android:id="@+id/linearLayout12"
         android:layout_width="match_parent"
-        android:layout_height="match_parent"
+        android:layout_height="wrap_content"
         android:gravity="center_vertical"
         android:orientation="vertical"
         android:paddingBottom="10dp"
-        android:paddingTop="10dp">
+        android:paddingTop="10dp"
+        app:layout_constraintTop_toBottomOf="@+id/linearLayout8">
 
         <TextView
             android:id="@+id/textView19"
@@ -110,6 +126,7 @@
             android:id="@+id/paymentItemUnavailable"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
+            android:layout_marginStart="5dp"
             android:layout_marginTop="8dp"
             android:layout_weight="1" />
 
@@ -117,11 +134,12 @@
 
     <LinearLayout
         android:layout_width="match_parent"
-        android:layout_height="match_parent"
+        android:layout_height="wrap_content"
         android:gravity="center_vertical"
         android:orientation="vertical"
         android:paddingBottom="10dp"
-        android:paddingTop="10dp">
+        android:paddingTop="10dp"
+        app:layout_constraintTop_toBottomOf="@+id/linearLayout12">
 
         <TextView
             android:id="@+id/textView20"
@@ -136,8 +154,11 @@
             android:id="@+id/deliveryDate"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
+            android:layout_marginStart="5dp"
             android:layout_marginTop="8dp"
             android:layout_weight="1" />
 
     </LinearLayout>
-</LinearLayout>
+
+</android.support.constraint.ConstraintLayout>
+</android.support.v4.widget.NestedScrollView>
