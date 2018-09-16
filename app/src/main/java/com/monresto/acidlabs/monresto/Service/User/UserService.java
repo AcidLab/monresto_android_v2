@@ -2,26 +2,21 @@ package com.monresto.acidlabs.monresto.Service.User;
 
 import android.content.Context;
 import android.content.SharedPreferences;
-import android.content.res.Resources;
 import android.util.Log;
 
 import com.android.volley.Request;
 import com.android.volley.RequestQueue;
 import com.android.volley.Response;
 import com.android.volley.VolleyError;
-import com.android.volley.toolbox.JsonObjectRequest;
 import com.android.volley.toolbox.StringRequest;
 import com.android.volley.toolbox.Volley;
 import com.facebook.login.LoginManager;
-import com.google.firebase.iid.FirebaseInstanceId;
 import com.monresto.acidlabs.monresto.Config;
 import com.monresto.acidlabs.monresto.Model.Address;
 import com.monresto.acidlabs.monresto.Model.Dish;
 import com.monresto.acidlabs.monresto.Model.Order;
 import com.monresto.acidlabs.monresto.Model.ShoppingCart;
-import com.monresto.acidlabs.monresto.Model.Speciality;
 import com.monresto.acidlabs.monresto.Model.User;
-import com.monresto.acidlabs.monresto.Service.Restaurant.RestaurantAsyncResponse;
 import com.monresto.acidlabs.monresto.Utilities;
 
 import org.json.JSONArray;
@@ -70,7 +65,7 @@ public class UserService {
             @Override
             protected Map<String, String> getParams() {
                 Map<String, String> params = new HashMap<>();
-                String token = FirebaseInstanceId.getInstance().getToken();
+                String token = "token";
 
 
                 String signature = Utilities.md5(email + login + Config.sharedKey);
@@ -122,7 +117,7 @@ public class UserService {
             protected Map<String, String> getParams() {
                 Map<String, String> params = new HashMap<>();
                 JSONObject userObject = User.registerJson(login, password, password_confirm, fname, lname, civility, email, phone, mobile, comment, addresses);
-                String token = "kento";//FirebaseInstanceId.getInstance().getToken();
+                String token = "kento";//"token";
                 String signature = Utilities.md5(userObject.toString() + token + "android" + Config.sharedKey);
 
                 params.put("user", userObject.toString());
@@ -179,7 +174,7 @@ public class UserService {
             @Override
             protected Map<String, String> getParams() {
                 Map<String, String> params = new HashMap<>();
-                String token = FirebaseInstanceId.getInstance().getToken();
+                String token = "token";
 
                 String signature = Utilities.md5(login + password + token + "android" + Config.sharedKey);
                 params.put("login", login);
@@ -223,7 +218,7 @@ public class UserService {
             protected Map<String, String> getParams() {
                 Map<String, String> params = new HashMap<>();
                 JSONObject userObject = User.profileJson(user);
-                String token = FirebaseInstanceId.getInstance().getToken();
+                String token = "token";
                 String signature = Utilities.md5(userObject.toString() + Config.sharedKey);
 
                 params.put("user", userObject.toString());
@@ -272,7 +267,7 @@ public class UserService {
             @Override
             protected Map<String, String> getParams() {
                 Map<String, String> params = new HashMap<>();
-                String token = FirebaseInstanceId.getInstance().getToken();
+                String token = "token";
 
                 String signature = Utilities.md5(socialID + email + fname + lname + socialNetworkID + token + deviceID + "vZ!m@73@tH*c2jPV4Z2");
                 params.put("socialID", socialID);
@@ -327,7 +322,7 @@ public class UserService {
             @Override
             protected Map<String, String> getParams() {
                 Map<String, String> params = new HashMap<>();
-                String token = FirebaseInstanceId.getInstance().getToken();
+                String token = "token";
 
                 String signature = Utilities.md5(id + Config.sharedKey);
                 params.put("userID", String.valueOf(id));
@@ -506,7 +501,7 @@ public class UserService {
             protected Map<String, String> getParams() {
                 Map<String, String> params = new HashMap<>();
                 /*JSONObject userObject = User.registerJson(login, password, password_confirm, fname, lname, civility, email, phone, mobile, comment, addresses);
-                String token = "kento";//FirebaseInstanceId.getInstance().getToken();
+                String token = "kento";//"token";
                 String signature = Utilities.md5(userObject.toString() + token + "android" + Config.sharedKey);
 
                 params.put("user", userObject.toString());
