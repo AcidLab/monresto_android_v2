@@ -18,6 +18,7 @@ import com.monresto.acidlabs.monresto.Model.Order;
 import com.monresto.acidlabs.monresto.Model.ShoppingCart;
 import com.monresto.acidlabs.monresto.Model.User;
 import com.monresto.acidlabs.monresto.Utilities;
+import com.onesignal.OneSignal;
 
 import org.json.JSONArray;
 import org.json.JSONException;
@@ -65,8 +66,6 @@ public class UserService {
             @Override
             protected Map<String, String> getParams() {
                 Map<String, String> params = new HashMap<>();
-                String token = "token";
-
 
                 String signature = Utilities.md5(email + login + Config.sharedKey);
                 params.put("login", login);
@@ -117,7 +116,8 @@ public class UserService {
             protected Map<String, String> getParams() {
                 Map<String, String> params = new HashMap<>();
                 JSONObject userObject = User.registerJson(login, password, password_confirm, fname, lname, civility, email, phone, mobile, comment, addresses);
-                String token = "kento";//"token";
+                String token = OneSignal.getPermissionSubscriptionState().getSubscriptionStatus().getPushToken();
+
                 String signature = Utilities.md5(userObject.toString() + token + "android" + Config.sharedKey);
 
                 params.put("user", userObject.toString());
@@ -174,7 +174,7 @@ public class UserService {
             @Override
             protected Map<String, String> getParams() {
                 Map<String, String> params = new HashMap<>();
-                String token = "token";
+                String token = OneSignal.getPermissionSubscriptionState().getSubscriptionStatus().getPushToken();
 
                 String signature = Utilities.md5(login + password + token + "android" + Config.sharedKey);
                 params.put("login", login);
@@ -218,7 +218,6 @@ public class UserService {
             protected Map<String, String> getParams() {
                 Map<String, String> params = new HashMap<>();
                 JSONObject userObject = User.profileJson(user);
-                String token = "token";
                 String signature = Utilities.md5(userObject.toString() + Config.sharedKey);
 
                 params.put("user", userObject.toString());
@@ -267,7 +266,7 @@ public class UserService {
             @Override
             protected Map<String, String> getParams() {
                 Map<String, String> params = new HashMap<>();
-                String token = "token";
+                String token = OneSignal.getPermissionSubscriptionState().getSubscriptionStatus().getPushToken();
 
                 String signature = Utilities.md5(socialID + email + fname + lname + socialNetworkID + token + deviceID + "vZ!m@73@tH*c2jPV4Z2");
                 params.put("socialID", socialID);
@@ -322,7 +321,6 @@ public class UserService {
             @Override
             protected Map<String, String> getParams() {
                 Map<String, String> params = new HashMap<>();
-                String token = "token";
 
                 String signature = Utilities.md5(id + Config.sharedKey);
                 params.put("userID", String.valueOf(id));
