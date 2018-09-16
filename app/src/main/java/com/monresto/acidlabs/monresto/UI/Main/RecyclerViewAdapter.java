@@ -99,6 +99,17 @@ public class RecyclerViewAdapter extends RecyclerView.Adapter<RecyclerView.ViewH
                     if (restaurantItem.getState().equals("open"))
                         ((HolderItem) viewHolder).storeState.setText("OUVERT");
                     else ((HolderItem) viewHolder).storeState.setText("FERMÉ");
+
+                    if(restaurantItem.getRate()*20 < 20)
+                        Picasso.get().load(R.drawable.rate_74xhdpi).fit().into(((HolderItem) viewHolder).rating_smiley);
+                    else if (restaurantItem.getRate()*20 < 40)
+                        Picasso.get().load(R.drawable.rate_73xhdpi).fit().into(((HolderItem) viewHolder).rating_smiley);
+                    else if (restaurantItem.getRate()*20 < 60)
+                        Picasso.get().load(R.drawable.rate_72xhdpi).fit().into(((HolderItem) viewHolder).rating_smiley);
+                    else if (restaurantItem.getRate()*20 < 80)
+                        Picasso.get().load(R.drawable.rate_71xhdpi).fit().into(((HolderItem) viewHolder).rating_smiley);
+                    else Picasso.get().load(R.drawable.rate_70xhdpi).fit().into(((HolderItem) viewHolder).rating_smiley);
+
                     ((HolderItem) viewHolder).item_store_rating.setText(String.valueOf((int)(restaurantItem.getRate()*20))+"%");
                     ((HolderItem) viewHolder).restaurant_delivery.setText(String.valueOf(restaurantItem.getEstimatedTime()) + "\nMin");
                     ((HolderItem) viewHolder).restaurantItem.setOnClickListener(e -> {
@@ -170,6 +181,7 @@ public class RecyclerViewAdapter extends RecyclerView.Adapter<RecyclerView.ViewH
         TextView restaurant_delivery;
         ConstraintLayout restaurantItem;
         TextView item_store_rating;
+        ImageView rating_smiley;
 
         HolderItem(@NonNull View itemView) {
             super(itemView);
@@ -180,6 +192,7 @@ public class RecyclerViewAdapter extends RecyclerView.Adapter<RecyclerView.ViewH
             store_bg = itemView.findViewById(R.id.store_bg);
             restaurantItem = itemView.findViewById(R.id.restaurant_id);
             item_store_rating = itemView.findViewById(R.id.item_store_rating);
+            rating_smiley = itemView.findViewById(R.id.rating_smiley);
         }
     }
 

@@ -61,6 +61,8 @@
                 android:layout_marginEnd="8dp"
                 android:layout_marginStart="16dp"
                 android:layout_marginTop="32dp"
+                android:ellipsize="end"
+                android:maxLines="1"
                 android:textSize="24sp"
                 android:textStyle="bold"
                 android:transitionName="storeName"
@@ -101,15 +103,28 @@
             <TextView
                 android:id="@+id/item_store_rating"
                 android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_marginEnd="24dp"
-                android:layout_marginTop="16dp"
+                android:layout_height="0dp"
+                android:layout_marginEnd="4dp"
+                android:layout_marginTop="32dp"
+                android:gravity="bottom"
                 android:text="100%"
                 android:textColor="@color/colorAccent"
                 android:textSize="20sp"
                 android:textStyle="bold"
+                app:layout_constraintBottom_toBottomOf="@+id/storeName"
+                app:layout_constraintEnd_toStartOf="@+id/rating_smiley"
+                app:layout_constraintTop_toBottomOf="@+id/store_bg" />
+
+            <ImageView
+                android:id="@+id/rating_smiley"
+                android:layout_width="27dp"
+                android:layout_height="27dp"
+                android:layout_marginEnd="16dp"
+                android:scaleType="fitEnd"
+                android:tint="@color/colorAccent"
+                app:layout_constraintBottom_toBottomOf="@+id/item_store_rating"
                 app:layout_constraintEnd_toEndOf="parent"
-                app:layout_constraintTop_toBottomOf="@+id/restaurant_delivery" />
+                app:srcCompat="@drawable/rate_71xhdpi" />
 
         </android.support.constraint.ConstraintLayout>
 
