@@ -23,7 +23,7 @@ public class ShoppingCart implements Serializable {
         private Dish.Option dimension;
         private ArrayList<Dish.Component> components;
 
-        public Options(int quantity, Dish.Option dimension, ArrayList<Dish.Component> components) {
+        Options(int quantity, Dish.Option dimension, ArrayList<Dish.Component> components) {
             this.quantity = quantity;
             this.dimension = dimension;
             this.components = components;

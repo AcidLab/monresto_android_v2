@@ -52,7 +52,7 @@ public class OrderRecyclerViewAdapter extends RecyclerView.Adapter<OrderRecycler
         ImageView pending_status_5;
 
         ImageView[] pending_views;
-        int [] pending_images;
+        int[] pending_images;
         int status = 0;
         boolean toggle = false;
 
@@ -78,8 +78,6 @@ public class OrderRecyclerViewAdapter extends RecyclerView.Adapter<OrderRecycler
             pending_images[4] = R.drawable.delivery_variant_5;
 
 
-
-
         }
     }
 
@@ -93,10 +91,10 @@ public class OrderRecyclerViewAdapter extends RecyclerView.Adapter<OrderRecycler
     }
 
     @Override
-        public void onBindViewHolder(@NonNull ViewHolder viewHolder, int i) {
+    public void onBindViewHolder(@NonNull ViewHolder viewHolder, int i) {
         String dishes = "";
         Order order;
-        order = orders.get(orders.size()-(i+1));
+        order = orders.get(orders.size() - (i + 1));
         dishes = order.getDishesString();
         viewHolder.textRestoName.setText(Utilities.decodeUTF(order.getRestoName()));
         viewHolder.textOrderDish.setText(Utilities.decodeUTF(dishes));
@@ -107,17 +105,28 @@ public class OrderRecyclerViewAdapter extends RecyclerView.Adapter<OrderRecycler
             case "EN_ATTENTE":
                 viewHolder.status = 0;
                 break;
+            case "EN_COURS":
+                viewHolder.status = 1;
+                break;
+            case "3":
+                viewHolder.status = 2;
+                break;
+            case "4":
+                viewHolder.status = 3;
+                break;
+            case "5":
+                viewHolder.status = 4;
+                break;
             default:
                 viewHolder.status = 0;
                 break;
         }
 
         for (int j = 0; j < 5; j++) {
-            if (j > viewHolder.status){
+            if (j > viewHolder.status) {
                 Picasso.get().load(viewHolder.pending_images[j]).into(viewHolder.pending_views[j]);
                 viewHolder.pending_views[j].setColorFilter(Color.LTGRAY);
-            }
-            else{
+            } else {
                 Picasso.get().load(viewHolder.pending_images[j]).into(viewHolder.pending_views[j]);
                 viewHolder.pending_views[j].setColorFilter(Color.parseColor("#33b998"));
             }

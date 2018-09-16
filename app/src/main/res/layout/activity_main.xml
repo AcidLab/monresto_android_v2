@@ -137,8 +137,8 @@
             android:id="@+id/couffin"
             android:layout_width="0dp"
             android:layout_height="100dp"
-            android:layout_marginEnd="24dp"
-            android:layout_marginStart="24dp"
+            android:layout_marginEnd="42dp"
+            android:layout_marginStart="42dp"
             android:scaleType="fitXY"
             app:layout_constraintBottom_toBottomOf="@+id/cart_frame"
             app:layout_constraintEnd_toEndOf="parent"
@@ -149,14 +149,16 @@
             android:id="@+id/cart_frame"
             android:layout_width="0dp"
             android:layout_height="50dp"
+            android:layout_marginEnd="16dp"
+            android:layout_marginStart="16dp"
+            android:background="@drawable/bg_rounded_accent"
             app:layout_constraintBottom_toBottomOf="parent"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent">
 
             <android.support.constraint.ConstraintLayout
                 android:layout_width="match_parent"
-                android:layout_height="match_parent"
-                android:background="@color/colorAccent">
+                android:layout_height="match_parent">
 
                 <TextView
                     android:id="@+id/textView13"
@@ -166,7 +168,7 @@
                     android:fontFamily="@font/googlesans_bold"
                     android:text="Mon couffin"
                     android:textColor="@color/button_text_color"
-                    android:textSize="24sp"
+                    android:textSize="20sp"
                     android:textStyle="bold"
                     app:layout_constraintBottom_toBottomOf="parent"
                     app:layout_constraintStart_toStartOf="parent"
@@ -177,13 +179,13 @@
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:layout_marginBottom="2dp"
-                    android:layout_marginStart="8dp"
+                    android:layout_marginEnd="4dp"
                     android:fontFamily="@font/googlesans_regular"
                     android:text="0.00 DT"
                     android:textColor="@color/button_text_color"
                     android:textSize="18sp"
                     app:layout_constraintBottom_toBottomOf="@+id/textView13"
-                    app:layout_constraintStart_toEndOf="@+id/textView13" />
+                    app:layout_constraintEnd_toStartOf="@+id/delivery_holder2" />
 
                 <ImageView
                     android:id="@+id/delivery_holder2"

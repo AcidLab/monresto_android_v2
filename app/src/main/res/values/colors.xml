@@ -4,6 +4,7 @@
     <color name="colorPrimaryDark">#000000</color>
     <color name="colorPrimaryDarkDisabled">#96acacac</color>
     <color name="colorAccent">#33b998</color>
+    <color name="colorAccentDark">#4b4b4b</color>
     <color name="sweet_dialog_bg_color">#FFFFFF</color>
     <color name="button_text_color">#ffffff</color>
     <color name="gray_btn_bg_color">#efefef</color>
