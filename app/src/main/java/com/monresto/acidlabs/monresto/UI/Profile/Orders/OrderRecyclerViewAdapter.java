@@ -52,7 +52,7 @@ public class OrderRecyclerViewAdapter extends RecyclerView.Adapter<OrderRecycler
         ImageView pending_status_5;
 
         ImageView[] pending_views;
-        int [][] pending_images;
+        int [] pending_images;
         int status = 0;
         boolean toggle = false;
 
@@ -62,7 +62,7 @@ public class OrderRecyclerViewAdapter extends RecyclerView.Adapter<OrderRecycler
             ButterKnife.bind(this, itemView);
 
             pending_views = new ImageView[5];
-            pending_images = new int[5][3];
+            pending_images = new int[5];
 
             pending_views[0] = pending_status_1;
             pending_views[1] = pending_status_2;
@@ -71,22 +71,13 @@ public class OrderRecyclerViewAdapter extends RecyclerView.Adapter<OrderRecycler
             pending_views[4] = pending_status_5;
 
 
-            pending_images[0][0] = R.drawable.delivery_variant_1;
-            pending_images[0][1] = R.drawable.delivery_done_1;
-            pending_images[1][0] = R.drawable.delivery_variant_2;
-            pending_images[1][1] = R.drawable.delivery_done_2;
-            pending_images[2][0] = R.drawable.delivery_variant_3;
-            pending_images[2][1] = R.drawable.delivery_done_3;
-            pending_images[3][0] = R.drawable.delivery_variant_4;
-            pending_images[3][1] = R.drawable.delivery_done_4;
-            pending_images[4][0] = R.drawable.delivery_variant_5;
-            pending_images[4][1] = R.drawable.delivery_done_5;
+            pending_images[0] = R.drawable.delivery_variant_1;
+            pending_images[1] = R.drawable.delivery_variant_2;
+            pending_images[2] = R.drawable.delivery_variant_3;
+            pending_images[3] = R.drawable.delivery_variant_4;
+            pending_images[4] = R.drawable.delivery_variant_5;
 
-            pending_images[0][2] = R.drawable.delivery_done_1;
-            pending_images[1][2] = R.drawable.delivery_done_2;
-            pending_images[2][2] = R.drawable.delivery_done_3;
-            pending_images[3][2] = R.drawable.delivery_done_4;
-            pending_images[4][2] = R.drawable.delivery_done_5;
+
 
 
         }
@@ -123,11 +114,13 @@ public class OrderRecyclerViewAdapter extends RecyclerView.Adapter<OrderRecycler
 
         for (int j = 0; j < 5; j++) {
             if (j > viewHolder.status){
-                Picasso.get().load(viewHolder.pending_images[j][0]).into(viewHolder.pending_views[j]);
+                Picasso.get().load(viewHolder.pending_images[j]).into(viewHolder.pending_views[j]);
                 viewHolder.pending_views[j].setColorFilter(Color.LTGRAY);
             }
-            else
-                Picasso.get().load(viewHolder.pending_images[j][1]).into(viewHolder.pending_views[j]);
+            else{
+                Picasso.get().load(viewHolder.pending_images[j]).into(viewHolder.pending_views[j]);
+                viewHolder.pending_views[j].setColorFilter(Color.parseColor("#33b998"));
+            }
         }
 
         viewHolder.textOrderStatus.setText(order.getStatus().replace("_", " "));
