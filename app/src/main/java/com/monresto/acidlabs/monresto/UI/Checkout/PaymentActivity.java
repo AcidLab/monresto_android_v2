@@ -1,9 +1,12 @@
 package com.monresto.acidlabs.monresto.UI.Checkout;
 
+import android.annotation.SuppressLint;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
 import android.support.v7.app.AppCompatActivity;
+import android.webkit.CookieManager;
 import android.webkit.WebView;
+import android.webkit.WebViewClient;
 import android.widget.ImageView;
 
 import com.monresto.acidlabs.monresto.R;
@@ -17,6 +20,7 @@ public class PaymentActivity extends AppCompatActivity {
     @BindView(R.id.webview)
     WebView webView;
 
+    @SuppressLint("SetJavaScriptEnabled")
     @Override
     protected void onCreate(@Nullable Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -40,6 +44,18 @@ public class PaymentActivity extends AppCompatActivity {
                 "</html>";
 
         webView.getSettings().setJavaScriptEnabled(true);
+        webView.setWebViewClient(new WebViewClient()
+        {
+            @Override
+            public boolean shouldOverrideUrlLoading(WebView view, String url)
+            {
+                view.loadUrl(url);
+                return true;
+            }
+        });
+        CookieManager cookieManager = CookieManager.getInstance();
+        cookieManager. setAcceptThirdPartyCookies(webView,true);
+
         webView.loadData(html, "text/html", "UTF-8");
 
 

@@ -9,12 +9,14 @@ import android.support.v7.widget.Toolbar;
 import android.view.MenuItem;
 import android.view.View;
 import android.widget.Button;
+import android.widget.FrameLayout;
 import android.widget.ImageView;
 import android.widget.TextView;
 
 import com.monresto.acidlabs.monresto.BadgeCountChangeListener;
 import com.monresto.acidlabs.monresto.HackViewPager;
 import com.monresto.acidlabs.monresto.Model.Dish;
+import com.monresto.acidlabs.monresto.Model.HomepageConfig;
 import com.monresto.acidlabs.monresto.Model.Menu;
 import com.monresto.acidlabs.monresto.Model.Restaurant;
 import com.monresto.acidlabs.monresto.Model.ShoppingCart;
@@ -26,6 +28,7 @@ import com.monresto.acidlabs.monresto.UI.Cart.CartActivity;
 import com.monresto.acidlabs.monresto.Utilities;
 import com.squareup.picasso.Picasso;
 
+import java.text.DecimalFormat;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
@@ -48,6 +51,15 @@ public class RestaurantDetailsActivity extends AppCompatActivity implements Rest
     TextView storeName;
     @BindView(R.id.storeState)
     TextView storeState;
+    @BindView(R.id.couffin)
+    ImageView couffin;
+    @BindView(R.id.cart_frame)
+    FrameLayout cart_frame;
+
+    @BindView(R.id.cart_quantity)
+    TextView cart_quantity;
+    @BindView(R.id.cart_total)
+    TextView cart_total;
 
 
     RestaurantDetailsPager adapter;
@@ -76,6 +88,8 @@ public class RestaurantDetailsActivity extends AppCompatActivity implements Rest
         toolbar.setNavigationIcon(getResources().getDrawable(R.drawable.ic_arrow_back_white_24dp));
         toolbar.setNavigationOnClickListener(v -> finish());
 
+        //Load busket image
+        Picasso.get().load(HomepageConfig.getInstance().getBusket_image()).into(couffin);
 
         // Get restaurant information from the caller intent
         Intent i = getIntent();
@@ -93,6 +107,11 @@ public class RestaurantDetailsActivity extends AppCompatActivity implements Rest
         // Get menus
         service = new RestaurantService(this);
         service.getMenus(restaurant.getId());
+
+        cart_frame.setOnClickListener(e -> {
+            Intent intent = new Intent(this, CartActivity.class);
+            startActivity(intent);
+        });
     }
 
 
@@ -200,5 +219,15 @@ public class RestaurantDetailsActivity extends AppCompatActivity implements Rest
         super.onResume();
         if(badgeCountChangeListener!=null)
             badgeCountChangeListener.onBadgeCountChanged();
+
+        updateCartInfo();
     }
+
+    public void updateCartInfo() {
+        cart_quantity.setText(String.valueOf(ShoppingCart.getInstance().getItems().size()));
+        DecimalFormat dec = new DecimalFormat("#0.00");
+        cart_total.setText(dec.format(ShoppingCart.getInstance().getCartSubTotal()) + " DT");
+    }
+
 }
+

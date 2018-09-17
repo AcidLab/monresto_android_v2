@@ -68,11 +68,18 @@ public class CartActivity extends AppCompatActivity {
                 } else if (ShoppingCart.getInstance().getCartSubTotal() < ShoppingCart.getInstance().getMinCartTotal()) {
                     Toast.makeText(this, "Votre panier est inférieur à " + ShoppingCart.getInstance().getMinCartTotal() + " DT", Toast.LENGTH_LONG).show();
                 } else {
-                    Intent intent = new Intent(this, CheckoutActivity.class);
-                    intent.putExtra("sub-total", ShoppingCart.getInstance().getCartSubTotal());
-                    intent.putExtra("delivery", ShoppingCart.getInstance().getCartDelivery());
-                    intent.putExtra("total", ShoppingCart.getInstance().getCartSubTotal() + ShoppingCart.getInstance().getCartDelivery());
-                    startActivity(intent);
+                    if(User.getInstance().getSelectedAddress()!=null){
+                        Intent intent = new Intent(this, CheckoutActivity.class);
+                        intent.putExtra("sub-total", ShoppingCart.getInstance().getCartSubTotal());
+                        intent.putExtra("delivery", ShoppingCart.getInstance().getCartDelivery());
+                        intent.putExtra("total", ShoppingCart.getInstance().getCartSubTotal() + ShoppingCart.getInstance().getCartDelivery());
+                        startActivity(intent);
+                    }
+                    else{
+                        Toast.makeText(this, "Connexion en cours..", Toast.LENGTH_LONG).show();
+
+                    }
+
                 }
             }
         });
@@ -104,23 +111,17 @@ public class CartActivity extends AppCompatActivity {
         cartItemAdapter.setCartItems(ShoppingCart.getInstance().getItems());
         cartItemAdapter.notifyDataSetChanged();
 
-        /*AlertDialog alertDialog = new AlertDialog.Builder(FragmentCart.this.getContext()).create();
-        alertDialog.setTitle("Alert");
-        alertDialog.setMessage("Alert message to be shown");
-        alertDialog.setButton(AlertDialog.BUTTON_NEUTRAL, "OK",
-                new DialogInterface.OnClickListener() {
-                    public void onClick(DialogInterface dialog, int which) {
-                        dialog.dismiss();
-                    }
-                });
-        alertDialog.show();*/
     }
 
     @Override
     protected void onActivityResult(int requestCode, int resultCode, @Nullable Intent data) {
         super.onActivityResult(requestCode, resultCode, data);
         if (requestCode == Config.REQUEST_CODE_CHECKOUT) {
-            Toast.makeText(this, "Call for checkout here", Toast.LENGTH_LONG).show();
+            Intent intent = new Intent(this, CheckoutActivity.class);
+            intent.putExtra("sub-total", ShoppingCart.getInstance().getCartSubTotal());
+            intent.putExtra("delivery", ShoppingCart.getInstance().getCartDelivery());
+            intent.putExtra("total", ShoppingCart.getInstance().getCartSubTotal() + ShoppingCart.getInstance().getCartDelivery());
+            startActivity(intent);
         }
     }
 }

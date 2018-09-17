@@ -1,5 +1,6 @@
 package com.monresto.acidlabs.monresto.UI.Checkout;
 
+import android.app.Activity;
 import android.content.Intent;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
@@ -8,13 +9,18 @@ import android.support.v4.view.ViewPager;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
+import android.view.View;
 import android.widget.ArrayAdapter;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
+import android.widget.RadioButton;
+import android.widget.RadioGroup;
 import android.widget.Spinner;
 import android.widget.TextView;
+import android.widget.TimePicker;
 
 import com.dd.processbutton.iml.ActionProcessButton;
+import com.monresto.acidlabs.monresto.Config;
 import com.monresto.acidlabs.monresto.Model.Address;
 import com.monresto.acidlabs.monresto.Model.Monresto;
 import com.monresto.acidlabs.monresto.Model.PaymentMode;
@@ -48,10 +54,28 @@ public class CheckoutActivity extends AppCompatActivity implements UserAsyncResp
     ConstraintLayout orderBtn;
     @BindView(R.id.orderLoading)
     ActionProcessButton orderLoading;
-    @BindView(R.id.view_pager)
-    ViewPager view_pager;
+    @BindView(R.id.livraison)
+    RadioButton livraison;
+    @BindView(R.id.emporter)
+    RadioButton emporter;
+
+    @BindView(R.id.address)
+    TextView textAddress;
+    @BindView(R.id.paymentMethods)
+    RecyclerView paymentMethods;
+    @BindView(R.id.paymentItemUnavailable)
+    RecyclerView paymentItemUnavailable;
+    @BindView(R.id.deliveryDate)
+    RecyclerView deliveryDate;
+    @BindView(R.id.timePicker)
+    TimePicker timePicker;
+    @BindView(R.id.linearLayout11)
+    LinearLayout addressLayout;
+
 
     private Address address;
+    private int type = 0;
+    private String hour = "";
     private UserService userService;
 
     private final int TYPE_PAYMENT_MODE = 1, TYPE_UNAVAILABLE_OPTION = 2, TYPE_DELIVERY_DATE = 3;
@@ -60,44 +84,96 @@ public class CheckoutActivity extends AppCompatActivity implements UserAsyncResp
     @Override
     protected void onCreate(@Nullable Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-
         setContentView(R.layout.activity_checkout);
-
         ButterKnife.bind(this);
 
+        //Declare
+        userService = new UserService(this);
+
+        //Init
         orderLoading.setMode(ActionProcessButton.Mode.ENDLESS);
         orderLoading.setProgress(0);
 
+        DecimalFormat dec = new DecimalFormat("#0.00");
+        cart_delivery.setText(String.valueOf(getIntent().getExtras().getDouble("delivery")) + " DT");
+        cart_total.setText(String.valueOf(dec.format(getIntent().getExtras().getDouble("total"))) + " DT");
 
+        address = User.getInstance().getSelectedAddress();
+        textAddress.setText(address.getAdresse());
+
+        initRecyclerViews();
+
+
+        //Event handlers
         imageProfileBack.setOnClickListener(e -> {
             finish();
         });
 
-        cart_delivery.setText(String.valueOf(getIntent().getExtras().getDouble("delivery")) + " DT");
-        DecimalFormat dec = new DecimalFormat("#0.00");
-        cart_total.setText(String.valueOf(dec.format(getIntent().getExtras().getDouble("total"))) + " DT");
-
-        //initRecyclerViews();
-
-        userService = new UserService(this);
-
-        orderLoading.setOnClickListener(e -> {
-            int paymentMethod = getItemIdByType(((FragmentDelivery)adapter.getItem(0)).getPaymentMethods(), TYPE_PAYMENT_MODE);
-            int orderOptionID = getItemIdByType(((FragmentDelivery)adapter.getItem(0)).getItemUnavailable(), TYPE_UNAVAILABLE_OPTION);
-            int deliveryTime = getItemIdByType(((FragmentDelivery)adapter.getItem(0)).getDeliveryDate(), TYPE_DELIVERY_DATE);
-
-            orderLoading.setProgress(1);
-            if(User.getInstance()!=null)
-                userService.submitOrders(User.getInstance().getId(), User.getInstance().getSelectedAddress().getId(), ShoppingCart.getInstance().getCurrentRestaurant(), paymentMethod, orderOptionID, deliveryTime);
-            //onSubmitOrder(true, 89551);
+        livraison.setOnCheckedChangeListener((e1, e2) -> {
+            if (e1.isChecked()) {
+                addressLayout.setVisibility(View.VISIBLE);
+                cart_delivery.setText(String.valueOf(getIntent().getExtras().getDouble("delivery")) + " DT");
+                cart_total.setText(String.valueOf(dec.format(getIntent().getExtras().getDouble("total"))) + " DT");
+                type = 0;
+            } else {
+                addressLayout.setVisibility(View.GONE);
+                cart_delivery.setText("0 DT");
+                double deliveryCost = getIntent().getExtras().getDouble("delivery");
+                cart_total.setText(String.valueOf(dec.format(getIntent().getExtras().getDouble("total") - deliveryCost)) + " DT");
+                type = 1;
+            }
         });
 
-        adapter = new ViewPagerAdapter(getSupportFragmentManager());
-        adapter.AddFragment(new FragmentDelivery(), "Delivery");
-        view_pager.setAdapter(adapter);
+        orderLoading.setOnClickListener(e -> {
+            int paymentMethod = getItemIdByType(paymentMethods, TYPE_PAYMENT_MODE);
+            int orderOptionID = getItemIdByType(paymentItemUnavailable, TYPE_UNAVAILABLE_OPTION);
+            int deliveryTime = getItemIdByType(deliveryDate, TYPE_DELIVERY_DATE);
+            if (deliveryTime == 4) {
+                hour = timePicker.getCurrentHour() < 12 ? "0" : "" + timePicker.getCurrentHour() + timePicker.getCurrentMinute();
+            }
 
+            orderLoading.setProgress(1);
+
+            if(User.getInstance()!=null)
+                userService.submitOrders(User.getInstance().getId(), 0, User.getInstance().getSelectedAddress().getId(), ShoppingCart.getInstance().getCurrentRestaurant(), paymentMethod, orderOptionID, deliveryTime, hour);
+        });
     }
 
+    void initRecyclerViews() {
+        RadioListAdapter radioListAdapter;
+        CharSequence[] subjects;
+
+        //1
+        subjects = getResources().getStringArray(R.array.payment_methods);
+        radioListAdapter = new RadioListAdapter(new ArrayList<CharSequence>(Arrays.asList(subjects)), this);
+        paymentMethods.setLayoutManager(new LinearLayoutManager(this));
+        paymentMethods.setAdapter(radioListAdapter);
+
+        //2
+        subjects = getResources().getStringArray(R.array.purchase_unavailable_options);
+        radioListAdapter = new RadioListAdapter(new ArrayList<CharSequence>(Arrays.asList(subjects)), this);
+        paymentItemUnavailable.setLayoutManager(new LinearLayoutManager(this));
+        paymentItemUnavailable.setAdapter(radioListAdapter);
+
+        //3
+        subjects = getResources().getStringArray(R.array.delivery_time_options);
+        radioListAdapter = new RadioListAdapter(new ArrayList<CharSequence>(Arrays.asList(subjects)), this);
+        deliveryDate.setLayoutManager(new LinearLayoutManager(this));
+        deliveryDate.setAdapter(radioListAdapter);
+
+        if (deliveryDate.getAdapter() != null)
+            deliveryDate.getAdapter().registerAdapterDataObserver(new RecyclerView.AdapterDataObserver() {
+                @Override
+                public void onChanged() {
+                    super.onChanged();
+                    if (((RadioListAdapter) deliveryDate.getAdapter()).getSelectedItem() == 4) {
+                        timePicker.setVisibility(View.VISIBLE);
+                    } else {
+                        timePicker.setVisibility(View.GONE);
+                    }
+                }
+            });
+    }
 
 
     int getItemIdByType(RecyclerView view, int type) {
@@ -138,11 +214,22 @@ public class CheckoutActivity extends AppCompatActivity implements UserAsyncResp
         if (success) {
             Intent intent = new Intent(this, PaymentActivity.class);
             intent.putExtra("orderID", orderID);
-            startActivity(intent);
+            startActivityForResult(intent, Config.REQUEST_CODE_PAYMENT);
             ShoppingCart.getInstance().clear();
             finish();
         } else {
             orderLoading.setProgress(-1);
+        }
+    }
+
+    @Override
+    protected void onActivityResult(int requestCode, int resultCode, @Nullable Intent data) {
+        super.onActivityResult(requestCode, resultCode, data);
+        switch (requestCode) {
+            case Config.REQUEST_CODE_PAYMENT:
+                if (resultCode == Activity.RESULT_OK) {
+                    //todo: call for check service
+                }
         }
     }
 }

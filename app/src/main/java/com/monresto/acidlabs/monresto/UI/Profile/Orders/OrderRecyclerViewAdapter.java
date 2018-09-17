@@ -102,22 +102,32 @@ public class OrderRecyclerViewAdapter extends RecyclerView.Adapter<OrderRecycler
         Picasso.get().load(order.getRestoImagePath()).transform(new RoundedTransformation(80, 0)).into(viewHolder.imageViewLogo);
 
         switch (order.getStatus()) {
-            case "EN_ATTENTE":
+            case "en_attente":
+                viewHolder.textOrderStatus.setText("En attente");
                 viewHolder.status = 0;
                 break;
-            case "EN_COURS":
+            case "en_attente_rep_liv":
+                viewHolder.textOrderStatus.setText("En cours");
                 viewHolder.status = 1;
                 break;
-            case "3":
+            case "arrive_resto":
+                viewHolder.textOrderStatus.setText("En préparation");
                 viewHolder.status = 2;
                 break;
-            case "4":
+            case "en_cours_prep":
+                viewHolder.textOrderStatus.setText("En préparation");
                 viewHolder.status = 3;
                 break;
-            case "5":
+            case "en_cours_liv":
+                viewHolder.textOrderStatus.setText("En cours");
                 viewHolder.status = 4;
                 break;
+            case "arrive_client":
+                viewHolder.textOrderStatus.setText("Arrivée");
+                viewHolder.status = 5;
+                break;
             default:
+                viewHolder.textOrderStatus.setText("En attente");
                 viewHolder.status = 0;
                 break;
         }
@@ -131,8 +141,6 @@ public class OrderRecyclerViewAdapter extends RecyclerView.Adapter<OrderRecycler
                 viewHolder.pending_views[j].setColorFilter(Color.parseColor("#33b998"));
             }
         }
-
-        viewHolder.textOrderStatus.setText(order.getStatus().replace("_", " "));
     }
 
     @Override

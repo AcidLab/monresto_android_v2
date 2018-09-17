@@ -103,9 +103,9 @@ public class ShoppingCart implements Serializable {
     }
 
     public double getCartDelivery() {
-        if (ShoppingCart.getInstance().getItems().keySet().iterator().hasNext()) {
-            return Monresto.getInstance().findRestaurant(ShoppingCart.getInstance().getItems().keySet().iterator().next().getRestoID()).getDeliveryCost();
-        } else return (0);
+        if (!ShoppingCart.getInstance().isEmpty() && Monresto.getInstance().findRestaurant(ShoppingCart.getInstance().getRestoID())!=null) {
+                return Monresto.getInstance().findRestaurant(ShoppingCart.getInstance().getRestoID()).getDeliveryCost();
+        } else return 0;
     }
 
     public boolean addToCart(Dish dish, int quantity, Dish.Option dimension, ArrayList<Dish.Component> components) {

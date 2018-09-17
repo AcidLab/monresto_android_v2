@@ -54,6 +54,7 @@ import com.monresto.acidlabs.monresto.UI.Maps.MapsActivity;
 import com.monresto.acidlabs.monresto.UI.Profile.ProfileActivity;
 import com.monresto.acidlabs.monresto.UI.User.LoginActivity;
 import com.monresto.acidlabs.monresto.UI.User.SelectAddressActivity;
+import com.monresto.acidlabs.monresto.Utilities;
 import com.squareup.picasso.Picasso;
 
 import org.json.JSONException;
@@ -86,6 +87,8 @@ public class HomepageActivity extends AppCompatActivity implements UserAsyncResp
     TextView platsJour;
     @BindView(R.id.evenements)
     TextView evenements;
+    @BindView(R.id.homepageLayout)
+    ConstraintLayout homepageLayout;
 
     HomepageDishesAdapter Dishesadapter;
     HomepageEventsAdapter Eventsadapter;
@@ -93,6 +96,7 @@ public class HomepageActivity extends AppCompatActivity implements UserAsyncResp
     GPSTracker gpsTracker;
     UserService userService;
     HomepageService homepageService;
+    private boolean askedMain = false;
     //Request for location
 
     @Override
@@ -161,18 +165,19 @@ public class HomepageActivity extends AppCompatActivity implements UserAsyncResp
         homepageService.getAll();
 
         home_profile_icon.setOnClickListener(e -> {
-            if(User.getInstance()==null){
+            if (User.getInstance() == null) {
                 Intent intent = new Intent(this, LoginActivity.class);
                 startActivity(intent);
-            }
-            else{
+            } else {
                 Intent intent = new Intent(this, ProfileActivity.class);
                 startActivity(intent);
             }
         });
         configContainer.setOnClickListener(view -> {
-            if(loginPending){
-                Toast.makeText(this, "Connexion en cours.. veuillez patienter", Toast.LENGTH_SHORT).show();
+            if (loginPending) {
+                askedMain = true;
+                Toast.makeText(this, "Connexion en cours.. Veuillez patienter", Toast.LENGTH_LONG).show();
+                //Utilities.statusChanger(this, R.layout.fragment_loading, homepageLayout, homepage_swiper);
                 return;
             }
             Intent intent;
@@ -180,8 +185,7 @@ public class HomepageActivity extends AppCompatActivity implements UserAsyncResp
                 intent = new Intent(this, MapsActivity.class);
                 intent.putExtra("update_position", true);
                 startActivityForResult(intent, Config.REQUEST_CODE_POSITION_SELECT);
-            }
-            else{
+            } else {
                 intent = new Intent(this, SelectAddressActivity.class);
                 startActivityForResult(intent, Config.REQUEST_CODE_ADRESS_SELECT);
             }
@@ -200,8 +204,7 @@ public class HomepageActivity extends AppCompatActivity implements UserAsyncResp
             if (internet) {
                 if (!login())
                     displayLocationSettingsRequest(this);
-            } else
-                Toast.makeText(this, "Cnx Unavailable", Toast.LENGTH_SHORT).show(); //TODO
+            }
         });
     }
 
@@ -294,7 +297,12 @@ public class HomepageActivity extends AppCompatActivity implements UserAsyncResp
 
     @Override
     public void onUserLogin(User user) {
-        userService.getDetails(user.getId(), true);
+        if (user != null)
+            userService.getDetails(user.getId(), true);
+        else {
+            askedMain = false;
+            loginPending = false;
+        }
     }
 
     @Override
@@ -304,8 +312,14 @@ public class HomepageActivity extends AppCompatActivity implements UserAsyncResp
 
     @Override
     public void onAddressListReceived(ArrayList<Address> addresses) {
-        if (User.getInstance() != null)
+        if (User.getInstance() != null) {
             User.getInstance().setAddresses(addresses);
+            loginPending = false;
+            if (askedMain) {
+                Intent intent = new Intent(this, SelectAddressActivity.class);
+                startActivityForResult(intent, Config.REQUEST_CODE_ADRESS_SELECT);
+            }
+        }
     }
 
 

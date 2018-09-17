@@ -26,6 +26,7 @@ import java.security.MessageDigest;
 import java.security.NoSuchAlgorithmException;
 import java.util.ArrayList;
 import java.util.Comparator;
+import java.util.Objects;
 import java.util.function.Predicate;
 
 public class Utilities {
@@ -121,7 +122,7 @@ public class Utilities {
     // Use this only for Unavailability alerts (+Custom message)
     public static void statusChangerUnavailable(Context context, String message, ViewGroup statusContainer, ViewGroup listContainer) {
         LayoutInflater inflater = (LayoutInflater) context.getSystemService(Context.LAYOUT_INFLATER_SERVICE);
-        View layout = inflater.inflate(R.layout.fragment_unavailable, statusContainer, false);
+        View layout = Objects.requireNonNull(inflater).inflate(R.layout.fragment_unavailable, statusContainer, false);
 
         TextView unavailable_msg = layout.findViewById(R.id.unavailable_msg);
         unavailable_msg.setText(message);

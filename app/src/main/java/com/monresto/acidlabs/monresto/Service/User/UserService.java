@@ -145,9 +145,9 @@ public class UserService {
                     public void onResponse(String response) {
                         try {
                             JSONObject jsonResponse = new JSONObject(response);
-                            JSONObject clientObject = jsonResponse.getJSONObject("Client");
                             int status = jsonResponse.getInt("Status");
                             if (status != 0) {
+                                JSONObject clientObject = jsonResponse.getJSONObject("Client");
                                 int id = clientObject.optInt("userID");
                                 User user = new User(id, login, "", "", "", "", "", "", "", null);
                                 String isLogin = sharedPref.getString("passwordLogin", null);
@@ -158,7 +158,9 @@ public class UserService {
                                 }
                                 ((UserAsyncResponse) context).onUserLogin(user);
                             }
-                            loginPending = false;
+                            else{
+                                ((UserAsyncResponse) context).onUserLogin(null);
+                            }
                         } catch (JSONException e) {
                             e.printStackTrace();
                         }
@@ -511,13 +513,11 @@ public class UserService {
         queue.add(postRequest);
     }
 
-    public void submitOrders(final int userID, final int addressID, final int restoID, final int paymentID, final int optionOrderID, final int deliveryTime) {
+    public void submitOrders(final int userID, final int type, final int addressID, final int restoID, final int paymentID, final int optionOrderID, final int deliveryTime, final String hour) {
         final JSONArray orders = ShoppingCart.getInstance().getOrdersJson();
-        final int type = 0;
         final JSONArray voucher = new JSONArray();
         final int numtrans = 0;
         final String time = String.valueOf(deliveryTime);
-        final String hour = "0145";
         final int promo = 0;
 
         final String signature = Utilities.md5("" + userID + addressID + restoID + orders.toString() + paymentID + type + "[]" + numtrans + optionOrderID + time + hour + Config.sharedKey);

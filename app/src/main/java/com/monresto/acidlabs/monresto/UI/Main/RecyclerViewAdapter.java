@@ -96,6 +96,7 @@ public class RecyclerViewAdapter extends RecyclerView.Adapter<RecyclerView.ViewH
                 public void onSuccess() {
                     ((HolderItem) viewHolder).storeName.setText(restaurantItem.getName());
 
+                    System.out.println(restaurantItem.getState());
                     if (restaurantItem.getState().equals("open"))
                         ((HolderItem) viewHolder).storeState.setText("OUVERT");
                     else ((HolderItem) viewHolder).storeState.setText("FERMÉ");

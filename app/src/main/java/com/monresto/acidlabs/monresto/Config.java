@@ -9,6 +9,7 @@ public class Config {
     public static final int REQUEST_CODE_FILTER_SELECT = 6;
     public static final int REQUEST_CODE_ADDRESS_PICK_1 = 7;
     public static final int REQUEST_CODE_ADDRESS_PICK_2 = 8;
+    public static final int REQUEST_CODE_PAYMENT = 9;
 
     public static final String server = "https://www.monresto.net/ws/v3/";
     public static final String acidlabsServer = "http://www.monresto.acidlabs.co/";
