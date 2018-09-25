@@ -200,5 +200,6 @@
         <item>Au plus tôt</item>
         <item>Plus tard</item>
         <item>Demain</item>
+        <item>Définir</item>
     </string-array>
 </resources>

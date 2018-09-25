@@ -7,8 +7,10 @@ import android.graphics.Paint;
 import android.os.Bundle;
 import android.support.v7.app.AppCompatActivity;
 import android.util.Log;
+import android.view.View;
 import android.widget.Button;
 import android.widget.EditText;
+import android.widget.ProgressBar;
 
 import com.facebook.AccessToken;
 import com.facebook.CallbackManager;
@@ -19,6 +21,7 @@ import com.facebook.GraphResponse;
 import com.facebook.login.LoginResult;
 import com.facebook.login.widget.LoginButton;
 import com.monresto.acidlabs.monresto.Model.Address;
+import com.monresto.acidlabs.monresto.Model.Monresto;
 import com.monresto.acidlabs.monresto.Model.User;
 import com.monresto.acidlabs.monresto.R;
 import com.monresto.acidlabs.monresto.Service.User.UserAsyncResponse;
@@ -45,6 +48,8 @@ public class LoginActivity extends AppCompatActivity implements UserAsyncRespons
     EditText textPassword;
     @BindView(R.id.loginButton)
     Button loginButton;
+    @BindView(R.id.progressBar2)
+    ProgressBar progressBar2;
 
     private UserService userService;
     private CallbackManager callbackManager;
@@ -65,6 +70,8 @@ public class LoginActivity extends AppCompatActivity implements UserAsyncRespons
         loginButton.setOnClickListener(e -> {
             String login = Objects.requireNonNull(textLogin.getText()).toString();
             String password = Objects.requireNonNull(textPassword.getText()).toString();
+            progressBar2.setVisibility(View.VISIBLE);
+            loginButton.setVisibility(View.INVISIBLE);
             userService.login(login, password, sharedPref);
         });
 
@@ -99,7 +106,13 @@ public class LoginActivity extends AppCompatActivity implements UserAsyncRespons
 
     @Override
     public void onUserLogin(User user) {
-        userService.getDetails(user.getId(), true);
+        if(user!=null)
+            userService.getDetails(user.getId(), true);
+        else{
+            progressBar2.setVisibility(View.GONE);
+            loginButton.setVisibility(View.VISIBLE);
+            Monresto.loginPending = false;
+        }
     }
 
     @Override
@@ -109,18 +122,19 @@ public class LoginActivity extends AppCompatActivity implements UserAsyncRespons
 
     @Override
     public void onAddressListReceived(ArrayList<Address> addresses) {
-        if (User.getInstance() != null)
+        if (User.getInstance() != null) {
             User.getInstance().setAddresses(addresses);
-        //Intent intent = new Intent(this, SelectAddressActivity.class);
-        //startActivity(intent);
-        finish();
+            Monresto.loginPending = false;
+            finish();
+        }
     }
+
     @Override
     public void oncheckLoginDispoReceived(boolean isDispo) {
 
     }
 
-    private void doGraphRequest(){
+    private void doGraphRequest() {
         GraphRequest request = GraphRequest.newMeRequest(
                 AccessToken.getCurrentAccessToken(),
                 new GraphRequest.GraphJSONObjectCallback() {

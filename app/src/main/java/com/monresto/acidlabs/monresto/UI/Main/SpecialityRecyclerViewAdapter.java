@@ -52,6 +52,8 @@ public class SpecialityRecyclerViewAdapter extends RecyclerView.Adapter<Speciali
         viewHolder.filter.setOnClickListener(view -> {
             viewHolder.filter.setBackgroundResource(R.drawable.button_bg_rounded_corners_selected);
             viewHolder.filter.setTextColor(Color.WHITE);
+
+
             if (viewHolder.equals(oldFilter)){
                 ((MainActivity) context).resetRecyclerView();
                 oldFilter.filter.setBackgroundResource(R.drawable.button_bg_rounded_corners);
@@ -64,10 +66,9 @@ public class SpecialityRecyclerViewAdapter extends RecyclerView.Adapter<Speciali
                     oldFilter.filter.setBackgroundResource(R.drawable.button_bg_rounded_corners);
                     oldFilter.filter.setTextColor(Color.BLACK);
                 }
+                oldFilter = viewHolder;
+                oldFilter.setIsRecyclable(true);
             }
-
-            oldFilter = viewHolder;
-            oldFilter.setIsRecyclable(true);
 
         });
     }

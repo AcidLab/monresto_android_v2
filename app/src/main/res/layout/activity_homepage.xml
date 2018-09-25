@@ -2,6 +2,7 @@
 <android.support.constraint.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
+    android:id="@+id/homepageLayout"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:background="@color/colorPrimary">
@@ -98,7 +99,7 @@
                         android:layout_width="0dp"
                         android:layout_height="270dp"
                         android:background="@drawable/card_shadow"
-                        app:cardCornerRadius="20dp"
+                        app:cardCornerRadius="14dp"
                         app:cardElevation="8dp"
                         app:cardPreventCornerOverlap="true"
                         app:cardUseCompatPadding="true"

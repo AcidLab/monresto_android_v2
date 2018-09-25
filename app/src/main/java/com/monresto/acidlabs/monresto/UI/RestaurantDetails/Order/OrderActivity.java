@@ -77,6 +77,8 @@ public class OrderActivity extends AppCompatActivity implements RestaurantAsyncR
     @BindView(R.id.btnClose)
     ImageView btnClose;
 
+    ShoppingCart.Options cartOptions;
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -84,6 +86,25 @@ public class OrderActivity extends AppCompatActivity implements RestaurantAsyncR
         // Get dish information from the caller intent
         Intent i = getIntent();
         dish = i.getParcelableExtra("dish");
+        cartOptions = null;
+
+        //Init fields for modify after calling from cart
+        /*try{
+            String serialDish = i.getExtras().getString("serialDish", "");
+            String serialOptions = i.getExtras().getString("serialOptions", "");
+            if(!serialDish.equals("") && !serialOptions.equals("")){
+                dish = (Dish) ObjectSerializer.deserialize(serialDish);
+                cartOptions = (ShoppingCart.Options) ObjectSerializer.deserialize(serialDish);
+            }
+
+        }
+        catch (Exception ignored){
+
+        }*/
+
+        //if(cartOptions!=null)
+            //initFields();
+
 
         setContentView(R.layout.activity_order);
         ButterKnife.bind(this);
@@ -101,12 +122,9 @@ public class OrderActivity extends AppCompatActivity implements RestaurantAsyncR
         }
         dish_description.setText(Utilities.decodeUTF(dish.getDescription()));
 
-        dish_quantity_add.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View view) {
-                updateTotalOnQuantityChanged(currentQuantity + 1);
-                dish_quantity.setText(Integer.toString(currentQuantity));
-            }
+        dish_quantity_add.setOnClickListener(view -> {
+            updateTotalOnQuantityChanged(currentQuantity + 1);
+            dish_quantity.setText(Integer.toString(currentQuantity));
         });
 
         dish_quantity_reduce.setOnClickListener(view -> {
@@ -239,20 +257,13 @@ public class OrderActivity extends AppCompatActivity implements RestaurantAsyncR
 
     }
 
-    @Override
-    public void onSpecialitiesReceived(ArrayList<Speciality> specialities) {
-
-    }
-
-    @Override
-    public void onServerDown() {
-
-    }
-
     private void updateTotalOnQuantityChanged(int quantity) {
-        System.out.println(quantity);
         total_order.setText(String.valueOf(Double.valueOf(total_order.getText().toString()) / currentQuantity * quantity));
         currentQuantity = quantity;
+    }
+
+    public void initFields(){
+        updateTotalOnQuantityChanged(cartOptions.getQuantity());
     }
 
 }

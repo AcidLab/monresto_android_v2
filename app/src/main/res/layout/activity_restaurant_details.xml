@@ -93,5 +93,95 @@
         android:layout_height="match_parent"
         app:layout_behavior="@string/appbar_scrolling_view_behavior" />
 
+    <FrameLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_gravity="bottom">
+
+    <ImageView
+        android:id="@+id/couffin"
+        android:layout_width="match_parent"
+        android:layout_height="100dp"
+        android:layout_marginEnd="42dp"
+        android:layout_marginStart="42dp"
+        android:scaleType="fitXY"
+        app:srcCompat="@drawable/couffin" />
+
+    <FrameLayout
+        android:id="@+id/cart_frame"
+        android:layout_width="match_parent"
+        android:layout_height="50dp"
+        android:layout_marginEnd="8dp"
+        android:layout_marginStart="8dp"
+        android:background="@drawable/bg_rounded_accent"
+        android:layout_gravity="bottom">
+
+        <android.support.constraint.ConstraintLayout
+            android:layout_width="match_parent"
+            android:layout_height="match_parent">
+
+            <TextView
+                android:id="@+id/textView13"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginStart="24dp"
+                android:fontFamily="@font/googlesans_bold"
+                android:text="Mon couffin"
+                android:textColor="@color/button_text_color"
+                android:textSize="20sp"
+                android:textStyle="bold"
+                app:layout_constraintBottom_toBottomOf="parent"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toTopOf="parent" />
+
+            <TextView
+                android:id="@+id/cart_total"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginBottom="2dp"
+                android:layout_marginEnd="4dp"
+                android:fontFamily="@font/googlesans_regular"
+                android:text="0.00 DT"
+                android:textColor="@color/button_text_color"
+                android:textSize="18sp"
+                app:layout_constraintBottom_toBottomOf="@+id/textView13"
+                app:layout_constraintEnd_toStartOf="@+id/delivery_holder2" />
+
+            <ImageView
+                android:id="@+id/delivery_holder2"
+                android:layout_width="51dp"
+                android:layout_height="0dp"
+                android:layout_marginBottom="8dp"
+                android:layout_marginEnd="24dp"
+                android:layout_marginTop="8dp"
+                app:layout_constraintBottom_toBottomOf="parent"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintTop_toTopOf="parent"
+                app:layout_constraintVertical_bias="0.428"
+                app:srcCompat="@drawable/lolshadow_whiter" />
+
+            <TextView
+                android:id="@+id/cart_quantity"
+                android:layout_width="0dp"
+                android:layout_height="0dp"
+                android:layout_marginBottom="4dp"
+                android:layout_marginEnd="8dp"
+                android:layout_marginStart="8dp"
+                android:layout_marginTop="4dp"
+                android:fontFamily="@font/googlesans_bold"
+                android:gravity="center_vertical|center_horizontal"
+                android:text="0"
+                android:textAlignment="center"
+                android:textSize="18sp"
+                android:textStyle="bold"
+                app:layout_constraintBottom_toBottomOf="@+id/delivery_holder2"
+                app:layout_constraintEnd_toEndOf="@+id/delivery_holder2"
+                app:layout_constraintStart_toStartOf="@+id/delivery_holder2"
+                app:layout_constraintTop_toTopOf="@+id/delivery_holder2" />
+        </android.support.constraint.ConstraintLayout>
+    </FrameLayout>
+
+    </FrameLayout>
+
 
 </android.support.design.widget.CoordinatorLayout>

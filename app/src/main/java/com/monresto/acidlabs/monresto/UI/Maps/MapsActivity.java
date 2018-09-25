@@ -59,7 +59,6 @@ public class MapsActivity extends FragmentActivity implements OnMapReadyCallback
         setContentView(R.layout.activity_maps);
         ButterKnife.bind(this);
 
-
         gpsTracker = new GPSTracker(this);
         geocoder = new Geocoder(getBaseContext());
 

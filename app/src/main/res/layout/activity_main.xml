@@ -69,12 +69,14 @@
 
                 <LinearLayout
                     android:id="@+id/change_address_container"
-                    android:layout_width="wrap_content"
+                    android:layout_width="0dp"
                     android:layout_height="wrap_content"
                     android:layout_marginEnd="8dp"
+                    android:layout_marginStart="8dp"
                     android:layout_marginTop="4dp"
                     android:orientation="vertical"
                     app:layout_constraintEnd_toStartOf="@+id/home_close"
+                    app:layout_constraintStart_toEndOf="@+id/home_profile_icon"
                     app:layout_constraintTop_toTopOf="parent">
 
                     <TextView
@@ -98,9 +100,11 @@
                         android:layout_height="wrap_content"
                         android:layout_marginBottom="4dp"
                         android:layout_marginEnd="16dp"
+                        android:ellipsize="end"
                         android:fontFamily="@font/googlesans_bold"
+                        android:maxLines="1"
                         android:text="Cité Ennasr"
-                        android:textAlignment="textEnd"
+                        android:textAlignment="viewEnd"
                         android:textSize="16sp"
                         android:textStyle="bold"
                         app:layout_constraintBottom_toBottomOf="parent"
@@ -117,7 +121,7 @@
             android:layout_width="0dp"
             android:layout_height="0dp"
             android:visibility="invisible"
-            app:layout_constraintBottom_toTopOf="@+id/cart_frame"
+            app:layout_constraintBottom_toBottomOf="parent"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintHorizontal_bias="0.0"
             app:layout_constraintStart_toStartOf="parent"
@@ -140,6 +144,7 @@
             android:layout_marginEnd="42dp"
             android:layout_marginStart="42dp"
             android:scaleType="fitXY"
+            android:visibility="gone"
             app:layout_constraintBottom_toBottomOf="@+id/cart_frame"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent"
@@ -149,9 +154,10 @@
             android:id="@+id/cart_frame"
             android:layout_width="0dp"
             android:layout_height="50dp"
-            android:layout_marginEnd="16dp"
-            android:layout_marginStart="16dp"
+            android:layout_marginEnd="8dp"
+            android:layout_marginStart="8dp"
             android:background="@drawable/bg_rounded_accent"
+            android:visibility="gone"
             app:layout_constraintBottom_toBottomOf="parent"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent">

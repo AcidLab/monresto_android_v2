@@ -111,14 +111,18 @@ public class MainActivity extends AppCompatActivity implements RestaurantAsyncRe
         List<android.location.Address> addresses;
         geocoder = new Geocoder(this);
 
+        service.getDetails(251);
+
         try {
             if (User.getInstance() != null && User.getInstance().getSelectedAddress() != null)
                 deliveryLabel.setText(User.getInstance().getSelectedAddress().getAdresse());
             else {
                 addresses = geocoder.getFromLocation(Monresto.getLat(), Monresto.getLon(), 3);
-                if (addresses != null && !addresses.isEmpty())
-                    deliveryLabel.setText(addresses.get(0).getLocality());
-                else
+                if (addresses != null && !addresses.isEmpty()) {
+                    deliveryLabel.setText(addresses.get(0).getAddressLine(0));
+                    if (deliveryLabel.getText().equals(""))
+                        deliveryLabel.setText("Adresse inconnue");
+                } else
                     deliveryLabel.setText("Adresse inconnue");
             }
 
@@ -126,7 +130,7 @@ public class MainActivity extends AppCompatActivity implements RestaurantAsyncRe
             e.printStackTrace();
         }
 
-        if(HomepageConfig.getInstance()!=null)
+        if (HomepageConfig.getInstance() != null)
             Picasso.get().load(HomepageConfig.getInstance().getBusket_image()).into(couffin);
 
         service.getAll(Monresto.getLat(), Monresto.getLon());
@@ -135,8 +139,10 @@ public class MainActivity extends AppCompatActivity implements RestaurantAsyncRe
         stores_recyclerview.setLayoutManager(new LinearLayoutManager(this));
 
         change_address_container.setOnClickListener(e -> {
-            Intent intent = new Intent(this, SelectAddressActivity.class);
-            startActivity(intent);
+            if (User.getInstance() != null) {
+                Intent intent = new Intent(this, SelectAddressActivity.class);
+                startActivity(intent);
+            }
         });
         home_profile_icon.setOnClickListener(view -> {
             Intent intent;
@@ -168,12 +174,18 @@ public class MainActivity extends AppCompatActivity implements RestaurantAsyncRe
     @Override
     public void onListReceived(ArrayList<Restaurant> restaurantList) {
         Monresto.getInstance().setRestaurants(restaurantList);
+        if (ShoppingCart.getInstance() != null && Monresto.getInstance().findRestaurant(ShoppingCart.getInstance().getRestoID()) == null) {
+            ShoppingCart.getInstance().clear();
+            updateHomeCart();
+        }
         if (!restaurantList.isEmpty()) {
+            cart_frame.setVisibility(View.VISIBLE);
+            couffin.setVisibility(View.VISIBLE);
             restaurants_swiper.setVisibility(View.VISIBLE);
             status_restaurants.setVisibility(View.INVISIBLE);
             populateRecyclerView(restaurantList);
 
-            if(!list_init){
+            if (!list_init) {
                 //Load saved shopping cart
                 SharedPreferences sharedPreferences = getSharedPreferences("itemsList", Context.MODE_PRIVATE);
                 String serialItems;
@@ -181,7 +193,7 @@ public class MainActivity extends AppCompatActivity implements RestaurantAsyncRe
                     serialItems = sharedPreferences.getString("items", "");
                     ShoppingCart shoppingCart = (ShoppingCart) ObjectSerializer.deserialize(serialItems);
 
-                    if(shoppingCart!=null && Monresto.getInstance().findRestaurant(shoppingCart.getRestoID())!=null){
+                    if (shoppingCart != null && Monresto.getInstance().findRestaurant(shoppingCart.getRestoID()) != null) {
                         ShoppingCart.setInstance((ShoppingCart) ObjectSerializer.deserialize(serialItems));
                         updateHomeCart();
                     }
@@ -252,6 +264,9 @@ public class MainActivity extends AppCompatActivity implements RestaurantAsyncRe
         } else {
             if (Monresto.locationChanged) {
                 Monresto.locationChanged = false;
+                Utilities.statusChanger(this, R.layout.fragment_loading, status_restaurants, restaurants_swiper);
+                couffin.setVisibility(View.INVISIBLE);
+                cart_frame.setVisibility(View.INVISIBLE);
                 service.getAll(Monresto.getLat(), Monresto.getLon());
                 service.getSpecialities();
 
@@ -262,12 +277,13 @@ public class MainActivity extends AppCompatActivity implements RestaurantAsyncRe
                         deliveryLabel.setText(User.getInstance().getSelectedAddress().getAdresse());
                     else {
                         addresses = geocoder.getFromLocation(Monresto.getLat(), Monresto.getLon(), 3);
-                        if (addresses != null && !addresses.isEmpty())
-                            deliveryLabel.setText(addresses.get(0).getLocality());
-                        else
+                        if (addresses != null && !addresses.isEmpty()) {
+                            deliveryLabel.setText(addresses.get(0).getAddressLine(0));
+                            if (deliveryLabel.getText().equals(""))
+                                deliveryLabel.setText("Adresse inconnue");
+                        } else
                             deliveryLabel.setText("Adresse inconnue");
                     }
-
                 } catch (IOException e) {
                     e.printStackTrace();
                 }
@@ -314,7 +330,7 @@ public class MainActivity extends AppCompatActivity implements RestaurantAsyncRe
         switch (filter) {
             case Monresto.FILTER_OPEN: {
                 for (Restaurant restaurant : Monresto.getInstance().getRestaurants()) {
-                    if (restaurant.getState().equals("OPEN"))
+                    if (restaurant.getState().toLowerCase().equals("open"))
                         searchList.add(restaurant);
                 }
             }

@@ -49,7 +49,7 @@ public class FragmentRestaurantDetails extends Fragment implements ReviewAsyncRe
     @Nullable
     @Override
     public View onCreateView(@NonNull LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
-        View v = inflater.inflate(R.layout.fragment_restaurant_details, container,false);
+        View v = inflater.inflate(R.layout.fragment_restaurant_details, container, false);
 
         ButterKnife.bind(this, v);
         listReviews = v.findViewById(R.id.listReviews);
@@ -71,7 +71,7 @@ public class FragmentRestaurantDetails extends Fragment implements ReviewAsyncRe
         // Assigning values
         Picasso.get().load(restaurant.getImage()).into(dish_bg);
 
-        ratingBar.setRating((float)restaurant.getRate());
+        ratingBar.setRating((float) restaurant.getRate());
         ratingBar.setIsIndicator(true);
 
         rating.setText("(" + restaurant.getNbrAvis() + " avis)");
@@ -84,11 +84,11 @@ public class FragmentRestaurantDetails extends Fragment implements ReviewAsyncRe
     public void onCreate(@Nullable Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
     }
-    
+
     @Override
     public void onReviewsReceived(ArrayList<Review> ReviewList) {
-        if(ReviewList.isEmpty())
-            Utilities.statusChangerUnavailable(getActivity(),"Il n'y a aucun avis",reviewsStatus,listReviews);
+        if (ReviewList.isEmpty() && getContext() != null)
+            Utilities.statusChangerUnavailable(getContext(), "Il n'y a aucun avis", reviewsStatus, listReviews);
         else {
             reviewsStatus.setVisibility(View.INVISIBLE);
             listReviews.setVisibility(View.VISIBLE);

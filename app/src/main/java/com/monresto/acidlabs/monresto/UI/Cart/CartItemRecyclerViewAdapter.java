@@ -1,6 +1,7 @@
 package com.monresto.acidlabs.monresto.UI.Cart;
 
 import android.content.Context;
+import android.content.Intent;
 import android.content.SharedPreferences;
 import android.support.annotation.NonNull;
 import android.support.v7.widget.RecyclerView;
@@ -12,9 +13,12 @@ import android.widget.TextView;
 
 import com.monresto.acidlabs.monresto.Model.Dish;
 import com.monresto.acidlabs.monresto.Model.ShoppingCart;
+import com.monresto.acidlabs.monresto.ObjectSerializer;
 import com.monresto.acidlabs.monresto.R;
+import com.monresto.acidlabs.monresto.UI.RestaurantDetails.Order.OrderActivity;
 import com.squareup.picasso.Picasso;
 
+import java.io.Serializable;
 import java.text.DecimalFormat;
 import java.util.ArrayList;
 import java.util.Map;
@@ -77,16 +81,16 @@ public class CartItemRecyclerViewAdapter extends RecyclerView.Adapter<CartItemRe
 
         int compSize = 0;
         double compPrice = 0;
-        for(int i=0; i<item.getValue().getComponents().size(); i++){
-            compSize+=item.getValue().getComponents().get(i).getOptions().size();
-            for(int j=0; j<item.getValue().getComponents().get(i).getOptions().size(); j++) {
-                compPrice+=item.getValue().getComponents().get(i).getOptions().get(j).getPrice();
+        for (int i = 0; i < item.getValue().getComponents().size(); i++) {
+            compSize += item.getValue().getComponents().get(i).getOptions().size();
+            for (int j = 0; j < item.getValue().getComponents().get(i).getOptions().size(); j++) {
+                compPrice += item.getValue().getComponents().get(i).getOptions().get(j).getPrice();
             }
         }
         viewHolder.cart_components.setText("+ " + compSize + " suppléments");
 
         double price = 0;
-        price = (item.getKey().getPrice()+compPrice)*item.getValue().getQuantity();
+        price = (item.getKey().getPrice() + compPrice) * item.getValue().getQuantity();
 
         DecimalFormat dec = new DecimalFormat("#0.00");
         viewHolder.cart_price.setText(dec.format(price) + " DT");
@@ -98,6 +102,14 @@ public class CartItemRecyclerViewAdapter extends RecyclerView.Adapter<CartItemRe
             SharedPreferences.Editor editor = sharedPreferences.edit();
             editor.clear();
             editor.apply();
+        });
+        viewHolder.cart_picture.setOnClickListener(e -> {
+            String serialDish = ObjectSerializer.serialize(item.getKey());
+            String serialOptions = ObjectSerializer.serialize(item.getValue());
+            Intent intent = new Intent(context, OrderActivity.class);
+            //intent.putExtra("serialDish", serialDish);
+            //intent.putExtra("serialOptions", serialOptions);
+            context.startActivity(intent);
         });
     }
 
