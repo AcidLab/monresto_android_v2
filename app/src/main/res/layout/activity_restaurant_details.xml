@@ -76,12 +76,13 @@
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:layout_gravity="bottom"
+                android:background="@android:color/background_light"
+                app:tabBackground="@color/colorPrimary"
                 app:tabIndicatorColor="@color/material_deep_teal_50"
                 app:tabMode="scrollable"
+                app:tabSelectedTextColor="@color/material_deep_teal_50"
                 app:tabTextAppearance="@style/tab_text"
-                app:tabBackground="@color/colorPrimary"
-                app:tabTextColor="@color/colorPrimaryDark"
-                app:tabSelectedTextColor="@color/material_deep_teal_50"/>
+                app:tabTextColor="@color/colorPrimaryDark" />
 
         </android.support.design.widget.CollapsingToolbarLayout>
 
