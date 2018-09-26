@@ -6,7 +6,9 @@ import android.support.constraint.ConstraintLayout;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
+import android.support.v7.widget.Toolbar;
 import android.view.View;
+import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.TextView;
 
@@ -18,6 +20,7 @@ import com.monresto.acidlabs.monresto.R;
 import com.monresto.acidlabs.monresto.Service.Restaurant.RestaurantAsyncResponse;
 import com.monresto.acidlabs.monresto.Service.Restaurant.RestaurantService;
 import com.monresto.acidlabs.monresto.Utilities;
+import com.squareup.picasso.Picasso;
 
 import java.util.ArrayList;
 
@@ -30,6 +33,13 @@ public class SnacksActivity extends AppCompatActivity implements RestaurantAsync
     LinearLayout snacksLayout;
     @BindView(R.id.loader)
     ConstraintLayout loader;
+    @BindView(R.id.storeBg)
+    ImageView storeBg;
+    @BindView(R.id.storeName)
+    TextView storeName;
+    @BindView(R.id.toolbar)
+    Toolbar toolbar;
+
 
     @Override
     protected void onCreate(@Nullable Bundle savedInstanceState) {
@@ -38,14 +48,25 @@ public class SnacksActivity extends AppCompatActivity implements RestaurantAsync
         setContentView(R.layout.activity_snacks);
         ButterKnife.bind(this);
 
+        // Setting up the toolbar
+        setSupportActionBar(toolbar);
+        getSupportActionBar().setDisplayShowTitleEnabled(false);
+        toolbar.setTitle("");
+        toolbar.setSubtitle("");
+        toolbar.setNavigationIcon(getResources().getDrawable(R.drawable.ic_arrow_back_white_24dp));
+        toolbar.setNavigationOnClickListener(v -> finish());
+
         restaurantService = new RestaurantService(this);
         restaurantService.getMenus(251);
+        restaurantService.getDetails(251);
 
     }
 
 
     @Override
     public void onDetailsReceived(Restaurant restaurant) {
+        Picasso.get().load(restaurant.getBackground()).into(storeBg);
+        storeName.setText(restaurant.getName());
     }
 
     @Override
