@@ -5,6 +5,8 @@ public class HomepageConfig {
     private int id;
     private String cover_image;
     private String busket_image;
+    private String snack_image;
+    private String delivery_image;
     private String created_at;
     private String updated_at;
 
@@ -15,10 +17,12 @@ public class HomepageConfig {
         instance = insta;
     }
 
-    public HomepageConfig(int id, String cover_image, String busket_image, String created_at, String updated_at) {
+    public HomepageConfig(int id, String cover_image, String busket_image, String snack_image, String delivery_image, String created_at, String updated_at) {
         this.id = id;
         this.cover_image = cover_image;
         this.busket_image = busket_image;
+        this.snack_image = snack_image;
+        this.delivery_image = delivery_image;
         this.created_at = created_at;
         this.updated_at = updated_at;
     }
@@ -41,6 +45,14 @@ public class HomepageConfig {
 
     public String getBusket_image() {
         return busket_image;
+    }
+
+    public String getSnack_image() {
+        return snack_image;
+    }
+
+    public String getDelivery_image() {
+        return delivery_image;
     }
 
     public void setBusket_image(String busket_image) {
