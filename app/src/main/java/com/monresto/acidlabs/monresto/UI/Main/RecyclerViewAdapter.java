@@ -101,6 +101,10 @@ public class RecyclerViewAdapter extends RecyclerView.Adapter<RecyclerView.ViewH
                         ((HolderItem) viewHolder).storeState.setText("OUVERT");
                     else ((HolderItem) viewHolder).storeState.setText("FERMÉ");
 
+                    if(restaurantItem.getRate()==0){
+                        ((HolderItem) viewHolder).rating_smiley.setVisibility(View.GONE);
+                        ((HolderItem) viewHolder).item_store_rating.setVisibility(View.GONE);
+                    }
                     if(restaurantItem.getRate()*20 < 20)
                         Picasso.get().load(R.drawable.rate_74xhdpi).fit().into(((HolderItem) viewHolder).rating_smiley);
                     else if (restaurantItem.getRate()*20 < 40)

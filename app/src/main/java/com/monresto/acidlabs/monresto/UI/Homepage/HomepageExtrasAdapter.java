@@ -11,6 +11,7 @@ import android.view.ViewGroup;
 import android.view.animation.AlphaAnimation;
 import android.widget.ImageView;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import com.monresto.acidlabs.monresto.Model.HomepageDish;
 import com.monresto.acidlabs.monresto.R;
@@ -66,21 +67,19 @@ public class HomepageExtrasAdapter extends RecyclerView.Adapter<HomepageExtrasAd
             viewHolder.cardViewBg.setLayoutParams(new ConstraintLayout.LayoutParams(viewHolder.cardViewBg.getMeasuredWidth() - 20, viewHolder.cardViewBg.getMeasuredHeight()));*/
         if (images != null && !images.isEmpty()) {
             image = images.get(i);
-            if(i == 0){
+            if (i == 0) {
                 viewHolder.item_title.setText("SNACKS");
                 Picasso.get().load(image).into(viewHolder.item_bg);
                 viewHolder.itemContainer.setOnClickListener(e -> {
                     //TODO open restaurant details activity
-                /*Intent intent = new Intent(context, MainActivity.class);
-                context.startActivity(intent);*/
+                    /*Intent intent = new Intent(context, MainActivity.class);
+                    context.startActivity(intent);*/
                 });
             } else {
                 viewHolder.item_title.setText("COURSIER");
                 Picasso.get().load(image).into(viewHolder.item_bg);
                 viewHolder.itemContainer.setOnClickListener(e -> {
-                    //TODO open restaurant details activity
-                /*Intent intent = new Intent(context, MainActivity.class);
-                context.startActivity(intent);*/
+                    Toast.makeText(context, "Ce service sera bientôt disponible", Toast.LENGTH_SHORT).show();
                 });
             }
         }
