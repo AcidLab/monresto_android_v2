@@ -1,9 +1,9 @@
 package com.monresto.acidlabs.monresto.UI.Homepage;
 
 import android.content.Context;
+import android.content.Intent;
 import android.support.annotation.NonNull;
 import android.support.constraint.ConstraintLayout;
-import android.support.v7.widget.CardView;
 import android.support.v7.widget.RecyclerView;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -13,8 +13,8 @@ import android.widget.ImageView;
 import android.widget.TextView;
 import android.widget.Toast;
 
-import com.monresto.acidlabs.monresto.Model.HomepageDish;
 import com.monresto.acidlabs.monresto.R;
+import com.monresto.acidlabs.monresto.UI.Homepage.Snacks.SnacksActivity;
 import com.squareup.picasso.Picasso;
 
 import java.util.ArrayList;
@@ -71,9 +71,8 @@ public class HomepageExtrasAdapter extends RecyclerView.Adapter<HomepageExtrasAd
                 viewHolder.item_title.setText("SNACKS");
                 Picasso.get().load(image).into(viewHolder.item_bg);
                 viewHolder.itemContainer.setOnClickListener(e -> {
-                    //TODO open restaurant details activity
-                    /*Intent intent = new Intent(context, MainActivity.class);
-                    context.startActivity(intent);*/
+                    Intent intent = new Intent(context, SnacksActivity.class);
+                    context.startActivity(intent);
                 });
             } else {
                 viewHolder.item_title.setText("COURSIER");

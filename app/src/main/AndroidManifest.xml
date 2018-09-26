@@ -51,6 +51,7 @@
             android:theme="@style/RoundedDialog" />
         <activity android:name=".UI.Delivery.DeliveryMapActivity" />
         <activity android:name=".UI.Checkout.PaymentActivity" />
+        <activity android:name=".UI.Homepage.Snacks.SnacksActivity" />
 
         <meta-data
             android:name="com.facebook.sdk.ApplicationId"
