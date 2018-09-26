@@ -4,17 +4,12 @@ import android.content.Context;
 
 import com.android.volley.Request;
 import com.android.volley.RequestQueue;
-import com.android.volley.Response;
-import com.android.volley.VolleyError;
 import com.android.volley.toolbox.JsonObjectRequest;
 import com.android.volley.toolbox.Volley;
 import com.monresto.acidlabs.monresto.Config;
 import com.monresto.acidlabs.monresto.Model.HomepageConfig;
 import com.monresto.acidlabs.monresto.Model.HomepageDish;
 import com.monresto.acidlabs.monresto.Model.HomepageEvent;
-import com.monresto.acidlabs.monresto.Model.Speciality;
-import com.monresto.acidlabs.monresto.Model.User;
-import com.monresto.acidlabs.monresto.Service.Restaurant.RestaurantAsyncResponse;
 
 import org.json.JSONArray;
 import org.json.JSONException;
@@ -37,7 +32,7 @@ public class HomepageService {
                 (Request.Method.GET, url, null, response -> {
                     try {
                         JSONObject config = response.getJSONObject("Config");
-                        HomepageConfig homepageConfig = new HomepageConfig(config.optInt("id"),config.optString("cover_image"),config.optString("busket_image"),config.optString("created_at"),config.optString("updated_at"));
+                        HomepageConfig homepageConfig = new HomepageConfig(config.optInt("id"),config.optString("cover_image"),config.optString("busket_image"), config.optString("snack"), config.optString("delivery"), config.optString("created_at"),config.optString("updated_at"));
                         ((HomepageAsyncResponse)context).onHomepageConfigReceived(homepageConfig);
 
                         JSONArray dishesJSON = response.getJSONArray("Dishes");

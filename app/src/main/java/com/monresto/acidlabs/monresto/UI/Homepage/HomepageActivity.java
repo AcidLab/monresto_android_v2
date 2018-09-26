@@ -76,6 +76,8 @@ public class HomepageActivity extends AppCompatActivity implements UserAsyncResp
     RecyclerView dishesRecycler;
     @BindView(R.id.eventsRecycler)
     RecyclerView eventsRecycler;
+    @BindView(R.id.extrasRecycler)
+    RecyclerView extrasRecycler;
     @BindView(R.id.config_bg)
     ImageView config_bg;
     @BindView(R.id.home_profile_icon)
@@ -88,11 +90,14 @@ public class HomepageActivity extends AppCompatActivity implements UserAsyncResp
     TextView platsJour;
     @BindView(R.id.evenements)
     TextView evenements;
+    @BindView(R.id.jibly)
+    TextView jibly;
     @BindView(R.id.homepageLayout)
     ConstraintLayout homepageLayout;
 
     HomepageDishesAdapter Dishesadapter;
     HomepageEventsAdapter Eventsadapter;
+    HomepageExtrasAdapter Extrasadapter;
 
     GPSTracker gpsTracker;
     UserService userService;
@@ -111,6 +116,7 @@ public class HomepageActivity extends AppCompatActivity implements UserAsyncResp
 
         Dishesadapter = new HomepageDishesAdapter(this);
         Eventsadapter = new HomepageEventsAdapter(this);
+        Extrasadapter = new HomepageExtrasAdapter(this);
 
         userService = new UserService(this);
         homepageService = new HomepageService(this);
@@ -119,6 +125,9 @@ public class HomepageActivity extends AppCompatActivity implements UserAsyncResp
         dishesRecycler.setAdapter(Dishesadapter);
         eventsRecycler.setLayoutManager(new LinearLayoutManager(this, LinearLayoutManager.HORIZONTAL, false));
         eventsRecycler.setAdapter(Eventsadapter);
+        extrasRecycler.setLayoutManager(new LinearLayoutManager(this, LinearLayoutManager.HORIZONTAL, false));
+        extrasRecycler.setAdapter(Extrasadapter);
+
         dishesRecycler.addOnItemTouchListener(new RecyclerView.OnItemTouchListener() {
             @Override
             public boolean onInterceptTouchEvent(RecyclerView recyclerView, MotionEvent event) {
@@ -142,6 +151,28 @@ public class HomepageActivity extends AppCompatActivity implements UserAsyncResp
             }
         });
         eventsRecycler.addOnItemTouchListener(new RecyclerView.OnItemTouchListener() {
+            @Override
+            public boolean onInterceptTouchEvent(RecyclerView recyclerView, MotionEvent event) {
+                switch (event.getAction()) {
+                    case MotionEvent.ACTION_MOVE:
+                        homepage_swiper.setEnabled(false);
+                        break;
+                    case MotionEvent.ACTION_CANCEL:
+                        homepage_swiper.setEnabled(true);
+                        break;
+                }
+                return false;
+            }
+
+            @Override
+            public void onTouchEvent(@NonNull RecyclerView recyclerView, @NonNull MotionEvent motionEvent) {
+            }
+
+            @Override
+            public void onRequestDisallowInterceptTouchEvent(boolean b) {
+            }
+        });
+        extrasRecycler.addOnItemTouchListener(new RecyclerView.OnItemTouchListener() {
             @Override
             public boolean onInterceptTouchEvent(RecyclerView recyclerView, MotionEvent event) {
                 switch (event.getAction()) {
@@ -398,6 +429,14 @@ public class HomepageActivity extends AppCompatActivity implements UserAsyncResp
         Picasso.get().load(config.getCover_image()).into(config_bg);
         HomepageConfig.setInstance(config);
         homepage_swiper.setRefreshing(false);
+
+        ArrayList<String> images = new ArrayList<>();
+        images.add(config.getSnack_image());
+        images.add(config.getDelivery_image());
+        Extrasadapter.setImages(images);
+        Extrasadapter.notifyDataSetChanged();
+        jibly.setVisibility(View.VISIBLE);
+        extrasRecycler.setVisibility(View.VISIBLE);
     }
 
     @Override
