@@ -97,26 +97,26 @@ public class ShoppingCart implements Serializable {
             }
 
             dishPrice *= valeur.quantity;
-            subTotal+=dishPrice;
+            subTotal += dishPrice;
         }
         return subTotal;
     }
 
     public double getCartDelivery() {
-        if (!ShoppingCart.getInstance().isEmpty() && Monresto.getInstance().findRestaurant(ShoppingCart.getInstance().getRestoID())!=null) {
-                return Monresto.getInstance().findRestaurant(ShoppingCart.getInstance().getRestoID()).getDeliveryCost();
+        if (!ShoppingCart.getInstance().isEmpty() && Monresto.getInstance().findRestaurant(ShoppingCart.getInstance().getRestoID()) != null) {
+            return Monresto.getInstance().findRestaurant(ShoppingCart.getInstance().getRestoID()).getDeliveryCost();
         } else return 0;
     }
 
     public boolean addToCart(Dish dish, int quantity, Dish.Option dimension, ArrayList<Dish.Component> components) {
-        if (restoID == -1) {
+        if (restoID == -1 && dish.getRestoID()!=251) {
             restoID = dish.getRestoID();
             for (Restaurant R : Monresto.getInstance().getRestaurants()) {
                 if (R.getId() == restoID)
                     minCartTotal = R.getMinimalPrice();
             }
         } else {
-            if (dish.getRestoID() != restoID)
+            if (dish.getRestoID() != 251 && dish.getRestoID() != restoID)
                 return false;
         }
         Dish addedDish;

@@ -107,9 +107,9 @@ public class LoginActivity extends AppCompatActivity implements UserAsyncRespons
 
     @Override
     public void onUserLogin(User user) {
-        if(user!=null)
+        if (user != null)
             userService.getDetails(user.getId(), true);
-        else{
+        else {
             progressBar2.setVisibility(View.GONE);
             loginButton.setVisibility(View.VISIBLE);
             Monresto.loginPending = false;
@@ -126,8 +126,11 @@ public class LoginActivity extends AppCompatActivity implements UserAsyncRespons
         if (User.getInstance() != null) {
             User.getInstance().setAddresses(addresses);
             Monresto.loginPending = false;
-            if(addresses.isEmpty()){
+            if (addresses.isEmpty()) {
                 Intent intent = new Intent(this, NewAddressActivity.class);
+                startActivity(intent);
+            } else if (Objects.requireNonNull(getIntent().getExtras()).getBoolean("ask_for_select", false)) {
+                Intent intent = new Intent(this, SelectAddressActivity.class);
                 startActivity(intent);
             }
             finish();

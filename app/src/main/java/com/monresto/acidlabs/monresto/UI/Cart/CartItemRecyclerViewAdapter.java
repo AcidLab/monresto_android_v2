@@ -89,8 +89,14 @@ public class CartItemRecyclerViewAdapter extends RecyclerView.Adapter<CartItemRe
         }
         viewHolder.cart_components.setText("+ " + compSize + " suppléments");
 
-        double price = 0;
-        price = (item.getKey().getPrice() + compPrice) * item.getValue().getQuantity();
+        double price = 0, unitPrice = 0; //price to calculate total, unit price is the dish price or the selected dimension price if dish is composed and has dimensions
+        unitPrice = item.getKey().getPrice();
+
+        if (item.getValue().getDimension() != null && item.getValue().getDimension().getPrice() != 0) {
+            unitPrice = item.getValue().getDimension().getPrice();
+        }
+
+        price = (unitPrice + compPrice) * item.getValue().getQuantity();
 
         DecimalFormat dec = new DecimalFormat("#0.00");
         viewHolder.cart_price.setText(dec.format(price) + " DT");
@@ -104,6 +110,7 @@ public class CartItemRecyclerViewAdapter extends RecyclerView.Adapter<CartItemRe
             editor.apply();
         });
         viewHolder.cart_picture.setOnClickListener(e -> {
+            //maybe add later open order details to change options
             //String serialDish = ObjectSerializer.serialize(item.getKey());
             //String serialOptions = ObjectSerializer.serialize(item.getValue());
             //Intent intent = new Intent(context, OrderActivity.class);

@@ -63,6 +63,7 @@ public class CartActivity extends AppCompatActivity {
         orderBtn.setOnClickListener(e -> {
             if (User.getInstance() == null) {
                 Intent intent = new Intent(this, LoginActivity.class);
+                intent.putExtra("ask_for_select", true);
                 startActivityForResult(intent, Config.REQUEST_CODE_CHECKOUT);
             } else {
                 if (ShoppingCart.getInstance().isEmpty()) {

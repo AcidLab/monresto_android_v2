@@ -8,6 +8,7 @@ import android.os.Bundle;
 import android.support.annotation.Nullable;
 import android.support.constraint.ConstraintLayout;
 import android.support.v4.view.ViewPager;
+import android.support.v4.widget.NestedScrollView;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
@@ -17,6 +18,7 @@ import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.RadioButton;
 import android.widget.RadioGroup;
+import android.widget.ScrollView;
 import android.widget.Spinner;
 import android.widget.TextView;
 import android.widget.TimePicker;
@@ -40,6 +42,8 @@ import com.monresto.acidlabs.monresto.UI.User.SelectAddressActivity;
 import java.text.DecimalFormat;
 import java.util.ArrayList;
 import java.util.Arrays;
+import java.util.Calendar;
+import java.util.List;
 import java.util.Objects;
 
 import butterknife.BindView;
@@ -73,6 +77,8 @@ public class CheckoutActivity extends AppCompatActivity implements UserAsyncResp
     TimePicker timePicker;
     @BindView(R.id.linearLayout11)
     LinearLayout addressLayout;
+    @BindView(R.id.checkout_scroll_view)
+    NestedScrollView checkout_scroll_view;
 
 
     private Address address;
@@ -130,13 +136,13 @@ public class CheckoutActivity extends AppCompatActivity implements UserAsyncResp
             int paymentMethod = getItemIdByType(paymentMethods, TYPE_PAYMENT_MODE);
             int orderOptionID = getItemIdByType(paymentItemUnavailable, TYPE_UNAVAILABLE_OPTION);
             int deliveryTime = getItemIdByType(deliveryDate, TYPE_DELIVERY_DATE);
-            if (deliveryTime == 4) {
+            if (deliveryTime > 1) {
                 hour = timePicker.getCurrentHour() < 12 ? "0" : "" + timePicker.getCurrentHour() + timePicker.getCurrentMinute();
             }
 
             orderLoading.setProgress(1);
 
-            if(User.getInstance()!=null)
+            if (User.getInstance() != null)
                 userService.submitOrders(User.getInstance().getId(), 0, User.getInstance().getSelectedAddress().getId(), ShoppingCart.getInstance().getCurrentRestaurant(), paymentMethod, orderOptionID, deliveryTime, hour);
         });
     }
@@ -159,27 +165,36 @@ public class CheckoutActivity extends AppCompatActivity implements UserAsyncResp
 
         //3
         subjects = getResources().getStringArray(R.array.delivery_time_options);
-        radioListAdapter = new RadioListAdapter(new ArrayList<CharSequence>(Arrays.asList(subjects)), this);
+        List<CharSequence> timeList = Arrays.asList(subjects);
+        int hour = Calendar.getInstance().getTime().getHours();
+        if (hour < 12) {
+            timeList.remove(0);
+        } else if (hour > 22) {
+            timeList.remove(0);
+            timeList.remove(0);
+        }
+        radioListAdapter = new RadioListAdapter(new ArrayList<CharSequence>(timeList), this);
         deliveryDate.setLayoutManager(new LinearLayoutManager(this));
         deliveryDate.setAdapter(radioListAdapter);
 
-        if (deliveryDate.getAdapter() != null)
-        {
+        if (deliveryDate.getAdapter() != null) {
             deliveryDate.getAdapter().registerAdapterDataObserver(new RecyclerView.AdapterDataObserver() {
                 @Override
                 public void onChanged() {
                     super.onChanged();
                     if (((RadioListAdapter) deliveryDate.getAdapter()).getSelectedItem() > 1) {
                         timePicker.setVisibility(View.VISIBLE);
+                        checkout_scroll_view.postDelayed(() -> checkout_scroll_view.fullScroll(ScrollView.FOCUS_DOWN),100);
                     } else {
                         timePicker.setVisibility(View.GONE);
                     }
                 }
             });
             timePicker.setOnTimeChangedListener((timePicker, i, i1) -> {
-                if(((RadioListAdapter) deliveryDate.getAdapter()).getSelectedItem()==2){
-                    if(timePicker.getCurrentHour()>12)
-                }
+                if (timePicker.getCurrentHour() < 12)
+                    timePicker.setCurrentHour(12);
+                else if (timePicker.getCurrentHour() > 22)
+                    timePicker.setCurrentHour(22);
             });
         }
     }
@@ -187,13 +202,18 @@ public class CheckoutActivity extends AppCompatActivity implements UserAsyncResp
 
     int getItemIdByType(RecyclerView view, int type) {
         int option = ((RadioListAdapter) (Objects.requireNonNull(view.getAdapter()))).getSelectedItem();
+        CharSequence optionTitle = ((RadioListAdapter) (Objects.requireNonNull(view.getAdapter()))).getSelectedOption();
         switch (type) {
             case TYPE_PAYMENT_MODE:
                 return option;
             case TYPE_UNAVAILABLE_OPTION:
                 return option;
             case TYPE_DELIVERY_DATE:
-                return option;
+                if (optionTitle.equals("Plus tard"))
+                    return 2;
+                if (optionTitle.equals("Demain"))
+                    return 3;
+                return 1;
             default:
                 return -1;
         }

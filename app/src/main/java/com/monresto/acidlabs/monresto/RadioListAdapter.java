@@ -22,15 +22,20 @@ public class RadioListAdapter extends RecyclerView.Adapter<RadioListAdapter.View
     private ArrayList<CharSequence> options;
     private Context context;
     private int selectedItem;
+    private CharSequence selectedOption;
 
     public RadioListAdapter(ArrayList<CharSequence> options, Context context) {
         this.context = context;
         this.options = options;
         selectedItem = 0;
+        selectedOption = "";
     }
 
     public int getSelectedItem() {
         return selectedItem+1;
+    }
+    public CharSequence getSelectedOption() {
+        return selectedOption;
     }
 
     @NonNull
@@ -48,12 +53,14 @@ public class RadioListAdapter extends RecyclerView.Adapter<RadioListAdapter.View
 
         if (i == selectedItem) {
             viewHolder.option_radio.setChecked(true);
+            selectedOption = viewHolder.option_name.getText();
         } else viewHolder.option_radio.setChecked(false);
 
         viewHolder.option_container.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
                 selectedItem = i;
+                selectedOption = viewHolder.option_name.getText();
                 notifyDataSetChanged();
             }
         });
@@ -61,6 +68,7 @@ public class RadioListAdapter extends RecyclerView.Adapter<RadioListAdapter.View
             @Override
             public void onClick(View v) {
                 selectedItem = i;
+                selectedOption = viewHolder.option_name.getText();
                 notifyDataSetChanged();
             }
         });
