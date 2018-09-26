@@ -2,6 +2,7 @@ package com.monresto.acidlabs.monresto.UI.Homepage.Snacks;
 
 import android.content.Context;
 import android.content.Intent;
+import android.os.Parcelable;
 import android.support.annotation.NonNull;
 import android.support.constraint.ConstraintLayout;
 import android.support.v7.widget.RecyclerView;
@@ -9,6 +10,7 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.view.animation.AlphaAnimation;
+import android.widget.Button;
 import android.widget.ImageView;
 import android.widget.TextView;
 import android.widget.Toast;
@@ -16,6 +18,7 @@ import android.widget.Toast;
 import com.monresto.acidlabs.monresto.Model.Dish;
 import com.monresto.acidlabs.monresto.Model.ShoppingCart;
 import com.monresto.acidlabs.monresto.R;
+import com.monresto.acidlabs.monresto.UI.RestaurantDetails.Order.OrderActivity;
 import com.monresto.acidlabs.monresto.Utilities;
 import com.squareup.picasso.Picasso;
 
@@ -42,6 +45,8 @@ public class SnacksAdapter extends RecyclerView.Adapter<SnacksAdapter.ViewHolder
         TextView item_price;
         @BindView(R.id.item_bg)
         ImageView item_bg;
+        @BindView(R.id.addToCart)
+        Button addToCart;
         @BindView(R.id.itemContainer)
         ConstraintLayout itemContainer;
 
@@ -69,8 +74,10 @@ public class SnacksAdapter extends RecyclerView.Adapter<SnacksAdapter.ViewHolder
             viewHolder.item_title.setText(Utilities.decodeUTF(snack.getTitle()));
             viewHolder.item_price.setText(snack.getPrice() + " TND");
             Picasso.get().load(snack.getImagePath()).into(viewHolder.item_bg);
-            viewHolder.itemContainer.setOnClickListener(e -> {
-                ShoppingCart.getInstance().addToCart(snack);
+            viewHolder.addToCart.setOnClickListener(e -> {
+                Intent intent = new Intent(context, OrderActivity.class);
+                intent.putExtra("dish", (Parcelable) snack);
+                context.startActivity(intent);
             });
         }
     }
