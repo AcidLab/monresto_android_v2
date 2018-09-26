@@ -14,6 +14,7 @@ import android.widget.Button;
 import android.widget.ImageView;
 import android.widget.TextView;
 
+import com.monresto.acidlabs.monresto.Config;
 import com.monresto.acidlabs.monresto.Model.Address;
 import com.monresto.acidlabs.monresto.Model.User;
 import com.monresto.acidlabs.monresto.R;
@@ -68,7 +69,7 @@ public class SelectAddressActivity extends AppCompatActivity implements UserAsyn
         btnClose.setOnClickListener(e -> finish());
         buttonNewAddress.setOnClickListener(e -> {
             Intent intent = new Intent(this, NewAddressActivity.class);
-            startActivity(intent);
+            startActivityForResult(intent, Config.REQUEST_CODE_ADRESS_SELECT);
         });
     }
 
@@ -89,6 +90,8 @@ public class SelectAddressActivity extends AppCompatActivity implements UserAsyn
     @Override
     public void onAddressListReceived(ArrayList<Address> addresses) {
         updateList(addresses);
+        if(User.getInstance()!=null)
+            User.getInstance().setAddresses(addresses);
     }
 
 
@@ -96,5 +99,13 @@ public class SelectAddressActivity extends AppCompatActivity implements UserAsyn
     public void onRefresh() {
         userService.getAddress(User.getInstance().getId());
         swiper_address.setRefreshing(false);
+    }
+
+    @Override
+    protected void onActivityResult(int requestCode, int resultCode, @Nullable Intent data) {
+        super.onActivityResult(requestCode, resultCode, data);
+        if(requestCode == Config.REQUEST_CODE_ADRESS_SELECT){
+            onRefresh();
+        }
     }
 }

@@ -26,6 +26,7 @@ import com.monresto.acidlabs.monresto.Model.User;
 import com.monresto.acidlabs.monresto.R;
 import com.monresto.acidlabs.monresto.Service.User.UserAsyncResponse;
 import com.monresto.acidlabs.monresto.Service.User.UserService;
+import com.monresto.acidlabs.monresto.UI.Profile.Address.NewAddressActivity;
 
 import org.json.JSONException;
 import org.json.JSONObject;
@@ -125,6 +126,10 @@ public class LoginActivity extends AppCompatActivity implements UserAsyncRespons
         if (User.getInstance() != null) {
             User.getInstance().setAddresses(addresses);
             Monresto.loginPending = false;
+            if(addresses.isEmpty()){
+                Intent intent = new Intent(this, NewAddressActivity.class);
+                startActivity(intent);
+            }
             finish();
         }
     }

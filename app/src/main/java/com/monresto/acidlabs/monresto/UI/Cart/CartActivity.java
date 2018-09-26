@@ -18,7 +18,9 @@ import com.monresto.acidlabs.monresto.Model.ShoppingCart;
 import com.monresto.acidlabs.monresto.Model.User;
 import com.monresto.acidlabs.monresto.R;
 import com.monresto.acidlabs.monresto.UI.Checkout.CheckoutActivity;
+import com.monresto.acidlabs.monresto.UI.Profile.Address.NewAddressActivity;
 import com.monresto.acidlabs.monresto.UI.User.LoginActivity;
+import com.monresto.acidlabs.monresto.UI.User.SelectAddressActivity;
 import com.monresto.acidlabs.monresto.Utilities;
 
 import java.text.DecimalFormat;
@@ -68,7 +70,7 @@ public class CartActivity extends AppCompatActivity {
                 } else if (ShoppingCart.getInstance().getCartSubTotal() < ShoppingCart.getInstance().getMinCartTotal()) {
                     Toast.makeText(this, "Votre panier est inférieur à " + ShoppingCart.getInstance().getMinCartTotal() + " DT", Toast.LENGTH_LONG).show();
                 } else {
-                    if(User.getInstance().getSelectedAddress()!=null){
+                    if(!User.getInstance().getAddresses().isEmpty() && User.getInstance().getSelectedAddress()!=null){
                         Intent intent = new Intent(this, CheckoutActivity.class);
                         intent.putExtra("sub-total", ShoppingCart.getInstance().getCartSubTotal());
                         intent.putExtra("delivery", ShoppingCart.getInstance().getCartDelivery());
@@ -76,8 +78,8 @@ public class CartActivity extends AppCompatActivity {
                         startActivity(intent);
                     }
                     else{
-                        Toast.makeText(this, "Connexion en cours..", Toast.LENGTH_LONG).show();
-
+                        Intent intent = new Intent(this, NewAddressActivity.class);
+                        startActivity(intent);
                     }
 
                 }
@@ -117,11 +119,17 @@ public class CartActivity extends AppCompatActivity {
     protected void onActivityResult(int requestCode, int resultCode, @Nullable Intent data) {
         super.onActivityResult(requestCode, resultCode, data);
         if (requestCode == Config.REQUEST_CODE_CHECKOUT) {
-            Intent intent = new Intent(this, CheckoutActivity.class);
-            intent.putExtra("sub-total", ShoppingCart.getInstance().getCartSubTotal());
-            intent.putExtra("delivery", ShoppingCart.getInstance().getCartDelivery());
-            intent.putExtra("total", ShoppingCart.getInstance().getCartSubTotal() + ShoppingCart.getInstance().getCartDelivery());
-            startActivity(intent);
+            if(User.getInstance()!=null && !User.getInstance().getAddresses().isEmpty() && User.getInstance().getSelectedAddress()!=null)
+            {
+                Intent intent = new Intent(this, CheckoutActivity.class);
+                intent.putExtra("sub-total", ShoppingCart.getInstance().getCartSubTotal());
+                intent.putExtra("delivery", ShoppingCart.getInstance().getCartDelivery());
+                intent.putExtra("total", ShoppingCart.getInstance().getCartSubTotal() + ShoppingCart.getInstance().getCartDelivery());
+                startActivity(intent);
+            }else {
+                Intent intent = new Intent(this, NewAddressActivity.class);
+                startActivity(intent);
+            }
         }
     }
 }

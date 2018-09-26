@@ -45,6 +45,8 @@ public class MapsActivity extends FragmentActivity implements OnMapReadyCallback
     double lng;
     String title;
 
+    LatLng initPosition;
+
     @BindView(R.id.text_address_position)
     TextView text_address_position;
 
@@ -102,6 +104,8 @@ public class MapsActivity extends FragmentActivity implements OnMapReadyCallback
             this.lng = position.longitude;
             mMap.animateCamera(CameraUpdateFactory.newLatLngZoom(position, 12));
         }
+
+        initPosition = new LatLng(this.lat, this.lng);
 
         mMap.setOnCameraIdleListener(() -> {
             try {
@@ -173,5 +177,9 @@ public class MapsActivity extends FragmentActivity implements OnMapReadyCallback
         } else {
             return true;
         }
+    }
+
+    void resetMap(){
+        mMap.animateCamera(CameraUpdateFactory.newLatLngZoom(initPosition, 12));
     }
 }

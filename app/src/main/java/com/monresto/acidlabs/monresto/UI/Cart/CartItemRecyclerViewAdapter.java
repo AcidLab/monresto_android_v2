@@ -104,12 +104,12 @@ public class CartItemRecyclerViewAdapter extends RecyclerView.Adapter<CartItemRe
             editor.apply();
         });
         viewHolder.cart_picture.setOnClickListener(e -> {
-            String serialDish = ObjectSerializer.serialize(item.getKey());
-            String serialOptions = ObjectSerializer.serialize(item.getValue());
-            Intent intent = new Intent(context, OrderActivity.class);
+            //String serialDish = ObjectSerializer.serialize(item.getKey());
+            //String serialOptions = ObjectSerializer.serialize(item.getValue());
+            //Intent intent = new Intent(context, OrderActivity.class);
             //intent.putExtra("serialDish", serialDish);
             //intent.putExtra("serialOptions", serialOptions);
-            context.startActivity(intent);
+            //context.startActivity(intent);
         });
     }
 

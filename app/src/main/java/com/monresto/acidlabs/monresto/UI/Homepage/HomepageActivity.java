@@ -51,6 +51,7 @@ import com.monresto.acidlabs.monresto.Service.User.UserService;
 import com.monresto.acidlabs.monresto.UI.Delivery.DeliveryMapActivity;
 import com.monresto.acidlabs.monresto.UI.Main.MainActivity;
 import com.monresto.acidlabs.monresto.UI.Maps.MapsActivity;
+import com.monresto.acidlabs.monresto.UI.Profile.Address.NewAddressActivity;
 import com.monresto.acidlabs.monresto.UI.Profile.ProfileActivity;
 import com.monresto.acidlabs.monresto.UI.User.LoginActivity;
 import com.monresto.acidlabs.monresto.UI.User.SelectAddressActivity;
@@ -315,7 +316,11 @@ public class HomepageActivity extends AppCompatActivity implements UserAsyncResp
         if (User.getInstance() != null) {
             User.getInstance().setAddresses(addresses);
             loginPending = false;
-            if (askedMain) {
+            if(addresses.isEmpty()){
+                Intent intent = new Intent(this, NewAddressActivity.class);
+                startActivity(intent);
+            }
+            else if (askedMain) {
                 Intent intent = new Intent(this, SelectAddressActivity.class);
                 startActivityForResult(intent, Config.REQUEST_CODE_ADRESS_SELECT);
             }

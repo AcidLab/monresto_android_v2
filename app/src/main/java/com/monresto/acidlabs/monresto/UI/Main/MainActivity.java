@@ -224,6 +224,10 @@ public class MainActivity extends AppCompatActivity implements RestaurantAsyncRe
     public void onServerHighDemand() {
         Utilities.statusChanger(this, R.layout.fragment_highdemand, status_restaurants, restaurants_swiper);
     }
+    @Override
+    public void onNoRestaurantsFound() {
+        Utilities.statusChanger(this, R.layout.fragment_unavailable, status_restaurants, restaurants_swiper);
+    }
 
     public void populateRecyclerView(ArrayList<Restaurant> restaurantList) {
         if (recyclerViewAdapter == null)

@@ -258,7 +258,8 @@ public class OrderActivity extends AppCompatActivity implements RestaurantAsyncR
     }
 
     private void updateTotalOnQuantityChanged(int quantity) {
-        total_order.setText(String.valueOf(Double.valueOf(total_order.getText().toString()) / currentQuantity * quantity));
+        DecimalFormat dec = new DecimalFormat("#0.00");
+        total_order.setText(String.valueOf(dec.format(Double.valueOf(total_order.getText().toString()) / currentQuantity * quantity)));
         currentQuantity = quantity;
     }
 

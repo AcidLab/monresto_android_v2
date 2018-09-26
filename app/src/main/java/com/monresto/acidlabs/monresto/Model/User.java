@@ -147,6 +147,8 @@ public class User {
     }
 
     public ArrayList<Address> getAddresses() {
+        if(addresses==null)
+            addresses = new ArrayList<>();
         return addresses;
     }
 

@@ -1,7 +1,9 @@
 package com.monresto.acidlabs.monresto.UI.Checkout;
 
 import android.app.Activity;
+import android.content.Context;
 import android.content.Intent;
+import android.content.SharedPreferences;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
 import android.support.constraint.ConstraintLayout;
@@ -162,17 +164,24 @@ public class CheckoutActivity extends AppCompatActivity implements UserAsyncResp
         deliveryDate.setAdapter(radioListAdapter);
 
         if (deliveryDate.getAdapter() != null)
+        {
             deliveryDate.getAdapter().registerAdapterDataObserver(new RecyclerView.AdapterDataObserver() {
                 @Override
                 public void onChanged() {
                     super.onChanged();
-                    if (((RadioListAdapter) deliveryDate.getAdapter()).getSelectedItem() == 4) {
+                    if (((RadioListAdapter) deliveryDate.getAdapter()).getSelectedItem() > 1) {
                         timePicker.setVisibility(View.VISIBLE);
                     } else {
                         timePicker.setVisibility(View.GONE);
                     }
                 }
             });
+            timePicker.setOnTimeChangedListener((timePicker, i, i1) -> {
+                if(((RadioListAdapter) deliveryDate.getAdapter()).getSelectedItem()==2){
+                    if(timePicker.getCurrentHour()>12)
+                }
+            });
+        }
     }
 
 
@@ -203,6 +212,10 @@ public class CheckoutActivity extends AppCompatActivity implements UserAsyncResp
             Intent intent = new Intent(this, ProfileActivity.class);
             startActivity(intent);
             ShoppingCart.getInstance().clear();
+            SharedPreferences sharedPreferences = getSharedPreferences("itemsList", Context.MODE_PRIVATE);
+            SharedPreferences.Editor editor = sharedPreferences.edit();
+            editor.clear();
+            editor.apply();
             finish();
         } else {
             orderLoading.setProgress(-1);

@@ -232,11 +232,10 @@ public class UserService {
     }
 
     public void facebookLogin(final String socialID, final String email, final String fname, final String lname, SharedPreferences sharedPref) {
-        final int socialNetworkID = 1;
-        final int deviceID = 1;
+        final String socialNetworkID = "fb";
+        final String deviceID = "android";
         RequestQueue queue = Volley.newRequestQueue(context);
-        String url = Config.server + "User/socialConnect.php"; //doesn't work
-        url = "http://41.231.54.20/jibly/api/User/socialConnect.php";
+        String url = Config.server + "User/socialConnect.php";
         StringRequest postRequest = new StringRequest(Request.Method.POST, url,
                 new Response.Listener<String>() {
                     @Override
@@ -271,13 +270,13 @@ public class UserService {
                 String token = OneSignal.getPermissionSubscriptionState().getSubscriptionStatus().getPushToken();
 
                 String signature = Utilities.md5(socialID + email + fname + lname + socialNetworkID + token + deviceID + "vZ!m@73@tH*c2jPV4Z2");
-                params.put("socialID", socialID);
+                params.put("social_id", socialID);
                 params.put("email", email);
-                params.put("firstName", fname);
-                params.put("lastName", lname);
-                params.put("socialNetworkID", String.valueOf(socialNetworkID));
+                params.put("first_name", fname);
+                params.put("last_name", lname);
+                params.put("type", String.valueOf(socialNetworkID));
                 params.put("token", token);
-                params.put("deviceID", String.valueOf(deviceID));
+                params.put("device_id", String.valueOf(deviceID));
                 params.put("signature", signature);
 
                 return params;

@@ -59,7 +59,7 @@ public class RestaurantService {
                             JSONObject jsonResponse = new JSONObject(response);
                             int status = jsonResponse.getInt("Status");
                             if(status==0){
-                                ((RestaurantAsyncResponse) context).onServerHighDemand();
+                                ((RestaurantAsyncResponse) context).onNoRestaurantsFound();
                                 return;
                             }
                             JSONArray resto = jsonResponse.getJSONArray("Resto");

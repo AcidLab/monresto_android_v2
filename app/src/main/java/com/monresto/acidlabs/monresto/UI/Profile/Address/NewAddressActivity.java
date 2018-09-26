@@ -60,6 +60,7 @@ public class NewAddressActivity extends AppCompatActivity implements CityAsyncRe
     ArrayList<City> cities;
     Address address;
     Geocoder geocoder;
+    UserService userService;
 
     @Override
     protected void onCreate(@Nullable Bundle savedInstanceState) {
@@ -80,7 +81,7 @@ public class NewAddressActivity extends AppCompatActivity implements CityAsyncRe
             address.setAppartement(textAppart.getText().toString());
             address.setCityID(0);
 
-            UserService userService = new UserService(this);
+            userService = new UserService(this);
             userService.addAddress(address);
 
             progressBarAddAddress.setVisibility(View.VISIBLE);
@@ -150,9 +151,20 @@ public class NewAddressActivity extends AppCompatActivity implements CityAsyncRe
 
     @Override
     public void onAddressAddResponse(boolean success) {
-        if (success) {
+        if (success && User.getInstance() != null) {
+            userService.getAddress(User.getInstance().getId());
             finish();
         } else
             Toast.makeText(this, "Une erreur est survenue lors de l'ajout de votre adresse", Toast.LENGTH_LONG).show();
     }
+
+    @Override
+    public void onAddressListReceived(ArrayList<Address> addresses) {
+        User user = User.getInstance();
+        if (user != null) {
+            user.setAddresses(addresses);
+        }
+    }
+
+
 }
