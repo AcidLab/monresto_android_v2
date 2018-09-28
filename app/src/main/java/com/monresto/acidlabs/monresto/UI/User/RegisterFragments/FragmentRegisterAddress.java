@@ -75,8 +75,7 @@ public class FragmentRegisterAddress extends Fragment {
     }
 
     public boolean validate() {
-        System.out.println("FragmentRegisterAddress.validate");
-        return true;
+        return !textAddress.getText().toString().equals("");
     }
     public Address fill(Address address) {
         address.setAdresse(textAddress.getText().toString());

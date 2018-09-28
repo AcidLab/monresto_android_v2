@@ -1,6 +1,7 @@
 package com.monresto.acidlabs.monresto.Service.User;
 
 import android.content.Context;
+import android.content.Intent;
 import android.content.SharedPreferences;
 import android.util.Log;
 
@@ -10,6 +11,10 @@ import com.android.volley.Response;
 import com.android.volley.VolleyError;
 import com.android.volley.toolbox.StringRequest;
 import com.android.volley.toolbox.Volley;
+import com.facebook.AccessToken;
+import com.facebook.GraphRequest;
+import com.facebook.GraphResponse;
+import com.facebook.HttpMethod;
 import com.facebook.login.LoginManager;
 import com.monresto.acidlabs.monresto.Config;
 import com.monresto.acidlabs.monresto.Model.Address;
@@ -157,8 +162,7 @@ public class UserService {
                                     editor.apply();
                                 }
                                 ((UserAsyncResponse) context).onUserLogin(user);
-                            }
-                            else{
+                            } else {
                                 ((UserAsyncResponse) context).onUserLogin(null);
                             }
                         } catch (JSONException e) {
@@ -532,7 +536,7 @@ public class UserService {
                     @Override
                     public void onResponse(String response) {
                         try {
-                            System.out.println("response = [" + response + "]");
+                            System.out.println("order response = [" + response + "]");
                             JSONObject responseJson = new JSONObject(response);
                             if (responseJson.getInt("Status") == 1) {
                                 if (paymentID == 1) {
@@ -588,6 +592,7 @@ public class UserService {
                 new Response.Listener<String>() {
                     @Override
                     public void onResponse(String response) {
+                        System.out.println("history = [" + response + "]");
                         try {
                             JSONObject jsonResponse = new JSONObject(response);
                             JSONArray array = jsonResponse.getJSONArray("Order");
@@ -703,12 +708,18 @@ public class UserService {
 
 
     public void logout() {
-        SharedPreferences sharedPreferences = context.getSharedPreferences("login_data", Context.MODE_PRIVATE);
-        SharedPreferences.Editor editor = sharedPreferences.edit();
-        editor.clear();
-        editor.apply();
 
-        LoginManager.getInstance().logOut();
+        new GraphRequest(AccessToken.getCurrentAccessToken(), "/me/permissions/", null, HttpMethod.DELETE, new GraphRequest
+                .Callback() {
+            @Override
+            public void onCompleted(GraphResponse graphResponse) {
+                LoginManager.getInstance().logOut();
+                SharedPreferences sharedPreferences = context.getSharedPreferences("login_data", Context.MODE_PRIVATE);
+                SharedPreferences.Editor editor = sharedPreferences.edit();
+                editor.clear();
+                editor.apply();
+            }
+        }).executeAsync();
 
         User.setInstance(null);
     }

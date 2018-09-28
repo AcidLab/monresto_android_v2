@@ -44,10 +44,8 @@ public class FragmentRegisterPersonalInfo extends Fragment {
             return false;
         if (textPhoneNumber.getText().toString().equals(""))
             return !textMobileNumber.getText().toString().equals("");
-        if (textMobileNumber.getText().toString().equals(""))
-            return !textPhoneNumber.getText().toString().equals("");
+        return !textMobileNumber.getText().toString().equals("") || !textPhoneNumber.getText().toString().equals("");
 
-        return true;
     }
     public User fill(User user) {
         user.setFname(textFirstName.getText().toString());

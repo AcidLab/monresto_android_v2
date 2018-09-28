@@ -43,6 +43,7 @@ import java.text.DecimalFormat;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.Calendar;
+import java.util.LinkedList;
 import java.util.List;
 import java.util.Objects;
 
@@ -88,6 +89,9 @@ public class CheckoutActivity extends AppCompatActivity implements UserAsyncResp
 
     private final int TYPE_PAYMENT_MODE = 1, TYPE_UNAVAILABLE_OPTION = 2, TYPE_DELIVERY_DATE = 3;
     private ViewPagerAdapter adapter;
+
+    private int deliveryStart = 12;
+    private int deliveryEnd = 22;
 
     @Override
     protected void onCreate(@Nullable Bundle savedInstanceState) {
@@ -165,13 +169,18 @@ public class CheckoutActivity extends AppCompatActivity implements UserAsyncResp
 
         //3
         subjects = getResources().getStringArray(R.array.delivery_time_options);
-        List<CharSequence> timeList = Arrays.asList(subjects);
+        List<CharSequence> timeList = new LinkedList<>(Arrays.asList(subjects));
         int hour = Calendar.getInstance().getTime().getHours();
-        if (hour < 12) {
+
+        if (hour < deliveryStart) {
             timeList.remove(0);
+            timePicker.setVisibility(View.VISIBLE);
+            //checkout_scroll_view.postDelayed(() -> checkout_scroll_view.fullScroll(ScrollView.FOCUS_DOWN),100);
         } else if (hour > 22) {
             timeList.remove(0);
             timeList.remove(0);
+            timePicker.setVisibility(View.VISIBLE);
+            //checkout_scroll_view.postDelayed(() -> checkout_scroll_view.fullScroll(ScrollView.FOCUS_DOWN),100);
         }
         radioListAdapter = new RadioListAdapter(new ArrayList<CharSequence>(timeList), this);
         deliveryDate.setLayoutManager(new LinearLayoutManager(this));
@@ -184,17 +193,30 @@ public class CheckoutActivity extends AppCompatActivity implements UserAsyncResp
                     super.onChanged();
                     if (((RadioListAdapter) deliveryDate.getAdapter()).getSelectedItem() > 1) {
                         timePicker.setVisibility(View.VISIBLE);
-                        checkout_scroll_view.postDelayed(() -> checkout_scroll_view.fullScroll(ScrollView.FOCUS_DOWN),100);
+                        checkout_scroll_view.postDelayed(() -> checkout_scroll_view.fullScroll(ScrollView.FOCUS_DOWN), 100);
                     } else {
                         timePicker.setVisibility(View.GONE);
                     }
                 }
             });
             timePicker.setOnTimeChangedListener((timePicker, i, i1) -> {
-                if (timePicker.getCurrentHour() < 12)
-                    timePicker.setCurrentHour(12);
-                else if (timePicker.getCurrentHour() > 22)
-                    timePicker.setCurrentHour(22);
+                int cur_hour = Calendar.getInstance().getTime().getHours();
+                int cur_min = Calendar.getInstance().getTime().getMinutes();
+                if (timePicker.getCurrentHour() == cur_hour) {
+                    if (timePicker.getCurrentMinute() < cur_min)
+                        timePicker.setCurrentMinute(cur_min);
+                } else if (timePicker.getCurrentHour() < cur_hour) {
+                    timePicker.setCurrentHour(cur_hour);
+                    timePicker.setCurrentMinute(cur_min);
+                }
+                if (timePicker.getCurrentHour() < deliveryStart) {
+                    timePicker.setCurrentHour(deliveryStart);
+                    timePicker.setCurrentMinute(0);
+                }
+                if (timePicker.getCurrentHour() > deliveryEnd) {
+                    timePicker.setCurrentHour(deliveryEnd);
+                    timePicker.setCurrentMinute(0);
+                }
             });
         }
     }

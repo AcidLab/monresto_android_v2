@@ -9,6 +9,7 @@ import org.json.JSONObject;
 import java.io.Serializable;
 import java.util.ArrayList;
 import java.util.HashMap;
+import java.util.Iterator;
 import java.util.Map;
 
 public class ShoppingCart implements Serializable {
@@ -103,21 +104,21 @@ public class ShoppingCart implements Serializable {
     }
 
     public double getCartDelivery() {
-        if (!ShoppingCart.getInstance().isEmpty() && Monresto.getInstance().findRestaurant(ShoppingCart.getInstance().getRestoID()) != null) {
+        if (!ShoppingCart.getInstance().isEmpty() && Monresto.getInstance().getRestaurants()!=null && Monresto.getInstance().findRestaurant(ShoppingCart.getInstance().getRestoID()) != null) {
             return Monresto.getInstance().findRestaurant(ShoppingCart.getInstance().getRestoID()).getDeliveryCost();
         } else return 0;
     }
 
     public boolean addToCart(Dish dish, int quantity, Dish.Option dimension, ArrayList<Dish.Component> components) {
-        if (restoID == -1 && dish.getRestoID()!=251) {
+        if (restoID == -1) {
             restoID = dish.getRestoID();
+            if(Monresto.getInstance().getRestaurants()!=null && !Monresto.getInstance().getRestaurants().isEmpty())
             for (Restaurant R : Monresto.getInstance().getRestaurants()) {
                 if (R.getId() == restoID)
                     minCartTotal = R.getMinimalPrice();
             }
-        } else {
-            if (dish.getRestoID() != 251 && dish.getRestoID() != restoID)
-                return false;
+        } else if (dish.getRestoID() != restoID ) {
+            return false;
         }
         Dish addedDish;
         try {
@@ -200,6 +201,11 @@ public class ShoppingCart implements Serializable {
     }
 
     public void clear() {
+        /*Iterator<Map.Entry<Dish, Options>> it = items.entrySet().iterator();
+        while (it.hasNext()) {
+            Map.Entry<Dish, Options> pair = it.next();
+            if (pair.getKey().getRestoID()!=0) it.remove();
+        }*/
         items.clear();
         restoID = -1;
     }

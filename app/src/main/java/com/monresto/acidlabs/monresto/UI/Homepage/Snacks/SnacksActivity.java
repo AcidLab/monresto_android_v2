@@ -1,5 +1,6 @@
 package com.monresto.acidlabs.monresto.UI.Homepage.Snacks;
 
+import android.content.Intent;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
 import android.support.constraint.ConstraintLayout;
@@ -8,20 +9,25 @@ import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.support.v7.widget.Toolbar;
 import android.view.View;
+import android.widget.FrameLayout;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.TextView;
 
 import com.monresto.acidlabs.monresto.Model.Dish;
+import com.monresto.acidlabs.monresto.Model.HomepageConfig;
 import com.monresto.acidlabs.monresto.Model.Menu;
 import com.monresto.acidlabs.monresto.Model.Restaurant;
+import com.monresto.acidlabs.monresto.Model.ShoppingCart;
 import com.monresto.acidlabs.monresto.Model.Speciality;
 import com.monresto.acidlabs.monresto.R;
 import com.monresto.acidlabs.monresto.Service.Restaurant.RestaurantAsyncResponse;
 import com.monresto.acidlabs.monresto.Service.Restaurant.RestaurantService;
+import com.monresto.acidlabs.monresto.UI.Cart.CartActivity;
 import com.monresto.acidlabs.monresto.Utilities;
 import com.squareup.picasso.Picasso;
 
+import java.text.DecimalFormat;
 import java.util.ArrayList;
 
 import butterknife.BindView;
@@ -37,8 +43,17 @@ public class SnacksActivity extends AppCompatActivity implements RestaurantAsync
     ImageView storeBg;
     @BindView(R.id.storeName)
     TextView storeName;
+    @BindView(R.id.cart_quantity)
+    TextView cart_quantity;
+    @BindView(R.id.cart_total)
+    TextView cart_total;
     @BindView(R.id.toolbar)
     Toolbar toolbar;
+    @BindView(R.id.couffin)
+    ImageView couffin;
+
+    @BindView(R.id.cart_frame)
+    FrameLayout cart_frame;
 
 
     @Override
@@ -60,6 +75,11 @@ public class SnacksActivity extends AppCompatActivity implements RestaurantAsync
         restaurantService.getMenus(251);
         restaurantService.getDetails(251);
 
+        Picasso.get().load(HomepageConfig.getInstance().getBusket_image()).into(couffin);
+        cart_frame.setOnClickListener(e -> {
+            Intent intent = new Intent(this, CartActivity.class);
+            startActivity(intent);
+        });
     }
 
 
@@ -101,27 +121,14 @@ public class SnacksActivity extends AppCompatActivity implements RestaurantAsync
     }
 
     @Override
-    public void onComposedDishReceived(Dish dish) {
-
+    protected void onResume() {
+        super.onResume();
+        updateCartInfo();
     }
 
-    @Override
-    public void onSpecialitiesReceived(ArrayList<Speciality> specialities) {
-
-    }
-
-    @Override
-    public void onServerDown() {
-
-    }
-
-    @Override
-    public void onServerHighDemand() {
-
-    }
-
-    @Override
-    public void onNoRestaurantsFound() {
-
+    public void updateCartInfo() {
+        cart_quantity.setText(String.valueOf(ShoppingCart.getInstance().getItems().size()));
+        DecimalFormat dec = new DecimalFormat("#0.00");
+        cart_total.setText(dec.format(ShoppingCart.getInstance().getCartSubTotal()) + " DT");
     }
 }

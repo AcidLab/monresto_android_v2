@@ -41,7 +41,9 @@ import com.monresto.acidlabs.monresto.Model.HomepageConfig;
 import com.monresto.acidlabs.monresto.Model.HomepageDish;
 import com.monresto.acidlabs.monresto.Model.HomepageEvent;
 import com.monresto.acidlabs.monresto.Model.Monresto;
+import com.monresto.acidlabs.monresto.Model.ShoppingCart;
 import com.monresto.acidlabs.monresto.Model.User;
+import com.monresto.acidlabs.monresto.ObjectSerializer;
 import com.monresto.acidlabs.monresto.R;
 import com.monresto.acidlabs.monresto.InternetCheck;
 import com.monresto.acidlabs.monresto.Service.Homepage.HomepageAsyncResponse;
@@ -229,6 +231,16 @@ public class HomepageActivity extends AppCompatActivity implements UserAsyncResp
         if (checkLocationPermission())
             checkInternet();
 
+        SharedPreferences sharedPreferences = getSharedPreferences("itemsList", Context.MODE_PRIVATE);
+        String serialItems;
+        if (sharedPreferences.contains("items")) {
+            serialItems = sharedPreferences.getString("items", "");
+            ShoppingCart shoppingCart = (ShoppingCart) ObjectSerializer.deserialize(serialItems);
+
+            if (shoppingCart != null) {
+                ShoppingCart.setInstance((ShoppingCart) ObjectSerializer.deserialize(serialItems));
+            }
+        }
     }
 
     public void checkInternet() {

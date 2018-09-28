@@ -2,8 +2,11 @@ package com.monresto.acidlabs.monresto.UI.Homepage;
 
 import android.content.Context;
 import android.content.Intent;
+import android.content.SharedPreferences;
+import android.graphics.Color;
 import android.support.annotation.NonNull;
 import android.support.constraint.ConstraintLayout;
+import android.support.v7.app.AlertDialog;
 import android.support.v7.widget.RecyclerView;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -13,8 +16,10 @@ import android.widget.ImageView;
 import android.widget.TextView;
 import android.widget.Toast;
 
+import com.monresto.acidlabs.monresto.Model.ShoppingCart;
 import com.monresto.acidlabs.monresto.R;
 import com.monresto.acidlabs.monresto.UI.Homepage.Snacks.SnacksActivity;
+import com.monresto.acidlabs.monresto.UI.RestaurantDetails.RestaurantDetailsActivity;
 import com.squareup.picasso.Picasso;
 
 import java.util.ArrayList;
@@ -71,8 +76,33 @@ public class HomepageExtrasAdapter extends RecyclerView.Adapter<HomepageExtrasAd
                 viewHolder.item_title.setText("SNACKS");
                 Picasso.get().load(image).into(viewHolder.item_bg);
                 viewHolder.itemContainer.setOnClickListener(e -> {
-                    Intent intent = new Intent(context, SnacksActivity.class);
-                    context.startActivity(intent);
+                    if (!ShoppingCart.getInstance().isEmpty() && !(ShoppingCart.getInstance().getRestoID() == 251 || ShoppingCart.getInstance().getRestoID() == 0)) {
+                        AlertDialog.Builder builder = new AlertDialog.Builder(context);
+                        builder.setTitle("Vider le panier et changer de restaurant ?");
+
+                        builder.setPositiveButton("OK", (dialog, which) -> {
+                            ShoppingCart.getInstance().clear();
+                            SharedPreferences sharedPreferences = context.getSharedPreferences("itemsList", Context.MODE_PRIVATE);
+                            SharedPreferences.Editor editor = sharedPreferences.edit();
+                            editor.clear();
+                            editor.apply();
+                            Intent intent = new Intent(context, SnacksActivity.class);
+                            context.startActivity(intent);
+                        });
+                        builder.setNegativeButton("Annuler", (dialog, which) -> dialog.cancel());
+
+                        AlertDialog dialog = builder.create();
+                        dialog.setOnShowListener(arg0 -> {
+                            dialog.getButton(AlertDialog.BUTTON_POSITIVE).setTextColor(Color.parseColor("#33b998"));
+                            dialog.getButton(AlertDialog.BUTTON_NEGATIVE).setTextColor(Color.parseColor("#33b998"));
+                        });
+                        dialog.show();
+                    } else {
+                        Intent intent = new Intent(context, SnacksActivity.class);
+                        context.startActivity(intent);
+                    }
+
+
                 });
             } else {
                 viewHolder.item_title.setText("COURSIER");

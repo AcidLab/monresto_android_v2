@@ -174,7 +174,9 @@ public class MainActivity extends AppCompatActivity implements RestaurantAsyncRe
     @Override
     public void onListReceived(ArrayList<Restaurant> restaurantList) {
         Monresto.getInstance().setRestaurants(restaurantList);
-        if (ShoppingCart.getInstance() != null && Monresto.getInstance().findRestaurant(ShoppingCart.getInstance().getRestoID()) == null) {
+        if(ShoppingCart.getInstance() != null && !ShoppingCart.getInstance().isEmpty())
+            updateHomeCart();
+        if (ShoppingCart.getInstance() != null && Monresto.getInstance().findRestaurant(ShoppingCart.getInstance().getRestoID()) == null ) {
             ShoppingCart.getInstance().clear();
             updateHomeCart();
         }

@@ -12,12 +12,14 @@ import android.widget.Toast;
 
 import com.monresto.acidlabs.monresto.Model.Address;
 import com.monresto.acidlabs.monresto.Model.City;
+import com.monresto.acidlabs.monresto.Model.Monresto;
 import com.monresto.acidlabs.monresto.Model.User;
 import com.monresto.acidlabs.monresto.R;
 import com.monresto.acidlabs.monresto.Service.City.CityAsyncResponse;
 import com.monresto.acidlabs.monresto.Service.User.UserAsyncResponse;
 import com.monresto.acidlabs.monresto.Service.User.UserService;
 import com.monresto.acidlabs.monresto.UI.Maps.MapsActivity;
+import com.monresto.acidlabs.monresto.UI.Profile.Address.NewAddressActivity;
 import com.monresto.acidlabs.monresto.UI.Restaurants.ViewPagerAdapter;
 import com.monresto.acidlabs.monresto.UI.User.RegisterFragments.FragmentRegisterAddress;
 import com.monresto.acidlabs.monresto.UI.User.RegisterFragments.FragmentRegisterLoginInfo;
@@ -28,6 +30,7 @@ import com.monresto.acidlabs.monresto.Utilities;
 import java.io.IOException;
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Objects;
 
 import butterknife.BindView;
 import butterknife.ButterKnife;
@@ -45,6 +48,7 @@ public class RegisterActivity extends AppCompatActivity implements UserAsyncResp
 
     FragmentRegisterAddress fragmentRegisterAddress;
     FragmentRegisterSubmit fragmentRegisterSubmit;
+    private UserService userService;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -84,7 +88,7 @@ public class RegisterActivity extends AppCompatActivity implements UserAsyncResp
             }
         });
 
-        UserService userService = new UserService(this);
+        userService = new UserService(this);
         newUser = new User(0, "", "", "");
 
         geocoder = new Geocoder(this);
@@ -134,7 +138,6 @@ public class RegisterActivity extends AppCompatActivity implements UserAsyncResp
                 case 3:
                     userService.register(newUser.getLogin(), newUser.getPassword(), newUser.getPassword_confirm(), newUser.getEmail(), newUser.getFname(),
                             newUser.getLname(), newUser.getCivility(), newUser.getPhone(), newUser.getMobile(), newUser.getComment(), newUser.getAddresses());
-                    finish();
                     break;
                 default:
                     break;
@@ -146,7 +149,8 @@ public class RegisterActivity extends AppCompatActivity implements UserAsyncResp
 
     @Override
     public void onUserLogin(User user) {
-
+        User.setInstance(user);
+        userService.getAddress(User.getInstance().getId());
     }
 
     @Override
@@ -155,11 +159,26 @@ public class RegisterActivity extends AppCompatActivity implements UserAsyncResp
     }
 
     @Override
+    public void onAddressListReceived(ArrayList<Address> addresses) {
+        if (User.getInstance() != null) {
+            User.getInstance().setAddresses(addresses);
+            Monresto.loginPending = false;
+            if (addresses.isEmpty()) {
+                Intent intent = new Intent(this, NewAddressActivity.class);
+                startActivity(intent);
+            }
+            finish();
+        }
+    }
+
+
+
+    @Override
     public void oncheckLoginDispoReceived(boolean isDispo) {
         if (isDispo) {
             viewPager.setCurrentItem(1);
         } else
-            Toast.makeText(this, "Ce login est déja utilisé", Toast.LENGTH_SHORT);
+            Toast.makeText(this, "Le login ou l'email spécifié est déja utilisé, veuillez choisir un login différent.", Toast.LENGTH_LONG).show();
     }
 
     @Override

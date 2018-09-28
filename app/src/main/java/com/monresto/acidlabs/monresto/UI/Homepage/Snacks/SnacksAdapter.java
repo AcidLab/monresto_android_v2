@@ -73,7 +73,9 @@ public class SnacksAdapter extends RecyclerView.Adapter<SnacksAdapter.ViewHolder
             snack = snacks.get(i);
             viewHolder.item_title.setText(Utilities.decodeUTF(snack.getTitle()));
             viewHolder.item_price.setText(snack.getPrice() + " TND");
-            Picasso.get().load(snack.getImagePath()).into(viewHolder.item_bg);
+            System.out.println("PATH: " + snack.getImagePath());
+            if (!snack.getImagePath().equals(""))
+                Picasso.get().load(snack.getImagePath()).into(viewHolder.item_bg);
             viewHolder.addToCart.setOnClickListener(e -> {
                 Intent intent = new Intent(context, OrderActivity.class);
                 intent.putExtra("dish", (Parcelable) snack);

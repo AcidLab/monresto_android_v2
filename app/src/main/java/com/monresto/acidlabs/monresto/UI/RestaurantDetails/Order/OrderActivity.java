@@ -103,7 +103,7 @@ public class OrderActivity extends AppCompatActivity implements RestaurantAsyncR
         }*/
 
         //if(cartOptions!=null)
-            //initFields();
+        //initFields();
 
 
         setContentView(R.layout.activity_order);
@@ -259,11 +259,15 @@ public class OrderActivity extends AppCompatActivity implements RestaurantAsyncR
 
     private void updateTotalOnQuantityChanged(int quantity) {
         DecimalFormat dec = new DecimalFormat("#0.00");
-        total_order.setText(String.valueOf(dec.format(Double.valueOf(total_order.getText().toString()) / currentQuantity * quantity)));
+        try {
+            total_order.setText(String.valueOf(dec.format(Double.valueOf(total_order.getText().toString().replace(",", ".")) / currentQuantity * quantity)));
+        } catch (Exception ignored) {
+
+        }
         currentQuantity = quantity;
     }
 
-    public void initFields(){
+    public void initFields() {
         updateTotalOnQuantityChanged(cartOptions.getQuantity());
     }
 
