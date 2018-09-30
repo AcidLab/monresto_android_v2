@@ -25,6 +25,8 @@ import android.widget.TextView;
 import android.widget.Toast;
 
 import com.facebook.AccessToken;
+import com.google.android.gms.common.GooglePlayServicesNotAvailableException;
+import com.google.android.gms.common.GooglePlayServicesRepairableException;
 import com.google.android.gms.common.api.GoogleApiClient;
 import com.google.android.gms.common.api.PendingResult;
 import com.google.android.gms.common.api.ResultCallback;
@@ -34,6 +36,8 @@ import com.google.android.gms.location.LocationServices;
 import com.google.android.gms.location.LocationSettingsRequest;
 import com.google.android.gms.location.LocationSettingsResult;
 import com.google.android.gms.location.LocationSettingsStatusCodes;
+import com.google.android.gms.location.places.Place;
+import com.google.android.gms.location.places.ui.PlacePicker;
 import com.monresto.acidlabs.monresto.Config;
 import com.monresto.acidlabs.monresto.GPSTracker;
 import com.monresto.acidlabs.monresto.Model.Address;
@@ -219,9 +223,15 @@ public class HomepageActivity extends AppCompatActivity implements UserAsyncResp
             }
             Intent intent;
             if (User.getInstance() == null) {
-                intent = new Intent(this, MapsActivity.class);
+                /*intent = new Intent(this, MapsActivity.class);
                 intent.putExtra("update_position", true);
-                startActivityForResult(intent, Config.REQUEST_CODE_POSITION_SELECT);
+                startActivityForResult(intent, Config.REQUEST_CODE_POSITION_SELECT);*/
+                PlacePicker.IntentBuilder builder = new PlacePicker.IntentBuilder();
+                try {
+                    startActivityForResult(builder.build(this), Config.REQUEST_PLACE_PICKER);
+                } catch (GooglePlayServicesRepairableException | GooglePlayServicesNotAvailableException e1) {
+                    e1.printStackTrace();
+                }
             } else {
                 intent = new Intent(this, SelectAddressActivity.class);
                 startActivityForResult(intent, Config.REQUEST_CODE_ADRESS_SELECT);
@@ -439,6 +449,14 @@ public class HomepageActivity extends AppCompatActivity implements UserAsyncResp
                     Intent intent = new Intent(this, MainActivity.class);
                     startActivity(intent);
                 }
+            }
+            break;
+            case Config.REQUEST_PLACE_PICKER: {
+                Place place = PlacePicker.getPlace(data, this);
+                Monresto.setLat( place.getLatLng().latitude);
+                Monresto.setLon(place.getLatLng().longitude);
+                Intent intent = new Intent(this, MainActivity.class);
+                startActivity(intent);
             }
             break;
         }

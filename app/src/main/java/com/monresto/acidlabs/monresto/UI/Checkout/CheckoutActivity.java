@@ -14,6 +14,7 @@ import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.view.View;
 import android.widget.ArrayAdapter;
+import android.widget.Button;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.RadioButton;
@@ -33,6 +34,8 @@ import com.monresto.acidlabs.monresto.Model.ShoppingCart;
 import com.monresto.acidlabs.monresto.Model.User;
 import com.monresto.acidlabs.monresto.R;
 import com.monresto.acidlabs.monresto.RadioListAdapter;
+import com.monresto.acidlabs.monresto.Service.Restaurant.RestaurantAsyncResponse;
+import com.monresto.acidlabs.monresto.Service.Restaurant.RestaurantService;
 import com.monresto.acidlabs.monresto.Service.User.UserAsyncResponse;
 import com.monresto.acidlabs.monresto.Service.User.UserService;
 import com.monresto.acidlabs.monresto.UI.Profile.ProfileActivity;
@@ -50,7 +53,7 @@ import java.util.Objects;
 import butterknife.BindView;
 import butterknife.ButterKnife;
 
-public class CheckoutActivity extends AppCompatActivity implements UserAsyncResponse {
+public class CheckoutActivity extends AppCompatActivity implements UserAsyncResponse, RestaurantAsyncResponse {
     @BindView(R.id.imageProfileBack)
     ImageView imageProfileBack;
     @BindView(R.id.cart_delivery)
@@ -80,6 +83,10 @@ public class CheckoutActivity extends AppCompatActivity implements UserAsyncResp
     LinearLayout addressLayout;
     @BindView(R.id.checkout_scroll_view)
     NestedScrollView checkout_scroll_view;
+    @BindView(R.id.verify_btn)
+    Button verify_btn;
+    @BindView(R.id.promo_text)
+    TextView promo_text;
 
 
     private Address address;
@@ -149,6 +156,9 @@ public class CheckoutActivity extends AppCompatActivity implements UserAsyncResp
             if (User.getInstance() != null)
                 userService.submitOrders(User.getInstance().getId(), 0, User.getInstance().getSelectedAddress().getId(), ShoppingCart.getInstance().getCurrentRestaurant(), paymentMethod, orderOptionID, deliveryTime, hour);
         });
+
+        RestaurantService restaurantService = new RestaurantService(this);
+        verify_btn.setOnClickListener(e -> restaurantService.verifyPromo(promo_text.getText().toString()));
     }
 
     void initRecyclerViews() {
@@ -287,4 +297,10 @@ public class CheckoutActivity extends AppCompatActivity implements UserAsyncResp
                 }
         }
     }
+
+    @Override
+    public void onPromoResponse() {
+
+    }
+
 }

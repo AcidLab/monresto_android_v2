@@ -343,4 +343,8 @@ public class RestaurantService {
 
         queue.add(request);
     }
+
+    public void verifyPromo(String code){
+        ((RestaurantAsyncResponse)context).onPromoResponse();
+    }
 }

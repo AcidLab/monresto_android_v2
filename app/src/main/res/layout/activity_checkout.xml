@@ -279,19 +279,33 @@
                     android:text="Bon de réduction"
                     android:textStyle="bold" />
 
-                <EditText
-                    android:id="@+id/editText"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:layout_marginEnd="16dp"
-                    android:layout_marginStart="5dp"
-                    android:layout_marginTop="6dp"
+                <LinearLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="match_parent"
                     android:layout_weight="1"
-                    android:ems="10"
-                    android:hint="Code"
-                    android:inputType="number"
-                    android:textAlignment="textStart"
-                    android:textSize="16sp" />
+                    android:orientation="horizontal">
+
+                    <EditText
+                        android:id="@+id/promo_text"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_marginEnd="16dp"
+                        android:layout_marginStart="5dp"
+                        android:layout_marginTop="6dp"
+                        android:layout_weight="1"
+                        android:ems="10"
+                        android:hint="Code"
+                        android:inputType="number"
+                        android:textAlignment="textStart"
+                        android:textSize="16sp" />
+
+                    <Button
+                        android:id="@+id/verify_btn"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_weight="1"
+                        android:text="Vérifier" />
+                </LinearLayout>
 
             </LinearLayout>
 

@@ -8,7 +8,7 @@ import com.monresto.acidlabs.monresto.Model.Speciality;
 import java.util.ArrayList;
 
 public interface RestaurantAsyncResponse {
-    void onListReceived(ArrayList<Restaurant> restaurantList);
+    default void onListReceived(ArrayList<Restaurant> restaurantList){};
     default void onDetailsReceived(Restaurant restaurant){};
     default void onMenusReceived(ArrayList<Menu> menus){};
     default void onDishesReceived(ArrayList<Dish> dishes, Menu menu){};
@@ -17,4 +17,5 @@ public interface RestaurantAsyncResponse {
     default void onServerDown(){};
     default void onServerHighDemand(){};
     default void onNoRestaurantsFound(){};
+    default void onPromoResponse(){};
 }

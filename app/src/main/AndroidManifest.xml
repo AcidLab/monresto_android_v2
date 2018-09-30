@@ -58,7 +58,8 @@
             android:value="@string/facebook_app_id" />
         <meta-data
             android:name="com.google.android.geo.API_KEY"
-            android:value="@string/google_maps_key" />
+            android:value="AIzaSyCdaBpOD61ooJuwk0r9HvQgeFkxor742Ks" />
+
 
         <!-- Fixes google maps on Android P
          TODO: Remove after google fixes this -->

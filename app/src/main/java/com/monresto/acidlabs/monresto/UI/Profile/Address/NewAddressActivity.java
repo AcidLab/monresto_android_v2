@@ -71,8 +71,14 @@ public class NewAddressActivity extends AppCompatActivity implements CityAsyncRe
         address = new Address();
         geocoder = new Geocoder(this);
 
-        Intent intent = new Intent(this, MapsActivity.class);
-        startActivityForResult(intent, REQUEST_CODE_MAP_INFO);
+        //Intent intent = new Intent(this, MapsActivity.class);
+        //startActivityForResult(intent, REQUEST_CODE_MAP_INFO);
+
+        Intent intent = getIntent();
+        textAddress.setText(intent.getExtras().getString("address", ""));
+        address.setAdresse(intent.getExtras().getString("address", ""));
+        address.setLat(intent.getExtras().getDouble("lat", 0));
+        address.setLon(intent.getExtras().getDouble("lng", 0));
 
         buttonSubmitAddress.setOnClickListener(e -> {
             address.setAdresse(textAddress.getText().toString());

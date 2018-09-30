@@ -14,6 +14,10 @@ import android.widget.Button;
 import android.widget.ImageView;
 import android.widget.TextView;
 
+import com.google.android.gms.common.GooglePlayServicesNotAvailableException;
+import com.google.android.gms.common.GooglePlayServicesRepairableException;
+import com.google.android.gms.location.places.Place;
+import com.google.android.gms.location.places.ui.PlacePicker;
 import com.monresto.acidlabs.monresto.Config;
 import com.monresto.acidlabs.monresto.Model.Address;
 import com.monresto.acidlabs.monresto.Model.User;
@@ -68,14 +72,18 @@ public class SelectAddressActivity extends AppCompatActivity implements UserAsyn
         userService.getAddress(User.getInstance().getId());
         btnClose.setOnClickListener(e -> finish());
         buttonNewAddress.setOnClickListener(e -> {
-            Intent intent = new Intent(this, NewAddressActivity.class);
-            startActivityForResult(intent, Config.REQUEST_CODE_ADRESS_SELECT);
+            PlacePicker.IntentBuilder builder = new PlacePicker.IntentBuilder();
+            try {
+                startActivityForResult(builder.build(this), Config.REQUEST_PLACE_PICKER);
+            } catch (GooglePlayServicesRepairableException | GooglePlayServicesNotAvailableException e1) {
+                e1.printStackTrace();
+            }
         });
     }
 
     public void updateList(ArrayList<Address> addresses) {
         if (addresses.size() == 0) {
-            Utilities.statusChangerUnavailable(this,"Aucune adresse trouvée", status_address,swiper_address);
+            Utilities.statusChangerUnavailable(this, "Aucune adresse trouvée", status_address, swiper_address);
             return;
         }
 
@@ -90,7 +98,7 @@ public class SelectAddressActivity extends AppCompatActivity implements UserAsyn
     @Override
     public void onAddressListReceived(ArrayList<Address> addresses) {
         updateList(addresses);
-        if(User.getInstance()!=null)
+        if (User.getInstance() != null)
             User.getInstance().setAddresses(addresses);
     }
 
@@ -104,8 +112,15 @@ public class SelectAddressActivity extends AppCompatActivity implements UserAsyn
     @Override
     protected void onActivityResult(int requestCode, int resultCode, @Nullable Intent data) {
         super.onActivityResult(requestCode, resultCode, data);
-        if(requestCode == Config.REQUEST_CODE_ADRESS_SELECT){
+        if (requestCode == Config.REQUEST_CODE_ADRESS_SELECT) {
             onRefresh();
+        } else if (requestCode == Config.REQUEST_PLACE_PICKER) {
+            Place place = PlacePicker.getPlace(data, this);
+            Intent intent = new Intent(this, NewAddressActivity.class);
+            intent.putExtra("lat", place.getLatLng().latitude);
+            intent.putExtra("lng", place.getLatLng().longitude);
+            intent.putExtra("address", place.getAddress());
+            startActivityForResult(intent, Config.REQUEST_CODE_ADRESS_SELECT);
         }
     }
 }
