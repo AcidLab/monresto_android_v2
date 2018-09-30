@@ -79,7 +79,7 @@ public class CartActivity extends AppCompatActivity {
                         startActivity(intent);
                     }
                     else{
-                        Intent intent = new Intent(this, NewAddressActivity.class);
+                        Intent intent = new Intent(this, SelectAddressActivity.class);
                         startActivity(intent);
                     }
 

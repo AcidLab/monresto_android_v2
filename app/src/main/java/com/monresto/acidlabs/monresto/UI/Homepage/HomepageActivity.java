@@ -50,6 +50,7 @@ import com.monresto.acidlabs.monresto.Service.Homepage.HomepageAsyncResponse;
 import com.monresto.acidlabs.monresto.Service.Homepage.HomepageService;
 import com.monresto.acidlabs.monresto.Service.User.UserAsyncResponse;
 import com.monresto.acidlabs.monresto.Service.User.UserService;
+import com.monresto.acidlabs.monresto.UI.Cart.CartActivity;
 import com.monresto.acidlabs.monresto.UI.Delivery.DeliveryMapActivity;
 import com.monresto.acidlabs.monresto.UI.Main.MainActivity;
 import com.monresto.acidlabs.monresto.UI.Maps.MapsActivity;
@@ -84,6 +85,8 @@ public class HomepageActivity extends AppCompatActivity implements UserAsyncResp
     ImageView config_bg;
     @BindView(R.id.home_profile_icon)
     ImageView home_profile_icon;
+    @BindView(R.id.cart_btn)
+    ImageView cart_btn;
     @BindView(R.id.configContainer)
     ConstraintLayout configContainer;
     @BindView(R.id.homepage_swiper)
@@ -241,6 +244,11 @@ public class HomepageActivity extends AppCompatActivity implements UserAsyncResp
                 ShoppingCart.setInstance((ShoppingCart) ObjectSerializer.deserialize(serialItems));
             }
         }
+
+        cart_btn.setOnClickListener(e -> {
+            Intent intent = new Intent(this, CartActivity.class);
+            startActivity(intent);
+        });
     }
 
     public void checkInternet() {

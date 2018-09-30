@@ -54,6 +54,7 @@ public class SnacksActivity extends AppCompatActivity implements RestaurantAsync
 
     @BindView(R.id.cart_frame)
     FrameLayout cart_frame;
+    private int counter = 0;
 
 
     @Override
@@ -95,6 +96,7 @@ public class SnacksActivity extends AppCompatActivity implements RestaurantAsync
 
     @Override
     public void onMenusReceived(ArrayList<Menu> menus) {
+        counter = menus.size();
         for(int i=0; i<menus.size(); i++) {
             restaurantService.getDishes(251,menus.get(i));
         }
@@ -102,6 +104,7 @@ public class SnacksActivity extends AppCompatActivity implements RestaurantAsync
 
     @Override
     public void onDishesReceived(ArrayList<Dish> dishes, Menu menu) {
+        counter--;
         ConstraintLayout container = (ConstraintLayout) View.inflate(this, R.layout.fragment_snacks, null);
         TextView snacksTitle = container.findViewById(R.id.snacksTitle);
         snacksTitle.setText(Utilities.decodeUTF(menu.getTitle()));
@@ -118,6 +121,10 @@ public class SnacksActivity extends AppCompatActivity implements RestaurantAsync
 
         loader.setVisibility(View.GONE);
         snacksLayout.addView(container);
+        if(counter == 0){
+            ConstraintLayout footer = (ConstraintLayout) View.inflate(this, R.layout.item_footer, null);
+            snacksLayout.addView(footer);
+        }
     }
 
     @Override

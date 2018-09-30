@@ -37,19 +37,6 @@
                 app:layout_constraintTop_toTopOf="parent"
                 app:srcCompat="@drawable/male_user" />
 
-            <TextView
-                android:id="@+id/deliveryLabel"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_marginBottom="8dp"
-                android:layout_marginEnd="16dp"
-                android:layout_marginTop="8dp"
-                android:text="Aide"
-                android:textAlignment="textEnd"
-                app:layout_constraintBottom_toBottomOf="parent"
-                app:layout_constraintEnd_toEndOf="parent"
-                app:layout_constraintTop_toTopOf="parent" />
-
             <ImageView
                 android:id="@+id/imageView2"
                 android:layout_width="0dp"
@@ -60,10 +47,22 @@
                 android:layout_marginStart="8dp"
                 android:layout_marginTop="8dp"
                 app:layout_constraintBottom_toBottomOf="parent"
-                app:layout_constraintEnd_toStartOf="@+id/deliveryLabel"
+                app:layout_constraintEnd_toStartOf="@+id/cart_btn"
                 app:layout_constraintStart_toEndOf="@+id/home_profile_icon"
                 app:layout_constraintTop_toTopOf="parent"
                 app:srcCompat="@drawable/loho_with_text_light" />
+
+            <ImageView
+                android:id="@+id/cart_btn"
+                android:layout_width="28dp"
+                android:layout_height="28dp"
+                android:layout_marginBottom="8dp"
+                android:layout_marginEnd="8dp"
+                android:layout_marginTop="8dp"
+                app:layout_constraintBottom_toBottomOf="parent"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintTop_toTopOf="parent"
+                app:srcCompat="@drawable/cart_light" />
 
         </android.support.constraint.ConstraintLayout>
 

@@ -48,7 +48,6 @@ public class RestaurantDetailsAdapter extends RecyclerView.Adapter<ViewHolder> {
     @Override
     public ViewHolder onCreateViewHolder(@NonNull ViewGroup parent, int viewType) {
         View itemLayoutView;
-        System.out.println("viewType = [" + viewType + "]");
 
         if (viewType == TYPE_ITEM)
         {
