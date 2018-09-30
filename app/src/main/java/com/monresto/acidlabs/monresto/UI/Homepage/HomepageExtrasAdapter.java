@@ -6,8 +6,10 @@ import android.content.SharedPreferences;
 import android.graphics.Color;
 import android.support.annotation.NonNull;
 import android.support.constraint.ConstraintLayout;
+import android.support.constraint.Guideline;
 import android.support.v7.app.AlertDialog;
 import android.support.v7.widget.RecyclerView;
+import android.util.DisplayMetrics;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -29,7 +31,6 @@ import butterknife.ButterKnife;
 
 
 public class HomepageExtrasAdapter extends RecyclerView.Adapter<HomepageExtrasAdapter.ViewHolder> {
-
     private Context context;
     private ArrayList<String> images;
     private final static int FADE_DURATION = 1000; //FADE_DURATION in milliseconds
@@ -41,12 +42,14 @@ public class HomepageExtrasAdapter extends RecyclerView.Adapter<HomepageExtrasAd
     static class ViewHolder extends RecyclerView.ViewHolder {
         @BindView(R.id.item_title)
         TextView item_title;
-        @BindView(R.id.item_label)
-        TextView item_label;
         @BindView(R.id.item_bg)
         ImageView item_bg;
         @BindView(R.id.itemContainer)
         ConstraintLayout itemContainer;
+        @BindView(R.id.right_guideline)
+        Guideline right_guideline;
+        @BindView(R.id.bottom_guideline)
+        Guideline bottom_guideline;
 
         ViewHolder(@NonNull View itemView) {
             super(itemView);
@@ -58,7 +61,7 @@ public class HomepageExtrasAdapter extends RecyclerView.Adapter<HomepageExtrasAd
     @Override
     public HomepageExtrasAdapter.ViewHolder onCreateViewHolder(@NonNull ViewGroup viewGroup, int i) {
         View v;
-        v = LayoutInflater.from(context).inflate(R.layout.item_homepage_dish, viewGroup, false);
+        v = LayoutInflater.from(context).inflate(R.layout.item_homepage_extra, viewGroup, false);
 
         return new HomepageExtrasAdapter.ViewHolder(v);
     }
@@ -66,8 +69,15 @@ public class HomepageExtrasAdapter extends RecyclerView.Adapter<HomepageExtrasAd
     @Override
     public void onBindViewHolder(@NonNull HomepageExtrasAdapter.ViewHolder viewHolder, int i) {
         String image;
+
+        // Temporary fix to get the items fill the space, remove these 3 lines whenever you have more items
+        DisplayMetrics displayMetrics = context.getResources().getDisplayMetrics();
+        float pxWidth = displayMetrics.widthPixels;
+        viewHolder.right_guideline.setGuidelineBegin((int)pxWidth / 2);
+        viewHolder.bottom_guideline.setGuidelineBegin(((int)pxWidth / 2));
+
+
         setFadeAnimation(viewHolder.itemView);
-        viewHolder.item_label.setVisibility(View.GONE);
         /*if(dishes != null && dishes.size()>1)
             viewHolder.cardViewBg.setLayoutParams(new ConstraintLayout.LayoutParams(viewHolder.cardViewBg.getMeasuredWidth() - 20, viewHolder.cardViewBg.getMeasuredHeight()));*/
         if (images != null && !images.isEmpty()) {
