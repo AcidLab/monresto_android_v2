@@ -186,7 +186,7 @@ public class CheckoutActivity extends AppCompatActivity implements UserAsyncResp
             timeList.remove(0);
             timePicker.setVisibility(View.VISIBLE);
             //checkout_scroll_view.postDelayed(() -> checkout_scroll_view.fullScroll(ScrollView.FOCUS_DOWN),100);
-        } else if (hour > 22) {
+        } else if (hour > deliveryEnd) {
             timeList.remove(0);
             timeList.remove(0);
             timePicker.setVisibility(View.VISIBLE);

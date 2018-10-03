@@ -3,7 +3,12 @@ package com.monresto.acidlabs.monresto.UI.Profile.Address;
 import android.app.Activity;
 import android.content.Intent;
 
+import com.google.android.gms.common.GooglePlayServicesNotAvailableException;
+import com.google.android.gms.common.GooglePlayServicesRepairableException;
+import com.google.android.gms.location.places.Place;
+import com.google.android.gms.location.places.ui.PlacePicker;
 import com.google.android.gms.maps.model.LatLng;
+import com.monresto.acidlabs.monresto.Config;
 import com.monresto.acidlabs.monresto.Model.Address;
 
 import android.location.Geocoder;
@@ -71,14 +76,12 @@ public class NewAddressActivity extends AppCompatActivity implements CityAsyncRe
         address = new Address();
         geocoder = new Geocoder(this);
 
-        //Intent intent = new Intent(this, MapsActivity.class);
-        //startActivityForResult(intent, REQUEST_CODE_MAP_INFO);
-
-        Intent intent = getIntent();
-        textAddress.setText(intent.getExtras().getString("address", ""));
-        address.setAdresse(intent.getExtras().getString("address", ""));
-        address.setLat(intent.getExtras().getDouble("lat", 0));
-        address.setLon(intent.getExtras().getDouble("lng", 0));
+        PlacePicker.IntentBuilder builder = new PlacePicker.IntentBuilder();
+        try {
+            startActivityForResult(builder.build(this), Config.REQUEST_PLACE_PICKER);
+        } catch (GooglePlayServicesRepairableException | GooglePlayServicesNotAvailableException e1) {
+            e1.printStackTrace();
+        }
 
         buttonSubmitAddress.setOnClickListener(e -> {
             address.setAdresse(textAddress.getText().toString());
@@ -138,8 +141,20 @@ public class NewAddressActivity extends AppCompatActivity implements CityAsyncRe
 
                 } else if (resultCode == Activity.RESULT_CANCELED)
                     finish();
-                break;
             }
+            break;
+            case (Config.REQUEST_PLACE_PICKER): {
+                if (data == null)
+                    finish();
+                else {
+                    Place place = PlacePicker.getPlace(data, this);
+                    textAddress.setText(place.getAddress());
+                    address.setAdresse(place.getAddress().toString());
+                    address.setLat(place.getLatLng().latitude);
+                    address.setLon(place.getLatLng().longitude);
+                }
+            }
+            break;
         }
     }
 

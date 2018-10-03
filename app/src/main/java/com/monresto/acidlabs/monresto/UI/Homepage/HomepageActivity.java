@@ -452,11 +452,14 @@ public class HomepageActivity extends AppCompatActivity implements UserAsyncResp
             }
             break;
             case Config.REQUEST_PLACE_PICKER: {
-                Place place = PlacePicker.getPlace(data, this);
-                Monresto.setLat( place.getLatLng().latitude);
-                Monresto.setLon(place.getLatLng().longitude);
-                Intent intent = new Intent(this, MainActivity.class);
-                startActivity(intent);
+                if(data!=null){
+                    Place place = PlacePicker.getPlace(data, this);
+                    Monresto.setLat( place.getLatLng().latitude);
+                    Monresto.setLon(place.getLatLng().longitude);
+                    Intent intent = new Intent(this, MainActivity.class);
+                    startActivity(intent);
+                }
+
             }
             break;
         }

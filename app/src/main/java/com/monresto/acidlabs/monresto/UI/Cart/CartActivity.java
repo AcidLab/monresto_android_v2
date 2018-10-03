@@ -127,7 +127,7 @@ public class CartActivity extends AppCompatActivity {
                 intent.putExtra("delivery", ShoppingCart.getInstance().getCartDelivery());
                 intent.putExtra("total", ShoppingCart.getInstance().getCartSubTotal() + ShoppingCart.getInstance().getCartDelivery());
                 startActivity(intent);
-            }else {
+            }else if(User.getInstance()!=null){
                 Intent intent = new Intent(this, NewAddressActivity.class);
                 startActivity(intent);
             }

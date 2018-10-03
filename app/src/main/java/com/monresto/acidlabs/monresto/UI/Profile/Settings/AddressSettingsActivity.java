@@ -70,7 +70,6 @@ public class AddressSettingsActivity extends AppCompatActivity implements UserAs
 
 
     public void updateList(ArrayList<Address> addresses) {
-        System.out.println("SPECIAL DEBUG: " + addresses.size() + " Addresses, choosing what to do...");
         if (addresses.size() == 0) {
             Utilities.statusChangerUnavailable(this,"Aucune adresse trouvée", status_address,swiper_address);
 

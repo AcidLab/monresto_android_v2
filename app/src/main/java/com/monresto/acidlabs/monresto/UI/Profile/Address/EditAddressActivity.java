@@ -15,6 +15,13 @@ import android.widget.ProgressBar;
 import android.widget.Spinner;
 import android.widget.Toast;
 
+import com.google.android.gms.common.GooglePlayServicesNotAvailableException;
+import com.google.android.gms.common.GooglePlayServicesRepairableException;
+import com.google.android.gms.location.places.Place;
+import com.google.android.gms.location.places.ui.PlacePicker;
+import com.google.android.gms.maps.model.LatLng;
+import com.google.android.gms.maps.model.LatLngBounds;
+import com.monresto.acidlabs.monresto.Config;
 import com.monresto.acidlabs.monresto.Model.Address;
 import com.monresto.acidlabs.monresto.Model.City;
 import com.monresto.acidlabs.monresto.R;
@@ -64,17 +71,24 @@ public class EditAddressActivity extends AppCompatActivity implements CityAsyncR
         ButterKnife.bind(this);
 
         geocoder = new Geocoder(this);
+        address = new Address();
 
-        Intent param = getIntent();
+        /*Intent param = getIntent();
         address = param.getExtras().getParcelable("address");
-        if(address==null)
-            address = new Address();
+        if (address == null)
+            address = new Address();*/
 
-        Intent intent = new Intent(this, MapsActivity.class);
+        /*Intent intent = new Intent(this, MapsActivity.class);
         intent.putExtra("update", true);
         intent.putExtra("lat", address.getLat());
-        intent.putExtra("lng", address.getLon());
-        startActivityForResult(intent, REQUEST_CODE_MAP_INFO);
+        intent.putExtra("lng", address.getLon());*/
+
+        PlacePicker.IntentBuilder builder = new PlacePicker.IntentBuilder();
+        try {
+            startActivityForResult(builder.build(this), Config.REQUEST_PLACE_PICKER);
+        } catch (GooglePlayServicesRepairableException | GooglePlayServicesNotAvailableException e1) {
+            e1.printStackTrace();
+        }
 
         buttonSubmitAddress.setText("Enregistrer");
         buttonSubmitAddress.setOnClickListener(e -> {
@@ -111,8 +125,8 @@ public class EditAddressActivity extends AppCompatActivity implements CityAsyncR
         textAddress.setText(address.getAdresse());
         textStreet.setText(address.getRue());
         textAppart.setText(address.getAppartement());
-        for(int i=0; i<adapter.getCount();i++){
-            if(adapter.getItem(i).equals(address.getEmplacement())){
+        for (int i = 0; i < adapter.getCount(); i++) {
+            if (adapter.getItem(i).equals(address.getEmplacement())) {
                 locationSpinner.setSelection(i);
             }
         }
@@ -144,8 +158,21 @@ public class EditAddressActivity extends AppCompatActivity implements CityAsyncR
 
                 } else if (resultCode == Activity.RESULT_CANCELED)
                     finish();
-                break;
             }
+            break;
+
+            case (Config.REQUEST_PLACE_PICKER): {
+                if (data == null)
+                    finish();
+                else {
+                    Place place = PlacePicker.getPlace(data, this);
+                    textAddress.setText(place.getAddress());
+                    address.setAdresse(place.getAddress().toString());
+                    address.setLat(place.getLatLng().latitude);
+                    address.setLon(place.getLatLng().longitude);
+                }
+            }
+            break;
         }
     }
 

@@ -72,12 +72,8 @@ public class SelectAddressActivity extends AppCompatActivity implements UserAsyn
         userService.getAddress(User.getInstance().getId());
         btnClose.setOnClickListener(e -> finish());
         buttonNewAddress.setOnClickListener(e -> {
-            PlacePicker.IntentBuilder builder = new PlacePicker.IntentBuilder();
-            try {
-                startActivityForResult(builder.build(this), Config.REQUEST_PLACE_PICKER);
-            } catch (GooglePlayServicesRepairableException | GooglePlayServicesNotAvailableException e1) {
-                e1.printStackTrace();
-            }
+            Intent intent = new Intent(this, NewAddressActivity.class);
+            startActivityForResult(intent, Config.REQUEST_CODE_ADRESS_SELECT);
         });
     }
 
@@ -114,13 +110,6 @@ public class SelectAddressActivity extends AppCompatActivity implements UserAsyn
         super.onActivityResult(requestCode, resultCode, data);
         if (requestCode == Config.REQUEST_CODE_ADRESS_SELECT) {
             onRefresh();
-        } else if (requestCode == Config.REQUEST_PLACE_PICKER) {
-            Place place = PlacePicker.getPlace(data, this);
-            Intent intent = new Intent(this, NewAddressActivity.class);
-            intent.putExtra("lat", place.getLatLng().latitude);
-            intent.putExtra("lng", place.getLatLng().longitude);
-            intent.putExtra("address", place.getAddress());
-            startActivityForResult(intent, Config.REQUEST_CODE_ADRESS_SELECT);
         }
     }
 }
