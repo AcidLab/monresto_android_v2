@@ -150,11 +150,12 @@ public class CheckoutActivity extends AppCompatActivity implements UserAsyncResp
             if (deliveryTime > 1) {
                 hour = timePicker.getCurrentHour() < 12 ? "0" : "" + timePicker.getCurrentHour() + timePicker.getCurrentMinute();
             }
+            String promo = promo_text.getText().toString();
 
             orderLoading.setProgress(1);
 
             if (User.getInstance() != null)
-                userService.submitOrders(User.getInstance().getId(), 0, User.getInstance().getSelectedAddress().getId(), ShoppingCart.getInstance().getCurrentRestaurant(), paymentMethod, orderOptionID, deliveryTime, hour);
+                userService.submitOrders(User.getInstance().getId(), 0, User.getInstance().getSelectedAddress().getId(), ShoppingCart.getInstance().getCurrentRestaurant(), promo, paymentMethod, orderOptionID, deliveryTime, hour);
         });
 
         RestaurantService restaurantService = new RestaurantService(this);

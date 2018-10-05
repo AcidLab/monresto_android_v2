@@ -516,14 +516,13 @@ public class UserService {
         queue.add(postRequest);
     }
 
-    public void submitOrders(final int userID, final int type, final int addressID, final int restoID, final int paymentID, final int optionOrderID, final int deliveryTime, final String hour) {
+    public void submitOrders(final int userID, final int type, final int addressID, final int restoID, final String promo, final int paymentID, final int optionOrderID, final int deliveryTime, final String hour) {
         final JSONArray orders = ShoppingCart.getInstance().getOrdersJson();
         final JSONArray voucher = new JSONArray();
         final int numtrans = 0;
         final String time = String.valueOf(deliveryTime);
-        final int promo = 0;
 
-        final String signature = Utilities.md5("" + userID + addressID + restoID + orders.toString() + paymentID + type + "[]" + numtrans + optionOrderID + time + hour + Config.sharedKey);
+        final String signature = Utilities.md5("" + userID + addressID + restoID + orders.toString() + paymentID + type + "[]" + promo + numtrans + optionOrderID + time + hour + Config.sharedKey);
 
         RequestQueue queue = Volley.newRequestQueue(context);
 
@@ -570,6 +569,7 @@ public class UserService {
                 params.put("type", String.valueOf(type));
                 params.put("numtrans", String.valueOf(numtrans));
                 params.put("Voucher", "[]");
+                params.put("promo", promo);
                 params.put("optionOrderID", String.valueOf(optionOrderID));
                 params.put("time", String.valueOf(time));
                 params.put("hour", String.valueOf(hour));

@@ -295,7 +295,7 @@
                         android:layout_weight="1"
                         android:ems="10"
                         android:hint="Code"
-                        android:inputType="number"
+                        android:inputType="text"
                         android:textAlignment="textStart"
                         android:textSize="16sp" />
 
@@ -304,7 +304,8 @@
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
                         android:layout_weight="1"
-                        android:text="Vérifier" />
+                        android:text="Vérifier"
+                        android:visibility="gone" />
                 </LinearLayout>
 
             </LinearLayout>
