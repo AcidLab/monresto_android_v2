@@ -89,7 +89,7 @@
 
         <EditText
             android:id="@+id/editText"
-            android:layout_width="wrap_content"
+            android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:layout_marginEnd="16dp"
             android:layout_marginStart="5dp"
@@ -97,7 +97,7 @@
             android:layout_weight="1"
             android:ems="10"
             android:hint="Code"
-            android:inputType="number"
+            android:inputType="text"
             android:textAlignment="textStart"
             android:textSize="16sp" />
 

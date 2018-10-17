@@ -194,6 +194,7 @@ public class RestaurantService {
                                 obj = jsonMenus.getJSONObject(i);
                                 dishesList.add(Dish.createFromJson(obj));
                             }
+
                             ((RestaurantAsyncResponse) context).onDishesReceived(dishesList, menu);
                         } catch (JSONException e) {
                             e.printStackTrace();

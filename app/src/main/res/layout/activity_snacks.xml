@@ -111,7 +111,7 @@
             android:layout_marginStart="42dp"
             android:layout_marginEnd="42dp"
             android:scaleType="fitXY"
-            app:srcCompat="@drawable/couffin" />
+            android:src="@drawable/couffin" />
 
         <FrameLayout
             android:id="@+id/cart_frame"

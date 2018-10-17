@@ -12,11 +12,11 @@ buildscript {
 android {
     compileSdkVersion 28
     defaultConfig {
-        applicationId "com.monresto.acidlabs.monresto"
-        minSdkVersion 21
+        applicationId "com.mappnet.monresto"
+        minSdkVersion 16
         targetSdkVersion 28
-        versionCode 1
-        versionName "1.0"
+        versionCode 3
+        versionName "3.0"
         testInstrumentationRunner "android.support.test.runner.AndroidJUnitRunner"
         manifestPlaceholders = [
                 onesignal_app_id: 'd2429d88-f09a-49bd-877c-2bc0d8f31b0c',

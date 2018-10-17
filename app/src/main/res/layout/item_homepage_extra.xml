@@ -48,7 +48,7 @@
                 android:fontFamily="@font/googlesans_bold"
                 android:maxLines="2"
                 android:textColor="@color/colorPrimary"
-                android:textSize="24sp"
+                android:textSize="14sp"
                 android:textStyle="bold"
                 android:transitionName="storeName"
                 app:layout_constraintBottom_toBottomOf="@+id/item_bg"

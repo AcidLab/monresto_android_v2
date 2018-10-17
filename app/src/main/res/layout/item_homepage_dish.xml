@@ -47,7 +47,7 @@
                 android:fontFamily="@font/googlesans_bold"
                 android:maxLines="2"
                 android:textColor="@color/colorPrimary"
-                android:textSize="32sp"
+                android:textSize="16sp"
                 android:textStyle="bold"
                 android:transitionName="storeName"
                 app:layout_constraintBottom_toTopOf="@+id/item_label"
@@ -66,7 +66,7 @@
                 android:maxLines="1"
                 android:textAllCaps="true"
                 android:textColor="@color/colorPrimary"
-                android:textSize="24sp"
+                android:textSize="14sp"
                 app:layout_constraintBottom_toBottomOf="@+id/item_bg"
                 app:layout_constraintEnd_toEndOf="parent"
                 app:layout_constraintStart_toStartOf="parent" />

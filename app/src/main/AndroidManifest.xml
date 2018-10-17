@@ -5,13 +5,12 @@
     <uses-permission android:name="android.permission.INTERNET" />
     <uses-permission android:name="android.permission.ACCESS_FINE_LOCATION" />
     <uses-permission android:name="android.permission.ACCESS_COARSE_LOCATION" />
-
     <application
         android:allowBackup="true"
         android:icon="@mipmap/ic_launcher"
         android:name=".Application"
         android:label="@string/app_name"
-        android:roundIcon="@mipmap/ic_launcher_round"
+        android:roundIcon="@mipmap/ic_launcher"
         android:supportsRtl="true"
         android:theme="@style/AppTheme">
         <activity android:name=".UI.HomeActivity" />
@@ -37,7 +36,8 @@
             android:name=".UI.User.SelectAddressActivity"
             android:excludeFromRecents="true"
             android:theme="@style/RoundedDialog" />
-        <activity android:name=".UI.Homepage.HomepageActivity">
+        <activity android:name=".UI.Homepage.HomepageActivity"/>
+        <activity android:name=".UI.SplashScreen">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
                 <category android:name="android.intent.category.LAUNCHER" />

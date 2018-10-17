@@ -153,7 +153,7 @@
                                     android:maxLines="2"
                                     android:text="Découvrez les meilleurs restaurants"
                                     android:textColor="@color/dish_title"
-                                    android:textSize="24sp"
+                                    android:textSize="18sp"
                                     android:textStyle="bold"
                                     android:transitionName="storeName"
                                     app:layout_constraintEnd_toEndOf="parent"
