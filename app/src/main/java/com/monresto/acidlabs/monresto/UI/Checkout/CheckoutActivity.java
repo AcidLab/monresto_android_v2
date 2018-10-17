@@ -155,7 +155,7 @@ public class CheckoutActivity extends AppCompatActivity implements UserAsyncResp
             orderLoading.setProgress(1);
 
             if (User.getInstance() != null)
-                userService.submitOrders(User.getInstance().getId(), 0, User.getInstance().getSelectedAddress().getId(), ShoppingCart.getInstance().getCurrentRestaurant(), promo, paymentMethod, orderOptionID, deliveryTime, hour);
+                userService.submitOrders(User.getInstance().getId(), 0, User.getInstance().getSelectedAddress().getId(), ShoppingCart.getInstance().getCurrentRestaurant(), promo, paymentMethod, orderOptionID, deliveryTime, hour, ShoppingCart.getInstance().getOrdersJson());
         });
 
         RestaurantService restaurantService = new RestaurantService(this);

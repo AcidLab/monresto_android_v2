@@ -52,6 +52,7 @@
         <activity android:name=".UI.Delivery.DeliveryMapActivity" />
         <activity android:name=".UI.Checkout.PaymentActivity" />
         <activity android:name=".UI.Homepage.Snacks.SnacksActivity" />
+        <activity android:name=".UI.Delivery.DeliveryActivity" />
 
         <meta-data
             android:name="com.facebook.sdk.ApplicationId"

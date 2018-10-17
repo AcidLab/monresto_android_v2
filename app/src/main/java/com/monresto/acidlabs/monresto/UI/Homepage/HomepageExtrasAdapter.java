@@ -20,6 +20,7 @@ import android.widget.Toast;
 
 import com.monresto.acidlabs.monresto.Model.ShoppingCart;
 import com.monresto.acidlabs.monresto.R;
+import com.monresto.acidlabs.monresto.UI.Delivery.DeliveryActivity;
 import com.monresto.acidlabs.monresto.UI.Homepage.Snacks.SnacksActivity;
 import com.monresto.acidlabs.monresto.UI.RestaurantDetails.RestaurantDetailsActivity;
 import com.squareup.picasso.Picasso;
@@ -118,7 +119,9 @@ public class HomepageExtrasAdapter extends RecyclerView.Adapter<HomepageExtrasAd
                 viewHolder.item_title.setText("COURSIER");
                 Picasso.get().load(image).into(viewHolder.item_bg);
                 viewHolder.itemContainer.setOnClickListener(e -> {
-                    Toast.makeText(context, "Ce service sera bientôt disponible", Toast.LENGTH_SHORT).show();
+                    //Toast.makeText(context, "Ce service sera bientôt disponible", Toast.LENGTH_SHORT).show();
+                    Intent intent = new Intent(context, DeliveryActivity.class);
+                    context.startActivity(intent);
                 });
             }
         }
