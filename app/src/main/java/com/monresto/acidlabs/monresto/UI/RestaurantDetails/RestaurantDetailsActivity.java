@@ -68,17 +68,21 @@ public class RestaurantDetailsActivity extends AppCompatActivity implements Rest
 
     RestaurantService service;
 
-    HashMap<Menu, ArrayList<Dish>> dishes = new HashMap<Menu, ArrayList<Dish>>();
+    HashMap<Menu, ArrayList<Dish>> dishes;
 
     Restaurant restaurant;
     int filledDishes; // Used for stability and improvements
+    private int counter;
 
     BadgeCountChangeListener badgeCountChangeListener;
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_restaurant_details);
         ButterKnife.bind(this);
+
+        dishes = new HashMap<>();
 
         // Setting up the toolbar
         setSupportActionBar(toolbar);
@@ -162,15 +166,15 @@ public class RestaurantDetailsActivity extends AppCompatActivity implements Rest
 
     @Override
     public void onMenusReceived(ArrayList<Menu> menus) {
-
         MenusList = new ArrayList<>();
         MenusList.add("INFORMATIONS");
+        counter = menus.size();
 
         for (int j = 0; j < menus.size(); j++) {
             dishes.put(menus.get(j), null);
 
             MenusList.add(Utilities.decodeUTF(menus.get(j).getTitle()));
-            // Generate dishes according to menu
+            // Get dishes according to menu
             service.getDishes(restaurant.getId(), menus.get(j));
         }
 
@@ -183,20 +187,18 @@ public class RestaurantDetailsActivity extends AppCompatActivity implements Rest
 
     @Override
     public void onDishesReceived(ArrayList<Dish> dishes, Menu menu) {
-
-        // Fixing special characters for MENUS
-        Menu fixedMenu = menu;
-        fixedMenu.setTitle(Utilities.decodeUTF(menu.getTitle()));
-        fixedMenu.setDescription(Utilities.decodeUTF(menu.getDescription()));
+        counter--;
+        menu.setTitle(Utilities.decodeUTF(menu.getTitle()));
+        menu.setDescription(Utilities.decodeUTF(menu.getDescription()));
 
         for (int i = 0; i < dishes.size(); i++)
             dishes.get(i).setRestoID(restaurant.getId());
 
-        this.dishes.put(fixedMenu, dishes);
-
+        this.dishes.put(menu, dishes);
         filledDishes++;
 
-        setUpTabs();
+        if(counter==0)
+            setUpTabs();
     }
 
     @Override
@@ -217,7 +219,7 @@ public class RestaurantDetailsActivity extends AppCompatActivity implements Rest
     @Override
     protected void onResume() {
         super.onResume();
-        if(badgeCountChangeListener!=null)
+        if (badgeCountChangeListener != null)
             badgeCountChangeListener.onBadgeCountChanged();
 
         updateCartInfo();
