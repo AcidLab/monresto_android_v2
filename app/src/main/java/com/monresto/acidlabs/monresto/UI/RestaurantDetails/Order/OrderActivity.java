@@ -76,6 +76,8 @@ public class OrderActivity extends AppCompatActivity implements RestaurantAsyncR
     Button add_to_cart;
     @BindView(R.id.btnClose)
     ImageView btnClose;
+    @BindView(R.id.additional_informations)
+    TextView comments;
 
     ShoppingCart.Options cartOptions;
 
@@ -175,9 +177,9 @@ public class OrderActivity extends AppCompatActivity implements RestaurantAsyncR
 
             boolean added;
             if (optionsAdapter != null)
-                added = ShoppingCart.getInstance().addToCart(dish, Integer.valueOf(dish_quantity.getText().toString()), optionsAdapter.getItem(optionsAdapter.getSelectedItem()), components);
+                added = ShoppingCart.getInstance().addToCart(dish, Integer.valueOf(dish_quantity.getText().toString()), optionsAdapter.getItem(optionsAdapter.getSelectedItem()), components, comments.getText().toString());
             else
-                added = ShoppingCart.getInstance().addToCart(dish, Integer.valueOf(dish_quantity.getText().toString()), null, components);
+                added = ShoppingCart.getInstance().addToCart(dish, Integer.valueOf(dish_quantity.getText().toString()), null, components, comments.getText().toString());
 
             if (added)
                 Toast.makeText(OrderActivity.this, "Ajouté: " + Integer.valueOf(dish_quantity.getText().toString()) + " " + dish.getTitle(), Toast.LENGTH_LONG).show();

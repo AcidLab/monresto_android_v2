@@ -23,11 +23,13 @@ public class ShoppingCart implements Serializable {
         private int quantity;
         private Dish.Option dimension;
         private ArrayList<Dish.Component> components;
+        private String comment;
 
-        Options(int quantity, Dish.Option dimension, ArrayList<Dish.Component> components) {
+        Options(int quantity, Dish.Option dimension, ArrayList<Dish.Component> components, String comment) {
             this.quantity = quantity;
             this.dimension = dimension;
             this.components = components;
+            this.comment = comment;
         }
 
         public int getQuantity() {
@@ -67,6 +69,10 @@ public class ShoppingCart implements Serializable {
         instance = shoppingCart;
     }
 
+    public static ShoppingCart createInstance() {
+        return new ShoppingCart();
+    }
+
     public Map<Dish, Options> getItems() {
         return items;
     }
@@ -104,20 +110,24 @@ public class ShoppingCart implements Serializable {
     }
 
     public double getCartDelivery() {
-        if (!ShoppingCart.getInstance().isEmpty() && Monresto.getInstance().getRestaurants()!=null && Monresto.getInstance().findRestaurant(ShoppingCart.getInstance().getRestoID()) != null) {
+        if (!ShoppingCart.getInstance().isEmpty() && Monresto.getInstance().getRestaurants() != null && Monresto.getInstance().findRestaurant(ShoppingCart.getInstance().getRestoID()) != null) {
             return Monresto.getInstance().findRestaurant(ShoppingCart.getInstance().getRestoID()).getDeliveryCost();
         } else return 0;
     }
 
-    public boolean addToCart(Dish dish, int quantity, Dish.Option dimension, ArrayList<Dish.Component> components) {
+    public boolean addToCart(Dish dish, int quantity, Dish.Option dimension, ArrayList<Dish.Component> components){
+        return addToCart(dish, quantity, dimension, components, "");
+    }
+
+    public boolean addToCart(Dish dish, int quantity, Dish.Option dimension, ArrayList<Dish.Component> components, String comment){
         if (restoID == -1) {
             restoID = dish.getRestoID();
-            if(Monresto.getInstance().getRestaurants()!=null && !Monresto.getInstance().getRestaurants().isEmpty())
-            for (Restaurant R : Monresto.getInstance().getRestaurants()) {
-                if (R.getId() == restoID)
-                    minCartTotal = R.getMinimalPrice();
-            }
-        } else if (dish.getRestoID() != restoID ) {
+            if (Monresto.getInstance().getRestaurants() != null && !Monresto.getInstance().getRestaurants().isEmpty())
+                for (Restaurant R : Monresto.getInstance().getRestaurants()) {
+                    if (R.getId() == restoID)
+                        minCartTotal = R.getMinimalPrice();
+                }
+        } else if (dish.getRestoID() != restoID) {
             return false;
         }
         Dish addedDish;
@@ -133,7 +143,7 @@ public class ShoppingCart implements Serializable {
             if (items.containsKey(addedDish)) {
                 items.get(addedDish).quantity += quantity;
             } else {
-                items.put(addedDish, new Options(quantity, dimension, components));
+                items.put(addedDish, new Options(quantity, dimension, components, comment));
             }
         } catch (CloneNotSupportedException e) {
             e.printStackTrace();
@@ -167,7 +177,7 @@ public class ShoppingCart implements Serializable {
                 actualItem.put("dishID", dish.getId());
                 actualItem.put("quantity", options.quantity);
                 actualItem.put("dimensionID", options.dimension != null ? String.valueOf(options.dimension.getId()) : "");
-                actualItem.put("comment", "");
+                actualItem.put("comment", options.comment);
 
                 if (options.components != null) {
                     JSONArray componentsJson = new JSONArray();

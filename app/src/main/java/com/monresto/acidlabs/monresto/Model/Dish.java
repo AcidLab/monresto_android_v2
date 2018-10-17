@@ -32,7 +32,7 @@ public class Dish implements Parcelable, Cloneable, Serializable {
     private JSONArray paymentmethode;
     private int quantity;
 
-    private Dish(int id, String name, int quantity) {
+    public Dish(int id, String name, int quantity) {
         this.id = id;
         this.title = name;
         this.quantity = quantity;

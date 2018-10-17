@@ -11,11 +11,14 @@ import android.widget.TextView;
 import android.widget.Toast;
 
 import com.monresto.acidlabs.monresto.Config;
+import com.monresto.acidlabs.monresto.Model.Dish;
+import com.monresto.acidlabs.monresto.Model.ShoppingCart;
 import com.monresto.acidlabs.monresto.Model.User;
 import com.monresto.acidlabs.monresto.R;
 import com.monresto.acidlabs.monresto.Service.Restaurant.RestaurantService;
 import com.monresto.acidlabs.monresto.Service.User.UserAsyncResponse;
 import com.monresto.acidlabs.monresto.Service.User.UserService;
+import com.monresto.acidlabs.monresto.UI.Checkout.CheckoutActivity;
 import com.monresto.acidlabs.monresto.UI.User.LoginActivity;
 import com.monresto.acidlabs.monresto.UI.User.SelectAddressActivity;
 
@@ -91,20 +94,16 @@ public class DeliveryActivity extends AppCompatActivity implements UserAsyncResp
 
         String comment = text_comments.getText().toString();
         quantity = Integer.valueOf(dish_quantity.getText().toString());
-        try {
-            item.put("dishID", dishID);
-            item.put("quantity", quantity);
-            item.put("comment", comment);
-        } catch (JSONException ex) {
-            ex.printStackTrace();
-        }
 
-        orders.put(item);
+        Dish dish = new Dish(25101, "", 1);
+        dish.setRestoID(370);
+        ShoppingCart shoppingCart = ShoppingCart.createInstance();
+        shoppingCart.addToCart(dish, quantity, null, null, comment);
 
-        if (User.getInstance() != null)
-            userService.submitOrders(User.getInstance().getId(), 0, User.getInstance().getSelectedAddress().getId(), restoID, promo, paymentID, optionOrderID, deliveryTime, hour, orders);
-
-        //todo: else handle error
+        ShoppingCart.setInstance(shoppingCart);
+        Intent intent = new Intent(this, CheckoutActivity.class);
+        startActivity(intent);
+        finish();
     }
 
     @Override
