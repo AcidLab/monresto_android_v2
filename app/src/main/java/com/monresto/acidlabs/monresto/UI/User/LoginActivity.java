@@ -1,5 +1,6 @@
 package com.monresto.acidlabs.monresto.UI.User;
 
+import android.app.Activity;
 import android.content.Context;
 import android.content.Intent;
 import android.content.SharedPreferences;
@@ -8,6 +9,7 @@ import android.os.Bundle;
 import android.support.v7.app.AppCompatActivity;
 import android.util.Log;
 import android.view.View;
+import android.view.inputmethod.InputMethodManager;
 import android.widget.Button;
 import android.widget.EditText;
 import android.widget.ProgressBar;
@@ -27,6 +29,7 @@ import com.monresto.acidlabs.monresto.R;
 import com.monresto.acidlabs.monresto.Service.User.UserAsyncResponse;
 import com.monresto.acidlabs.monresto.Service.User.UserService;
 import com.monresto.acidlabs.monresto.UI.Profile.Address.NewAddressActivity;
+import com.monresto.acidlabs.monresto.Utilities;
 
 import org.json.JSONException;
 import org.json.JSONObject;
@@ -82,6 +85,8 @@ public class LoginActivity extends AppCompatActivity implements UserAsyncRespons
             finish();
         });
 
+        textLogin.clearFocus();
+
         callbackManager = CallbackManager.Factory.create();
         LoginButton loginButton = findViewById(R.id.nextButton);
         loginButton.setReadPermissions(Arrays.asList("public_profile", "email"));
@@ -102,6 +107,19 @@ public class LoginActivity extends AppCompatActivity implements UserAsyncRespons
 
             }
         });
+
+        textLogin.setOnFocusChangeListener(new View.OnFocusChangeListener() {
+            @Override
+            public void onFocusChange(View view, boolean b) {
+                System.out.println("LoginActivity.onFocusChange");
+                Utilities.hideKeyboard(LoginActivity.this);
+            }
+        });
+
+
+
+
+        
 
     }
 
@@ -170,5 +188,20 @@ public class LoginActivity extends AppCompatActivity implements UserAsyncRespons
     protected void onActivityResult(int requestCode, int resultCode, Intent data) {
         super.onActivityResult(requestCode, resultCode, data);
         callbackManager.onActivityResult(requestCode, resultCode, data);
+    }
+
+    @Override
+    protected void onStart() {
+        super.onStart();
+        InputMethodManager imm = (InputMethodManager) getSystemService(Activity.INPUT_METHOD_SERVICE);
+        //Find the currently focused view, so we can grab the correct window token from it.
+        View view = getCurrentFocus();
+        //If no view currently has focus, create a new one, just so we can grab a window token from it
+        if (view == null) {
+            view = new View(this);
+        }
+        view.clearFocus();
+        imm.hideSoftInputFromWindow(view.getWindowToken(), 0);
+        Utilities.hideKeyboard(this);
     }
 }

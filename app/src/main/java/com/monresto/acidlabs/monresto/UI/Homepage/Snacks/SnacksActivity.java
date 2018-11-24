@@ -76,7 +76,7 @@ public class SnacksActivity extends AppCompatActivity implements RestaurantAsync
         restaurantService.getMenus(251);
         restaurantService.getDetails(251);
 
-        Picasso.get().load(HomepageConfig.getInstance().getBusket_image()).into(couffin);
+        //Picasso.get().load(HomepageConfig.getInstance().getBusket_image()).into(couffin);
         cart_frame.setOnClickListener(e -> {
             Intent intent = new Intent(this, CartActivity.class);
             startActivity(intent);
@@ -86,7 +86,7 @@ public class SnacksActivity extends AppCompatActivity implements RestaurantAsync
 
     @Override
     public void onDetailsReceived(Restaurant restaurant) {
-        Picasso.get().load(restaurant.getBackground()).into(storeBg);
+        //Picasso.get().load(restaurant.getBackground()).into(storeBg);
         storeName.setText(restaurant.getName());
     }
 
@@ -104,6 +104,16 @@ public class SnacksActivity extends AppCompatActivity implements RestaurantAsync
 
     @Override
     public void onDishesReceived(ArrayList<Dish> dishes, Menu menu) {
+
+        ArrayList<Dish> dishes2 = new ArrayList<Dish>();
+        for (Dish d : dishes) {
+            d.setRestoID(251);
+            dishes2.add(d);
+
+        }
+
+        dishes.clear();
+        dishes = dishes2;
         counter--;
         ConstraintLayout container = (ConstraintLayout) View.inflate(this, R.layout.fragment_snacks, null);
         TextView snacksTitle = container.findViewById(R.id.snacksTitle);

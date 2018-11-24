@@ -122,6 +122,7 @@ public class RestaurantDetailsActivity extends AppCompatActivity implements Rest
     void setUpTabs() {
         adapter = new RestaurantDetailsPager(this.getSupportFragmentManager(), Titles, restaurant, dishes);
         pager.setAdapter(adapter);
+        pager.setCurrentItem(1);
         tabs.setupWithViewPager(pager);
     }
 

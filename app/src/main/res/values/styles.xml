@@ -1,12 +1,27 @@
 <resources>
 
     <!-- Base application theme. -->
+
+    <style name="Theme.Transparent" parent="Theme.AppCompat.Light.NoActionBar">
+        <item name="android:windowIsTranslucent">true</item>
+        <item name="android:windowBackground">@android:color/transparent</item>
+        <item name="android:statusBarColor">@color/colorAccent</item>
+        <item name="colorAccent">@color/colorAccent</item>
+
+        <item name="android:windowContentTransitions">false</item>
+
+        <item name="android:textViewStyle">@style/GoogleSansTextView</item>
+        <item name="android:tabWidgetStyle">@style/tab_text</item>
+        <item name="android:buttonStyle">@style/DefaultButtonStyle</item>
+        <item name="editTextStyle">@style/DefaultEditText</item>
+    </style>
+
     <style name="AppTheme" parent="Theme.AppCompat.Light.NoActionBar">
         <!-- Customize your theme here. -->
         <item name="android:statusBarColor">@color/colorAccent</item>
         <item name="colorAccent">@color/colorAccent</item>
 
-        <item name="android:windowContentTransitions">true</item>
+        <item name="android:windowContentTransitions">false</item>
 
         <item name="android:textViewStyle">@style/GoogleSansTextView</item>
         <item name="android:tabWidgetStyle">@style/tab_text</item>

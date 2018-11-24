@@ -47,13 +47,13 @@ public class ProfileSettingsActivity extends AppCompatActivity {
 
         UserService userService = new UserService(this);
 
-        fragmentTransaction.add(R.id.linearLayoutProfileSettings, new FragmentGotoItem().setLabel("Informations du profil").setIcon(getResources().getDrawable(R.drawable.user_male, getTheme())).setIntent(EditProfileActivity.class));
-        fragmentTransaction.add(R.id.linearLayoutProfileSettings, new FragmentGotoItem().setLabel("Mes adresses").setIcon(getResources().getDrawable(R.drawable.mail_ad, getTheme())).setIntent(AddressSettingsActivity.class));
-        fragmentTransaction.add(R.id.linearLayoutProfileSettings, new FragmentGotoItem().setLabel("Promotions").setIcon(getResources().getDrawable(R.drawable.discount, getTheme())));
-        fragmentTransaction.add(R.id.linearLayoutProfileSettings, new FragmentGotoItem().setLabel("Bons de réduction").setIcon(getResources().getDrawable(R.drawable.vourcher, getTheme())));
-        fragmentTransaction.add(R.id.linearLayoutProfileSettings, new FragmentGotoItem().setLabel("FAQ").setIcon(getResources().getDrawable(R.drawable.faq, getTheme())).setIntent(FAQActivity.class));
-        fragmentTransaction.add(R.id.linearLayoutProfileSettings, new FragmentGotoItem().setLabel("A propos").setIcon(getResources().getDrawable(R.drawable.about, getTheme())));
-        fragmentTransaction.add(R.id.linearLayoutProfileSettings, new FragmentGotoItem().setLabel("Se déconnecter").setIcon(getResources().getDrawable(R.drawable.logout, getTheme())).setAction(e -> {
+        fragmentTransaction.add(R.id.linearLayoutProfileSettings, new FragmentGotoItem().setLabel("Informations du profil").setIcon(getResources().getDrawable(R.drawable.male_user, getTheme())).setIntent(EditProfileActivity.class));
+        fragmentTransaction.add(R.id.linearLayoutProfileSettings, new FragmentGotoItem().setLabel("Mes adresses").setIcon(getResources().getDrawable(R.drawable.icon_address, getTheme())).setIntent(AddressSettingsActivity.class));
+        fragmentTransaction.add(R.id.linearLayoutProfileSettings, new FragmentGotoItem().setLabel("Promotions").setIcon(getResources().getDrawable(R.drawable.discount_50, getTheme())));
+        fragmentTransaction.add(R.id.linearLayoutProfileSettings, new FragmentGotoItem().setLabel("Bons de réduction").setIcon(getResources().getDrawable(R.drawable.cutting_coupon, getTheme())));
+        fragmentTransaction.add(R.id.linearLayoutProfileSettings, new FragmentGotoItem().setLabel("FAQ").setIcon(getResources().getDrawable(R.drawable.faq_50, getTheme())).setIntent(FAQActivity.class));
+        fragmentTransaction.add(R.id.linearLayoutProfileSettings, new FragmentGotoItem().setLabel("A propos").setIcon(getResources().getDrawable(R.drawable.info_50, getTheme())));
+        fragmentTransaction.add(R.id.linearLayoutProfileSettings, new FragmentGotoItem().setLabel("Se déconnecter").setIcon(getResources().getDrawable(R.drawable.log_out, getTheme())).setAction(e -> {
             userService.logout();
             finish();
         }));

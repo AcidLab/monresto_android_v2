@@ -6,11 +6,14 @@ import android.os.Parcelable;
 import android.support.annotation.NonNull;
 import android.support.constraint.ConstraintLayout;
 import android.support.design.widget.Snackbar;
+import android.support.v7.widget.CardView;
 import android.support.v7.widget.RecyclerView;
 import android.support.v7.widget.RecyclerView.ViewHolder;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.Button;
 import android.widget.ImageView;
 import android.widget.TextView;
 import android.widget.Toast;
@@ -73,7 +76,18 @@ public class RestaurantDetailsAdapter extends RecyclerView.Adapter<ViewHolder> {
                 ((HolderItem)viewHolder).price.setText("Prix: " + Double.toString(dishes.get(position).getPrice()) + " DT");
 
             // Loads background image
-            Picasso.get().load(dishes.get(position).getImagePath()).into(((HolderItem)viewHolder).bg_img);
+            Log.e("link",dishes.get(position).getImagePath());
+            if (dishes.get(position).getImagePath().equals("https://www.monresto.net/test/images/nophoto.png")) {
+
+                ((HolderItem) viewHolder).cardView.setVisibility(View.INVISIBLE);
+            }
+
+            else {
+
+                Picasso.get().load(dishes.get(position).getImagePath()).into(((HolderItem)viewHolder).bg_img);
+
+            }
+
 
             // Checks if dish is favorite
             if (dishes.get(position).isFavorite()) {
@@ -107,6 +121,15 @@ public class RestaurantDetailsAdapter extends RecyclerView.Adapter<ViewHolder> {
             ConstraintLayout.LayoutParams lp = new ConstraintLayout.LayoutParams(ConstraintLayout.LayoutParams.MATCH_PARENT,
                     ConstraintLayout.LayoutParams.WRAP_CONTENT);
             ((HolderItem)viewHolder).constraintLayout.setLayoutParams(lp);
+
+            ((HolderItem) viewHolder).addButton.setOnClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(View view) {
+                    Intent intent = new Intent(context, OrderActivity.class);
+                    intent.putExtra("dish", (Parcelable) dishes.get(((HolderItem)viewHolder).getAdapterPosition()));
+                    context.startActivity(intent);
+                }
+            });
         }
     }
 
@@ -122,6 +145,10 @@ public class RestaurantDetailsAdapter extends RecyclerView.Adapter<ViewHolder> {
         ImageView heart;
         @BindView(R.id.constraintLayout)
         ConstraintLayout constraintLayout;
+        @BindView(R.id.button_add)
+        Button addButton;
+        @BindView(R.id.dish_bg_card)
+        CardView cardView;
 
         public HolderItem(View itemLayoutView) {
             super(itemLayoutView);

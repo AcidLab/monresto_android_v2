@@ -23,11 +23,20 @@ public class RadioListAdapter extends RecyclerView.Adapter<RadioListAdapter.View
     private Context context;
     private int selectedItem;
     private CharSequence selectedOption;
+    private int disabledItem = -1;
 
-    public RadioListAdapter(ArrayList<CharSequence> options, Context context) {
+    public RadioListAdapter(ArrayList<CharSequence> options, Context context,int selectedItem) {
         this.context = context;
         this.options = options;
-        selectedItem = 0;
+        this.selectedItem = selectedItem;
+        selectedOption = "";
+    }
+
+    public RadioListAdapter(ArrayList<CharSequence> options, Context context,int selectedItem,int disabledItem) {
+        this.context = context;
+        this.options = options;
+        this.selectedItem = selectedItem;
+        this.disabledItem = disabledItem;
         selectedOption = "";
     }
 
@@ -51,6 +60,9 @@ public class RadioListAdapter extends RecyclerView.Adapter<RadioListAdapter.View
         CharSequence option = options.get(i);
         viewHolder.option_name.setText(option);
 
+        if (i == disabledItem) {
+            viewHolder.option_radio.setEnabled(false);
+        }
         if (i == selectedItem) {
             viewHolder.option_radio.setChecked(true);
             selectedOption = viewHolder.option_name.getText();

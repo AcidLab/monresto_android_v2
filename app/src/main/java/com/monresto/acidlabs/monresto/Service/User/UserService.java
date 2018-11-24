@@ -29,6 +29,7 @@ import org.json.JSONArray;
 import org.json.JSONException;
 import org.json.JSONObject;
 
+import java.security.Signature;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.Map;
@@ -180,12 +181,12 @@ public class UserService {
             @Override
             protected Map<String, String> getParams() {
                 Map<String, String> params = new HashMap<>();
-                String token = OneSignal.getPermissionSubscriptionState().getSubscriptionStatus().getPushToken();
+                String token = OneSignal.getPermissionSubscriptionState().getSubscriptionStatus().getUserId();
 
                 String signature = Utilities.md5(login + password + token + "android" + Config.sharedKey);
                 params.put("login", login);
                 params.put("password", password);
-                params.put("token", password);
+                params.put("token", token);
                 params.put("device", "android");
                 params.put("signature", signature);
 
@@ -521,13 +522,12 @@ public class UserService {
         final int numtrans = 0;
         final String time = String.valueOf(deliveryTime);
 
-        final String signature = Utilities.md5("" + userID + addressID + restoID + orders.toString() + paymentID + type + "[]" + promo + numtrans + optionOrderID + time + hour + Config.sharedKey);
+        final String signature = Utilities.md5("" + userID + addressID + restoID + orders.toString() + paymentID + type + "[]"  + numtrans + optionOrderID + time + hour + promo + Config.sharedKey);
 
         RequestQueue queue = Volley.newRequestQueue(context);
+        System.out.println("order sig = [" + signature + "]");
 
-        String url = "";
-
-        url = Config.server + "User/purchaseOrder.php";
+        String url = Config.server + "User/purchaseOrder.php";
 
         StringRequest postRequest = new StringRequest(Request.Method.POST, url,
                 new Response.Listener<String>() {

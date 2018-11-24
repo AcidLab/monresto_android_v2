@@ -24,6 +24,7 @@ import com.monresto.acidlabs.monresto.Model.Menu;
 import com.monresto.acidlabs.monresto.Model.Restaurant;
 import com.monresto.acidlabs.monresto.Model.ShoppingCart;
 import com.monresto.acidlabs.monresto.Model.Speciality;
+import com.monresto.acidlabs.monresto.MyListView;
 import com.monresto.acidlabs.monresto.ObjectSerializer;
 import com.monresto.acidlabs.monresto.R;
 import com.monresto.acidlabs.monresto.Service.Restaurant.RestaurantAsyncResponse;
@@ -244,7 +245,7 @@ public class OrderActivity extends AppCompatActivity implements RestaurantAsyncR
             textView.setText(dish.getComponents().get(i).getName() + " (" + dish.getComponents().get(i).getNumberChoiceMax() + " CHOIX)");
             lists_container.addView(textView);
 
-            ListView listViewTemp = (ListView) LayoutInflater.from(this).inflate(R.layout.listview_order_options, null);
+            MyListView listViewTemp = (MyListView) LayoutInflater.from(this).inflate(R.layout.listview_order_options, null);
             componentsAdapter = new ComponentsAdapter(dish.getComponents().get(i).getOptions(), this, dish.getComponents().get(i).getNumberChoiceMax(), total_order, dish_quantity);
 
             componentsLists.add(listViewTemp);

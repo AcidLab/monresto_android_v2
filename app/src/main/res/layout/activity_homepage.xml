@@ -50,7 +50,7 @@
                 app:layout_constraintEnd_toStartOf="@+id/cart_btn"
                 app:layout_constraintStart_toEndOf="@+id/home_profile_icon"
                 app:layout_constraintTop_toTopOf="parent"
-                app:srcCompat="@drawable/loho_with_text_light" />
+                app:srcCompat="@drawable/logo_b" />
 
             <ImageView
                 android:id="@+id/cart_btn"

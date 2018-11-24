@@ -11,15 +11,21 @@ buildscript {
 
 android {
     compileSdkVersion 28
+
+    lintOptions {
+        checkReleaseBuilds false
+        abortOnError false
+    }
+
     defaultConfig {
         applicationId "com.mappnet.monresto"
         minSdkVersion 16
         targetSdkVersion 28
-        versionCode 6
-        versionName "6.0"
+        versionCode 5100
+        versionName "5.0"
         testInstrumentationRunner "android.support.test.runner.AndroidJUnitRunner"
         manifestPlaceholders = [
-                onesignal_app_id: 'd2429d88-f09a-49bd-877c-2bc0d8f31b0c',
+                onesignal_app_id: '84eac9c0-bd2e-4bf2-a887-b7dbd85908d7',
                 // Project number pulled from dashboard, local value is ignored.
                 onesignal_google_project_number: 'REMOTE'
         ]
@@ -65,6 +71,9 @@ dependencies {
     implementation 'jp.wasabeef:picasso-transformations:2.2.1'
     implementation 'jp.co.cyberagent.android.gpuimage:gpuimage-library:1.4.1'
     implementation 'com.onesignal:OneSignal:3.10.1'
+    implementation 'com.github.florent37:viewtooltip:1.1.5'
+    implementation 'com.github.deano2390:MaterialShowcaseView:1.2.0'
+
 }
 
 apply plugin: 'com.onesignal.androidsdk.onesignal-gradle-plugin'

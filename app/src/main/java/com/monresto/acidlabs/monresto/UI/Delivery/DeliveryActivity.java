@@ -4,6 +4,7 @@ import android.content.Intent;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
 import android.support.v7.app.AppCompatActivity;
+import android.view.View;
 import android.widget.Button;
 import android.widget.EditText;
 import android.widget.ImageView;
@@ -96,12 +97,16 @@ public class DeliveryActivity extends AppCompatActivity implements UserAsyncResp
         quantity = Integer.valueOf(dish_quantity.getText().toString());
 
         Dish dish = new Dish(25101, "", 1);
+
         dish.setRestoID(370);
         ShoppingCart shoppingCart = ShoppingCart.createInstance();
+
         shoppingCart.addToCart(dish, quantity, null, null, comment);
 
         ShoppingCart.setInstance(shoppingCart);
         Intent intent = new Intent(this, CheckoutActivity.class);
+        intent.putExtra("delivery", 3.0);
+        intent.putExtra("total", 3.0);
         startActivity(intent);
         finish();
     }
@@ -120,5 +125,14 @@ public class DeliveryActivity extends AppCompatActivity implements UserAsyncResp
         else
             Toast.makeText(this, "Failed: check logs for order response", Toast.LENGTH_SHORT).show();
 
+    }
+
+    @Override
+    public void onBackPressed() {
+        super.onBackPressed();
+    }
+
+    public void onBackPressed(View v) {
+        onBackPressed();
     }
 }

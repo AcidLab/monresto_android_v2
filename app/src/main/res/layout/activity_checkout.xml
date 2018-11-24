@@ -3,12 +3,12 @@
     xmlns:app="http://schemas.android.com/apk/res-auto"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:background="@drawable/bg">
+    android:background="#ffffff">
 
     <android.support.constraint.ConstraintLayout
         android:id="@+id/constraintLayout2"
         android:layout_width="match_parent"
-        android:layout_height="wrap_content"
+        android:layout_height="56dp"
         android:background="@drawable/shadow_bottom"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
@@ -24,16 +24,16 @@
             app:layout_constraintBottom_toBottomOf="parent"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toTopOf="parent"
-            app:srcCompat="@drawable/ic_chevron_left_grey_800_24dp" />
+            app:srcCompat="@drawable/ic_close_black_48dp" />
 
         <RadioGroup
             android:id="@+id/toggle"
             android:layout_width="0dp"
-            android:layout_height="wrap_content"
+            android:layout_height="32dp"
             android:layout_marginBottom="6dp"
-            android:layout_marginEnd="80dp"
-            android:layout_marginStart="80dp"
-            android:layout_marginTop="6dp"
+            android:layout_marginEnd="100dp"
+            android:layout_marginStart="100dp"
+            android:layout_marginTop="8dp"
             android:background="@drawable/control_switch_background_border"
             android:checkedButton="@+id/livraison"
             android:orientation="horizontal"
@@ -91,11 +91,17 @@
         android:layout_height="76dp"
         android:layout_marginEnd="8dp"
         android:layout_marginStart="8dp"
-        android:background="@drawable/shadow_233038"
         android:orientation="vertical"
         app:layout_constraintBottom_toTopOf="@+id/orderBtn"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent">
+
+        <TextView
+            android:layout_width="match_parent"
+            android:layout_height="0.5dp"
+            android:layout_marginTop="8dp"
+            android:layout_marginBottom="8dp"
+            android:background="#d3d3d3"/>
 
         <android.support.constraint.ConstraintLayout
             android:layout_width="match_parent"
@@ -108,8 +114,9 @@
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_marginStart="16dp"
-                android:text="Frais de livraison"
+                android:text="Livraison"
                 android:textStyle="bold"
+                android:textColor="#d3d3d3"
                 app:layout_constraintStart_toStartOf="parent"
                 app:layout_constraintTop_toTopOf="parent" />
 
@@ -130,6 +137,7 @@
                 android:layout_marginTop="8dp"
                 android:text="Total"
                 android:textStyle="bold"
+                android:textColor="#d3d3d3"
                 app:layout_constraintBottom_toBottomOf="parent"
                 app:layout_constraintStart_toStartOf="parent"
                 app:layout_constraintTop_toBottomOf="@+id/textView10" />
@@ -152,7 +160,7 @@
         android:id="@+id/orderBtn"
         android:layout_width="0dp"
         android:layout_height="59dp"
-        android:background="@color/colorAccent"
+        android:layout_marginTop="8dp"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent">
@@ -161,7 +169,10 @@
             android:id="@+id/orderLoading"
             android:layout_width="0dp"
             android:layout_height="0dp"
-            android:text="Valider la commande"
+            android:text="Commander"
+            android:layout_marginRight="16dp"
+            android:layout_marginLeft="16dp"
+            android:layout_marginBottom="8dp"
             android:textColor="@android:color/white"
             android:textSize="18sp"
             app:layout_constraintBottom_toBottomOf="parent"
@@ -186,7 +197,6 @@
         android:layout_height="0dp"
         android:layout_marginEnd="8dp"
         android:layout_marginStart="8dp"
-        android:background="@drawable/shadow_233038"
         android:paddingEnd="16dp"
         android:paddingStart="16dp"
         app:layout_constraintBottom_toTopOf="@+id/linearLayout7"
@@ -213,7 +223,7 @@
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:layout_weight="1"
-                    android:text="Adresse"
+                    android:text="ADRESSE DE LIVRASISON"
                     android:textStyle="bold" />
 
                 <TextView
@@ -221,11 +231,11 @@
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:layout_marginStart="5dp"
-                    android:layout_marginTop="6dp"
+                    android:layout_marginTop="26dp"
                     android:layout_weight="1"
                     android:text="El mnihla, Tunis"
                     android:textAlignment="textEnd"
-                    android:textColor="@color/colorAccent" />
+                    android:textColor="#d3d3d3" />
             </LinearLayout>
 
             <LinearLayout
@@ -239,21 +249,26 @@
                 app:layout_constraintEnd_toEndOf="parent"
                 app:layout_constraintStart_toStartOf="parent"
                 app:layout_constraintTop_toBottomOf="@+id/linearLayout11">
-
+                <TextView
+                    android:layout_width="match_parent"
+                    android:layout_height="0.5dp"
+                    android:background="#d3d3d3"/>
                 <TextView
                     android:id="@+id/textView17"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:layout_weight="1"
+                    android:layout_marginTop="16dp"
+                    android:layout_marginBottom="16dp"
                     android:gravity="center_vertical"
-                    android:text="Méthode de paiement"
+                    android:text="METHODES DE PAIEMENT"
                     android:textStyle="bold" />
 
                 <android.support.v7.widget.RecyclerView
                     android:id="@+id/paymentMethods"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
-                    android:layout_marginStart="5dp"
+                    android:layout_marginStart="0dp"
                     android:layout_marginTop="8dp"
                     android:layout_weight="1"
                     android:isScrollContainer="false"
@@ -270,13 +285,19 @@
                 android:paddingBottom="10dp"
                 android:paddingTop="10dp"
                 app:layout_constraintTop_toBottomOf="@+id/linearLayout14">
+                <TextView
+                    android:layout_width="match_parent"
+                    android:layout_height="0.5dp"
+                    android:layout_marginTop="16dp"
+                    android:layout_marginBottom="16dp"
+                    android:background="#d3d3d3"/>
 
                 <TextView
                     android:id="@+id/textView18"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:layout_weight="1"
-                    android:text="Bon de réduction"
+                    android:text="BON DE REDUCTION"
                     android:textStyle="bold" />
 
                 <LinearLayout
@@ -288,7 +309,7 @@
                     <EditText
                         android:id="@+id/promo_text"
                         android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
+                        android:layout_height="50dp"
                         android:layout_marginEnd="16dp"
                         android:layout_marginStart="5dp"
                         android:layout_marginTop="6dp"
@@ -321,19 +342,26 @@
                 app:layout_constraintTop_toBottomOf="@+id/linearLayout8">
 
                 <TextView
+                android:layout_width="match_parent"
+                android:layout_height="0.5dp"
+                android:layout_marginTop="16dp"
+                android:layout_marginBottom="16dp"
+                android:background="#d3d3d3"/>
+
+                <TextView
                     android:id="@+id/textView19"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:layout_weight="1"
                     android:gravity="center_vertical"
-                    android:text="Au cas d'indisponibilité"
+                    android:text="OPTION DE LIVRAISON"
                     android:textStyle="bold" />
 
                 <android.support.v7.widget.RecyclerView
                     android:id="@+id/paymentItemUnavailable"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
-                    android:layout_marginStart="5dp"
+                    android:layout_marginStart="0dp"
                     android:layout_marginTop="8dp"
                     android:layout_weight="1" />
 
@@ -354,7 +382,7 @@
                     android:layout_height="wrap_content"
                     android:layout_weight="1"
                     android:gravity="center_vertical"
-                    android:text="Temps de livraison"
+                    android:text="TEMPS DE LIVRAISON"
                     android:textStyle="bold" />
 
                 <android.support.v7.widget.RecyclerView

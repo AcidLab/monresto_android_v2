@@ -125,6 +125,10 @@ public class CheckoutActivity extends AppCompatActivity implements UserAsyncResp
 
         //Event handlers
         imageProfileBack.setOnClickListener(e -> {
+
+            if (ShoppingCart.getInstance().getRestoID() == 370)
+                ShoppingCart.getInstance().clear();
+
             finish();
         });
 
@@ -168,13 +172,21 @@ public class CheckoutActivity extends AppCompatActivity implements UserAsyncResp
 
         //1
         subjects = getResources().getStringArray(R.array.payment_methods);
-        radioListAdapter = new RadioListAdapter(new ArrayList<CharSequence>(Arrays.asList(subjects)), this);
+
+        radioListAdapter = new RadioListAdapter(new ArrayList<CharSequence>(Arrays.asList(subjects)), this,1);
+
+        if (ShoppingCart.getInstance().getRestoID() == 370) {
+            radioListAdapter = new RadioListAdapter(new ArrayList<CharSequence>(Arrays.asList(subjects)), this,1,0);
+
+        }
+
+
         paymentMethods.setLayoutManager(new LinearLayoutManager(this));
         paymentMethods.setAdapter(radioListAdapter);
 
         //2
         subjects = getResources().getStringArray(R.array.purchase_unavailable_options);
-        radioListAdapter = new RadioListAdapter(new ArrayList<CharSequence>(Arrays.asList(subjects)), this);
+        radioListAdapter = new RadioListAdapter(new ArrayList<CharSequence>(Arrays.asList(subjects)), this,0);
         paymentItemUnavailable.setLayoutManager(new LinearLayoutManager(this));
         paymentItemUnavailable.setAdapter(radioListAdapter);
 
@@ -193,7 +205,7 @@ public class CheckoutActivity extends AppCompatActivity implements UserAsyncResp
             timePicker.setVisibility(View.VISIBLE);
             //checkout_scroll_view.postDelayed(() -> checkout_scroll_view.fullScroll(ScrollView.FOCUS_DOWN),100);
         }
-        radioListAdapter = new RadioListAdapter(new ArrayList<CharSequence>(timeList), this);
+        radioListAdapter = new RadioListAdapter(new ArrayList<CharSequence>(timeList), this,0);
         deliveryDate.setLayoutManager(new LinearLayoutManager(this));
         deliveryDate.setAdapter(radioListAdapter);
 

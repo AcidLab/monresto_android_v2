@@ -105,7 +105,7 @@ public class CartActivity extends AppCompatActivity {
         DecimalFormat dec = new DecimalFormat("#0.00");
         cart_subtotal.setText(dec.format(cart.getCartSubTotal()) + " DT");
         cart_delivery.setText(dec.format(cart.getCartDelivery()) + " DT");
-        cart_total.setText(dec.format(cart.getCartDelivery() + cart.getCartSubTotal()) + " DT");
+        cart_total.setText(dec.format(cart.getCartSubTotal()) + " DT");
 
         if (ShoppingCart.getInstance().isEmpty()) {
             Utilities.statusChangerUnavailable(this, "Le panier est vide", cart_empty, cart_items_list);

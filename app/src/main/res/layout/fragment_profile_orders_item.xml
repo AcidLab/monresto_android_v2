@@ -72,9 +72,10 @@
                 android:layout_marginEnd="8dp"
                 android:layout_marginStart="8dp"
                 android:layout_marginTop="6dp"
+                android:fontFamily="@font/googlesans_bold"
                 android:text="Resto"
+                android:textStyle="bold"
                 android:textAlignment="center"
-                android:textSize="14sp"
                 app:layout_constraintBottom_toBottomOf="parent"
                 app:layout_constraintEnd_toEndOf="parent"
                 app:layout_constraintStart_toStartOf="parent"
@@ -123,7 +124,8 @@
                 android:layout_marginStart="8dp"
                 android:layout_marginTop="6dp"
                 android:text="Total"
-                android:textSize="14sp"
+                android:fontFamily="@font/googlesans_bold"
+                android:textStyle="bold"
                 app:layout_constraintBottom_toBottomOf="parent"
                 app:layout_constraintEnd_toEndOf="parent"
                 app:layout_constraintStart_toStartOf="parent"
@@ -213,11 +215,26 @@
         android:layout_marginStart="8dp"
         android:fontFamily="@font/googlesans_bold"
         android:text="Status"
+        android:layout_marginTop="5px"
         android:textAllCaps="true"
         android:textStyle="bold"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@id/layoutPending" />
+
+    <TextView
+        android:id="@+id/cause_refuse"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginEnd="8dp"
+        android:layout_marginStart="8dp"
+        android:text=""
+        android:textSize="14sp"
+        android:layout_marginTop="5dp"
+        android:textAllCaps="true"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@id/textOrderStatus" />
 
     <View
         android:id="@+id/separatorH2"
@@ -228,7 +245,7 @@
         android:visibility="visible"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@id/textOrderStatus" />
+        app:layout_constraintTop_toBottomOf="@id/cause_refuse" />
 
 
 </android.support.constraint.ConstraintLayout>

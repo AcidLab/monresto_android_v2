@@ -3,6 +3,7 @@ package com.monresto.acidlabs.monresto.UI.Main;
 import android.content.Context;
 import android.content.Intent;
 import android.content.SharedPreferences;
+import android.graphics.Color;
 import android.location.Geocoder;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
@@ -50,6 +51,8 @@ import java.util.List;
 
 import butterknife.BindView;
 import butterknife.ButterKnife;
+import uk.co.deanwild.materialshowcaseview.MaterialShowcaseSequence;
+import uk.co.deanwild.materialshowcaseview.ShowcaseConfig;
 
 
 //Testing fetch information from api
@@ -206,6 +209,23 @@ public class MainActivity extends AppCompatActivity implements RestaurantAsyncRe
         } else {
             Utilities.statusChangerUnavailable(this, "Aucun restaurant trouvé", status_restaurants, restaurants_swiper);
         }
+
+
+        ShowcaseConfig configs = new ShowcaseConfig();
+        configs.setDelay(500);
+        configs.setMaskColor(Color.BLACK);
+        // half second between each showcase view
+
+        MaterialShowcaseSequence sequence = new MaterialShowcaseSequence(this, "2");
+
+        sequence.setConfig(configs);
+
+        sequence.addSequenceItem(change_address_container,
+                "Vous pouvez changer de position rapidement", "SUIVANT");
+
+        sequence.addSequenceItem(cart_frame,
+                "Accédez au panier fluidement", "COMPRIS");
+        sequence.start();
     }
 
 

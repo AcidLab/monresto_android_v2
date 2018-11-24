@@ -1,5 +1,6 @@
 package com.monresto.acidlabs.monresto.UI.Homepage;
 
+import android.app.Activity;
 import android.content.Context;
 import android.content.Intent;
 import android.content.SharedPreferences;
@@ -18,6 +19,7 @@ import android.widget.ImageView;
 import android.widget.TextView;
 import android.widget.Toast;
 
+import com.github.florent37.viewtooltip.ViewTooltip;
 import com.monresto.acidlabs.monresto.Model.ShoppingCart;
 import com.monresto.acidlabs.monresto.R;
 import com.monresto.acidlabs.monresto.UI.Delivery.DeliveryActivity;
@@ -124,6 +126,9 @@ public class HomepageExtrasAdapter extends RecyclerView.Adapter<HomepageExtrasAd
                     context.startActivity(intent);
                 });
             }
+
+
+
         }
     }
 

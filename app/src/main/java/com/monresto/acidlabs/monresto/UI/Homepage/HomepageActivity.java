@@ -8,6 +8,7 @@ import android.content.Intent;
 import android.content.IntentSender;
 import android.content.SharedPreferences;
 import android.content.pm.PackageManager;
+import android.graphics.Color;
 import android.os.Bundle;
 import android.support.annotation.NonNull;
 import android.support.constraint.ConstraintLayout;
@@ -72,6 +73,9 @@ import java.util.ArrayList;
 
 import butterknife.BindView;
 import butterknife.ButterKnife;
+import uk.co.deanwild.materialshowcaseview.MaterialShowcaseSequence;
+import uk.co.deanwild.materialshowcaseview.MaterialShowcaseView;
+import uk.co.deanwild.materialshowcaseview.ShowcaseConfig;
 
 import static com.monresto.acidlabs.monresto.Config.REQUEST_CODE_ASK_FOR_LOCATION;
 import static com.monresto.acidlabs.monresto.Model.Monresto.loginPending;
@@ -467,7 +471,27 @@ public class HomepageActivity extends AppCompatActivity implements UserAsyncResp
 
     @Override
     public void onHomepageConfigReceived(HomepageConfig config) {
+
+
+
         Picasso.get().load(config.getCover_image()).into(config_bg);
+
+        ShowcaseConfig configs = new ShowcaseConfig();
+        configs.setDelay(500); // half second between each showcase view
+        configs.setMaskColor(Color.parseColor("#cc1eb999"));
+        MaterialShowcaseSequence sequence = new MaterialShowcaseSequence(this, "100");
+
+        sequence.setConfig(configs);
+
+        sequence.addSequenceItem(config_bg,
+                "Découvrez les meilleurs restos", "SUIVANT");
+
+        sequence.addSequenceItem(extrasRecycler,
+                "Mais aussi deux autres services", "COMPRIS");
+
+
+
+
         HomepageConfig.setInstance(config);
         homepage_swiper.setRefreshing(false);
 
@@ -478,6 +502,10 @@ public class HomepageActivity extends AppCompatActivity implements UserAsyncResp
         Extrasadapter.notifyDataSetChanged();
         jibly.setVisibility(View.VISIBLE);
         extrasRecycler.setVisibility(View.VISIBLE);
+        sequence.start();
+
+
+
     }
 
     @Override
@@ -506,5 +534,7 @@ public class HomepageActivity extends AppCompatActivity implements UserAsyncResp
             platsJour.setVisibility(View.VISIBLE);
             dishesRecycler.setVisibility(View.VISIBLE);
         }
+
+
     }
 }

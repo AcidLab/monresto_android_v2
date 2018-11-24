@@ -1,14 +1,18 @@
 package com.monresto.acidlabs.monresto.UI.Main;
 
+import android.app.Activity;
+import android.app.ActivityOptions;
 import android.content.Context;
 import android.content.DialogInterface;
 import android.content.Intent;
 import android.content.SharedPreferences;
 import android.graphics.Color;
 import android.graphics.Typeface;
+import android.os.Build;
 import android.os.Parcel;
 import android.os.Parcelable;
 import android.support.annotation.NonNull;
+import android.support.annotation.RequiresApi;
 import android.support.constraint.ConstraintLayout;
 import android.support.v7.app.AlertDialog;
 import android.support.v7.widget.LinearLayoutManager;
@@ -92,6 +96,7 @@ public class RecyclerViewAdapter extends RecyclerView.Adapter<RecyclerView.ViewH
             setFadeAnimation(viewHolder.itemView);
 
             Picasso.get().load(restaurantItem.getBackground()).fit().into(((HolderItem) viewHolder).store_bg, new com.squareup.picasso.Callback() {
+                @RequiresApi(api = Build.VERSION_CODES.LOLLIPOP)
                 @Override
                 public void onSuccess() {
                     ((HolderItem) viewHolder).storeName.setText(restaurantItem.getName());
@@ -130,7 +135,22 @@ public class RecyclerViewAdapter extends RecyclerView.Adapter<RecyclerView.ViewH
                                 editor.apply();
                                 Intent intent = new Intent(context, RestaurantDetailsActivity.class);
                                 intent.putExtra("restaurant", restaurantItem);
-                                context.startActivity(intent);
+
+                                try {
+
+                                    ActivityOptions options = ActivityOptions.makeSceneTransitionAnimation((Activity) context.getApplicationContext(),((HolderItem) viewHolder).store_bg, "store_bg");
+                                    // start the new activity
+                                    context.startActivity(intent,options.toBundle());
+
+                                }
+
+                                catch (ClassCastException ce) {
+
+                                    // start the new activity
+                                    context.startActivity(intent);
+
+                                }
+
                             });
                             builder.setNegativeButton("Annuler", (dialog, which) -> dialog.cancel());
 

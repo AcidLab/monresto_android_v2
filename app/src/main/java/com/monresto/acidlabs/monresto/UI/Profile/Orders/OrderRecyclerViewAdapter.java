@@ -50,6 +50,8 @@ public class OrderRecyclerViewAdapter extends RecyclerView.Adapter<OrderRecycler
         ImageView pending_status_4;
         @BindView(R.id.pending_status_5)
         ImageView pending_status_5;
+        @BindView(R.id.cause_refuse)
+        TextView cause_refuse;
 
         ImageView[] pending_views;
         int[] pending_images;
@@ -100,45 +102,71 @@ public class OrderRecyclerViewAdapter extends RecyclerView.Adapter<OrderRecycler
         viewHolder.textOrderDish.setText(Utilities.decodeUTF(dishes));
         viewHolder.textOrderTotal.setText(String.format("%sDT", String.valueOf(order.getOrderPrice())));
         Picasso.get().load(order.getRestoImagePath()).transform(new RoundedTransformation(80, 0)).into(viewHolder.imageViewLogo);
+        viewHolder.cause_refuse.setText(order.getCauseRefuse());
+
+
+
 
         switch (order.getStatus()) {
             case "en_attente":
-                viewHolder.textOrderStatus.setText("En attente");
+                viewHolder.textOrderStatus.setText("Commande en attente");
                 viewHolder.status = 0;
                 break;
             case "en_attente_rep_liv":
-                viewHolder.textOrderStatus.setText("En cours");
+                viewHolder.textOrderStatus.setText("Commande acceptée");
                 viewHolder.status = 1;
                 break;
             case "arrive_resto":
-                viewHolder.textOrderStatus.setText("En préparation");
+                viewHolder.textOrderStatus.setText("Commande En préparation");
                 viewHolder.status = 2;
                 break;
             case "en_cours_prep":
-                viewHolder.textOrderStatus.setText("En préparation");
-                viewHolder.status = 3;
+                viewHolder.textOrderStatus.setText("Commande En préparation");
+                viewHolder.status = 2;
                 break;
             case "en_cours_liv":
-                viewHolder.textOrderStatus.setText("En cours");
-                viewHolder.status = 4;
+                viewHolder.textOrderStatus.setText("Commande en route");
+                viewHolder.status = 3;
                 break;
             case "arrive_client":
-                viewHolder.textOrderStatus.setText("Arrivée");
-                viewHolder.status = 5;
+                viewHolder.textOrderStatus.setText("Commande arrivée");
+                viewHolder.status = 4;
                 break;
+
+            case "refuser":
+                viewHolder.textOrderStatus.setText("Commande refusée");
+                viewHolder.status = 6;
+                break;
+
+
             default:
-                viewHolder.textOrderStatus.setText("En attente");
-                viewHolder.status = 0;
+
                 break;
         }
 
         for (int j = 0; j < 5; j++) {
+
+
             if (j > viewHolder.status) {
                 Picasso.get().load(viewHolder.pending_images[j]).into(viewHolder.pending_views[j]);
                 viewHolder.pending_views[j].setColorFilter(Color.LTGRAY);
             } else {
                 Picasso.get().load(viewHolder.pending_images[j]).into(viewHolder.pending_views[j]);
                 viewHolder.pending_views[j].setColorFilter(Color.parseColor("#33b998"));
+            }
+        }
+
+        if (viewHolder.status == 6) {
+
+            for (int j = 0; j < 5; j++) {
+
+                Picasso.get().load(viewHolder.pending_images[j]).into(viewHolder.pending_views[j]);
+                viewHolder.pending_views[j].setColorFilter(Color.LTGRAY);
+                    Picasso.get().load(viewHolder.pending_images[j]).into(viewHolder.pending_views[j]);
+                    viewHolder.pending_views[1].setColorFilter(Color.RED);
+                viewHolder.pending_views[0].setColorFilter(Color.parseColor("#33b998"));
+                    //viewHolder.textOrderStatus.setTextColor(Color.RED);
+
             }
         }
     }
